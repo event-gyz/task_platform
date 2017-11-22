@@ -5,8 +5,7 @@
  */
 class Platform_media_man_model extends MY_Model{
 
-
-    public $_table = 'platform_media_man';
+    public $table = 'platform_media_man';
 
     public function __construct(){
         parent::__construct();
@@ -17,7 +16,7 @@ class Platform_media_man_model extends MY_Model{
 
         $param = "mm.*";
 
-        $sql = "SELECT [*] FROM `{$this->_table}` AS mm where 1=1 ";
+        $sql = "SELECT [*] FROM `{$this->table}` AS mm where 1=1 ";
 
 
         // 拼接查询条件
@@ -60,6 +59,10 @@ class Platform_media_man_model extends MY_Model{
         $sqlCount = str_replace('[*]', 'count(mm.media_man_id) AS c', $sql);
         $total    = $this->getCount($sqlCount);
 
+        if ($total === '0') {
+            return ['total' => $total, 'list' => []];
+        }
+
         $offset = $where['offset'] ? $where['offset'] : 0;
         $limit  = $where['limit'] ? $where['limit'] : 10;
 
@@ -91,7 +94,7 @@ class Platform_media_man_model extends MY_Model{
 
     public function insert($data){
 
-        $this->db->insert($this->_table, $data);
+        $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
 

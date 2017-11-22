@@ -5,7 +5,7 @@
  */
 class Platform_task_map_model extends MY_Model{
 
-    public $_table = 'platform_task_map';
+    public $table = 'platform_task_map';
 
     public function __construct(){
         parent::__construct();
@@ -16,7 +16,7 @@ class Platform_task_map_model extends MY_Model{
 
         $param = "ptm.*";
 
-        $sql = "SELECT [*] FROM `{$this->_table}` AS ptm where 1=1 ";
+        $sql = "SELECT [*] FROM `{$this->table}` AS ptm where 1=1 ";
 
 
         // 拼接查询条件
@@ -29,6 +29,10 @@ class Platform_task_map_model extends MY_Model{
         // 总数
         $sqlCount = str_replace('[*]', 'count(ptm.task_map_id) AS c', $sql);
         $total    = $this->getCount($sqlCount);
+
+        if ($total === '0') {
+            return ['total' => $total, 'list' => []];
+        }
 
         $offset = $where['offset'] ? $where['offset'] : 0;
         $limit  = $where['limit'] ? $where['limit'] : 10;
@@ -77,7 +81,7 @@ class Platform_task_map_model extends MY_Model{
         if(!isset($data['media_man_user_id']) && empty($data['media_man_user_id'])){
             return false;
         }
-        $this->db->insert($this->_table, $data);
+        $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
 
