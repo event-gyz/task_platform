@@ -74,7 +74,9 @@ class Platform_task_model extends MY_Model{
 
     public function update($task_id,$info){
         $where = array('task_id'=>$task_id);
-        return $this->update($info,$where);
+        return $this->db
+            ->where($where)
+            ->update($this->_table, $info);
     }
 
     public function select_by_id($task_id) {

@@ -83,7 +83,9 @@ class Platform_advertiser_model extends MY_Model{
 
     public function update($advertiser_id,$info){
         $where = array('advertiser_id'=>$advertiser_id);
-        return $this->update($info,$where);
+        return $this->db
+            ->where($where)
+            ->update($this->_table, $info);
     }
 
     public function select_by_id($advertiser_id) {

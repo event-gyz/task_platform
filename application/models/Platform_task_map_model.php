@@ -61,7 +61,9 @@ class Platform_task_map_model extends MY_Model{
         }else if((!isset($where['task_id']) || empty($where['task_id'])) && !isset($where['media_man_user_id']) || empty($where['media_man_user_id'])){
             return false;
         }
-        return $this->update(['status'=>$status],$where);
+        return $this->db
+            ->where($where)
+            ->update($this->_table, ['status'=>$status]);
     }
 
     public function select_by_id($task_map_id) {
