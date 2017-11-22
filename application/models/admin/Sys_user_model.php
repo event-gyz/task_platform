@@ -11,7 +11,7 @@ class Sys_user_model extends MY_Model {
         parent::__construct();
     }
 
-    public function get_sys_user_list_by_condition($where = array(), $param = "su.*") {
+    public function get_sys_user_list_by_condition($where = array(), $fields = "su.*") {
 
         $sql = "SELECT [*] FROM `{$this->table}` AS su WHERE 1 = 1 ";
 
@@ -53,7 +53,7 @@ class Sys_user_model extends MY_Model {
 
         $get_id_sql = str_replace('[*]', 'su.id', $sql);
         $final_sql  = sprintf("SELECT [*] FROM `%s` AS su, ( %s ) AS T2 WHERE su.id = T2.id", $this->table, $get_id_sql);
-        $_sql       = str_replace('[*]', $param, $final_sql);
+        $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);
 
