@@ -5,7 +5,8 @@
  */
 class Platform_media_man_model extends MY_Model{
 
-    var $_table = 'platform_media_man';
+
+    public $_table = 'platform_media_man';
 
     public function __construct(){
         parent::__construct();
@@ -27,11 +28,11 @@ class Platform_media_man_model extends MY_Model{
 
         // 根据自媒体人登录名
         if (isset($where['media_man_login_name']) && $where['media_man_login_name']) {
-            $sql .= sprintf(" AND mm.media_man_login_name = '%d'", $where['media_man_login_name']);
+            $sql .= sprintf(" AND mm.media_man_login_name = '%s'", $where['media_man_login_name']);
         }
         // 根据自媒体人姓名
         if (isset($where['media_man_name']) && $where['media_man_name']) {
-            $sql .= sprintf(" AND mm.media_man_name = '%d'", $where['media_man_name']);
+            $sql .= sprintf(" AND mm.media_man_name = '%s'", $where['media_man_name']);
         }
         // 根据自媒体人审核状态
         if (isset($where['audit_status']) && $where['audit_status']) {
@@ -43,16 +44,16 @@ class Platform_media_man_model extends MY_Model{
         }
         // 根据自媒体人学校名称
         if (isset($where['school_name']) && $where['school_name']) {
-            $sql .= sprintf(" AND mm.school_name = '%d'", $where['school_name']);
+            $sql .= sprintf(" AND mm.school_name = '%s'", $where['school_name']);
         }
 
         // 根据自媒体人创建开始时间
         if (isset($where['start_time']) && $where['start_time']) {
-            $sql .= sprintf(" AND mm.create_time >= '%d'", $where['start_time']);
+            $sql .= sprintf(" AND mm.create_time >= '%s'", $where['start_time']);
         }
         // 根据自媒体人创建结束时间
         if (isset($where['end_time']) && $where['end_time']) {
-            $sql .= sprintf(" AND mm.create_time <= '%d'", $where['end_time']);
+            $sql .= sprintf(" AND mm.create_time <= '%s'", $where['end_time']);
         }
 
         // 总数

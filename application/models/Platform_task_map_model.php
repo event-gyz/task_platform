@@ -5,7 +5,7 @@
  */
 class Platform_task_map_model extends MY_Model{
 
-    var $_table = 'platform_task_map';
+    public $_table = 'platform_task_map';
 
     public function __construct(){
         parent::__construct();

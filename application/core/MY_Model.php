@@ -10,15 +10,16 @@ class MY_Model {
 
     public function __construct() {
         $CI = &get_instance();
-        $CI->load->database(); //默认读取database.php里的$active_group
-        //$CI->load->database('default', false, true);
+        $CI->load->database(); // 默认读取database.php里的$active_group
         $this->db = $CI->db;
         $this->ci = $CI;
     }
 
     /**
      * 执行sql返回总记录数
+     *
      * @param $sql
+     *
      * @return mixed
      */
     public function getCount($sql) {
@@ -29,7 +30,9 @@ class MY_Model {
 
     /**
      * 执行sql返回列表
+     *
      * @param $sql
+     *
      * @return mixed
      */
     public function getList($sql) {
@@ -59,9 +62,9 @@ class MY_Model {
     /**
      * 添加数据
      *
-     * @param array $data 插入数据
+     * @param array  $data       插入数据
      * @param string $table_name 表名
-     * @param return  int 成功返回插入id
+     * @param        return      int 成功返回插入id
      */
     public function insert($data) {
         if ($this->db->insert($this->getTableName(), $data) === false) {
@@ -74,13 +77,13 @@ class MY_Model {
     /**
      * 查询结果集
      *
-     * @param string $fields 查询字段
+     * @param string $fields    查询字段
      * @param string $condition 查询条件
-     *                       1:array('name' => $name, 'title' => $title, 'status' => $status);
-     *                       2:array('name !=' => $name, 'id <' => $id, 'date >' => $date);
-     *                       3:"name='Joe' AND status='boss' OR status='active'";
-     * @param int $limit
-     * @param int $offset
+     *                          1:array('name' => $name, 'title' => $title, 'status' => $status);
+     *                          2:array('name !=' => $name, 'id <' => $id, 'date >' => $date);
+     *                          3:"name='Joe' AND status='boss' OR status='active'";
+     * @param int    $limit
+     * @param int    $offset
      *
      * @return array
      */
@@ -94,9 +97,9 @@ class MY_Model {
      * 查询结果数量
      *
      * @param string $condition 查询条件
-     *                      1:array('name' => $name, 'title' => $title, 'status' => $status);
-     *                      2:array('name !=' => $name, 'id <' => $id, 'date >' => $date);
-     *                      3:"name='Joe' AND status='boss' OR status='active'";
+     *                          1:array('name' => $name, 'title' => $title, 'status' => $status);
+     *                          2:array('name !=' => $name, 'id <' => $id, 'date >' => $date);
+     *                          3:"name='Joe' AND status='boss' OR status='active'";
      *
      * @return int
      */
@@ -108,11 +111,11 @@ class MY_Model {
     /**
      * 修改数据
      *
-     * @param array $set 更新的数据
+     * @param array $set       更新的数据
      * @param mixed $condition 更新条件
-     *                      1:array('name' => $name, 'title' => $title, 'status' => $status);
-     *                      2:array('name !=' => $name, 'id <' => $id, 'date >' => $date);
-     *                      3:"name='Joe' AND status='boss' OR status='active'";
+     *                         1:array('name' => $name, 'title' => $title, 'status' => $status);
+     *                         2:array('name !=' => $name, 'id <' => $id, 'date >' => $date);
+     *                         3:"name='Joe' AND status='boss' OR status='active'";
      *
      * @return bool
      */
@@ -128,9 +131,9 @@ class MY_Model {
      * 删除数据
      *
      * @param mixed $condition 删除条件
-     *                      1:array('name' => $name, 'title' => $title, 'status' => $status);
-     *                      2:array('name !=' => $name, 'id <' => $id, 'date >' => $date);
-     *                      3:"name='Joe' AND status='boss' OR status='active'";
+     *                         1:array('name' => $name, 'title' => $title, 'status' => $status);
+     *                         2:array('name !=' => $name, 'id <' => $id, 'date >' => $date);
+     *                         3:"name='Joe' AND status='boss' OR status='active'";
      *
      * @return mixed
      */

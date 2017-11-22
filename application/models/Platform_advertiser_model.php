@@ -5,7 +5,7 @@
  */
 class Platform_advertiser_model extends MY_Model{
 
-    var $_table = 'platform_advertiser';
+    public $_table = 'platform_advertiser';
 
     public function __construct(){
         parent::__construct();
@@ -27,11 +27,11 @@ class Platform_advertiser_model extends MY_Model{
 
         // 根据广告主登录名
         if (isset($where['advertiser_login_name']) && $where['advertiser_login_name']) {
-            $sql .= sprintf(" AND pa.advertiser_login_name = '%d'", $where['advertiser_login_name']);
+            $sql .= sprintf(" AND pa.advertiser_login_name = '%s'", $where['advertiser_login_name']);
         }
         // 根据广告主姓名
         if (isset($where['advertiser_name']) && $where['advertiser_name']) {
-            $sql .= sprintf(" AND pa.advertiser_name = '%d'", $where['advertiser_name']);
+            $sql .= sprintf(" AND pa.advertiser_name = '%s'", $where['advertiser_name']);
         }
         // 根据广告主审核状态
         if (isset($where['audit_status']) && $where['audit_status']) {
@@ -43,7 +43,7 @@ class Platform_advertiser_model extends MY_Model{
         }
         // 根据广告主身份证号
         if (isset($where['id_card']) && $where['id_card']) {
-            $sql .= sprintf(" AND pa.id_card = '%d'", $where['id_card']);
+            $sql .= sprintf(" AND pa.id_card = '%s'", $where['id_card']);
         }
         // 根据广告主类型
         if (isset($where['advertiser_type']) && $where['advertiser_type']) {
@@ -52,11 +52,11 @@ class Platform_advertiser_model extends MY_Model{
         }
         // 根据广告主创建开始时间
         if (isset($where['start_time']) && $where['start_time']) {
-            $sql .= sprintf(" AND pa.create_time >= '%d'", $where['start_time']);
+            $sql .= sprintf(" AND pa.create_time >= '%s'", $where['start_time']);
         }
         // 根据广告主创建结束时间
         if (isset($where['end_time']) && $where['end_time']) {
-            $sql .= sprintf(" AND pa.create_time <= '%d'", $where['end_time']);
+            $sql .= sprintf(" AND pa.create_time <= '%s'", $where['end_time']);
         }
 
         // 总数

@@ -5,7 +5,7 @@
  */
 class Platform_task_model extends MY_Model{
 
-    var $_table = 'platform_task';
+    public $_table = 'platform_task';
 
     public function __construct(){
         parent::__construct();
@@ -22,7 +22,7 @@ class Platform_task_model extends MY_Model{
         // 拼接查询条件
         // 根据任务名称
         if (isset($where['title']) && $where['title']) {
-            $sql .= sprintf(" AND pt.title = '%d'", $where['title']);
+            $sql .= sprintf(" AND pt.title = '%s'", $where['title']);
         }
         // 根据任务类型
         if (isset($where['task_type']) && $where['task_type']) {
@@ -42,11 +42,11 @@ class Platform_task_model extends MY_Model{
         }
         // 根据任务提交开始时间
         if (isset($where['start_time']) && $where['start_time']) {
-            $sql .= sprintf(" AND pt.create_time >= '%d'", $where['start_time']);
+            $sql .= sprintf(" AND pt.create_time >= '%s'", $where['start_time']);
         }
         // 根据任务提交结束时间
         if (isset($where['end_time']) && $where['end_time']) {
-            $sql .= sprintf(" AND pt.create_time <= '%d'", $where['end_time']);
+            $sql .= sprintf(" AND pt.create_time <= '%s'", $where['end_time']);
         }
 
         // 总数
