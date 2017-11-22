@@ -4,7 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Index extends CI_Controller {
 
     public function home() {
-        $result = $this->__get_sys_user_model()->get_sys_user_list_by_condition();
+        $where  = ['offset' => 0, 'limit' => 1];
+        $result = $this->__get_sys_user_model()->get_sys_user_list_by_condition($where);
         $this->load->view('admin/index/index');
     }
 
