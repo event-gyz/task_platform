@@ -67,21 +67,17 @@ class Platform_advertiser_model extends MY_Model{
             return ['total' => $total, 'list' => []];
         }
 
-        $offset = $where['offset'] ? $where['offset'] : 0;
-        $limit  = $where['limit'] ? $where['limit'] : 10;
-
         $sql .= ' ORDER BY pa.advertiser_id DESC';
-        $sql .= sprintf(" LIMIT %d,%d", $offset, $limit);
+
+        $offset = isset($where['offset']) ? $where['offset'] : 0;
+        $limit  = isset($where['limit']) ? $where['limit'] : 10;
+        $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
         $_sql = str_replace('[*]', $param, $sql);
 
         $_list = $this->getList($_sql);
 
-        $data = array(
-//            'sql'   => $_sql,
-            'total' => $total,
-            'list'  => $_list,
-        );
+        $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
         return $data;
     }
 
