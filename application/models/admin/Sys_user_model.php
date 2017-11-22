@@ -11,31 +11,30 @@ class Sys_user_model extends MY_Model {
         parent::__construct();
     }
 
-    public function get_sys_user_list_by_condition($where = array()) {
+    public function get_sys_user_list_by_condition($where = array(), $param = "su.*") {
 
-        $param = "T1.*";
-        $sql   = "SELECT [*] FROM `{$this->table}` AS T1 WHERE 1 = 1 ";
+        $sql = "SELECT [*] FROM `{$this->table}` AS su WHERE 1 = 1 ";
 
         // 拼接查询条件
 
         if (isset($where['user_name']) && $where['user_name']) {
-            $sql .= sprintf(" AND T1.user_name = '%s'", $where['user_name']);
+            $sql .= sprintf(" AND su.user_name = '%s'", $where['user_name']);
         }
 
         if (isset($where['nick_name']) && $where['nick_name']) {
-            $sql .= sprintf(" AND T1.nick_name = '%s'", $where['nick_name']);
+            $sql .= sprintf(" AND su.nick_name = '%s'", $where['nick_name']);
         }
 
         if (isset($where['user_status']) && $where['user_status']) {
-            $sql .= sprintf(" AND T1.user_status = %d", $where['user_status']);
+            $sql .= sprintf(" AND su.user_status = %d", $where['user_status']);
         }
 
         if (isset($where['start_time']) && $where['start_time']) {
-            $sql .= sprintf(" AND T1.create_time >= '%s'", $where['start_time']);
+            $sql .= sprintf(" AND su.create_time >= '%s'", $where['start_time']);
         }
 
         if (isset($where['end_time']) && $where['end_time']) {
-            $sql .= sprintf(" AND T1.create_time <= '%s'", $where['end_time']);
+            $sql .= sprintf(" AND su.create_time <= '%s'", $where['end_time']);
         }
 
         // 总数
@@ -46,14 +45,14 @@ class Sys_user_model extends MY_Model {
             return ['total' => $total, 'list' => []];
         }
 
-        $sql .= ' ORDER BY T1.id DESC';
+        $sql .= ' ORDER BY su.id DESC';
 
         $offset = isset($where['offset']) ? $where['offset'] : 0;
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
         $sql    .= sprintf(" LIMIT %d , %d", $offset, $limit);
 
-        $get_id_sql = str_replace('[*]', 'T1.id', $sql);
-        $final_sql  = sprintf("SELECT [*] FROM `%s` AS T1, ( %s ) AS T2 WHERE T1.id = T2.id", $this->table, $get_id_sql);
+        $get_id_sql = str_replace('[*]', 'su.id', $sql);
+        $final_sql  = sprintf("SELECT [*] FROM `%s` AS su, ( %s ) AS T2 WHERE su.id = T2.id", $this->table, $get_id_sql);
         $_sql       = str_replace('[*]', $param, $final_sql);
 
         $_list = $this->getList($_sql);
