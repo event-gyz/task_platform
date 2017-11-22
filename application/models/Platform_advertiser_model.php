@@ -12,12 +12,9 @@ class Platform_advertiser_model extends MY_Model{
     }
 
 
-    public function get_advertiser_list_by_condition($where) {
-
-        $param = "pa.*";
+    public function get_advertiser_list_by_condition($where, $fields = "pa.*") {
 
         $sql = "SELECT [*] FROM `{$this->table}` AS pa where 1=1 ";
-
 
         // 拼接查询条件
         // 根据广告主电话
@@ -73,7 +70,9 @@ class Platform_advertiser_model extends MY_Model{
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
         $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
-        $_sql = str_replace('[*]', $param, $sql);
+        $get_id_sql = str_replace('[*]', 'pa.advertiser_id', $sql);
+        $final_sql  = sprintf("SELECT [*] FROM `%s` AS pa, ( %s ) AS T2 WHERE pa.advertiser_id = T2.advertiser_id", $this->table, $get_id_sql);
+        $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);
 

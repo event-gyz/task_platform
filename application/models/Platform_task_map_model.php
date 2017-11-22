@@ -12,12 +12,9 @@ class Platform_task_map_model extends MY_Model{
     }
 
 
-    public function get_task_map_list_by_condition($where) {
-
-        $param = "ptm.*";
+    public function get_task_map_list_by_condition($where, $fields = "ptm.*") {
 
         $sql = "SELECT [*] FROM `{$this->table}` AS ptm where 1=1 ";
-
 
         // 拼接查询条件
 
@@ -40,7 +37,9 @@ class Platform_task_map_model extends MY_Model{
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
         $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
-        $_sql = str_replace('[*]', $param, $sql);
+        $get_id_sql = str_replace('[*]', 'ptm.task_map_id', $sql);
+        $final_sql  = sprintf("SELECT [*] FROM `%s` AS ptm, ( %s ) AS T2 WHERE ptm.task_map_id = T2.task_map_id", $this->table, $get_id_sql);
+        $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);
 

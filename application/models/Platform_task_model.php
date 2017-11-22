@@ -12,12 +12,9 @@ class Platform_task_model extends MY_Model{
     }
 
 
-    public function get_task_list_by_condition($where) {
-
-        $param = "pt.*";
+    public function get_task_list_by_condition($where, $fields = "pt.*") {
 
         $sql = "SELECT [*] FROM `{$this->table}` AS pt where 1=1 ";
-
 
         // 拼接查询条件
         // 根据任务名称
@@ -63,7 +60,9 @@ class Platform_task_model extends MY_Model{
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
         $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
-        $_sql = str_replace('[*]', $param, $sql);
+        $get_id_sql = str_replace('[*]', 'pt.task_id', $sql);
+        $final_sql  = sprintf("SELECT [*] FROM `%s` AS pt, ( %s ) AS T2 WHERE pt.task_id = T2.task_id", $this->table, $get_id_sql);
+        $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);
 
