@@ -5,7 +5,7 @@
  */
 class Platform_advertiser_model extends MY_Model{
 
-    var $_table = 'platform_advertiser';
+    public $_table = 'platform_advertiser';
 
     public function __construct(){
         parent::__construct();

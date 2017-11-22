@@ -5,7 +5,7 @@
  */
 class Platform_media_man_model extends MY_Model{
 
-    var $_table = 'platform_media_man_extra';
+    public $_table = 'platform_media_man_extra';
 
     public function __construct(){
         parent::__construct();
