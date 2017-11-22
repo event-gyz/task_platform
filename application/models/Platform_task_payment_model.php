@@ -33,12 +33,12 @@ class Platform_task_payment_model extends MY_Model{
         // 根据姓名/公司名称
         if (isset($where['name']) && $where['name']) {
             $name = $where['name'];
-            $sql .= " AND (pa.advertiser_name like '%{$name}%' or pa.company_name like '%{$name}%')";
+            $sql .= sprintf(" AND (pa.advertiser_name like '%s%%' or pa.company_name like '%s%%' ) ", $name,$name);
         }
 
         // 根据电话
         if (isset($where['advertiser_phone']) && $where['advertiser_phone']) {
-            $sql .= " AND pa.advertiser_phone like '%" . $where['advertiser_phone'] . "%'";
+            $sql .= sprintf(" AND pa.advertiser_phone like '%s%%'", $where['advertiser_phone']);
         }
 
         // 根据财务审核状态
@@ -69,19 +69,19 @@ class Platform_task_payment_model extends MY_Model{
     }
 
     /**
-     * 修改
+     * 修改广告主支付财务审核状态
      * @return bool
      */
-//    public function update($where,$status){
-//        if(!isset($where['task_map_id']) || empty($where['task_map_id'])){
-//            return false;
-//        }else if((!isset($where['task_id']) || empty($where['task_id'])) && !isset($where['media_man_user_id']) || empty($where['media_man_user_id'])){
-//            return false;
-//        }
-//        return $this->db
-//            ->where($where)
-//            ->update($this->table, ['status'=>$status]);
-//    }
+    public function update($where,$status){
+        if(!isset($where['payment_id']) || empty($where['payment_id'])){
+            return false;
+        }else if(!isset($where['task_id']) || empty($where['task_id'])){
+            return false;
+        }
+        return $this->db
+            ->where($where)
+            ->update($this->table, ['finance_status'=>1]);
+    }
 
     public function select_by_id($task_id) {
         $query = $this->db->get_where($this->getTableName(), array('task_id' => $task_id));
