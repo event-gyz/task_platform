@@ -81,7 +81,7 @@ class Platform_media_man_model extends MY_Model{
         $where = array('media_man_id'=>$media_man_id);
         return $this->db
             ->where($where)
-            ->update($this->_table, $info);
+            ->update($this->table, $info);
     }
 
     public function select_by_id($media_man_id) {

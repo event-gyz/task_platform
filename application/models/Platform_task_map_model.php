@@ -63,7 +63,7 @@ class Platform_task_map_model extends MY_Model{
         }
         return $this->db
             ->where($where)
-            ->update($this->_table, ['status'=>$status]);
+            ->update($this->table, ['status'=>$status]);
     }
 
     public function select_by_id($task_map_id) {
