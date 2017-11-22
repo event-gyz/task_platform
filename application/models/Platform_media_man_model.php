@@ -5,7 +5,7 @@
  */
 class Platform_media_man_model extends MY_Model{
 
-    var $_table = 'platform_media_man_extra';
+    var $_table = 'platform_media_man';
 
     public function __construct(){
         parent::__construct();
@@ -18,8 +18,6 @@ class Platform_media_man_model extends MY_Model{
 
         $sql = "SELECT [*] FROM `{$this->_table}` AS mm where 1=1 ";
 
-        // 只查询正常到记录 status = 1
-        $sql .= sprintf(" AND mm.status = %d", 1);
 
         // 拼接查询条件
         // 根据自媒体人电话
@@ -80,7 +78,6 @@ class Platform_media_man_model extends MY_Model{
     }
 
     public function update($media_man_id,$info){
-        $info['update_time'] = date('Y-m-d H:i:s',time());
         $where = array('media_man_id'=>$media_man_id);
         return $this->update($info,$where);
     }
@@ -93,7 +90,6 @@ class Platform_media_man_model extends MY_Model{
 
     public function insert($data){
 
-        $data['create_time'] = date("Y-m-d H:i:s",time());
         $this->db->insert($this->_table, $data);
         return $this->db->insert_id();
     }

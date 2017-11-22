@@ -18,8 +18,6 @@ class Platform_advertiser_model extends MY_Model{
 
         $sql = "SELECT [*] FROM `{$this->_table}` AS pa where 1=1 ";
 
-        // 只查询正常到记录 status = 1
-        $sql .= sprintf(" AND pa.status = %d", 1);
 
         // 拼接查询条件
         // 根据广告主电话
@@ -84,7 +82,6 @@ class Platform_advertiser_model extends MY_Model{
     }
 
     public function update($advertiser_id,$info){
-        $info['update_time'] = date('Y-m-d H:i:s',time());
         $where = array('advertiser_id'=>$advertiser_id);
         return $this->update($info,$where);
     }
@@ -97,7 +94,6 @@ class Platform_advertiser_model extends MY_Model{
 
     public function insert($data){
 
-        $data['create_time'] = date("Y-m-d H:i:s",time());
         $this->db->insert($this->_table, $data);
         return $this->db->insert_id();
     }
