@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Class Platform_user_model
+ * Class Platform_media_man_extra_model
  */
-class Platform_user_model extends CI_Model{
+class Platform_media_man_extra_model extends MY_Model{
 
-    var $_table = 'platform_user';
+    var $_table = 'platform_mdeia_man_extra';
 
     public function __construct(){
         parent::__construct();

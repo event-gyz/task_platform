@@ -3,7 +3,7 @@
 /**
  * Class Platform_advertiser_extra_model
  */
-class Platform_advertiser_extra_model extends CI_Model{
+class Platform_advertiser_extra_model extends MY_Model{
 
     var $_table = 'platform_advertiser_extra';
 

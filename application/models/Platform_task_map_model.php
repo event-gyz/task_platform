@@ -3,7 +3,7 @@
 /**
  * Class Platform_task_map_model
  */
-class Platform_task_map_model extends CI_Model{
+class Platform_task_map_model extends MY_Model{
 
     var $_table = 'platform_task_map';
 
