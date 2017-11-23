@@ -11,6 +11,11 @@ class Platform_task_payment_model extends MY_Model{
         parent::__construct();
     }
 
+    /**
+     * 广告主付款列表
+     * @param $where
+     * @return array
+     */
     public function get_task_payment_list_by_condition($where) {
 
         $param = "pt.*,ptp.*,pa.advertiser_id,pa.advertiser_login_name,pa.advertiser_name,pa.advertiser_phone,pa.company_name,ptp.create_time as pay_time";
