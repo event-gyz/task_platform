@@ -31,14 +31,13 @@ class Platform_task_map_model extends MY_Model{
             return ['total' => $total, 'list' => []];
         }
 
-        $sql .= ' ORDER BY ptm.task_map_id DESC';
-
         $offset = isset($where['offset']) ? $where['offset'] : 0;
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
         $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
         $get_id_sql = str_replace('[*]', 'ptm.task_map_id', $sql);
         $final_sql  = sprintf("SELECT [*] FROM `%s` AS ptm, ( %s ) AS T2 WHERE ptm.task_map_id = T2.task_map_id", $this->table, $get_id_sql);
+        $final_sql  .= ' ORDER BY ptm.task_map_id DESC';
         $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);

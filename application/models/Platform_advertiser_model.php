@@ -64,14 +64,13 @@ class Platform_advertiser_model extends MY_Model{
             return ['total' => $total, 'list' => []];
         }
 
-        $sql .= ' ORDER BY pa.advertiser_id DESC';
-
         $offset = isset($where['offset']) ? $where['offset'] : 0;
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
         $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
         $get_id_sql = str_replace('[*]', 'pa.advertiser_id', $sql);
         $final_sql  = sprintf("SELECT [*] FROM `%s` AS pa, ( %s ) AS T2 WHERE pa.advertiser_id = T2.advertiser_id", $this->table, $get_id_sql);
+        $final_sql  .= ' ORDER BY pa.advertiser_id DESC';
         $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);
