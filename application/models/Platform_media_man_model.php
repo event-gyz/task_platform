@@ -19,16 +19,16 @@ class Platform_media_man_model extends MY_Model{
         // 拼接查询条件
         // 根据自媒体人电话
         if (isset($where['media_man_phone']) && $where['media_man_phone']) {
-            $sql .= sprintf(" AND mm.media_man_phone = '%s'", $where['media_man_phone']);
+            $sql .= sprintf(" AND mm.media_man_phone like '%s%%'", $where['media_man_phone']);
         }
 
         // 根据自媒体人登录名
         if (isset($where['media_man_login_name']) && $where['media_man_login_name']) {
-            $sql .= sprintf(" AND mm.media_man_login_name = '%s'", $where['media_man_login_name']);
+            $sql .= sprintf(" AND mm.media_man_login_name like '%s%%'", $where['media_man_login_name']);
         }
         // 根据自媒体人姓名
         if (isset($where['media_man_name']) && $where['media_man_name']) {
-            $sql .= sprintf(" AND mm.media_man_name = '%s'", $where['media_man_name']);
+            $sql .= sprintf(" AND mm.media_man_name like '%s%%'", $where['media_man_name']);
         }
         // 根据自媒体人审核状态
         if (isset($where['audit_status']) && $where['audit_status']) {
@@ -40,7 +40,7 @@ class Platform_media_man_model extends MY_Model{
         }
         // 根据自媒体人学校名称
         if (isset($where['school_name']) && $where['school_name']) {
-            $sql .= sprintf(" AND mm.school_name = '%s'", $where['school_name']);
+            $sql .= sprintf(" AND mm.school_name like '%s%%'", $where['school_name']);
         }
 
         // 根据自媒体人创建开始时间
@@ -76,11 +76,9 @@ class Platform_media_man_model extends MY_Model{
         return $data;
     }
 
-    public function update($media_man_id,$info){
+    public function updateInfo($media_man_id,$info){
         $where = array('media_man_id'=>$media_man_id);
-        return $this->db
-            ->where($where)
-            ->update($this->table, $info);
+        return $this->update($info, $where );
     }
 
     public function select_by_id($media_man_id) {

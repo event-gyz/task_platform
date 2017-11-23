@@ -19,16 +19,16 @@ class Platform_advertiser_model extends MY_Model{
         // 拼接查询条件
         // 根据广告主电话
         if (isset($where['advertiser_phone']) && $where['advertiser_phone']) {
-            $sql .= sprintf(" AND pa.advertiser_phone = '%s'", $where['advertiser_phone']);
+            $sql .= sprintf(" AND pa.advertiser_phone like '%s%%'", $where['advertiser_phone']);
         }
 
         // 根据广告主登录名
         if (isset($where['advertiser_login_name']) && $where['advertiser_login_name']) {
-            $sql .= sprintf(" AND pa.advertiser_login_name = '%s'", $where['advertiser_login_name']);
+            $sql .= sprintf(" AND pa.advertiser_login_name like '%s%%'", $where['advertiser_login_name']);
         }
         // 根据广告主姓名
         if (isset($where['advertiser_name']) && $where['advertiser_name']) {
-            $sql .= sprintf(" AND pa.advertiser_name = '%s'", $where['advertiser_name']);
+            $sql .= sprintf(" AND pa.advertiser_name like '%s%%'", $where['advertiser_name']);
         }
         // 根据广告主审核状态
         if (isset($where['audit_status']) && $where['audit_status']) {
@@ -40,7 +40,7 @@ class Platform_advertiser_model extends MY_Model{
         }
         // 根据广告主身份证号
         if (isset($where['id_card']) && $where['id_card']) {
-            $sql .= sprintf(" AND pa.id_card = '%s'", $where['id_card']);
+            $sql .= sprintf(" AND pa.id_card like '%s%%'", $where['id_card']);
         }
         // 根据广告主类型
         if (isset($where['advertiser_type']) && $where['advertiser_type']) {
@@ -80,11 +80,9 @@ class Platform_advertiser_model extends MY_Model{
         return $data;
     }
 
-    public function update($advertiser_id,$info){
+    public function updateInfo($advertiser_id,$info){
         $where = array('advertiser_id'=>$advertiser_id);
-        return $this->db
-            ->where($where)
-            ->update($this->table, $info);
+        return $this->update($info, $where );
     }
 
     public function select_by_id($advertiser_id) {

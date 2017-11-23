@@ -19,7 +19,7 @@ class Platform_task_model extends MY_Model{
         // 拼接查询条件
         // 根据任务名称
         if (isset($where['title']) && $where['title']) {
-            $sql .= sprintf(" AND pt.title = '%s'", $where['title']);
+            $sql .= sprintf(" AND pt.title like '%s%%'", $where['title']);
         }
         // 根据任务类型
         if (isset($where['task_type']) && $where['task_type']) {
@@ -71,11 +71,9 @@ class Platform_task_model extends MY_Model{
     }
 
 
-    public function update($task_id,$info){
+    public function updateInfo($task_id,$info){
         $where = array('task_id'=>$task_id);
-        return $this->db
-            ->where($where)
-            ->update($this->table, $info);
+        return $this->update($info, $where );
     }
 
     public function select_by_id($task_id) {

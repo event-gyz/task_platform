@@ -48,21 +48,20 @@ class Platform_task_map_model extends MY_Model{
     }
 
     /**
-     * 根据task_map_id或者 task_id和media_man_user_id 修改状态
+     * 根据task_map_id或者 task_id和media_man_user_id 修改数据
      * @param array|null $where
-     * @param mixed|null $status
+     * @param array|null $info
      * @return bool
      */
     //todo 要写脚本修改状态为忽略
-    public function update($where,$status){
+    //todo 自媒体人交付任务的时候将map表的deliver_status改为1
+    public function updateStatus($where,$info){
         if(!isset($where['task_map_id']) || empty($where['task_map_id'])){
             return false;
         }else if((!isset($where['task_id']) || empty($where['task_id'])) && !isset($where['media_man_user_id']) || empty($where['media_man_user_id'])){
             return false;
         }
-        return $this->db
-            ->where($where)
-            ->update($this->table, ['status'=>$status]);
+        return $this->update($info, $where );
     }
 
     public function select_by_id($task_map_id) {
