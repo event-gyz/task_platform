@@ -50,7 +50,7 @@
 
                                 <div class="form-group col-xs-3">
                                     <button type="submit" class="btn btn-info">搜索</button>
-                                    <a class="btn btn-success">添加权限</a>
+                                    <a class="btn btn-success" href="/admin/auth/add">添加权限</a>
                                 </div>
 
                             </form>
@@ -75,18 +75,23 @@
                                 <th>权限级别</th>
                                 <th>操作</th>
                             </tr>
-                            <tr>
-                                <th>1</th>
-                                <th>权限列表</th>
-                                <th>0</th>
-                                <th>Auth</th>
-                                <th>home</th>
-                                <th>1</th>
-                                <th>
-                                    <a class="btn btn-info btn-sm">修改</a>
-                                    <a class="btn btn-danger btn-sm">删除</a>
-                                </th>
-                            </tr>
+
+                            <?php foreach ($auth_list as $auth_info): ?>
+                                <tr>
+                                    <th><?= $auth_info['id'] ?></th>
+                                    <th><?= $auth_info['auth_name'] ?></th>
+                                    <th><?= $auth_info['pid'] ?></th>
+                                    <th><?= $auth_info['class'] ?></th>
+                                    <th><?= $auth_info['action'] ?></th>
+                                    <th><?= $auth_info['level'] ?></th>
+                                    <th>
+                                        <a href="/admin/auth/update?id=<?= $auth_info['id'] ?>"
+                                           class="btn btn-info btn-sm">修改</a>
+                                        <a href="/admin/auth/del?id=<?= $auth_info['id'] ?>"
+                                           class="btn btn-danger btn-sm">删除</a>
+                                    </th>
+                                </tr>
+                            <?php endforeach; ?>
                         </table>
                     </div>
                     <!-- /.box-body -->

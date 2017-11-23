@@ -4,20 +4,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Auth extends CI_Controller {
 
     public function home() {
-        $where  = ['offset' => 0, 'limit' => 1];
-        $result = $this->__get_sys_auth_model()->get_sys_auth_list_by_condition($where);
-        $this->load->view('admin/auth/index');
+        $auth_list = $this->__get_sys_auth_model()->get_sys_auth_list_by_condition();
+        $this->load->view('admin/auth/index', array('auth_list' => $auth_list['list']));
     }
 
     public function add() {
-        $req_data = $this->input->post();
 
-        if(empty($req_data)){
-            return $this->load->view('admin/auth/add');
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+
+        $config = array(
+            array(
+                'field'  => 'auth_name',
+                'label'  => '权限名称',
+                'rules'  => 'required',
+                'errors' => array(
+                    'required' => '请填写%s',
+                ),
+            ),
+            array(
+                'field'  => 'class',
+                'label'  => '类',
+                'rules'  => 'required',
+                'errors' => array(
+                    'required' => '请填写%s',
+                ),
+            ),
+            array(
+                'field'  => 'action',
+                'label'  => '方法',
+                'rules'  => 'required',
+                'errors' => array(
+                    'required' => '请填写%s',
+                ),
+            ),
+        );
+        $this->form_validation->set_rules($config);
+
+        $req_data  = $this->input->post();
+        $auth_list = $this->__get_sys_auth_model()->select_level0_level1_auth_list();
+
+        if ($this->form_validation->run() == FALSE) {
+            return $this->load->view('admin/auth/add', array('auth_list' => $auth_list));
         }
 
-        dump($req_data);
+        $data = array(
+            'pid'       => $req_data['pid'],
+            'auth_name' => $req_data['auth_name'],
+            'class'     => $req_data['class'],
+            'action'    => $req_data['action'],
+            'level'     => $this->__calc_level($req_data['pid']),
+        );
 
+        $result = $this->__get_sys_auth_model()->insert($data);
+
+        if ($result) {
+            return $this->load->view('admin/auth/home');
+        }
+
+        return $this->load->view('admin/auth/add', array('auth_list' => $auth_list));
     }
 
     public function home2() {
@@ -48,6 +93,21 @@ class Auth extends CI_Controller {
     public function select_by_id() {
         $sys_user_id = 1;
         $result      = $this->__get_sys_user_model()->select_by_id($sys_user_id);
+    }
+
+    // 根据用户选择的pid来计算即将入库的菜单等级
+    private function __calc_level($pid) {
+
+        // pid为0的为一级菜单即level = 0
+
+        if ($pid == 0) {
+            return 0;
+        }
+
+        // pid为其他值的需要查询其权限详情然后获取其level在此基础上+1
+        $auth_info = $this->__get_sys_auth_model()->select_by_id($pid);
+
+        return empty($auth_info) ? 0 : ($auth_info['level'] + 1);
     }
 
     /**

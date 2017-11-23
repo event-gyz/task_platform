@@ -62,5 +62,11 @@ class Sys_auth_model extends MY_Model {
         return $this->db->insert_id();
     }
 
+    // 查询level = 0 或者 1 的权限列表
+    public function select_level0_level1_auth_list() {
+        $query = $this->db->get_where($this->getTableName(), 'level = 0 OR level = 1');
+        return $query->result_array();
+    }
+
 }
 
