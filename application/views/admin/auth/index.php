@@ -16,11 +16,6 @@
     <!-- Main content -->
     <section class="content container-fluid">
 
-        <!--------------------------
-          | Your Page Content Here |
-          -------------------------->
-        这里是页面的内容
-
     </section>
     <!-- /.content -->
 </div>

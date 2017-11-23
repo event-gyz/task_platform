@@ -7,14 +7,14 @@
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
 
-            <li class="treeview active">
+            <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i>
                     <span>广告主管理</span>
                     <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span>
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/admin/index/home1">个人审核列表</a></li>
-                    <li class="active"><a href="/admin/index/home2">公司审核列表</a></li>
+                    <li><a href="/admin/index/home2">公司审核列表</a></li>
                 </ul>
             </li>
 
@@ -25,6 +25,16 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/admin/index/home1">自媒体人审核列表</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview active">
+                <a href="#"><i class="fa fa-gears"></i>
+                    <span>系统管理</span>
+                    <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="/admin/auth/home">权限列表</a></li>
                 </ul>
             </li>
 

@@ -18,7 +18,5 @@
     <script src="/assets/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/assets/AdminLTE/js/adminlte.min.js"></script>
-    <script src="/assets/js/vue.js"></script>
-    <script src="/assets/js/element-ui.js"></script>
 
 </body>
