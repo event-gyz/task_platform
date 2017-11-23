@@ -9,8 +9,8 @@ class Auth extends CI_Controller {
         $this->load->view('admin/auth/index');
     }
 
-    public function home1() {
-        $this->load->view('admin/index/index1');
+    public function add() {
+        $this->load->view('admin/auth/add');
     }
 
     public function home2() {
