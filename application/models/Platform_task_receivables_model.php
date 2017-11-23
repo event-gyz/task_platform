@@ -11,6 +11,11 @@ class Platform_task_receivables_model extends MY_Model{
         parent::__construct();
     }
 
+    /**
+     * 自媒体人结账列表
+     * @param $where
+     * @return array
+     */
     public function get_task_receivables_list_by_condition($where) {
 
         $param = "pt.*,pmm.*,ptr.platform_pay_money,ptr.platform_pay_way,ptr.finance_status,ptr.pay_time";

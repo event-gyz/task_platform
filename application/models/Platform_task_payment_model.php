@@ -13,7 +13,7 @@ class Platform_task_payment_model extends MY_Model{
 
     public function get_task_payment_list_by_condition($where) {
 
-        $param = "pt.*,ptp.*,pa.advertiser_id,pa.advertiser_login_name,pa.advertiser_name,pa.advertiser_phone,pa.company_name";
+        $param = "pt.*,ptp.*,pa.advertiser_id,pa.advertiser_login_name,pa.advertiser_name,pa.advertiser_phone,pa.company_name,ptp.create_time as pay_time";
         $task_table = 'platform_task';
         $advertiser_table = 'platform_advertiser';
         $sql = "SELECT [*] FROM `{$task_table}` AS pt left join `{$this->table}` AS ptp on pt.task_id=ptp.task_id LEFT JOIN `{$advertiser_table}` AS pa ON pt.advertiser_user_id=pa.advertiser_id where 1=1 ";
@@ -54,7 +54,7 @@ class Platform_task_payment_model extends MY_Model{
             return ['total' => $total, 'list' => []];
         }
 
-        $sql .= ' ORDER BY ptp.task_map_id DESC';
+        $sql .= ' ORDER BY ptp.task_id DESC';
 
         $offset = isset($where['offset']) ? $where['offset'] : 0;
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
