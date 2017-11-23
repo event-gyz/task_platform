@@ -5,12 +5,11 @@ class Index extends CI_Controller {
 
 	public function home()
 	{
-        $name = 'fde';
 
-        $this->load->library('page');
-        $url                = '/order/companyOrder/order_list?';
-        $page               = $this->page->get_page($total, $number, $url);
-        $data['show_page']  = $page ['show_page'];
+//        $this->load->library('page');
+//        $url                = '/order/companyOrder/order_list?';
+//        $page               = $this->page->get_page($total, $number, $url);
+//        $data['show_page']  = $page ['show_page'];
 		$this->load->model('Platform_task_receivables_model');
 		$data = $this->Platform_task_receivables_model->get_task_receivables_list_by_condition(111);
 		echo '<pre>';print_r($data);exit;
