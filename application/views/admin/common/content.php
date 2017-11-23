@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html>
-
-<?php include VIEWPATH . '/admin/common/head.php'; ?>
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            内容标题0
-            <small>内容标题的小字部分0</small>
+            这是示例的内容模板
+            <small>直接拷贝本页代码并填充内容即可</small>
         </h1>
     </section>
 
@@ -19,14 +14,8 @@
         <!--------------------------
           | Your Page Content Here |
           -------------------------->
-        这里是页面的内容
 
     </section>
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
-
-<?php include VIEWPATH . '/admin/common/foot.php' ?>
-
-</html>
