@@ -88,7 +88,7 @@
                                 <th>1</th>
                                 <th>
                                     <a class="btn btn-info btn-sm">修改</a>
-                                    <a class="btn btn-danger btn-sm" style="cursor: pointer;margin-right: 5px;">删除</a>
+                                    <a class="btn btn-danger btn-sm">删除</a>
                                 </th>
                             </tr>
                         </table>
