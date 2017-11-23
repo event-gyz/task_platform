@@ -20,6 +20,48 @@
 
             <div class="col-xs-12">
 
+                <div class="box box-success">
+
+                    <div class="box-body">
+
+                        <div class="row">
+
+                            <!-- form start -->
+                            <form class="form-horizontal">
+
+                                <div class="form-group col-xs-3">
+                                    <label for="auth_name" class="col-sm-3 control-label">权限名称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="auth_name"
+                                               placeholder="输入权限名称来搜索..." name="auth_name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-xs-3">
+                                    <label for="level" class="col-sm-3 control-label">权限等级</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="level">
+                                            <option value="0">一级菜单</option>
+                                            <option value="1">二级菜单</option>
+                                            <option value="2">按钮操作</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-xs-3">
+                                    <button type="submit" class="btn btn-info">搜索</button>
+                                    <button type="submit" class="btn btn-success">添加权限</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                </div>
+
                 <div class="box">
 
                     <div class="box-body table-responsive no-padding">
@@ -40,7 +82,10 @@
                                 <th>Auth</th>
                                 <th>home</th>
                                 <th>1</th>
-                                <th>删除</th>
+                                <th>
+                                    <a class="fa fa-edit" style="cursor: pointer;margin-right: 5px;">修改</a>
+                                    <a class="fa fa-remove" style="cursor: pointer;margin-right: 5px;">删除</a>
+                                </th>
                             </tr>
                         </table>
                     </div>

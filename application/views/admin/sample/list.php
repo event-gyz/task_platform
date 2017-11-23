@@ -20,6 +20,52 @@
 
             <div class="col-xs-12">
 
+                <div class="box box-success">
+
+                    <div class="box-body">
+
+                        <div class="row">
+
+                            <!-- form start -->
+                            <form class="form-horizontal">
+
+                                <div class="form-group col-xs-3">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                                    <div class="col-sm-5">
+                                        <input type="password" class="form-control" id="inputPassword3"
+                                               placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-xs-3">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                                    <div class="col-sm-5">
+                                        <input type="password" class="form-control" id="inputPassword3"
+                                               placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-xs-3">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                                    <div class="col-sm-5">
+                                        <input type="password" class="form-control" id="inputPassword3"
+                                               placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-xs-3">
+                                    <button type="submit" class="btn btn-info">搜索</button>
+                                    <button type="submit" class="btn btn-success">添加权限</button>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+
+                </div>
+
                 <div class="box">
 
                     <div class="box-body table-responsive no-padding">
@@ -40,7 +86,10 @@
                                 <th>Auth</th>
                                 <th>home</th>
                                 <th>1</th>
-                                <th>删除</th>
+                                <th>
+                                    <a class="fa fa-edit" style="cursor: pointer;margin-right: 5px;">修改</a>
+                                    <a class="fa fa-remove" style="cursor: pointer;margin-right: 5px;">删除</a>
+                                </th>
                             </tr>
                         </table>
                     </div>

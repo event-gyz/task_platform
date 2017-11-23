@@ -10,7 +10,14 @@ class Auth extends CI_Controller {
     }
 
     public function add() {
-        $this->load->view('admin/auth/add');
+        $req_data = $this->input->post();
+
+        if(empty($req_data)){
+            return $this->load->view('admin/auth/add');
+        }
+
+        dump($req_data);
+
     }
 
     public function home2() {
