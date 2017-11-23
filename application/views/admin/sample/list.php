@@ -87,8 +87,8 @@
                                 <th>home</th>
                                 <th>1</th>
                                 <th>
-                                    <a class="fa fa-edit" style="cursor: pointer;margin-right: 5px;">修改</a>
-                                    <a class="fa fa-remove" style="cursor: pointer;margin-right: 5px;">删除</a>
+                                    <a class="btn btn-info btn-sm">修改</a>
+                                    <a class="btn btn-danger btn-sm" style="cursor: pointer;margin-right: 5px;">删除</a>
                                 </th>
                             </tr>
                         </table>
