@@ -72,7 +72,7 @@
                                 <tr>
                                     <th><?= $value['id'] ?></th>
                                     <th><?= $value['dept_name'] ?></th>
-                                    <th><?= $value['create_sys_user_id'] ?></th>
+                                    <th><?= $value['create_by_name'] ?></th>
                                     <th><?= $value['create_time'] ?></th>
                                     <th><?= $value['update_time'] ?></th>
                                     <th>
