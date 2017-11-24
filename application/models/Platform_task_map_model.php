@@ -31,6 +31,8 @@ class Platform_task_map_model extends MY_Model{
             return ['total' => $total, 'list' => []];
         }
 
+        $sql .= ' ORDER BY ptm.task_map_id DESC';
+
         $offset = isset($where['offset']) ? $where['offset'] : 0;
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
         $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);

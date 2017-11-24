@@ -29,6 +29,8 @@ class Sys_auth_model extends MY_Model {
             return ['total' => $total, 'list' => []];
         }
 
+        $sql .= ' ORDER BY sa.id DESC';
+
         $offset = isset($where['offset']) ? $where['offset'] : 0;
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
         $sql    .= sprintf(" LIMIT %d , %d", $offset, $limit);
