@@ -12,15 +12,14 @@ class Page {
      *
      * @param $total_rows 总数
      * @param $per_page   显示几条数据
-     * @param $url
      *
      * @return mixed
      */
-    public function get_page($total_rows, $per_page, $url) {
+    public function get_page($total_rows, $per_page) {
         $this->CI->load->library('pagination');
         parse_str($_SERVER['QUERY_STRING'], $query_string);
         unset($query_string['page']);
-        $base_url                       = $url . http_build_query($query_string);
+        $base_url                       = '?' . http_build_query($query_string);
         $config['base_url']             = $base_url;
         $config['total_rows']           = $total_rows;
         $config['num_links']            = 5;

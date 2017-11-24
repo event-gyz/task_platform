@@ -21,6 +21,10 @@ class Sys_auth_model extends MY_Model {
             $sql .= sprintf(" AND sa.auth_name = '%s'", $where['auth_name']);
         }
 
+        if (isset($where['level'])) {
+            $sql .= sprintf(" AND sa.level = %d", $where['level']);
+        }
+
         // 总数
         $sql_count = str_replace('[*]', 'count(*) AS c', $sql);
         $total     = $this->getCount($sql_count);

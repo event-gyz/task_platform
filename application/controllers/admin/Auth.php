@@ -10,20 +10,43 @@ class Auth extends Admin_Controller {
     }
 
     public function home() {
-        $this->load->library('Page');
 
-        $page_arr = $this->get_list_page_and_list();
-        $where    = array_merge($page_arr, $this->input->get());
+        $form_data = $this->__build_where4_list();
 
-        $auth_list = $this->__get_sys_auth_model()->get_sys_auth_list_by_condition($where);
-        $page_link = $this->page->get_page($auth_list['total'], $page_arr['limit'], '/admin/auth/home');
+        $auth_arr = $this->__get_sys_auth_model()->get_sys_auth_list_by_condition($form_data['where']);
+
+        $page_link = $this->get_page_link($auth_arr['total'], $form_data['where']['limit']);
 
         return $this->load->view('admin/auth/index',
             [
-                'auth_list' => $auth_list['list'],
+                'form_data' => $form_data,
+                'auth_list' => $auth_arr['list'],
                 'page_link' => $page_link,
             ]
         );
+    }
+
+    private function __build_where4_list() {
+        $auth_name = $this->input->get('auth_name', true);
+        $level     = $this->input->get('level', true);
+
+        $where = [];
+        if (!empty($auth_name)) {
+            $where['auth_name'] = $auth_name;
+        }
+
+        if (is_numeric($level)) {
+            $where['level'] = $level;
+        }
+
+        $page_arr = $this->get_list_limit_and_offset_params();
+        $where    = array_merge($page_arr, $where);
+
+        return [
+            'auth_name' => $auth_name,
+            'level'     => $level,
+            'where'     => $where,
+        ];
     }
 
     public function add() {
