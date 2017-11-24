@@ -20,7 +20,7 @@ class Sys_user extends Admin_Controller {
         return $this->load->view('admin/sys_user/index',
             [
                 'form_data' => $form_data,
-                'user_list' => $user_arr['list'],
+                'list'      => $user_arr['list'],
                 'page_link' => $page_link,
             ]
         );

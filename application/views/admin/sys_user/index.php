@@ -90,7 +90,7 @@
                                 <th>操作</th>
                             </tr>
 
-                            <?php foreach ($user_list as $value): ?>
+                            <?php foreach ($list as $value): ?>
                                 <tr>
                                     <th><?= $value['id'] ?></th>
                                     <th><?= $value['user_name'] ?></th>

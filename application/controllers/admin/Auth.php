@@ -20,7 +20,7 @@ class Auth extends Admin_Controller {
         return $this->load->view('admin/auth/index',
             [
                 'form_data' => $form_data,
-                'auth_list' => $auth_arr['list'],
+                'list'      => $auth_arr['list'],
                 'page_link' => $page_link,
             ]
         );

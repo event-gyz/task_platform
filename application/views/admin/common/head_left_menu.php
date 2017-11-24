@@ -28,8 +28,8 @@
                 </ul>
             </li>
 
-            <?php $auth_list = $_SESSION['auth_list']; ?>
-            <?php foreach ($auth_list as $value0): ?>
+            <?php $s_auth_list = $_SESSION['auth_list']; ?>
+            <?php foreach ($s_auth_list as $value0): ?>
                 <li class="treeview">
 
                     <?php if ($value0['level'] === '0'): ?>
@@ -42,7 +42,7 @@
                     <?php endif; ?>
 
                     <ul class="treeview-menu">
-                        <?php foreach ($auth_list as $value1): ?>
+                        <?php foreach ($s_auth_list as $value1): ?>
                             <?php if ($value1['level'] === '1' && $value1['pid'] === $value0['id']): ?>
                                 <li>
                                     <a href="/admin/<?= $value1['class'] ?>/<?= $value1['action'] ?>">
