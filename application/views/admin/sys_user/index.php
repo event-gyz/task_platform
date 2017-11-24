@@ -100,7 +100,7 @@
                                     <th><?= $value['create_time'] ?></th>
                                     <th><?= $value['modify_by_name'] ?></th>
                                     <th><?= $value['update_time'] ?></th>
-                                    <th><?= $value['user_status'] ?></th>
+                                    <th><?= $value['user_status'] === '1' ? '有效' : '无效' ?></th>
                                     <th>
                                         <a href="/admin/sys_user/update?id=<?= $value['id'] ?>"
                                            class="btn btn-info btn-sm">修改</a>
