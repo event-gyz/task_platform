@@ -1,11 +1,29 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Auth extends CI_Controller {
+require '../core/Admin_Controller.php';
+
+class Auth extends Admin_Controller {
+
+    public function __construct() {
+        parent::__construct();
+    }
 
     public function home() {
-        $auth_list = $this->__get_sys_auth_model()->get_sys_auth_list_by_condition();
-        $this->load->view('admin/auth/index', array('auth_list' => $auth_list['list']));
+        $this->load->library('Page');
+
+        $page_arr = $this->get_list_page_and_list();
+        $where    = array_merge($page_arr, $this->input->get());
+
+        $auth_list = $this->__get_sys_auth_model()->get_sys_auth_list_by_condition($where);
+        $page_link = $this->page->get_page($auth_list['total'], $page_arr['limit'], '/admin/auth/home');
+
+        return $this->load->view('admin/auth/index',
+            [
+                'auth_list' => $auth_list['list'],
+                'page_link' => $page_link,
+            ]
+        );
     }
 
     public function add() {
@@ -117,6 +135,5 @@ class Auth extends CI_Controller {
         $this->load->model('admin/Sys_auth_model');
         return $this->Sys_auth_model;
     }
-
 
 }
