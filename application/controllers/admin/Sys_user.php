@@ -27,24 +27,30 @@ class Sys_user extends Admin_Controller {
     }
 
     private function __build_where4_list() {
-        $auth_name = $this->input->get('auth_name', true);
-        $level     = $this->input->get('level', true);
+        $user_name = $this->input->get('user_name', true);
+        $dept_id   = $this->input->get('dept_id', true);
+        $mobile    = $this->input->get('mobile', true);
 
         $where = [];
-        if (!empty($auth_name)) {
-            $where['auth_name'] = $auth_name;
+        if (!empty($user_name)) {
+            $where['user_name'] = $user_name;
         }
 
-        if (is_numeric($level)) {
-            $where['level'] = $level;
+        if (!empty($dept_id)) {
+            $where['dept_id'] = $dept_id;
+        }
+
+        if (!empty($mobile)) {
+            $where['mobile'] = $mobile;
         }
 
         $page_arr = $this->get_list_limit_and_offset_params();
         $where    = array_merge($page_arr, $where);
 
         return [
-            'auth_name' => $auth_name,
-            'level'     => $level,
+            'user_name' => $user_name,
+            'dept_id'   => $dept_id,
+            'mobile'    => $mobile,
             'where'     => $where,
         ];
     }

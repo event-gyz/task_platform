@@ -25,6 +25,10 @@ class Sys_user_model extends MY_Model {
             $sql .= sprintf(" AND su.user_status = %d", $where['user_status']);
         }
 
+        if (isset($where['mobile']) && $where['mobile']) {
+            $sql .= sprintf(" AND su.mobile = '%s'", $where['mobile']);
+        }
+
         if (isset($where['nick_name']) && $where['nick_name']) {
             $sql .= sprintf(" AND su.nick_name = '%s'", $where['nick_name']);
         }

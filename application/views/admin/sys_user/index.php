@@ -40,7 +40,7 @@
                                 </div>
 
                                 <div class="form-group col-xs-3">
-                                    <label for="dept_id" class="col-sm-3 control-label">部门归宿</label>
+                                    <label for="dept_id" class="col-sm-3 control-label">归属部门</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="dept_id"
                                                placeholder="输入部门来搜索..." name="dept_id"
@@ -98,7 +98,7 @@
                                     <th><?= $value['mobile'] ?></th>
                                     <th><?= $value['create_sys_user_id'] ?></th>
                                     <th><?= $value['create_time'] ?></th>
-                                    <th><?= $value['create_sys_user_id'] ?></th>
+                                    <th><?= $value['last_modify_sys_user_id'] ?></th>
                                     <th><?= $value['update_time'] ?></th>
                                     <th><?= $value['user_status'] ?></th>
                                     <th>
