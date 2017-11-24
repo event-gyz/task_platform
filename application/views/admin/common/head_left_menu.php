@@ -28,15 +28,33 @@
                 </ul>
             </li>
 
-            <li class="treeview active">
-                <a href="#"><i class="fa fa-gears"></i>
-                    <span>权限管理</span>
-                    <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="active"><a href="/admin/auth/home">权限列表</a></li>
-                </ul>
-            </li>
+            <?php $auth_list = $_SESSION['auth_list']; ?>
+            <?php foreach ($auth_list as $value0): ?>
+                <li class="treeview">
+
+                    <?php if ($value0['level'] === '0'): ?>
+                        <a href="javascript:;">
+                            <span><?= $value0['auth_name'] ?></span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                    <?php endif; ?>
+
+                    <ul class="treeview-menu">
+                        <?php foreach ($auth_list as $value1): ?>
+                            <?php if ($value1['level'] === '1' && $value1['pid'] === $value0['id']): ?>
+                                <li>
+                                    <a href="/admin/<?= $value1['class'] ?>/<?= $value1['action'] ?>">
+                                        <?= $value1['auth_name'] ?>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ul>
+
+                </li>
+            <?php endforeach; ?>
 
         </ul>
         <!-- /.sidebar-menu -->

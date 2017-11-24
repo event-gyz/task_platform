@@ -11,8 +11,16 @@ class ADMIN_Controller extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->__init();
+    }
+
+    private function __init() {
         $this->load->helper('url');
         $this->host = $this->get_server_address_and_port();
+
+        $this->load->model('admin/Sys_auth_model');
+        $this->load->library('session');
+        $_SESSION['auth_list'] = $this->Sys_auth_model->select_level0_level1_auth_list();
     }
 
     protected function response($response = null) {
