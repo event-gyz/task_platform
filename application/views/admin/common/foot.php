@@ -19,4 +19,9 @@
     <!-- AdminLTE App -->
     <script src="/assets/AdminLTE/js/adminlte.min.js"></script>
 
+    <script>
+        // 让他爹也亮起来
+        $('.treeview-menu .active').parent().parent().addClass('active');
+    </script>
+
 </body>
