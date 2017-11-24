@@ -73,5 +73,9 @@ class Sys_auth_model extends MY_Model {
         return $query->result_array();
     }
 
+    public function del($sys_auth_id) {
+        return $this->delete(['id' => $sys_auth_id]);
+    }
+
 }
 

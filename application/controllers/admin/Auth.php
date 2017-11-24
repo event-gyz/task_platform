@@ -177,10 +177,17 @@ class Auth extends Admin_Controller {
         return $this->load->view('admin/auth/update', array('auth_list' => $auth_list, 'auth_info' => $auth_info));
     }
 
-    // 查询系统用户
-    public function select_by_id() {
-        $sys_user_id = 1;
-        $result      = $this->__get_sys_user_model()->select_by_id($sys_user_id);
+    public function del() {
+
+        $sys_auth_id = $this->input->get('id', true);
+
+        if (empty($sys_auth_id)) {
+            return redirect("{$this->host}/admin/auth/home");
+        }
+
+        $this->__get_sys_auth_model()->del($sys_auth_id);
+
+        return redirect("{$this->host}/admin/auth/home");
     }
 
     // 根据用户选择的pid来计算即将入库的菜单等级
