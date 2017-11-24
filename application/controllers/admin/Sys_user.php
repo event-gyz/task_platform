@@ -13,14 +13,14 @@ class Sys_user extends Admin_Controller {
 
         $form_data = $this->__build_where4_list();
 
-        $user_arr = $this->__get_sys_user_model()->get_sys_user_list_by_condition($form_data['where']);
+        $data = $this->__get_sys_user_model()->get_sys_user_list_by_condition($form_data['where']);
 
-        $page_link = $this->get_page_link($user_arr['total'], $form_data['where']['limit']);
+        $page_link = $this->get_page_link($data['total'], $form_data['where']['limit']);
 
         return $this->load->view('admin/sys_user/index',
             [
                 'form_data' => $form_data,
-                'list'      => $user_arr['list'],
+                'list'      => $data['list'],
                 'page_link' => $page_link,
             ]
         );

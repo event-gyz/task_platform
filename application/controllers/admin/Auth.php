@@ -13,14 +13,14 @@ class Auth extends Admin_Controller {
 
         $form_data = $this->__build_where4_list();
 
-        $auth_arr = $this->__get_sys_auth_model()->get_sys_auth_list_by_condition($form_data['where']);
+        $data = $this->__get_sys_auth_model()->get_sys_auth_list_by_condition($form_data['where']);
 
-        $page_link = $this->get_page_link($auth_arr['total'], $form_data['where']['limit']);
+        $page_link = $this->get_page_link($data['total'], $form_data['where']['limit']);
 
         return $this->load->view('admin/auth/index',
             [
                 'form_data' => $form_data,
-                'list'      => $auth_arr['list'],
+                'list'      => $data['list'],
                 'page_link' => $page_link,
             ]
         );
