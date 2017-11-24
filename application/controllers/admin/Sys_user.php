@@ -196,21 +196,6 @@ class Sys_user extends Admin_Controller {
         return redirect("{$this->host}/admin/auth/home");
     }
 
-    // 根据用户选择的pid来计算即将入库的菜单等级
-    private function __calc_level($pid) {
-
-        // pid为0的为一级菜单即level = 0
-
-        if ($pid == 0) {
-            return 0;
-        }
-
-        // pid为其他值的需要查询其权限详情然后获取其level在此基础上+1
-        $auth_info = $this->__get_sys_user_model()->select_by_id($pid);
-
-        return empty($auth_info) ? 0 : ($auth_info['level'] + 1);
-    }
-
     /**
      * @return Sys_user_model
      */
