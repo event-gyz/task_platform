@@ -90,19 +90,20 @@
                                 <th>操作</th>
                             </tr>
 
-                            <?php foreach ($auth_list as $auth_info): ?>
+                            <?php foreach ($list as $value): ?>
                                 <tr>
-                                    <th><?= $auth_info['id'] ?></th>
-                                    <th><?= $auth_info['auth_name'] ?></th>
-                                    <th><?= $auth_info['pid'] ?></th>
-                                    <th><?= $auth_info['class'] ?></th>
-                                    <th><?= $auth_info['action'] ?></th>
-                                    <th><?= $auth_info['level'] ?></th>
+                                    <th><?= $value['id'] ?></th>
+                                    <th><?= $value['auth_name'] ?></th>
+                                    <th><?= $value['pid'] ?></th>
+                                    <th><?= $value['class'] ?></th>
+                                    <th><?= $value['action'] ?></th>
+                                    <th><?= $value['level'] ?></th>
                                     <th>
-                                        <a href="/admin/auth/update?id=<?= $auth_info['id'] ?>"
+                                        <a href="/admin/auth/update?id=<?= $value['id'] ?>"
                                            class="btn btn-info btn-sm">修改</a>
-                                        <a href="/admin/auth/del?id=<?= $auth_info['id'] ?>"
-                                           class="btn btn-danger btn-sm">删除</a>
+                                        <button del-url="/admin/auth/del?id=<?= $value['id'] ?>"
+                                                class="del-auth btn btn-danger btn-sm">删除
+                                        </button>
                                     </th>
                                 </tr>
                             <?php endforeach; ?>
@@ -126,7 +127,20 @@
 
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
 
+<script src="/assets/layer/layer.js"></script>
+
 <script>
+
+    $('.del-auth').click(function () {
+        var del_url = $(this).attr('del-url');
+
+        layer.confirm(
+            '确定删除此权限？',
+            {btn: ['确定', '取消']},
+            function () {
+                window.location.href = del_url;
+            });
+    });
 
 </script>
 

@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require '../core/Admin_Controller.php';
 
-class Auth extends Admin_Controller {
+class Sys_user extends Admin_Controller {
 
     public function __construct() {
         parent::__construct();
@@ -13,14 +13,14 @@ class Auth extends Admin_Controller {
 
         $form_data = $this->__build_where4_list();
 
-        $auth_arr = $this->__get_sys_auth_model()->get_sys_auth_list_by_condition($form_data['where']);
+        $user_arr = $this->__get_sys_user_model()->get_sys_user_list_by_condition($form_data['where']);
 
-        $page_link = $this->get_page_link($auth_arr['total'], $form_data['where']['limit']);
+        $page_link = $this->get_page_link($user_arr['total'], $form_data['where']['limit']);
 
-        return $this->load->view('admin/auth/index',
+        return $this->load->view('admin/sys_user/index',
             [
                 'form_data' => $form_data,
-                'list'      => $auth_arr['list'],
+                'list'      => $user_arr['list'],
                 'page_link' => $page_link,
             ]
         );
@@ -82,7 +82,7 @@ class Auth extends Admin_Controller {
         );
         $this->form_validation->set_rules($config);
 
-        $auth_list = $this->__get_sys_auth_model()->select_level0_level1_auth_list();
+        $auth_list = $this->__get_sys_user_model()->select_level0_level1_auth_list();
 
         if ($this->form_validation->run() == FALSE) {
             return $this->load->view('admin/auth/add', array('auth_list' => $auth_list));
@@ -98,7 +98,7 @@ class Auth extends Admin_Controller {
             'level'     => $this->__calc_level($req_data['pid']),
         );
 
-        $result = $this->__get_sys_auth_model()->insert($data);
+        $result = $this->__get_sys_user_model()->insert($data);
 
         if ($result) {
             return redirect("{$this->host}/admin/auth/home");
@@ -140,7 +140,7 @@ class Auth extends Admin_Controller {
         );
         $this->form_validation->set_rules($config);
 
-        $auth_list = $this->__get_sys_auth_model()->select_level0_level1_auth_list();
+        $auth_list = $this->__get_sys_user_model()->select_level0_level1_auth_list();
 
         $sys_auth_id = $this->input->get_post('id', true);
 
@@ -148,7 +148,7 @@ class Auth extends Admin_Controller {
             return redirect("{$this->host}/admin/auth/home");
         }
 
-        $auth_info = $this->__get_sys_auth_model()->select_by_id($sys_auth_id);
+        $auth_info = $this->__get_sys_user_model()->select_by_id($sys_auth_id);
 
         if (empty($auth_info)) {
             return redirect("{$this->host}/admin/auth/home");
@@ -168,7 +168,7 @@ class Auth extends Admin_Controller {
             'level'     => $this->__calc_level($req_data['pid']),
         );
 
-        $result = $this->__get_sys_auth_model()->update_sys_auth($sys_auth_id, $info);
+        $result = $this->__get_sys_user_model()->update_sys_auth($sys_auth_id, $info);
 
         if ($result) {
             return redirect("{$this->host}/admin/auth/home");
@@ -185,7 +185,7 @@ class Auth extends Admin_Controller {
             return redirect("{$this->host}/admin/auth/home");
         }
 
-        $this->__get_sys_auth_model()->del($sys_auth_id);
+        $this->__get_sys_user_model()->del($sys_auth_id);
 
         return redirect("{$this->host}/admin/auth/home");
     }
@@ -200,17 +200,17 @@ class Auth extends Admin_Controller {
         }
 
         // pid为其他值的需要查询其权限详情然后获取其level在此基础上+1
-        $auth_info = $this->__get_sys_auth_model()->select_by_id($pid);
+        $auth_info = $this->__get_sys_user_model()->select_by_id($pid);
 
         return empty($auth_info) ? 0 : ($auth_info['level'] + 1);
     }
 
     /**
-     * @return Sys_auth_model
+     * @return Sys_user_model
      */
-    private function __get_sys_auth_model() {
-        $this->load->model('admin/Sys_auth_model');
-        return $this->Sys_auth_model;
+    private function __get_sys_user_model() {
+        $this->load->model('admin/Sys_user_model');
+        return $this->Sys_user_model;
     }
 
 }

@@ -9,8 +9,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            添加权限
-            <small>添加一个权限</small>
+            修改权限
+            <small>修改一个权限</small>
         </h1>
     </section>
 
@@ -31,7 +31,7 @@
                         </div>
 
                         <!-- form start -->
-                        <form class="form-horizontal" action="/admin/auth/add" method="post">
+                        <form class="form-horizontal" action="/admin/auth/update" method="post">
                             <div class="box-body">
 
                                 <div class="form-group">
@@ -41,7 +41,9 @@
                                             <option value="0">根节点-即创建为一级菜单</option>
 
                                             <?php foreach ($auth_list as $value): ?>
-                                                <option value="<?= $value['id'] ?>">
+                                                <option value="<?= $value['id'] ?>"
+                                                    <?= $value['id'] === $auth_info['pid'] ? 'selected' : ''; ?>
+                                                >
                                                     <?= $value['auth_name'] ?>
                                                     <?= $value['level'] === '0' ? '-1级菜单' : ''; ?>
                                                     <?= $value['level'] === '1' ? '-2级菜单' : ''; ?>
@@ -57,7 +59,7 @@
                                     <div class="col-sm-10">
                                         <input type="text" name="auth_name" class="form-control" id="auth_name"
                                                placeholder="输入权限名称"
-                                               value="<?= set_value('auth_name') ?>"
+                                               value="<?= $auth_info['auth_name'] ?>"
                                         >
                                     </div>
                                 </div>
@@ -67,7 +69,7 @@
                                     <div class="col-sm-10">
                                         <input type="text" name="class" class="form-control" id="class"
                                                placeholder="输入权限控制的类名称,注意大小写"
-                                               value="<?= set_value('class') ?>"
+                                               value="<?= $auth_info['class'] ?>"
                                         >
                                     </div>
                                 </div>
@@ -77,7 +79,7 @@
                                     <div class="col-sm-10">
                                         <input type="text" name="action" class="form-control" id="action"
                                                placeholder="输入权限控制的方法名称,注意大小写"
-                                               value="<?= set_value('action') ?>"
+                                               value="<?= $auth_info['action'] ?>"
                                         >
                                     </div>
                                 </div>
@@ -85,6 +87,7 @@
                             </div>
                             <!-- /.box-body -->
                             <div class="box-footer ">
+                                <input type="hidden" name="id" value="<?= $auth_info['id'] ?>"/>
                                 <a class="btn btn-default" href="/admin/auth/home">取消</a>
                                 <button type="submit" class="btn btn-info pull-right">提交</button>
                             </div>

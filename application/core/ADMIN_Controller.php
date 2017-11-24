@@ -6,11 +6,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class ADMIN_Controller extends CI_Controller {
 
-    public $_return = array('error_no' => 0, 'msg' => '', 'data' => array());
+    protected $_return = array('error_no' => 0, 'msg' => '', 'data' => array());
+    protected $host    = '';
 
     public function __construct() {
         parent::__construct();
+        $this->__init();
+    }
+
+    private function __init() {
         $this->load->helper('url');
+        $this->host = $this->get_server_address_and_port();
+
+        $this->load->model('admin/Sys_auth_model');
+        $this->load->library('session');
+        $_SESSION['auth_list'] = $this->Sys_auth_model->select_level0_level1_auth_list();
     }
 
     protected function response($response = null) {
@@ -44,6 +54,39 @@ class ADMIN_Controller extends CI_Controller {
     protected function get_page_link($total, $limit) {
         $this->load->library('Page');
         return $this->page->get_page($total, $limit);
+    }
+
+    /**
+     * 获得当前的域名
+     *
+     * @return string
+     */
+    protected function get_server_address_and_port() {
+        /* 协议 */
+        $protocol = (isset($_SERVER ['HTTPS']) && (strtolower($_SERVER ['HTTPS']) != 'off')) ? 'https://' : 'http://';
+        /* 域名或IP地址 */
+        if (isset($_SERVER ['HTTP_X_FORWARDED_HOST'])) {
+            $host = $_SERVER ['HTTP_X_FORWARDED_HOST'];
+        } elseif (isset($_SERVER ['HTTP_HOST'])) {
+            $host = $_SERVER ['HTTP_HOST'];
+        } else {
+            /* 端口 */
+            if (isset($_SERVER ['SERVER_PORT'])) {
+                $port = ':' . $_SERVER ['SERVER_PORT'];
+
+                if ((':80' == $port && 'http://' == $protocol) || (':443' == $port && 'https://' == $protocol)) {
+                    $port = '';
+                }
+            } else {
+                $port = '';
+            }
+            if (isset($_SERVER ['SERVER_NAME'])) {
+                $host = $_SERVER ['SERVER_NAME'] . $port;
+            } elseif (isset($_SERVER ['SERVER_ADDR'])) {
+                $host = $_SERVER ['SERVER_ADDR'] . $port;
+            }
+        }
+        return $protocol . $host;
     }
 
 }
