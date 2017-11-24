@@ -88,6 +88,12 @@ class Platform_media_man_model extends MY_Model{
         return $query->row_array();
     }
 
+    public function select_by_login_name($login_name) {
+
+        $query = $this->db->get_where($this->getTableName(), array('media_man_login_name' => $login_name));
+        return $query->row_array();
+    }
+
     public function insert($data){
 
         $this->db->insert($this->table, $data);
