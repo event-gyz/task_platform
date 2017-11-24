@@ -96,9 +96,9 @@
                                     <th><?= $value['user_name'] ?></th>
                                     <th><?= $value['dept_id'] ?></th>
                                     <th><?= $value['mobile'] ?></th>
-                                    <th><?= $value['create_sys_user_id'] ?></th>
+                                    <th><?= $value['create_by_name'] ?></th>
                                     <th><?= $value['create_time'] ?></th>
-                                    <th><?= $value['last_modify_sys_user_id'] ?></th>
+                                    <th><?= $value['modify_by_name'] ?></th>
                                     <th><?= $value['update_time'] ?></th>
                                     <th><?= $value['user_status'] ?></th>
                                     <th>

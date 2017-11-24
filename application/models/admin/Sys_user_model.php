@@ -62,8 +62,51 @@ class Sys_user_model extends MY_Model {
 
         $_list = $this->getList($_sql);
 
-        $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
+        $data = ['sql' => $_sql, 'total' => $total, 'list' => $this->__deal_list($_list)];
         return $data;
+    }
+
+    // 处理列表数据,创建人,修改人,以及部门名称
+    private function __deal_list($list) {
+        $create_id_arr = array_column($list, 'create_sys_user_id');
+        $modify_id_arr = array_column($list, 'last_modify_sys_user_id');
+
+        $create_name_arr = $this->__get_operate_user_name_arr($create_id_arr);
+        $modify_name_arr = $this->__get_operate_user_name_arr($modify_id_arr);
+
+        $result = [];
+        foreach ($list as $value) {
+
+            $value['create_by_name'] = '';
+            foreach ($create_name_arr as $value1) {
+
+                if ($value['create_sys_user_id'] === $value1['id']) {
+                    $value['create_by_name'] = $value1['user_name'];
+                    break;
+                }
+
+            }
+
+            $value['modify_by_name'] = '';
+            foreach ($modify_name_arr as $value2) {
+
+                if ($value['last_modify_sys_user_id'] === $value2['id']) {
+                    $value['modify_by_name'] = $value2['user_name'];
+                    break;
+                }
+            }
+
+            $result[] = $value;
+
+        }
+
+        return $result;
+    }
+
+    private function __get_operate_user_name_arr($id_arr) {
+        $id_str = implode(',', $id_arr);
+        $sql    = "SELECT su.user_name , su.id FROM `{$this->table}` AS su WHERE id IN ( {$id_str} )";
+        return $this->getList($sql);
     }
 
     public function update_sys_user($sys_user_id, $info) {
