@@ -82,12 +82,13 @@ class Auth extends Admin_Controller {
         );
         $this->form_validation->set_rules($config);
 
-        $req_data  = $this->input->post();
         $auth_list = $this->__get_sys_auth_model()->select_level0_level1_auth_list();
 
         if ($this->form_validation->run() == FALSE) {
             return $this->load->view('admin/auth/add', array('auth_list' => $auth_list));
         }
+
+        $req_data = $this->input->post();
 
         $data = array(
             'pid'       => $req_data['pid'],
@@ -100,34 +101,80 @@ class Auth extends Admin_Controller {
         $result = $this->__get_sys_auth_model()->insert($data);
 
         if ($result) {
-            return $this->load->view('admin/auth/home');
+            return redirect("{$this->host}/admin/auth/home");
         }
 
         return $this->load->view('admin/auth/add', array('auth_list' => $auth_list));
     }
 
-    public function home2() {
-        $this->load->view('admin/index/index2');
-    }
+    public function update() {
 
-    // 插入系统用户
-    public function insert() {
-        $pwd    = '123456';
-        $salt   = $this->__get_sys_user_model()->random_str(4);
-        $data   = array(
-            'user_name' => 'zhaohongyu',
-            'nick_name' => '老王',
-            'salt'      => $salt,
-            'pwd'       => $this->__get_sys_user_model()->generate_admin_password($pwd, $salt),
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+
+        $config = array(
+            array(
+                'field'  => 'auth_name',
+                'label'  => '权限名称',
+                'rules'  => 'required',
+                'errors' => array(
+                    'required' => '请填写%s',
+                ),
+            ),
+            array(
+                'field'  => 'class',
+                'label'  => '类',
+                'rules'  => 'required',
+                'errors' => array(
+                    'required' => '请填写%s',
+                ),
+            ),
+            array(
+                'field'  => 'action',
+                'label'  => '方法',
+                'rules'  => 'required',
+                'errors' => array(
+                    'required' => '请填写%s',
+                ),
+            ),
         );
-        $result = $this->__get_sys_user_model()->insert($data);
-    }
+        $this->form_validation->set_rules($config);
 
-    // 更新系统用户
-    public function update_sys_user() {
-        $sys_user_id = 1;
-        $info        = ['nick_name' => '老王1'];
-        $result      = $this->__get_sys_user_model()->update_sys_user($sys_user_id, $info);
+        $auth_list = $this->__get_sys_auth_model()->select_level0_level1_auth_list();
+
+        $sys_auth_id = $this->input->get_post('id', true);
+
+        if (empty($sys_auth_id)) {
+            return redirect("{$this->host}/admin/auth/home");
+        }
+
+        $auth_info = $this->__get_sys_auth_model()->select_by_id($sys_auth_id);
+
+        if (empty($auth_info)) {
+            return redirect("{$this->host}/admin/auth/home");
+        }
+
+        if ($this->form_validation->run() == FALSE) {
+            return $this->load->view('admin/auth/update', array('auth_list' => $auth_list, 'auth_info' => $auth_info));
+        }
+
+        $req_data = $this->input->post();
+
+        $info = array(
+            'pid'       => $req_data['pid'],
+            'auth_name' => $req_data['auth_name'],
+            'class'     => $req_data['class'],
+            'action'    => $req_data['action'],
+            'level'     => $this->__calc_level($req_data['pid']),
+        );
+
+        $result = $this->__get_sys_auth_model()->update_sys_auth($sys_auth_id, $info);
+
+        if ($result) {
+            return redirect("{$this->host}/admin/auth/home");
+        }
+
+        return $this->load->view('admin/auth/update', array('auth_list' => $auth_list, 'auth_info' => $auth_info));
     }
 
     // 查询系统用户
