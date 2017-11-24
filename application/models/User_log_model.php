@@ -53,6 +53,7 @@ class User_log_model extends MY_Model {
 
         $get_id_sql = str_replace('[*]', 'ul.id', $sql);
         $final_sql  = sprintf("SELECT [*] FROM `%s` AS ul, ( %s ) AS T2 WHERE ul.id = T2.id", $this->table, $get_id_sql);
+        $final_sql  .= ' ORDER BY ul.id DESC';
         $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);

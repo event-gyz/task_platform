@@ -9,6 +9,14 @@ class Index extends CI_Controller {
         $this->load->view('admin/index/index');
     }
 
+    public function home1() {
+        $this->load->view('admin/index/index1');
+    }
+
+    public function home2() {
+        $this->load->view('admin/index/index2');
+    }
+
     // 插入系统用户
     public function insert() {
         $pwd    = '123456';

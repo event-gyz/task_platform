@@ -37,6 +37,7 @@ class Sys_auth_model extends MY_Model {
 
         $get_id_sql = str_replace('[*]', 'sa.id', $sql);
         $final_sql  = sprintf("SELECT [*] FROM `%s` AS sa, ( %s ) AS T2 WHERE sa.id = T2.id", $this->table, $get_id_sql);
+        $final_sql  .= ' ORDER BY sa.id DESC';
         $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);
@@ -60,6 +61,12 @@ class Sys_auth_model extends MY_Model {
         $data['create_time'] = date("Y-m-d H:i:s", time());
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();
+    }
+
+    // 查询level = 0 或者 1 的权限列表
+    public function select_level0_level1_auth_list() {
+        $query = $this->db->get_where($this->getTableName(), 'level = 0 OR level = 1');
+        return $query->result_array();
     }
 
 }

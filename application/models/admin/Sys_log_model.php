@@ -49,6 +49,7 @@ class Sys_log_model extends MY_Model {
 
         $get_id_sql = str_replace('[*]', 'sl.id', $sql);
         $final_sql  = sprintf("SELECT [*] FROM `%s` AS sl, ( %s ) AS T2 WHERE sl.id = T2.id", $this->table, $get_id_sql);
+        $final_sql  .= ' ORDER BY sl.id DESC';
         $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);

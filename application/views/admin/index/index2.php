@@ -8,8 +8,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            内容标题0
-            <small>内容标题的小字部分0</small>
+            内容标题2
+            <small>内容标题的小字部分2</small>
         </h1>
     </section>
 
@@ -19,7 +19,7 @@
         <!--------------------------
           | Your Page Content Here |
           -------------------------->
-        这里是页面的内容
+        这里是页面的内容2
 
     </section>
     <!-- /.content -->

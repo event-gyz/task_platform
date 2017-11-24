@@ -62,6 +62,7 @@ class Platform_task_model extends MY_Model{
 
         $get_id_sql = str_replace('[*]', 'pt.task_id', $sql);
         $final_sql  = sprintf("SELECT [*] FROM `%s` AS pt, ( %s ) AS T2 WHERE pt.task_id = T2.task_id", $this->table, $get_id_sql);
+        $final_sql  .= ' ORDER BY pt.task_id DESC';
         $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);
