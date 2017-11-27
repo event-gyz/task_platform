@@ -54,10 +54,34 @@ class Login extends CI_Controller {
                 $this->_return['msg'] = '密码错误';
                 echo json_encode($this->_return);exit;
             }else{
-                $this->session->set_userdata($userInfo);
-                $this->_return['errorno'] = '1';
-                $this->_return['msg'] = '登录成功';
-                echo json_encode($this->_return);exit;
+                $this->session->set_userdata('user_info',$userInfo);
+                if($userInfo['audit_status']==1 && $userInfo['status']==2) {
+                    $this->_return['errorno'] = '1';
+                    $this->_return['msg'] = '登录成功';
+                    echo json_encode($this->_return);
+                    exit;
+                }else if($userInfo['status']==0){
+                    $this->_return['errorno'] = '2';
+                    $this->_return['msg'] = '未完善基础信息';
+                    echo json_encode($this->_return);exit;
+                }else if($userInfo['audit_status']==0){
+                    $this->_return['errorno'] = '3';
+                    $this->_return['msg'] = '待审核';
+                    echo json_encode($this->_return);exit;
+                }else if($userInfo['audit_status']==2){
+                    $this->_return['errorno'] = '4';
+                    $this->_return['msg'] = '驳回';
+                    //驳回原因
+                    $this->_return['data'] = $userInfo['reasons_for_rejection'];
+                    echo json_encode($this->_return);exit;
+                }else if($userInfo['status']==9){
+                    $this->_return['errorno'] = '5';
+                    $this->_return['msg'] = '冻结';
+                    //冻结原因
+                    $this->_return['data'] = $userInfo['freezing_reason'];
+                    echo json_encode($this->_return);exit;
+                }
+
             }
 
         }
@@ -138,7 +162,7 @@ class Login extends CI_Controller {
      */
     public function sendCode()
     {
-
+        $_POST['phone'] = 15710061246;
         // 判断传递参数是否为空
         if (!isset($_POST['phone']) || empty($_POST['phone'])) {
             $this->_return['errorno'] = '-1';
@@ -160,8 +184,14 @@ class Login extends CI_Controller {
         //todo 发送验证码
 //        $this->sendPhoneMsg($phone,$code ,1);
 //        $phone = 15710061246;
-        $sessionName = $this->_model . $phone;
-        $this->session->set_userdata($sessionName, ['sendTime' => time(), 'code' => $code]);
+        $model = $this->_model . $phone;
+        $userData = $this->session->userdata($model);
+        if(!empty($userData)){
+            $times = $userData['times'];
+        }else{
+            $times = 1;
+        }
+        $this->session->set_userdata($model, ['sendTime' => time(), 'code' => $code,'times'=>$times]);
         $this->_return['msg'] = '发送成功';
         echo json_encode($this->_return);exit;
 
@@ -183,7 +213,7 @@ class Login extends CI_Controller {
         $code = (int)$code;
 
         $model = $this->_model.$phone;
-        $codeInSession = $this->session->set_userdata($model);
+        $codeInSession = $this->session->userdata($model);
         $interval = 0;
         if( !empty( $codeInSession ) ){
             $interval = time() - $codeInSession['sendTime'];
@@ -212,14 +242,18 @@ class Login extends CI_Controller {
         if( !preg_match($pattern, $phone) ) {
             return array( 'status'=>-1,'msg'=>'手机号有误' );
         }
-        $codeInSession = $this->session->set_userdata($model);
+        $codeInSession = $this->session->userdata($model);
+        //一天只能发送10条验证码
+        if($codeInSession['times'] >= 10){
+            return array( 'status'=>-1,'msg'=>'一天只能发送10条验证码' );
+        }
         $interval = -1;
         if( !empty( $codeInSession ) ){
             $interval = time() - $codeInSession['sendTime'];
         }
-
-        if( $interval != -1 && $interval < 90 ){
-            return array( 'status'=>-5,'msg'=>'发送次数过多，请稍候再试' );
+        //60秒发送一次
+        if( $interval != -1 && $interval < 60 ){
+            return array( 'status'=>-5,'msg'=>'发送频率过快，请稍候再试' );
         }
         return true;
     }

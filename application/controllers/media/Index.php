@@ -25,8 +25,38 @@ class Index extends CI_Controller {
     );
 
     private function checkUserLogin(){
-        if(!$this->session->userdata('media_man_id')){
+        $user_info = $this->session->userdata('user_info');
+        if(!$user_info['media_man_id']){
             redirect('/media/login/login');
+        }
+        if(($user_info['audit_status'] != 1) || ($user_info['status'] != 2)){
+            $userInfo = $this->__get_media_man_model()->select_by_id($user_info['media_man_id']);
+            $this->session->set_userdata('user_info',$userInfo);
+            if($userInfo['status']==0){
+                //跳到完善基础信息页面
+//                $this->_return['errorno'] = '2';
+//                $this->_return['msg'] = '未完善基础信息';
+//                echo json_encode($this->_return);exit;
+            }else if($userInfo['audit_status']==0){
+                //跳到待审核页面
+//                $this->_return['errorno'] = '3';
+//                $this->_return['msg'] = '待审核';
+//                echo json_encode($this->_return);exit;
+            }else if($userInfo['audit_status']==2){
+                //跳到驳回页面
+//                $this->_return['errorno'] = '4';
+//                $this->_return['msg'] = '驳回';
+//                //驳回原因
+//                $this->_return['data'] = $userInfo['reasons_for_rejection'];
+                echo json_encode($this->_return);exit;
+            }else if($userInfo['status']==9){
+                //跳到冻结页面
+//                $this->_return['errorno'] = '9';
+//                $this->_return['msg'] = '冻结';
+//                //冻结原因
+//                $this->_return['data'] = $userInfo['freezing_reason'];
+//                echo json_encode($this->_return);exit;
+            }
         }
     }
 
@@ -56,6 +86,18 @@ class Index extends CI_Controller {
                 echo json_encode($this->_return);exit;
             }
 
+            if(!isset($_POST ['zfb_nu']) || empty($_POST ['zfb_nu'])){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '支付宝账号不能为空';
+                echo json_encode($this->_return);exit;
+            }
+
+            if(!isset($_POST ['zfb_realname']) || empty($_POST ['zfb_realname'])){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '真实姓名不能为空';
+                echo json_encode($this->_return);exit;
+            }
+
 
             $data = array (
                 'media_man_name' => trim($_POST['name']),
@@ -68,15 +110,17 @@ class Index extends CI_Controller {
                 'school_city' => (int)$_POST['school_city'],
                 'school_area' => (int)$_POST['school_area'],
                 'school_level' => (int)$_POST['school_level'],
-                'age' => json_encode($_POST['age']),
+                'age' => (int)($_POST['age']),
                 'local' => json_encode($_POST['local']),
                 'hobby' => json_encode($_POST['hobby']),
             );
 
-            $media_man_id = $this->session->userdata('media_man_id');
-            $re = $this->__get_media_man_model()->updateInfo($media_man_id,$data);
-
+            //通过session获取用户信息
+            $userInfo = $this->session->userdata('user_info');
+            $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
             if ($re) {
+//                $userInfo = array_merge($userInfo,$data);
+//                $this->session->set_userdata('user_info',$userInfo);
                 $this->_return['errorno'] = '1';
                 $this->_return['msg'] = '保存成功';
                 echo json_encode($this->_return);
@@ -99,31 +143,27 @@ class Index extends CI_Controller {
             }
 
             $data = array (
-                'media_man_name' => trim($_POST['name']),
-                'sex' => (int)($_POST['sex']),
-                'zfb_nu' => trim($_POST['zfb_nu']),
-                'zfb_realname' => trim($_POST['zfb_realname']),
-                'school_name' => trim($_POST['school_name']),
-                'school_type' => (int)$_POST['school_type'],
-                'school_province' => (int)$_POST['school_province'],
-                'school_city' => (int)$_POST['school_city'],
-                'school_area' => (int)$_POST['school_area'],
-                'school_level' => (int)$_POST['school_level'],
-                'age' => json_encode($_POST['age']),
-                'local' => json_encode($_POST['local']),
-                'hobby' => json_encode($_POST['hobby']),
+                'wx_code' => trim($_POST['wx_code']),
+                'wx_type' => (int)$_POST['wx_type'],
+                'wx_max_fans' => (int)$_POST['wx_max_fans'],
+                'weibo_nickname' => trim($_POST['weibo_nickname']),
+                'weibo_type' => (int)$_POST['weibo_type'],
+                'weibo_max_fans' => (int)$_POST['weibo_max_fans'],
+                'weibo_link' => trim($_POST['weibo_link']),
+                'status' => 1,  //进入后台审核列表
             );
 
-            $media_man_id = $this->session->userdata('media_man_id');
-            $re = $this->__get_media_man_model()->updateInfo($media_man_id,$data);
-
+            //通过session获取用户信息
+            $userInfo = $this->session->userdata('user_info');
+            $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
             if ($re) {
+//                $userInfo = array_merge($userInfo,$data);
+//                $this->session->set_userdata('user_info',$userInfo);
                 $this->_return['errorno'] = '1';
                 $this->_return['msg'] = '保存成功';
                 echo json_encode($this->_return);
                 exit;
             }
-
         }
     }
 
