@@ -141,7 +141,7 @@ class Sys_department extends Admin_Controller {
             return redirect("{$this->host}/admin/sys_department/home");
         }
 
-        $info = ['status' => 1];
+        $info = ['status' => Sys_department_model::DATA_STATUS_DELETED];
         $this->__get_sys_department_model()->update_sys_department($id, $info);
 
         return redirect("{$this->host}/admin/sys_department/home");
