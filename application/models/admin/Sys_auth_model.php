@@ -73,6 +73,12 @@ class Sys_auth_model extends MY_Model {
         return $query->result_array();
     }
 
+    // 查询所有的权限列表
+    public function select_all_auth_list() {
+        $query = $this->db->get_where($this->getTableName());
+        return $query->result_array();
+    }
+
     public function del($sys_auth_id) {
         return $this->delete(['id' => $sys_auth_id]);
     }
