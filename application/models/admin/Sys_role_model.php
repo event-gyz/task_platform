@@ -20,6 +20,8 @@ class Sys_role_model extends MY_Model {
 
         // 拼接查询条件
 
+        $sql .= sprintf(" AND sr.status = %d", self::DATA_STATUS_NORMAL);
+
         if (isset($where['role_name']) && $where['role_name']) {
             $sql .= sprintf(" AND sr.role_name = '%s'", $where['role_name']);
         }
