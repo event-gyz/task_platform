@@ -13,7 +13,7 @@ class Index extends CI_Controller {
             'url'
         ) );
         $this->load->library('session');
-
+        $this->load->helper('Wap');
         $this->checkUserLogin();
 
     }
@@ -132,7 +132,7 @@ class Index extends CI_Controller {
         }
     }
 
-    // 保存自媒体人基础信息
+    // 保存自媒体人账户信息
     public function savePromotedInfo() {
         if (empty($_POST)) {
             $this->load->view('media/promotedInfo');
@@ -181,6 +181,61 @@ class Index extends CI_Controller {
         print_r($result);
     }
 
+    // 任务大厅
+    public function getMissionHall(){
+        $page = (isset($_POST['page'])&&!empty($_POST['page'])) ? $_POST['page'] : 0;
+        $user_info = $this->session->userdata('user_info');
+        $media_man_id = $user_info['media_man_id'];
+        $result = $this->__get_task_map_model()->getMissionHall($media_man_id,$page);
+        unset($result['sql']);
+        foreach($result['list'] as &$value){
+            $a= $this->timediff(strtotime($value['allot_time']));
+            print_r($a);exit;
+        }
+        if(is_array($result['list']) && !empty($result['list'])){
+            $this->_return['errorno'] = 1;
+            $this->_return['msg'] = '成功';
+            $this->_return['data'] = $result;
+            echo json_encode($this->_return);exit;
+        }else{
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '没有有效数据';
+            echo json_encode($this->_return);exit;
+        }
+    }
+
+
+    /**
+     * 获取剩余时间
+     *
+     * @param int $begin_time
+     * @param int $end_time
+     * @return array
+     */
+    private function timediff($allot_time){
+        $result = Wap::timediff($allot_time+7200);
+        if($result < 0){
+            //任务已经超时，修改任务状态
+        }
+        return $result;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * @return Platform_media_man_model
      */
@@ -189,10 +244,13 @@ class Index extends CI_Controller {
         return $this->Platform_media_man_model;
     }
 
-
-
-
-
+    /**
+     * @return Platform_task_map_model
+     */
+    private function __get_task_map_model() {
+        $this->load->model('Platform_task_map_model');
+        return $this->Platform_task_map_model;
+    }
 
 
 

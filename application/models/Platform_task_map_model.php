@@ -82,5 +82,43 @@ class Platform_task_map_model extends MY_Model{
         return $this->db->insert_id();
     }
 
+    //未领取的有效的任务列表
+    public function getMissionHall($media_man_id,$page){
+        if(empty($media_man_id)){
+            return false;
+        }
+        $param = "pt.*,ptm.create_time as allot_time";
+        $sql = "SELECT [*] FROM `{$this->table}` AS ptm LEFT JOIN platform_task as pt ON ptm.task_id=pt.task_id where 1=1 ";
+
+        // 拼接查询条件
+
+        // 根据media_man_id
+        $sql .= sprintf(" AND ptm.media_man_user_id = %d", $media_man_id);
+
+        $sql .= sprintf(" AND ptm.receive_status = %d", 0);
+        $sql .= sprintf(" AND pt.release_status = %d", 1);
+
+        // 总数
+        $sqlCount = str_replace('[*]', 'count(ptm.task_map_id) AS c', $sql);
+        $total    = $this->getCount($sqlCount);
+
+        if ($total === '0') {
+            return ['total' => $total, 'list' => []];
+        }
+
+        $sql .= ' ORDER BY ptm.task_map_id DESC';
+
+        $offset = !empty($page) ? $page : 0;
+        $limit  = isset($where['limit']) ? $where['limit'] : 10;
+        $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
+
+        $_sql = str_replace('[*]', $param, $sql);
+
+        $_list = $this->getList($_sql);
+
+        $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
+        return $data;
+    }
+
 }
 

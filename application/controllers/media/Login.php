@@ -3,13 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller {
 
-    public $_salt = 'media';
+
     public $_model = 'plat_code';
     public function __construct(){
         parent::__construct ();
         $this->load->helper ( array (
             'form',
-            'url'
+            'url',
+            'Wap'
         ) );
         $this->load->library('session');
     }
@@ -36,8 +37,7 @@ class Login extends CI_Controller {
                 $this->_return['msg'] = '密码不能为空';
                 echo json_encode($this->_return);exit;
             }
-
-            $password = $this->generate_wap_user_password($_POST ['password']);
+            $password = Wap::generate_wap_user_password($_POST ['password']);
             $data = array (
                 'media_man_login_name' => trim($_POST['username']),
                 'media_man_password' => $password
@@ -79,6 +79,10 @@ class Login extends CI_Controller {
                     $this->_return['msg'] = '冻结';
                     //冻结原因
                     $this->_return['data'] = $userInfo['freezing_reason'];
+                    echo json_encode($this->_return);exit;
+                }else{
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '账户异常，请联系管理员';
                     echo json_encode($this->_return);exit;
                 }
 
@@ -133,7 +137,7 @@ class Login extends CI_Controller {
                 echo json_encode($this->_return);exit;
             }
 
-            $password = $this->generate_wap_user_password($_POST ['password']);
+            $password = Wap::generate_wap_user_password($_POST ['password']);
             $data = array (
                 'media_man_login_name' => trim($_POST['username']),
                 'media_man_password' => $password,
@@ -152,6 +156,38 @@ class Login extends CI_Controller {
         }
     }
 
+    //找回密码
+    public function updatePwd(){
+        $pwd = $_POST['password'];
+        $rel_pwd = $_POST['rel_password'];
+        if(empty($pwd) || empty($rel_pwd)){
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '密码不能为空';
+            echo json_encode($this->_return);exit;
+        }
+        if($pwd != $rel_pwd){
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '两次密码不一致，请修改后重试';
+            echo json_encode($this->_return);exit;
+        }
+        $user_info = $this->session->userdata('user_info');
+        if(empty($user_info['media_man_id'])){
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '数据异常';
+            echo json_encode($this->_return);exit;
+        }else{
+            $re = $this->__get_media_man_model()->updateInfo($user_info['media_man_id'],['media_man_password'=>Wap::generate_wap_user_password($pwd)]);
+            if($re){
+                //清除掉当前的登录信息
+                $this->session->unset_userdata('user_info');
+                $this->_return['errorno'] = '1';
+                $this->_return['msg'] = '修改成功';
+                echo json_encode($this->_return);exit;
+            }
+        }
+
+    }
+
     //退出登录
     public function logout(){
         $this->session->sess_destroy();
@@ -163,8 +199,6 @@ class Login extends CI_Controller {
      */
     public function sendCode()
     {
-//        $this->session->sess_destroy();
-//        $_POST['phone'] = 18841652810;
         // 判断传递参数是否为空
         if (!isset($_POST['phone']) || empty($_POST['phone'])) {
             $this->_return['errorno'] = '-1';
@@ -185,10 +219,8 @@ class Login extends CI_Controller {
 
         //todo 发送验证码
 //        $this->sendPhoneMsg($phone,$code ,1);
-//        $phone = 15710061246;
         $model = $this->_model . $phone;
         $userData = $this->session->userdata($model);
-//        echo '<pre>';print_r($userData);
         if(!empty($userData)){
             $times = $userData['times']+1;
         }else{
@@ -200,10 +232,7 @@ class Login extends CI_Controller {
 
     }
 
-    public function generate_wap_user_password($password) {
-        $toBeEncrypt = $this->_salt . md5($password);
-        return md5($toBeEncrypt);
-    }
+
 
 
     /**
