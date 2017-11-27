@@ -6,12 +6,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class ADMIN_Controller extends CI_Controller {
 
-    protected $_return = array('error_no' => 0, 'msg' => '', 'data' => array());
-    protected $host    = '';
+    protected $_return       = array('error_no' => 0, 'msg' => '', 'data' => array());
+    protected $host          = '';
+    protected $sys_user_info = [];
 
     public function __construct() {
         parent::__construct();
+        $this->__check_login();
         $this->__init();
+        $this->__check_auth();
+    }
+
+    // todo 检测用户是否登录
+    private function __check_login() {
+
     }
 
     private function __init() {
@@ -21,6 +29,24 @@ class ADMIN_Controller extends CI_Controller {
         $this->load->model('admin/Sys_auth_model');
         $this->load->library('session');
         $_SESSION['auth_list'] = $this->Sys_auth_model->select_level0_level1_auth_list();
+
+        $this->sys_user_info = $this->get_user_info();
+    }
+
+    // todo 检测用户是否具有操作权限
+    private function __check_auth() {
+
+    }
+
+    // todo 从登录的session中获取用户信息
+    protected function get_user_info() {
+        $sys_user_info = [
+            'id'        => 1,
+            'user_name' => 'admin',
+            'nick_name' => '超级管理员',
+            'mobile'    => '18600833853',
+        ];
+        return $sys_user_info;
     }
 
     protected function response($response = null) {

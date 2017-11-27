@@ -51,8 +51,8 @@ class Sys_role extends Admin_Controller {
 
         $config = array(
             array(
-                'field'  => 'dept_name',
-                'label'  => '部门名称',
+                'field'  => 'role_name',
+                'label'  => '角色名称',
                 'rules'  => 'required',
                 'errors' => array(
                     'required' => '请填写%s',
@@ -67,11 +67,10 @@ class Sys_role extends Admin_Controller {
 
         $req_data = $this->input->post();
 
-        $create_sys_user_id = 1;// todo 需要根据当前登录用户取其id
-
         $data = array(
-            'dept_name'          => $req_data['dept_name'],
-            'create_sys_user_id' => $create_sys_user_id,
+            'role_name'               => $req_data['role_name'],
+            'create_sys_user_id'      => $this->sys_user_info['id'],
+            'last_modify_sys_user_id' => $this->sys_user_info['id'],
         );
 
         $result = $this->__get_sys_role_model()->insert($data);
@@ -90,8 +89,8 @@ class Sys_role extends Admin_Controller {
 
         $config = array(
             array(
-                'field'  => 'dept_name',
-                'label'  => '部门名称',
+                'field'  => 'role_name',
+                'label'  => '角色名称',
                 'rules'  => 'required',
                 'errors' => array(
                     'required' => '请填写%s',
@@ -118,7 +117,10 @@ class Sys_role extends Admin_Controller {
 
         $req_data = $this->input->post();
 
-        $info   = ['dept_name' => $req_data['dept_name']];
+        $info   = [
+            'role_name'               => $req_data['role_name'],
+            'last_modify_sys_user_id' => $this->sys_user_info['id'],
+        ];
         $result = $this->__get_sys_role_model()->update_sys_role($id, $info);
 
         if ($result) {
@@ -142,7 +144,7 @@ class Sys_role extends Admin_Controller {
             return redirect("{$this->host}/admin/sys_role/home");
         }
 
-        $info = ['status' => 1];
+        $info = ['status' => Sys_role_model::DATA_STATUS_DELETED];
         $this->__get_sys_role_model()->update_sys_role($id, $info);
 
         return redirect("{$this->host}/admin/sys_role/home");

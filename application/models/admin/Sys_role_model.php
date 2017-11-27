@@ -7,6 +7,9 @@ class Sys_role_model extends MY_Model {
 
     public $table = 'sys_role';
 
+    const DATA_STATUS_NORMAL  = 0;
+    const DATA_STATUS_DELETED = 1;
+
     public function __construct() {
         parent::__construct();
     }
@@ -16,6 +19,8 @@ class Sys_role_model extends MY_Model {
         $sql = "SELECT [*] FROM `{$this->table}` AS sr WHERE 1 = 1 ";
 
         // 拼接查询条件
+
+        $sql .= sprintf(" AND sr.status = %d", self::DATA_STATUS_NORMAL);
 
         if (isset($where['role_name']) && $where['role_name']) {
             $sql .= sprintf(" AND sr.role_name = '%s'", $where['role_name']);

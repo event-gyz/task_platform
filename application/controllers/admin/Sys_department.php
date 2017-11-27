@@ -67,11 +67,10 @@ class Sys_department extends Admin_Controller {
 
         $req_data = $this->input->post();
 
-        $create_sys_user_id = 1;// todo 需要根据当前登录用户取其id
-
         $data = array(
             'dept_name'          => $req_data['dept_name'],
-            'create_sys_user_id' => $create_sys_user_id,
+            'create_sys_user_id' => $this->sys_user_info['id'],
+            'create_by_name'     => $this->sys_user_info['user_name'],
         );
 
         $result = $this->__get_sys_department_model()->insert($data);
