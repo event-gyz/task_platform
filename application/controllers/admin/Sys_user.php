@@ -62,55 +62,114 @@ class Sys_user extends Admin_Controller {
 
         $config = array(
             array(
-                'field'  => 'auth_name',
-                'label'  => '权限名称',
+                'field'  => 'user_name',
+                'label'  => '用户名称',
+                'rules'  => 'required|is_unique[sys_user.user_name]',
+                'errors' => array(
+                    'required'  => '请填写%s',
+                    'is_unique' => '用户名称已经存在了，换个名字再试试吧',
+                ),
+            ),
+            array(
+                'field'  => 'nick_name',
+                'label'  => '姓名',
                 'rules'  => 'required',
                 'errors' => array(
                     'required' => '请填写%s',
                 ),
             ),
             array(
-                'field'  => 'class',
-                'label'  => '类',
+                'field'  => 'mobile',
+                'label'  => '联系电话',
                 'rules'  => 'required',
                 'errors' => array(
                     'required' => '请填写%s',
                 ),
             ),
             array(
-                'field'  => 'action',
-                'label'  => '方法',
+                'field'  => 'pwd',
+                'label'  => '密码',
                 'rules'  => 'required',
                 'errors' => array(
                     'required' => '请填写%s',
+                ),
+            ),
+            array(
+                'field'  => 're_pwd',
+                'label'  => '确认密码',
+                'rules'  => 'required|matches[pwd]',
+                'errors' => array(
+                    'required' => '请填写%s',
+                    'matches'  => '两次密码必须一致',
+                ),
+            ),
+            array(
+                'field'  => 'role_id',
+                'label'  => '所属角色',
+                'rules'  => array(
+                    'required',
+                    array(
+                        'can_not_eq0',
+                        function ($val) {
+                            return $val !== "0";
+                        },
+                    ),
+                ),
+                'errors' => array(
+                    'required'    => '请选择%s',
+                    'can_not_eq0' => '请选择%s',
+                ),
+            ),
+            array(
+                'field'  => 'dept_id',
+                'label'  => '所属部门',
+                'rules'  => array(
+                    'required',
+                    array(
+                        'can_not_eq0',
+                        function ($val) {
+                            return $val !== "0";
+                        },
+                    ),
+                ),
+                'errors' => array(
+                    'required'    => '请选择%s',
+                    'can_not_eq0' => '请选择%s',
                 ),
             ),
         );
         $this->form_validation->set_rules($config);
 
-        $auth_list = $this->__get_sys_user_model()->select_level0_level1_auth_list();
+        $dept_list = $this->__get_sys_department_model()->select_all_dept_list();
+        $role_list = $this->__get_sys_role_model()->select_all_role_list();
 
         if ($this->form_validation->run() == FALSE) {
-            return $this->load->view('admin/auth/add', array('auth_list' => $auth_list));
+            return $this->load->view('admin/sys_user/add', ['dept_list' => $dept_list, 'role_list' => $role_list]);
         }
 
         $req_data = $this->input->post();
+        $pwd      = $req_data['pwd'];
+        $salt     = $this->__get_sys_user_model()->random_str(4);
 
         $data = array(
-            'pid'       => $req_data['pid'],
-            'auth_name' => $req_data['auth_name'],
-            'class'     => $req_data['class'],
-            'action'    => $req_data['action'],
-            'level'     => $this->__calc_level($req_data['pid']),
+            'user_name'               => $req_data['user_name'],
+            'nick_name'               => $req_data['nick_name'],
+            'mobile'                  => $req_data['mobile'],
+            'salt'                    => $salt,
+            'pwd'                     => $this->__get_sys_user_model()->generate_admin_password($pwd, $salt),
+            'role_id'                 => $req_data['role_id'],
+            'dept_id'                 => $req_data['dept_id'],
+            'create_sys_user_id'      => $this->sys_user_info['id'],
+            'last_modify_sys_user_id' => $this->sys_user_info['id'],
         );
 
         $result = $this->__get_sys_user_model()->insert($data);
 
         if ($result) {
-            return redirect("{$this->host}/admin/auth/home");
+            return redirect("{$this->host}/admin/sys_user/home");
         }
 
-        return $this->load->view('admin/auth/add', array('auth_list' => $auth_list));
+        return $this->load->view('admin/sys_user/add', ['dept_list' => $dept_list, 'role_list' => $role_list]);
     }
 
     public function update() {
@@ -120,80 +179,132 @@ class Sys_user extends Admin_Controller {
 
         $config = array(
             array(
-                'field'  => 'auth_name',
-                'label'  => '权限名称',
+                'field'  => 'user_name',
+                'label'  => '用户名称',
+                'rules'  => 'required|is_unique[sys_user.user_name]',
+                'errors' => array(
+                    'required'  => '请填写%s',
+                    'is_unique' => '用户名称已经存在了，换个名字再试试吧',
+                ),
+            ),
+            array(
+                'field'  => 'nick_name',
+                'label'  => '姓名',
                 'rules'  => 'required',
                 'errors' => array(
                     'required' => '请填写%s',
                 ),
             ),
             array(
-                'field'  => 'class',
-                'label'  => '类',
+                'field'  => 'mobile',
+                'label'  => '联系电话',
                 'rules'  => 'required',
                 'errors' => array(
                     'required' => '请填写%s',
                 ),
             ),
             array(
-                'field'  => 'action',
-                'label'  => '方法',
+                'field'  => 'pwd',
+                'label'  => '密码',
                 'rules'  => 'required',
                 'errors' => array(
                     'required' => '请填写%s',
+                ),
+            ),
+            array(
+                'field'  => 're_pwd',
+                'label'  => '确认密码',
+                'rules'  => 'required|matches[pwd]',
+                'errors' => array(
+                    'required' => '请填写%s',
+                    'matches'  => '两次密码必须一致',
+                ),
+            ),
+            array(
+                'field'  => 'role_id',
+                'label'  => '所属角色',
+                'rules'  => array(
+                    'required',
+                    array(
+                        'can_not_eq0',
+                        function ($val) {
+                            return $val !== "0";
+                        },
+                    ),
+                ),
+                'errors' => array(
+                    'required'    => '请选择%s',
+                    'can_not_eq0' => '请选择%s',
+                ),
+            ),
+            array(
+                'field'  => 'dept_id',
+                'label'  => '所属部门',
+                'rules'  => array(
+                    'required',
+                    array(
+                        'can_not_eq0',
+                        function ($val) {
+                            return $val !== "0";
+                        },
+                    ),
+                ),
+                'errors' => array(
+                    'required'    => '请选择%s',
+                    'can_not_eq0' => '请选择%s',
                 ),
             ),
         );
         $this->form_validation->set_rules($config);
 
-        $auth_list = $this->__get_sys_user_model()->select_level0_level1_auth_list();
+        $sys_user_list = $this->__get_sys_user_model()->select_level0_level1_sys_user_list();
 
-        $sys_auth_id = $this->input->get_post('id', true);
+        $sys_sys_user_id = $this->input->get_post('id', true);
 
-        if (empty($sys_auth_id)) {
-            return redirect("{$this->host}/admin/auth/home");
+        if (empty($sys_sys_user_id)) {
+            return redirect("{$this->host}/admin/sys_user/home");
         }
 
-        $auth_info = $this->__get_sys_user_model()->select_by_id($sys_auth_id);
+        $sys_user_info = $this->__get_sys_user_model()->select_by_id($sys_sys_user_id);
 
-        if (empty($auth_info)) {
-            return redirect("{$this->host}/admin/auth/home");
+        if (empty($sys_user_info)) {
+            return redirect("{$this->host}/admin/sys_user/home");
         }
 
         if ($this->form_validation->run() == FALSE) {
-            return $this->load->view('admin/auth/update', array('auth_list' => $auth_list, 'auth_info' => $auth_info));
+            return $this->load->view('admin/sys_user/update', array('sys_user_list' => $sys_user_list, 'sys_user_info' => $sys_user_info));
         }
 
         $req_data = $this->input->post();
 
         $info = array(
-            'pid'       => $req_data['pid'],
-            'auth_name' => $req_data['auth_name'],
-            'class'     => $req_data['class'],
-            'action'    => $req_data['action'],
-            'level'     => $this->__calc_level($req_data['pid']),
+            'pid'           => $req_data['pid'],
+            'sys_user_name' => $req_data['sys_user_name'],
+            'class'         => $req_data['class'],
+            'action'        => $req_data['action'],
+            'level'         => $this->__calc_level($req_data['pid']),
         );
 
-        $result = $this->__get_sys_user_model()->update_sys_auth($sys_auth_id, $info);
+        $result = $this->__get_sys_user_model()->update_sys_sys_user($sys_sys_user_id, $info);
 
         if ($result) {
-            return redirect("{$this->host}/admin/auth/home");
+            return redirect("{$this->host}/admin/sys_user/home");
         }
 
-        return $this->load->view('admin/auth/update', array('auth_list' => $auth_list, 'auth_info' => $auth_info));
+        return $this->load->view('admin/sys_user/update', array('sys_user_list' => $sys_user_list, 'sys_user_info' => $sys_user_info));
     }
 
     public function del() {
 
-        $sys_auth_id = $this->input->get('id', true);
+        $sys_sys_user_id = $this->input->get('id', true);
 
-        if (empty($sys_auth_id)) {
-            return redirect("{$this->host}/admin/auth/home");
+        if (empty($sys_sys_user_id)) {
+            return redirect("{$this->host}/admin/sys_user/home");
         }
 
-        $this->__get_sys_user_model()->del($sys_auth_id);
+        $this->__get_sys_user_model()->del($sys_sys_user_id);
 
-        return redirect("{$this->host}/admin/auth/home");
+        return redirect("{$this->host}/admin/sys_user/home");
     }
 
     /**
@@ -202,6 +313,22 @@ class Sys_user extends Admin_Controller {
     private function __get_sys_user_model() {
         $this->load->model('admin/Sys_user_model');
         return $this->Sys_user_model;
+    }
+
+    /**
+     * @return Sys_department_model
+     */
+    private function __get_sys_department_model() {
+        $this->load->model('admin/Sys_department_model');
+        return $this->Sys_department_model;
+    }
+
+    /**
+     * @return Sys_role_model
+     */
+    private function __get_sys_role_model() {
+        $this->load->model('admin/Sys_role_model');
+        return $this->Sys_role_model;
     }
 
 }

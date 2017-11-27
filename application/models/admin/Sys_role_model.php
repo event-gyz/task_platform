@@ -105,6 +105,12 @@ class Sys_role_model extends MY_Model {
         return $query->row_array();
     }
 
+    // 查询所有的角色列表
+    public function select_all_role_list() {
+        $query = $this->db->get_where($this->getTableName(), "status = " . self::DATA_STATUS_NORMAL);
+        return $query->result_array();
+    }
+
     public function insert($data) {
         $data['create_time'] = date("Y-m-d H:i:s", time());
         $this->db->insert($this->table, $data);
