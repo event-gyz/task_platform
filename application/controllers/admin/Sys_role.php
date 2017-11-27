@@ -67,13 +67,10 @@ class Sys_role extends Admin_Controller {
 
         $req_data = $this->input->post();
 
-        $create_sys_user_id      = 1;// todo 需要根据当前登录用户取其id
-        $last_modify_sys_user_id = 1;// todo 需要根据当前登录用户取其id
-
         $data = array(
             'role_name'               => $req_data['role_name'],
-            'create_sys_user_id'      => $create_sys_user_id,
-            'last_modify_sys_user_id' => $last_modify_sys_user_id,
+            'create_sys_user_id'      => $this->sys_user_info['id'],
+            'last_modify_sys_user_id' => $this->sys_user_info['id'],
         );
 
         $result = $this->__get_sys_role_model()->insert($data);
@@ -120,11 +117,9 @@ class Sys_role extends Admin_Controller {
 
         $req_data = $this->input->post();
 
-        $last_modify_sys_user_id = 1;// todo 需要根据当前登录用户取其id
-
         $info   = [
             'role_name'               => $req_data['role_name'],
-            'last_modify_sys_user_id' => $last_modify_sys_user_id,
+            'last_modify_sys_user_id' => $this->sys_user_info['id'],
         ];
         $result = $this->__get_sys_role_model()->update_sys_role($id, $info);
 
