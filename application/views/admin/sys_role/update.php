@@ -105,11 +105,10 @@
             };
         },
         created: function () {
-            // todo 初始化已经选中的权限
 
-            // this.defaultExpandedKeys = this.ruleForm.authIds;
-            // this.defaultCheckedKeys  = this.ruleForm.authIds;
-            // this.$refs.tree.setCheckedKeys(this.defaultCheckedKeys);
+            // 初始化已经选中的权限
+            this.defaultExpandedKeys = "<?= $info['auth_ids']?>".split(',');
+            this.defaultCheckedKeys  = "<?= $info['auth_ids']?>".split(',');
 
         },
         methods: {
