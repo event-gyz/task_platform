@@ -26,11 +26,7 @@
                     <!-- Horizontal Form -->
                     <div class="box box-info">
 
-                        <div class="box-header with-border">
-                            <div class="bg-danger"><?php echo validation_errors(); ?></div>
-                        </div>
-
-                        <!-- form start -->
+                            <!-- form start -->
                         <form class="form-horizontal" action="/admin/auth/add" method="post">
                             <div class="box-body">
 
@@ -49,6 +45,7 @@
                                             <?php endforeach; ?>
 
                                         </select>
+                                        <span class="help-block"><?php echo form_error('pid'); ?></span>
                                     </div>
                                 </div>
 
@@ -59,6 +56,7 @@
                                                placeholder="输入权限名称"
                                                value="<?= set_value('auth_name') ?>"
                                         >
+                                        <span class="help-block"><?php echo form_error('auth_name'); ?></span>
                                     </div>
                                 </div>
 
@@ -69,6 +67,7 @@
                                                placeholder="输入权限控制的类名称,注意大小写"
                                                value="<?= set_value('class') ?>"
                                         >
+                                        <span class="help-block"><?php echo form_error('class'); ?></span>
                                     </div>
                                 </div>
 
@@ -79,6 +78,7 @@
                                                placeholder="输入权限控制的方法名称,注意大小写"
                                                value="<?= set_value('action') ?>"
                                         >
+                                        <span class="help-block"><?php echo form_error('action'); ?></span>
                                     </div>
                                 </div>
 

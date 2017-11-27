@@ -25,10 +25,6 @@
                     <!-- Horizontal Form -->
                     <div class="box box-info">
 
-                        <div class="box-header with-border">
-                            <div class="bg-danger"><?php echo validation_errors(); ?></div>
-                        </div>
-
                         <!-- form start -->
                         <form class="form-horizontal" action="/admin/sys_department/update" method="post">
                             <div class="box-body">
@@ -40,6 +36,7 @@
                                                placeholder="输入部门名称"
                                                value="<?= $info['dept_name'] ?>"
                                         >
+                                        <span class="help-block"><?php echo form_error('dept_name'); ?></span>
                                     </div>
                                 </div>
 
