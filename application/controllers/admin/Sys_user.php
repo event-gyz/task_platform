@@ -179,15 +179,6 @@ class Sys_user extends Admin_Controller {
 
         $config = array(
             array(
-                'field'  => 'user_name',
-                'label'  => '用户名称',
-                'rules'  => 'required|is_unique[sys_user.user_name]',
-                'errors' => array(
-                    'required'  => '请填写%s',
-                    'is_unique' => '用户名称已经存在了，换个名字再试试吧',
-                ),
-            ),
-            array(
                 'field'  => 'nick_name',
                 'label'  => '姓名',
                 'rules'  => 'required',
@@ -201,23 +192,6 @@ class Sys_user extends Admin_Controller {
                 'rules'  => 'required',
                 'errors' => array(
                     'required' => '请填写%s',
-                ),
-            ),
-            array(
-                'field'  => 'pwd',
-                'label'  => '密码',
-                'rules'  => 'required',
-                'errors' => array(
-                    'required' => '请填写%s',
-                ),
-            ),
-            array(
-                'field'  => 're_pwd',
-                'label'  => '确认密码',
-                'rules'  => 'required|matches[pwd]',
-                'errors' => array(
-                    'required' => '请填写%s',
-                    'matches'  => '两次密码必须一致',
                 ),
             ),
             array(
@@ -257,41 +231,42 @@ class Sys_user extends Admin_Controller {
         );
         $this->form_validation->set_rules($config);
 
-        $sys_user_list = $this->__get_sys_user_model()->select_level0_level1_sys_user_list();
+        $sys_user_id = $this->input->get_post('id', true);
 
-        $sys_sys_user_id = $this->input->get_post('id', true);
-
-        if (empty($sys_sys_user_id)) {
+        if (empty($sys_user_id)) {
             return redirect("{$this->host}/admin/sys_user/home");
         }
 
-        $sys_user_info = $this->__get_sys_user_model()->select_by_id($sys_sys_user_id);
+        $sys_user_info = $this->__get_sys_user_model()->select_by_id($sys_user_id);
 
         if (empty($sys_user_info)) {
             return redirect("{$this->host}/admin/sys_user/home");
         }
 
+        $dept_list = $this->__get_sys_department_model()->select_all_dept_list();
+        $role_list = $this->__get_sys_role_model()->select_all_role_list();
+
         if ($this->form_validation->run() == FALSE) {
-            return $this->load->view('admin/sys_user/update', array('sys_user_list' => $sys_user_list, 'sys_user_info' => $sys_user_info));
+            return $this->load->view('admin/sys_user/update', ['dept_list' => $dept_list, 'role_list' => $role_list, 'info' => $sys_user_info]);
         }
 
         $req_data = $this->input->post();
 
         $info = array(
-            'pid'           => $req_data['pid'],
-            'sys_user_name' => $req_data['sys_user_name'],
-            'class'         => $req_data['class'],
-            'action'        => $req_data['action'],
-            'level'         => $this->__calc_level($req_data['pid']),
+            'nick_name'               => $req_data['nick_name'],
+            'mobile'                  => $req_data['mobile'],
+            'role_id'                 => $req_data['role_id'],
+            'dept_id'                 => $req_data['dept_id'],
+            'last_modify_sys_user_id' => $this->sys_user_info['id'],
         );
 
-        $result = $this->__get_sys_user_model()->update_sys_sys_user($sys_sys_user_id, $info);
+        $result = $this->__get_sys_user_model()->update_sys_user($sys_user_id, $info);
 
         if ($result) {
             return redirect("{$this->host}/admin/sys_user/home");
         }
 
-        return $this->load->view('admin/sys_user/update', array('sys_user_list' => $sys_user_list, 'sys_user_info' => $sys_user_info));
+        return $this->load->view('admin/sys_user/update', ['dept_list' => $dept_list, 'role_list' => $role_list, 'info' => $sys_user_info]);
     }
 
     public function del() {
