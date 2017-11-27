@@ -271,13 +271,20 @@ class Sys_user extends Admin_Controller {
 
     public function del() {
 
-        $sys_sys_user_id = $this->input->get('id', true);
+        $id = $this->input->get('id', true);
 
-        if (empty($sys_sys_user_id)) {
+        if (empty($id)) {
             return redirect("{$this->host}/admin/sys_user/home");
         }
 
-        $this->__get_sys_user_model()->del($sys_sys_user_id);
+        $info = $this->__get_sys_user_model()->select_by_id($id);
+
+        if (empty($info)) {
+            return redirect("{$this->host}/admin/sys_user/home");
+        }
+
+        $info = ['status' => Sys_user_model::DATA_STATUS_DELETED];
+        $this->__get_sys_user_model()->update_sys_user($id, $info);
 
         return redirect("{$this->host}/admin/sys_user/home");
     }
