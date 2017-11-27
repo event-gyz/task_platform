@@ -6,7 +6,7 @@
 <link href="https://cdn.bootcss.com/element-ui/2.0.5/theme-chalk/index.css" rel="stylesheet">
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div class="content-wrapper" id="app">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -28,7 +28,7 @@
                     <div class="box box-info">
 
                         <!-- form start -->
-                        <form class="form-horizontal" action="/admin/sys_role/update" method="post">
+                        <form id="updateRole" class="form-horizontal" action="/admin/sys_role/update" method="post">
                             <div class="box-body">
 
                                 <div class="form-group">
@@ -44,16 +44,16 @@
 
                                 <div class="form-group">
                                     <label for="auth_ids" class="col-sm-2 control-label">选择权限</label>
-                                    <div class="col-sm-10" id="app">
+                                    <div class="col-sm-10">
                                         <el-tree
                                                 :data="treeData"
                                                 show-checkbox
                                                 node-key="id"
                                                 empty-text="暂无权限菜单可选择"
-                                                :default-expanded-keys="[2, 3]"
-                                                :default-checked-keys="[5]"
-                                                :props="defaultProps"
-                                        >
+                                                :default-expanded-keys="defaultExpandedKeys"
+                                                :default-checked-keys="defaultCheckedKeys"
+                                                ref="tree"
+                                                :props="defaultProps">
                                         </el-tree>
                                     </div>
                                 </div>
@@ -62,8 +62,11 @@
                             <!-- /.box-body -->
                             <div class="box-footer ">
                                 <input type="hidden" name="id" value="<?= $info['id'] ?>"/>
+                                <input type="hidden" name="auth_ids"/>
                                 <a class="btn btn-default" href="/admin/sys_role/home">取消</a>
-                                <button type="submit" class="btn btn-info pull-right">提交</button>
+                                <button @click.prevent.self="updateRole" type="button" class="btn btn-info pull-right">
+                                    提交
+                                </button>
                             </div>
                             <!-- /.box-footer -->
                         </form>
@@ -90,15 +93,33 @@
 <script>
 
     var Main = {
-        data: function () {
+        data   : function () {
             return {
-                treeData    : <?= $auth_list_json ?>,
-                defaultProps: {
+                treeData           : <?= $auth_list_json ?>,
+                defaultProps       : {
                     children: 'children',
                     label   : 'label'
-                }
+                },
+                defaultExpandedKeys: [],// 树形菜单默认展开
+                defaultCheckedKeys : []
             };
+        },
+        created: function () {
+            // todo 初始化已经选中的权限
+
+            // this.defaultExpandedKeys = this.ruleForm.authIds;
+            // this.defaultCheckedKeys  = this.ruleForm.authIds;
+            // this.$refs.tree.setCheckedKeys(this.defaultCheckedKeys);
+
+        },
+        methods: {
+            updateRole: function () {
+                var checkedKeys = this.$refs.tree.getCheckedKeys();
+                $('input[name="auth_ids"]').val(checkedKeys.join(','));
+                $("#updateRole").submit();
+            }
         }
+
     };
 
     var Ctor = Vue.extend(Main);

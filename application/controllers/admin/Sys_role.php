@@ -122,6 +122,7 @@ class Sys_role extends Admin_Controller {
 
         $info   = [
             'role_name'               => $req_data['role_name'],
+            'auth_ids'                => $req_data['auth_ids'],
             'last_modify_sys_user_id' => $this->sys_user_info['id'],
         ];
         $result = $this->__get_sys_role_model()->update_sys_role($id, $info);
