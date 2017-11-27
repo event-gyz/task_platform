@@ -13,14 +13,14 @@ class Auth extends Admin_Controller {
 
         $form_data = $this->__build_where4_list();
 
-        $auth_arr = $this->__get_sys_auth_model()->get_sys_auth_list_by_condition($form_data['where']);
+        $data = $this->__get_sys_auth_model()->get_sys_auth_list_by_condition($form_data['where']);
 
-        $page_link = $this->get_page_link($auth_arr['total'], $form_data['where']['limit']);
+        $page_link = $this->get_page_link($data['total'], $form_data['where']['limit']);
 
         return $this->load->view('admin/auth/index',
             [
                 'form_data' => $form_data,
-                'list'      => $auth_arr['list'],
+                'list'      => $data['list'],
                 'page_link' => $page_link,
             ]
         );
@@ -148,14 +148,14 @@ class Auth extends Admin_Controller {
             return redirect("{$this->host}/admin/auth/home");
         }
 
-        $auth_info = $this->__get_sys_auth_model()->select_by_id($sys_auth_id);
+        $info = $this->__get_sys_auth_model()->select_by_id($sys_auth_id);
 
-        if (empty($auth_info)) {
+        if (empty($info)) {
             return redirect("{$this->host}/admin/auth/home");
         }
 
         if ($this->form_validation->run() == FALSE) {
-            return $this->load->view('admin/auth/update', array('auth_list' => $auth_list, 'auth_info' => $auth_info));
+            return $this->load->view('admin/auth/update', array('auth_list' => $auth_list, 'info' => $info));
         }
 
         $req_data = $this->input->post();
@@ -174,7 +174,7 @@ class Auth extends Admin_Controller {
             return redirect("{$this->host}/admin/auth/home");
         }
 
-        return $this->load->view('admin/auth/update', array('auth_list' => $auth_list, 'auth_info' => $auth_info));
+        return $this->load->view('admin/auth/update', array('auth_list' => $auth_list, 'info' => $info));
     }
 
     public function del() {

@@ -13,38 +13,44 @@ class Sys_user extends Admin_Controller {
 
         $form_data = $this->__build_where4_list();
 
-        $user_arr = $this->__get_sys_user_model()->get_sys_user_list_by_condition($form_data['where']);
+        $data = $this->__get_sys_user_model()->get_sys_user_list_by_condition($form_data['where']);
 
-        $page_link = $this->get_page_link($user_arr['total'], $form_data['where']['limit']);
+        $page_link = $this->get_page_link($data['total'], $form_data['where']['limit']);
 
         return $this->load->view('admin/sys_user/index',
             [
                 'form_data' => $form_data,
-                'list'      => $user_arr['list'],
+                'list'      => $data['list'],
                 'page_link' => $page_link,
             ]
         );
     }
 
     private function __build_where4_list() {
-        $auth_name = $this->input->get('auth_name', true);
-        $level     = $this->input->get('level', true);
+        $user_name = $this->input->get('user_name', true);
+        $dept_id   = $this->input->get('dept_id', true);
+        $mobile    = $this->input->get('mobile', true);
 
         $where = [];
-        if (!empty($auth_name)) {
-            $where['auth_name'] = $auth_name;
+        if (!empty($user_name)) {
+            $where['user_name'] = $user_name;
         }
 
-        if (is_numeric($level)) {
-            $where['level'] = $level;
+        if (!empty($dept_id)) {
+            $where['dept_id'] = $dept_id;
+        }
+
+        if (!empty($mobile)) {
+            $where['mobile'] = $mobile;
         }
 
         $page_arr = $this->get_list_limit_and_offset_params();
         $where    = array_merge($page_arr, $where);
 
         return [
-            'auth_name' => $auth_name,
-            'level'     => $level,
+            'user_name' => $user_name,
+            'dept_id'   => $dept_id,
+            'mobile'    => $mobile,
             'where'     => $where,
         ];
     }
@@ -188,21 +194,6 @@ class Sys_user extends Admin_Controller {
         $this->__get_sys_user_model()->del($sys_auth_id);
 
         return redirect("{$this->host}/admin/auth/home");
-    }
-
-    // 根据用户选择的pid来计算即将入库的菜单等级
-    private function __calc_level($pid) {
-
-        // pid为0的为一级菜单即level = 0
-
-        if ($pid == 0) {
-            return 0;
-        }
-
-        // pid为其他值的需要查询其权限详情然后获取其level在此基础上+1
-        $auth_info = $this->__get_sys_user_model()->select_by_id($pid);
-
-        return empty($auth_info) ? 0 : ($auth_info['level'] + 1);
     }
 
     /**

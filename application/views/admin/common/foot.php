@@ -19,4 +19,19 @@
     <!-- AdminLTE App -->
     <script src="/assets/AdminLTE/js/adminlte.min.js"></script>
 
+    <script>
+
+        // 让他爹也亮起来
+        $('.treeview-menu .active').parent().parent().addClass('active');
+
+        // 如果文本框有错误信息则将其父div设置错误样式
+        $('.help-block').each(function (index, value) {
+            var has_error = $(value).html();
+            if (has_error !== "") {
+                $(value).parent().parent().addClass('has-error');
+            }
+        });
+
+    </script>
+
 </body>

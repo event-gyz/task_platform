@@ -26,10 +26,6 @@
                     <!-- Horizontal Form -->
                     <div class="box box-info">
 
-                        <div class="box-header with-border">
-                            <div class="bg-danger"><?php echo validation_errors(); ?></div>
-                        </div>
-
                         <!-- form start -->
                         <form class="form-horizontal" action="/admin/auth/update" method="post">
                             <div class="box-body">
@@ -42,7 +38,7 @@
 
                                             <?php foreach ($auth_list as $value): ?>
                                                 <option value="<?= $value['id'] ?>"
-                                                    <?= $value['id'] === $auth_info['pid'] ? 'selected' : ''; ?>
+                                                    <?= $value['id'] === $info['pid'] ? 'selected' : ''; ?>
                                                 >
                                                     <?= $value['auth_name'] ?>
                                                     <?= $value['level'] === '0' ? '-1级菜单' : ''; ?>
@@ -51,6 +47,7 @@
                                             <?php endforeach; ?>
 
                                         </select>
+                                        <span class="help-block"><?php echo form_error('pid'); ?></span>
                                     </div>
                                 </div>
 
@@ -59,8 +56,9 @@
                                     <div class="col-sm-10">
                                         <input type="text" name="auth_name" class="form-control" id="auth_name"
                                                placeholder="输入权限名称"
-                                               value="<?= $auth_info['auth_name'] ?>"
+                                               value="<?= $info['auth_name'] ?>"
                                         >
+                                        <span class="help-block"><?php echo form_error('auth_name'); ?></span>
                                     </div>
                                 </div>
 
@@ -69,8 +67,9 @@
                                     <div class="col-sm-10">
                                         <input type="text" name="class" class="form-control" id="class"
                                                placeholder="输入权限控制的类名称,注意大小写"
-                                               value="<?= $auth_info['class'] ?>"
+                                               value="<?= $info['class'] ?>"
                                         >
+                                        <span class="help-block"><?php echo form_error('class'); ?></span>
                                     </div>
                                 </div>
 
@@ -79,15 +78,16 @@
                                     <div class="col-sm-10">
                                         <input type="text" name="action" class="form-control" id="action"
                                                placeholder="输入权限控制的方法名称,注意大小写"
-                                               value="<?= $auth_info['action'] ?>"
+                                               value="<?= $info['action'] ?>"
                                         >
+                                        <span class="help-block"><?php echo form_error('action'); ?></span>
                                     </div>
                                 </div>
 
                             </div>
                             <!-- /.box-body -->
                             <div class="box-footer ">
-                                <input type="hidden" name="id" value="<?= $auth_info['id'] ?>"/>
+                                <input type="hidden" name="id" value="<?= $info['id'] ?>"/>
                                 <a class="btn btn-default" href="/admin/auth/home">取消</a>
                                 <button type="submit" class="btn btn-info pull-right">提交</button>
                             </div>

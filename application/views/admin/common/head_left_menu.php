@@ -1,3 +1,23 @@
+<?php
+
+$s_auth_list = $_SESSION['auth_list'];
+
+/**
+ * 获取当前菜单是否需要激活
+ *
+ * @param $cur_path 当前需要比较的子路径
+ *
+ * @return string
+ */
+function get_active_str($cur_path) {
+    $request_url = strtolower($_SERVER['REQUEST_URI']);
+    $cur_path    = strtolower($cur_path);
+    $pos         = strpos($request_url, $cur_path);
+    return ($pos === false) ? '' : 'active';
+}
+
+?>
+
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
 
@@ -28,7 +48,6 @@
                 </ul>
             </li>
 
-            <?php $s_auth_list = $_SESSION['auth_list']; ?>
             <?php foreach ($s_auth_list as $value0): ?>
                 <li class="treeview">
 
@@ -44,7 +63,9 @@
                     <ul class="treeview-menu">
                         <?php foreach ($s_auth_list as $value1): ?>
                             <?php if ($value1['level'] === '1' && $value1['pid'] === $value0['id']): ?>
-                                <li>
+                                <li
+                                        class="<?= get_active_str("/{$value1['class']}/{$value1['action']}") ?>"
+                                >
                                     <a href="/admin/<?= $value1['class'] ?>/<?= $value1['action'] ?>">
                                         <?= $value1['auth_name'] ?>
                                     </a>
