@@ -26,7 +26,7 @@
                     <!-- Horizontal Form -->
                     <div class="box box-info">
 
-                            <!-- form start -->
+                        <!-- form start -->
                         <form class="form-horizontal" action="/admin/auth/add" method="post">
                             <div class="box-body">
 
@@ -37,7 +37,10 @@
                                             <option value="0">根节点-即创建为一级菜单</option>
 
                                             <?php foreach ($auth_list as $value): ?>
-                                                <option value="<?= $value['id'] ?>">
+                                                <option value="<?= $value['id'] ?>"
+                                                    <?= $value['id'] === set_value('pid') ? 'selected' : ''; ?>
+
+                                                >
                                                     <?= $value['auth_name'] ?>
                                                     <?= $value['level'] === '0' ? '-1级菜单' : ''; ?>
                                                     <?= $value['level'] === '1' ? '-2级菜单' : ''; ?>

@@ -92,7 +92,9 @@
                                             <option value="0">选择角色</option>
 
                                             <?php foreach ($role_list as $value): ?>
-                                                <option value="<?= $value['id'] ?>">
+                                                <option value="<?= $value['id'] ?>"
+                                                    <?= $value['id'] === set_value('role_id') ? 'selected' : ''; ?>
+                                                >
                                                     <?= $value['role_name'] ?>
                                                 </option>
                                             <?php endforeach; ?>
@@ -109,7 +111,10 @@
                                             <option value="0">选择部门</option>
 
                                             <?php foreach ($dept_list as $value): ?>
-                                                <option value="<?= $value['id'] ?>">
+                                                <option value="<?= $value['id'] ?>"
+                                                    <?= $value['id'] === set_value('dept_id') ? 'selected' : ''; ?>
+
+                                                >
                                                     <?= $value['dept_name'] ?>
                                                 </option>
                                             <?php endforeach; ?>
