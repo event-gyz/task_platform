@@ -7,6 +7,9 @@ class Sys_role_model extends MY_Model {
 
     public $table = 'sys_role';
 
+    const DATA_STATUS_NORMAL  = 0;
+    const DATA_STATUS_DELETED = 1;
+
     public function __construct() {
         parent::__construct();
     }

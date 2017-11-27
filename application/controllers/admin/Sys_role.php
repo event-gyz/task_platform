@@ -149,7 +149,7 @@ class Sys_role extends Admin_Controller {
             return redirect("{$this->host}/admin/sys_role/home");
         }
 
-        $info = ['status' => 1];
+        $info = ['status' => Sys_role_model::DATA_STATUS_DELETED];
         $this->__get_sys_role_model()->update_sys_role($id, $info);
 
         return redirect("{$this->host}/admin/sys_role/home");
