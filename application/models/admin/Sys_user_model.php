@@ -7,6 +7,12 @@ class Sys_user_model extends MY_Model {
 
     public $table = 'sys_user';
 
+    const DATA_STATUS_NORMAL  = 0;
+    const DATA_STATUS_DELETED = 1;
+
+    const USER_STATUS_DISABLED = 0;
+    const USER_STATUS_ACTIVE   = 1;
+
     public function __construct() {
         parent::__construct();
     }
@@ -16,6 +22,8 @@ class Sys_user_model extends MY_Model {
         $sql = "SELECT [*] FROM `{$this->table}` AS su WHERE 1 = 1 ";
 
         // 拼接查询条件
+
+        $sql .= sprintf(" AND su.status = %d", self::DATA_STATUS_NORMAL);
 
         if (isset($where['user_name']) && $where['user_name']) {
             $sql .= sprintf(" AND su.user_name = '%s'", $where['user_name']);

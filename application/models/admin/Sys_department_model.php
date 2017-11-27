@@ -7,6 +7,9 @@ class Sys_department_model extends MY_Model {
 
     public $table = 'sys_department';
 
+    const DATA_STATUS_NORMAL  = 0;
+    const DATA_STATUS_DELETED = 1;
+
     public function __construct() {
         parent::__construct();
     }
@@ -16,6 +19,8 @@ class Sys_department_model extends MY_Model {
         $sql = "SELECT [*] FROM `{$this->table}` AS sd WHERE 1 = 1 ";
 
         // 拼接查询条件
+
+        $sql .= sprintf(" AND sd.status = %d", self::DATA_STATUS_NORMAL);
 
         if (isset($where['dept_name']) && $where['dept_name']) {
             $sql .= sprintf(" AND sd.dept_name = '%s'", $where['dept_name']);
