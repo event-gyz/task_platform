@@ -3,6 +3,8 @@
 
 <?php include VIEWPATH . '/admin/common/head.php'; ?>
 
+<link href="https://cdn.bootcss.com/element-ui/2.0.5/theme-chalk/index.css" rel="stylesheet">
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -40,6 +42,22 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="auth_ids" class="col-sm-2 control-label">选择权限</label>
+                                    <div class="col-sm-10" id="app">
+                                        <el-tree
+                                                :data="treeData"
+                                                show-checkbox
+                                                node-key="id"
+                                                empty-text="暂无权限菜单可选择"
+                                                :default-expanded-keys="[2, 3]"
+                                                :default-checked-keys="[5]"
+                                                :props="defaultProps"
+                                        >
+                                        </el-tree>
+                                    </div>
+                                </div>
+
                             </div>
                             <!-- /.box-body -->
                             <div class="box-footer ">
@@ -65,5 +83,27 @@
 <!-- /.content-wrapper -->
 
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
+
+<script src="https://cdn.bootcss.com/vue/2.5.8/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/element-ui/2.0.5/index.js"></script>
+
+<script>
+
+    var Main = {
+        data: function () {
+            return {
+                treeData    : <?= $auth_list_json ?>,
+                defaultProps: {
+                    children: 'children',
+                    label   : 'label'
+                }
+            };
+        }
+    };
+
+    var Ctor = Vue.extend(Main);
+    new Ctor().$mount('#app');
+
+</script>
 
 </html>

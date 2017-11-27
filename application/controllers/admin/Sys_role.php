@@ -111,8 +111,11 @@ class Sys_role extends Admin_Controller {
             return redirect("{$this->host}/admin/sys_role/home");
         }
 
+        $_auth_list = $this->__get_sys_auth_model()->select_all_auth_list();
+        $auth_list  = $this->__deal_auth_list($_auth_list);
+
         if ($this->form_validation->run() == FALSE) {
-            return $this->load->view('admin/sys_role/update', array('info' => $info));
+            return $this->load->view('admin/sys_role/update', array('info' => $info, 'auth_list_json' => json_encode($auth_list)));
         }
 
         $req_data = $this->input->post();
@@ -127,7 +130,54 @@ class Sys_role extends Admin_Controller {
             return redirect("{$this->host}/admin/sys_role/home");
         }
 
-        return $this->load->view('admin/sys_role/update', array('info' => $info));
+        return $this->load->view('admin/sys_role/update', array('info' => $info, 'auth_list_json' => $auth_list));
+    }
+
+    // 处理权限列表返回前端页面需要的tree结构
+    private function __deal_auth_list($auth_list) {
+        $result = [];
+
+        $key0 = 0;
+        foreach ($auth_list as $level0) {
+
+            if ($level0['level'] === '0') {
+
+                $result[$key0]['id']       = $level0['id'];
+                $result[$key0]['label']    = $level0['auth_name'];
+                $result[$key0]['children'] = [];
+
+                $key1 = 0;
+                foreach ($auth_list as $level1) {
+
+                    if (($level1['level'] === '1') && $level1['pid'] === $level0['id']) {
+
+                        $result[$key0]['children'][$key1]['id']       = $level1['id'];
+                        $result[$key0]['children'][$key1]['label']    = $level1['auth_name'];
+                        $result[$key0]['children'][$key1]['children'] = [];
+
+                        $key2 = 0;
+                        foreach ($auth_list as $level2) {
+
+                            if (($level2['level'] === '2') && $level2['pid'] === $level1['id']) {
+                                $result[$key0]['children'][$key1]['children'][$key2]['id']       = $level2['id'];
+                                $result[$key0]['children'][$key1]['children'][$key2]['label']    = $level2['auth_name'];
+                                $result[$key0]['children'][$key1]['children'][$key2]['children'] = [];
+                                $key2++;
+                            }
+
+                        }
+
+                        $key1++;
+                    }
+
+                }
+
+                $key0++;
+            }
+
+        }
+
+        return $result;
     }
 
     public function del() {
@@ -156,6 +206,14 @@ class Sys_role extends Admin_Controller {
     private function __get_sys_role_model() {
         $this->load->model('admin/Sys_role_model');
         return $this->Sys_role_model;
+    }
+
+    /**
+     * @return Sys_auth_model
+     */
+    private function __get_sys_auth_model() {
+        $this->load->model('admin/Sys_auth_model');
+        return $this->Sys_auth_model;
     }
 
 }
