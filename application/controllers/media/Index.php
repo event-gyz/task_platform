@@ -56,6 +56,8 @@ class Index extends CI_Controller {
 //                //冻结原因
 //                $this->_return['data'] = $userInfo['freezing_reason'];
 //                echo json_encode($this->_return);exit;
+            }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
+                    return true;
             }
         }
     }

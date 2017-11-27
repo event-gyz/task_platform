@@ -142,14 +142,15 @@ class Login extends CI_Controller {
             $re = $this->__get_media_man_model()->insert ($data );
             if($re){
                 $data['media_man_id'] = $re;
-                $this->session->set_userdata($data);
+                $this->session->set_userdata('user_info',$data);
                 $this->_return['errorno'] = 1;
                 $this->_return['msg'] = '注册成功';
+                //删除注册时用到的session
+                $this->session->unset_userdata($this->_model.$_POST ['phone']);
                 echo json_encode($this->_return);exit;
             }
         }
     }
-
 
     //退出登录
     public function logout(){
@@ -162,7 +163,8 @@ class Login extends CI_Controller {
      */
     public function sendCode()
     {
-        $_POST['phone'] = 15710061246;
+//        $this->session->sess_destroy();
+//        $_POST['phone'] = 18841652810;
         // 判断传递参数是否为空
         if (!isset($_POST['phone']) || empty($_POST['phone'])) {
             $this->_return['errorno'] = '-1';
@@ -173,7 +175,7 @@ class Login extends CI_Controller {
         $phone = $_POST['phone'];
 
         // 判断是否可以正常发送
-        $check = $this->checkSendCode($phone, $this->_model);
+        $check = $this->checkSendCode($phone);
         if ($check !== true) {
             $this->_return['errorno'] = $check['status'];
             $this->_return['msg'] = $check['msg'];
@@ -186,8 +188,9 @@ class Login extends CI_Controller {
 //        $phone = 15710061246;
         $model = $this->_model . $phone;
         $userData = $this->session->userdata($model);
+//        echo '<pre>';print_r($userData);
         if(!empty($userData)){
-            $times = $userData['times'];
+            $times = $userData['times']+1;
         }else{
             $times = 1;
         }
@@ -221,7 +224,7 @@ class Login extends CI_Controller {
         $res = array( 'status'=>-9,'msg'=>'验证异常' );
         if( $code < 100000 || $code > 999999){
             $res = array( 'status'=>-3,'msg'=>'验证码有误' );
-        }else if( $interval > 1200 ){
+        }else if( $interval > 1800 ){
             $res = array( 'status'=>-5,'msg'=>'验证码已失效' );
         }else if( $codeInSession['code'] != $code ){
             $res = array( 'status'=>-7,'msg'=>'验证码错误' );
@@ -229,6 +232,43 @@ class Login extends CI_Controller {
             return true;
         }
         return $res;
+    }
+
+    /**
+     * 校验验证码API
+     */
+    public function verifyCodeApi(){
+        $phone = $_POST['phone'];
+        $code = (int)$_POST['code'];
+
+        $model = $this->_model.$phone;
+        $codeInSession = $this->session->userdata($model);
+        $interval = 0;
+        if( !empty( $codeInSession ) ){
+            $interval = time() - $codeInSession['sendTime'];
+        }
+        $this->_return['errorno'] = '-9';
+        $this->_return['msg'] = '验证异常';
+        if( $code < 100000 || $code > 999999){
+            $this->_return['errorno'] = '-3';
+            $this->_return['msg'] = '验证码有误';
+            echo json_encode($this->_return);exit;
+        }else if( $interval > 1800 ){
+            $this->_return['errorno'] = '-5';
+            $this->_return['msg'] = '验证码已失效';
+            echo json_encode($this->_return);exit;
+        }else if( $codeInSession['code'] != $code ){
+            $this->_return['errorno'] = '-7';
+            $this->_return['msg'] = '验证码错误';
+            echo json_encode($this->_return);exit;
+        }else if( $codeInSession['code'] == $code ){
+            //删除掉验证码
+            $this->session->unset_userdata($model);
+            $this->_return['errorno'] = '1';
+            $this->_return['msg'] = '验证成功';
+            echo json_encode($this->_return);exit;
+        }
+        echo json_encode($this->_return);exit;
     }
 
     /**
@@ -243,8 +283,16 @@ class Login extends CI_Controller {
             return array( 'status'=>-1,'msg'=>'手机号有误' );
         }
         $codeInSession = $this->session->userdata($model);
+        if(empty($codeInSession)){
+            return true;
+        }
+        //每天限制10条，判断该session如果是前一天生成的，unset掉
+        if($codeInSession['sendTime'] < (strtotime(date("Y-m-d"),time())) ){
+            $this->session->unset_userdata($model);
+            return true;
+        }
         //一天只能发送10条验证码
-        if($codeInSession['times'] >= 10){
+        if($codeInSession['times'] > 10){
             return array( 'status'=>-1,'msg'=>'一天只能发送10条验证码' );
         }
         $interval = -1;
