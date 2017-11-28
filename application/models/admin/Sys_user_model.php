@@ -168,6 +168,22 @@ class Sys_user_model extends MY_Model {
         return $query->row_array();
     }
 
+    public function select_by_user_name($user_name) {
+        $this->db->select('su.*, sr.role_name, sr.auth_ids ,sd.dept_name');
+        $this->db->from("`{$this->getTableName()}` AS su");
+        $this->db->join(' sys_role AS sr', 'sr.id = su.role_id', 'LEFT');
+        $this->db->join(' sys_department AS sd', 'sd.id = su.dept_id', 'LEFT');
+        $this->db->where(
+            array(
+                'su.user_name'   => $user_name,
+                'su.user_status' => self::USER_STATUS_ACTIVE,
+                'su.status'      => self::DATA_STATUS_NORMAL,
+            )
+        );
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
     public function insert($data) {
         $data['create_time'] = date("Y-m-d H:i:s", time());
         $this->db->insert($this->table, $data);
