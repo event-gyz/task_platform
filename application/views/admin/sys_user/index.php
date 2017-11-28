@@ -91,6 +91,7 @@
                                 <th>用户ID</th>
                                 <th>用户名</th>
                                 <th>归属部门</th>
+                                <th>所属角色</th>
                                 <th>联系电话</th>
                                 <th>创建人</th>
                                 <th>创建时间</th>
@@ -104,7 +105,8 @@
                                 <tr>
                                     <th><?= $value['id'] ?></th>
                                     <th><?= $value['user_name'] ?></th>
-                                    <th><?= $value['dept_id'] ?></th>
+                                    <th><?= $value['dept_name'] ?></th>
+                                    <th><?= $value['role_name'] ?></th>
                                     <th><?= $value['mobile'] ?></th>
                                     <th><?= $value['create_by_name'] ?></th>
                                     <th><?= $value['create_time'] ?></th>

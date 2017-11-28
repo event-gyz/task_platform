@@ -80,11 +80,17 @@ class Sys_user_model extends MY_Model {
 
     // 处理列表数据,创建人,修改人,以及部门名称
     private function __deal_list($list) {
-        $create_id_arr = array_column($list, 'create_sys_user_id');
-        $modify_id_arr = array_column($list, 'last_modify_sys_user_id');
-
+        $create_id_arr   = array_column($list, 'create_sys_user_id');
         $create_name_arr = $this->__get_operate_user_name_arr($create_id_arr);
+
+        $modify_id_arr   = array_column($list, 'last_modify_sys_user_id');
         $modify_name_arr = $this->__get_operate_user_name_arr($modify_id_arr);
+
+        $dept_id_arr   = array_column($list, 'dept_id');
+        $dept_name_arr = $this->__get_dept_name_arr($dept_id_arr);
+
+        $role_id_arr   = array_column($list, 'role_id');
+        $role_name_arr = $this->__get_role_name_arr($role_id_arr);
 
         $result = [];
         foreach ($list as $value) {
@@ -108,6 +114,24 @@ class Sys_user_model extends MY_Model {
                 }
             }
 
+            $value['dept_name'] = '';
+            foreach ($dept_name_arr as $value3) {
+
+                if ($value['dept_id'] === $value3['id']) {
+                    $value['dept_name'] = $value3['dept_name'];
+                    break;
+                }
+            }
+
+            $value['role_name'] = '';
+            foreach ($role_name_arr as $value4) {
+
+                if ($value['role_id'] === $value4['id']) {
+                    $value['role_name'] = $value4['role_name'];
+                    break;
+                }
+            }
+
             $result[] = $value;
 
         }
@@ -118,6 +142,18 @@ class Sys_user_model extends MY_Model {
     private function __get_operate_user_name_arr($id_arr) {
         $id_str = implode(',', array_unique($id_arr));
         $sql    = "SELECT su.user_name , su.id FROM `{$this->table}` AS su WHERE id IN ( {$id_str} )";
+        return $this->getList($sql);
+    }
+
+    private function __get_dept_name_arr($id_arr) {
+        $id_str = implode(',', array_unique($id_arr));
+        $sql    = "SELECT sd.dept_name , sd.id FROM `sys_department` AS sd WHERE id IN ( {$id_str} )";
+        return $this->getList($sql);
+    }
+
+    private function __get_role_name_arr($id_arr) {
+        $id_str = implode(',', array_unique($id_arr));
+        $sql    = "SELECT sr.role_name , sr.id FROM `sys_role` AS sr WHERE id IN ( {$id_str} )";
         return $this->getList($sql);
     }
 
