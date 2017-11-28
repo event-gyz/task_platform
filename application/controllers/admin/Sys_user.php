@@ -316,6 +316,32 @@ class Sys_user extends Admin_Controller {
         return redirect("{$this->host}/admin/sys_user/home");
     }
 
+    public function update_user_status() {
+
+        $id = $this->input->get('id', true);
+
+        if (empty($id)) {
+            return redirect("{$this->host}/admin/sys_user/home");
+        }
+
+        $info = $this->__get_sys_user_model()->select_by_id($id);
+
+        if (empty($info)) {
+            return redirect("{$this->host}/admin/sys_user/home");
+        }
+
+        $user_status = $this->input->get('user_status', true);
+
+        if (!in_array($user_status, [0, 1])) {
+            return redirect("{$this->host}/admin/sys_user/home");
+        }
+
+        $info = ['user_status' => $user_status];
+        $this->__get_sys_user_model()->update_sys_user($id, $info);
+
+        return redirect("{$this->host}/admin/sys_user/home");
+    }
+
     /**
      * @return Sys_user_model
      */

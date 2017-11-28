@@ -116,8 +116,21 @@
                                     <th>
                                         <a href="/admin/sys_user/update?id=<?= $value['id'] ?>"
                                            class="btn btn-info btn-sm">修改</a>
-                                        <a href="/admin/sys_user/update_user_status?id=<?= $value['id'] ?>"
-                                           class="btn btn-warning btn-sm">冻结</a>
+
+                                        <?php if ($value['user_status'] == '0'): ?>
+                                            <a url="/admin/sys_user/update_user_status?user_status=1&id=<?= $value['id'] ?>"
+                                               class="active-user btn btn-success btn-sm">
+                                                解冻
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <?php if ($value['user_status'] == '1'): ?>
+                                            <a url="/admin/sys_user/update_user_status?user_status=0&id=<?= $value['id'] ?>"
+                                               class="disable-user btn btn-warning btn-sm">
+                                                冻结
+                                            </a>
+                                        <?php endif; ?>
+
                                         <a url="/admin/sys_user/manager_reset_pwd?id=<?= $value['id'] ?>"
                                            class="manager-reset-pwd btn btn-primary btn-sm">重置密码</a>
                                         <button del-url="/admin/sys_user/del?id=<?= $value['id'] ?>"
@@ -170,6 +183,28 @@
 
         layer.confirm(
             '确定重置此用户密码为123456？',
+            {btn: ['确定', '取消']},
+            function () {
+                window.location.href = url;
+            });
+    });
+
+    $('.active-user').click(function () {
+        var url = $(this).attr('url');
+
+        layer.confirm(
+            '确定此用户解冻吗？',
+            {btn: ['确定', '取消']},
+            function () {
+                window.location.href = url;
+            });
+    });
+
+    $('.disable-user').click(function () {
+        var url = $(this).attr('url');
+
+        layer.confirm(
+            '确定此用户冻结吗？冻结后此用户将不能再登录系统。',
             {btn: ['确定', '取消']},
             function () {
                 window.location.href = url;
