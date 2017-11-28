@@ -57,7 +57,7 @@ class Login extends CI_Controller {
         $this->form_validation->set_rules($config);
 
         if ($this->form_validation->run() == FALSE) {
-            return $this->load->view('admin/login/login');
+            return $this->load->view('/admin/login/login');
         }
 
         global $info;
