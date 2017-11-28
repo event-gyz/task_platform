@@ -289,6 +289,32 @@ class Sys_user extends Admin_Controller {
         return redirect("{$this->host}/admin/sys_user/home");
     }
 
+    public function manager_reset_pwd() {
+
+        $id = $this->input->get('id', true);
+
+        if (empty($id)) {
+            return redirect("{$this->host}/admin/sys_user/home");
+        }
+
+        $info = $this->__get_sys_user_model()->select_by_id($id);
+
+        if (empty($info)) {
+            return redirect("{$this->host}/admin/sys_user/home");
+        }
+
+        $pwd  = '123456';
+        $salt = $this->__get_sys_user_model()->random_str(4);
+        $info = [
+            'salt' => $salt,
+            'pwd'  => $this->__get_sys_user_model()->generate_admin_password($pwd, $salt),
+        ];
+
+        $this->__get_sys_user_model()->update_sys_user($id, $info);
+
+        return redirect("{$this->host}/admin/sys_user/home");
+    }
+
     /**
      * @return Sys_user_model
      */

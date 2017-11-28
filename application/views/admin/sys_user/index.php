@@ -106,6 +106,8 @@
                                            class="btn btn-info btn-sm">修改</a>
                                         <a href="/admin/sys_user/update_user_status?id=<?= $value['id'] ?>"
                                            class="btn btn-warning btn-sm">冻结</a>
+                                        <a url="/admin/sys_user/manager_reset_pwd?id=<?= $value['id'] ?>"
+                                           class="manager-reset-pwd btn btn-primary btn-sm">重置密码</a>
                                         <button del-url="/admin/sys_user/del?id=<?= $value['id'] ?>"
                                                 class="del-user btn btn-danger btn-sm">删除
                                         </button>
@@ -144,6 +146,17 @@
             {btn: ['确定', '取消']},
             function () {
                 window.location.href = del_url;
+            });
+    });
+
+    $('.manager-reset-pwd').click(function () {
+        var url = $(this).attr('url');
+
+        layer.confirm(
+            '确定重置此用户密码为123456？',
+            {btn: ['确定', '取消']},
+            function () {
+                window.location.href = url;
             });
     });
 
