@@ -183,14 +183,22 @@ class Index extends CI_Controller {
 
     // 任务大厅
     public function getMissionHall(){
+
         $page = (isset($_POST['page'])&&!empty($_POST['page'])) ? $_POST['page'] : 0;
         $user_info = $this->session->userdata('user_info');
         $media_man_id = $user_info['media_man_id'];
+
+        //超时未领取的任务置为超时
+        $this->__get_task_map_model()->updateTimeOutTaskMap($media_man_id);
         $result = $this->__get_task_map_model()->getMissionHall($media_man_id,$page);
         unset($result['sql']);
-        foreach($result['list'] as &$value){
-            $a= $this->timediff(strtotime($value['allot_time']));
-            print_r($a);exit;
+        foreach($result['list'] as $key => &$value){
+            $allot_time = $this->timediff(strtotime($value['allot_time']));
+            if($allot_time){
+                $value['allot_time']  = $allot_time;
+            }else{
+                unset($result['list'][$key]);
+            }
         }
         if(is_array($result['list']) && !empty($result['list'])){
             $this->_return['errorno'] = 1;
@@ -199,11 +207,36 @@ class Index extends CI_Controller {
             echo json_encode($this->_return);exit;
         }else{
             $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '没有有效数据';
+            $this->_return['msg'] = '暂无分配的任务';
             echo json_encode($this->_return);exit;
         }
     }
 
+    // 任务大厅任务详情
+    public function getMissionHallTaskDetail(){
+        $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 0;
+        $user_info = $this->session->userdata('user_info');
+        $media_man_id = $user_info['media_man_id'];
+
+        //超时未领取的任务置为超时
+        $this->__get_task_map_model()->updateTimeOutTaskMap($media_man_id);
+        $result = $this->__get_task_map_model()->getMissionHall($media_man_id,$map_id);
+        unset($result['sql']);
+
+        $result['allot_time'] = $this->timediff(strtotime($result['allot_time']));
+
+
+        if(is_array($result) && !empty($result)){
+            $this->_return['errorno'] = 1;
+            $this->_return['msg'] = '成功';
+            $this->_return['data'] = $result;
+            echo json_encode($this->_return);exit;
+        }else{
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '暂无分配的任务';
+            echo json_encode($this->_return);exit;
+        }
+    }
 
     /**
      * 获取剩余时间
@@ -214,10 +247,12 @@ class Index extends CI_Controller {
      */
     private function timediff($allot_time){
         $result = Wap::timediff($allot_time+7200);
-        if($result < 0){
+        if(!is_array($result) || $result<0){
             //任务已经超时，修改任务状态
+            return false;
         }
-        return $result;
+        return '剩余'.$result['hours'].'小时'.$result['min'].'分';
+
     }
 
 
