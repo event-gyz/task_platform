@@ -28,7 +28,7 @@
     <div class="login-box-body">
         <p class="login-box-msg">登录</p>
 
-        <form action="/admin/index/login" method="post">
+        <form action="/admin/login/login" method="post">
             <div class="form-group has-feedback">
                 <input type="text" name="user_name" class="form-control" placeholder="用户名"
                        value="<?= set_value('user_name') ?>">
