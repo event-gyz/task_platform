@@ -2,6 +2,7 @@
 <html>
 
 <?php include VIEWPATH . '/admin/common/head.php'; ?>
+<link href="/assets/select2/css/select2.css" rel="stylesheet"/>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -42,10 +43,19 @@
                                 <div class="form-group col-xs-3">
                                     <label for="dept_id" class="col-sm-3 control-label">归属部门</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="dept_id"
-                                               placeholder="输入部门来搜索..." name="dept_id"
-                                               value="<?= $form_data['dept_id'] ?>"
-                                        >
+                                        <select class="form-control" id="select-dept_id" name="dept_id">
+                                            <option value="">全部</option>
+
+                                            <?php foreach ($dept_list as $value): ?>
+                                                <option value="<?= $value['id'] ?>"
+                                                    <?= $value['id'] === $form_data['dept_id'] ? 'selected' : ''; ?>
+
+                                                >
+                                                    <?= $value['dept_name'] ?>
+                                                </option>
+                                            <?php endforeach; ?>
+
+                                        </select>
                                     </div>
                                 </div>
 
@@ -81,6 +91,7 @@
                                 <th>用户ID</th>
                                 <th>用户名</th>
                                 <th>归属部门</th>
+                                <th>所属角色</th>
                                 <th>联系电话</th>
                                 <th>创建人</th>
                                 <th>创建时间</th>
@@ -94,7 +105,8 @@
                                 <tr>
                                     <th><?= $value['id'] ?></th>
                                     <th><?= $value['user_name'] ?></th>
-                                    <th><?= $value['dept_id'] ?></th>
+                                    <th><?= $value['dept_name'] ?></th>
+                                    <th><?= $value['role_name'] ?></th>
                                     <th><?= $value['mobile'] ?></th>
                                     <th><?= $value['create_by_name'] ?></th>
                                     <th><?= $value['create_time'] ?></th>
@@ -104,8 +116,23 @@
                                     <th>
                                         <a href="/admin/sys_user/update?id=<?= $value['id'] ?>"
                                            class="btn btn-info btn-sm">修改</a>
-                                        <a href="/admin/sys_user/update_user_status?id=<?= $value['id'] ?>"
-                                           class="btn btn-warning btn-sm">冻结</a>
+
+                                        <?php if ($value['user_status'] == '0'): ?>
+                                            <a url="/admin/sys_user/update_user_status?user_status=1&id=<?= $value['id'] ?>"
+                                               class="active-user btn btn-success btn-sm">
+                                                解冻
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <?php if ($value['user_status'] == '1'): ?>
+                                            <a url="/admin/sys_user/update_user_status?user_status=0&id=<?= $value['id'] ?>"
+                                               class="disable-user btn btn-warning btn-sm">
+                                                冻结
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <a url="/admin/sys_user/manager_reset_pwd?id=<?= $value['id'] ?>"
+                                           class="manager-reset-pwd btn btn-primary btn-sm">重置密码</a>
                                         <button del-url="/admin/sys_user/del?id=<?= $value['id'] ?>"
                                                 class="del-user btn btn-danger btn-sm">删除
                                         </button>
@@ -133,8 +160,12 @@
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
 
 <script src="/assets/layer/layer.js"></script>
+<script src="/assets/select2/js/select2.js"></script>
 
 <script>
+
+    // 初始化select2下拉框
+    $("#select-dept_id").select2();
 
     $('.del-user').click(function () {
         var del_url = $(this).attr('del-url');
@@ -144,6 +175,39 @@
             {btn: ['确定', '取消']},
             function () {
                 window.location.href = del_url;
+            });
+    });
+
+    $('.manager-reset-pwd').click(function () {
+        var url = $(this).attr('url');
+
+        layer.confirm(
+            '确定重置此用户密码为123456？',
+            {btn: ['确定', '取消']},
+            function () {
+                window.location.href = url;
+            });
+    });
+
+    $('.active-user').click(function () {
+        var url = $(this).attr('url');
+
+        layer.confirm(
+            '确定此用户解冻吗？',
+            {btn: ['确定', '取消']},
+            function () {
+                window.location.href = url;
+            });
+    });
+
+    $('.disable-user').click(function () {
+        var url = $(this).attr('url');
+
+        layer.confirm(
+            '确定此用户冻结吗？冻结后此用户将不能再登录系统。',
+            {btn: ['确定', '取消']},
+            function () {
+                window.location.href = url;
             });
     });
 

@@ -48,6 +48,7 @@
                                         <el-tree
                                                 :data="treeData"
                                                 show-checkbox
+                                                check-strictly
                                                 node-key="id"
                                                 empty-text="暂无权限菜单可选择"
                                                 :default-expanded-keys="defaultExpandedKeys"
