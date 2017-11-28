@@ -12,22 +12,26 @@ class ADMIN_Controller extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+
+        $this->load->library('session');
+        $this->load->helper(array('url'));
+
         $this->__check_login();
         $this->__init();
         $this->__check_auth();
     }
 
-    // todo 检测用户是否登录
+    // 检测用户是否登录
     private function __check_login() {
-
+        if (!isset($_SESSION['sys_user_info'])) {
+            return redirect("{$this->get_server_address_and_port()}/admin/login/login");
+        }
     }
 
     private function __init() {
-        $this->load->helper('url');
         $this->host = $this->get_server_address_and_port();
 
         $this->load->model('admin/Sys_auth_model');
-        $this->load->library('session');
         $_SESSION['auth_list'] = $this->Sys_auth_model->select_level0_level1_auth_list();
 
         $this->sys_user_info = $this->get_user_info();
@@ -38,15 +42,9 @@ class ADMIN_Controller extends CI_Controller {
 
     }
 
-    // todo 从登录的session中获取用户信息
+    // 从登录的session中获取用户信息
     protected function get_user_info() {
-        $sys_user_info = [
-            'id'        => 1,
-            'user_name' => 'admin',
-            'nick_name' => '超级管理员',
-            'mobile'    => '18600833853',
-        ];
-        return $sys_user_info;
+        return $_SESSION['sys_user_info'];
     }
 
     protected function response($response = null) {
