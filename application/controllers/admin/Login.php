@@ -7,7 +7,10 @@ class Login extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+
+        $this->load->library('session');
         $this->load->helper(array('form', 'url'));
+
         $this->host = $this->get_server_address_and_port();
     }
 
@@ -64,7 +67,6 @@ class Login extends CI_Controller {
 
         // 存储认证信息
 
-        $this->load->library('session');
         $sys_user_info             = [
             'id'        => $info['id'],
             'user_name' => $info['user_name'],
@@ -84,6 +86,8 @@ class Login extends CI_Controller {
 
     public function logout() {
         unset($_SESSION['sys_user_info']);
+        unset($_SESSION['auth_list']);
+        session_destroy();
         return redirect("{$this->host}/admin/login/login");
     }
 
