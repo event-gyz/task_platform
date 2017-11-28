@@ -41,6 +41,19 @@ class MY_Model {
     }
 
     /**
+     * 执行sql返回单条
+     *
+     * @param $sql
+     *
+     * @return mixed
+     */
+    public function getRow($sql) {
+        $query = $this->db->query($sql);
+        return $query->row_array();
+//        return $query->result_array();
+    }
+
+    /**
      * 返回limit,offset.
      *
      * @param string $key
