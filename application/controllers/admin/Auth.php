@@ -96,6 +96,7 @@ class Auth extends Admin_Controller {
             'class'     => $req_data['class'],
             'action'    => $req_data['action'],
             'level'     => $this->__calc_level($req_data['pid']),
+            'sort'      => ($req_data['sort'] === "") ? 0 : $req_data['sort'],
         );
 
         $result = $this->__get_sys_auth_model()->insert($data);
@@ -166,6 +167,7 @@ class Auth extends Admin_Controller {
             'class'     => $req_data['class'],
             'action'    => $req_data['action'],
             'level'     => $this->__calc_level($req_data['pid']),
+            'sort'      => ($req_data['sort'] === "") ? 0 : $req_data['sort'],
         );
 
         $result = $this->__get_sys_auth_model()->update_sys_auth($sys_auth_id, $info);

@@ -84,6 +84,17 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="sort" class="col-sm-2 control-label">排序值</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="sort" class="form-control" id="sort"
+                                               placeholder="值越大排序越靠前"
+                                               value="<?= $info['sort'] ?>"
+                                        >
+                                        <span class="help-block"><?php echo form_error('sort'); ?></span>
+                                    </div>
+                                </div>
+
                             </div>
                             <!-- /.box-body -->
                             <div class="box-footer ">

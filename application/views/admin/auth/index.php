@@ -87,6 +87,7 @@
                                 <th>类</th>
                                 <th>方法</th>
                                 <th>权限级别</th>
+                                <th>排序</th>
                                 <th>操作</th>
                             </tr>
 
@@ -98,6 +99,7 @@
                                     <th><?= $value['class'] ?></th>
                                     <th><?= $value['action'] ?></th>
                                     <th><?= $value['level'] ?></th>
+                                    <th><?= $value['sort'] ?></th>
                                     <th>
                                         <a href="/admin/auth/update?id=<?= $value['id'] ?>"
                                            class="btn btn-info btn-sm">修改</a>
