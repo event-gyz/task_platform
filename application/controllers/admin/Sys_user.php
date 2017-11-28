@@ -22,6 +22,7 @@ class Sys_user extends Admin_Controller {
                 'form_data' => $form_data,
                 'list'      => $data['list'],
                 'page_link' => $page_link,
+                'dept_list' => $this->__get_sys_department_model()->select_all_dept_list(),
             ]
         );
     }

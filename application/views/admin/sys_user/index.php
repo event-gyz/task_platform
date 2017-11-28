@@ -2,6 +2,7 @@
 <html>
 
 <?php include VIEWPATH . '/admin/common/head.php'; ?>
+<link href="/assets/select2/css/select2.css" rel="stylesheet"/>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -42,10 +43,19 @@
                                 <div class="form-group col-xs-3">
                                     <label for="dept_id" class="col-sm-3 control-label">归属部门</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="dept_id"
-                                               placeholder="输入部门来搜索..." name="dept_id"
-                                               value="<?= $form_data['dept_id'] ?>"
-                                        >
+                                        <select class="form-control" id="select-dept_id" name="dept_id">
+                                            <option value="">全部</option>
+
+                                            <?php foreach ($dept_list as $value): ?>
+                                                <option value="<?= $value['id'] ?>"
+                                                    <?= $value['id'] === $form_data['dept_id'] ? 'selected' : ''; ?>
+
+                                                >
+                                                    <?= $value['dept_name'] ?>
+                                                </option>
+                                            <?php endforeach; ?>
+
+                                        </select>
                                     </div>
                                 </div>
 
@@ -135,8 +145,12 @@
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
 
 <script src="/assets/layer/layer.js"></script>
+<script src="/assets/select2/js/select2.js"></script>
 
 <script>
+
+    // 初始化select2下拉框
+    $("#select-dept_id").select2();
 
     $('.del-user').click(function () {
         var del_url = $(this).attr('del-url');

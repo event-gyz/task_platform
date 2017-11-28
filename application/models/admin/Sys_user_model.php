@@ -41,6 +41,10 @@ class Sys_user_model extends MY_Model {
             $sql .= sprintf(" AND su.nick_name = '%s'", $where['nick_name']);
         }
 
+        if (isset($where['dept_id']) && $where['dept_id']) {
+            $sql .= sprintf(" AND su.dept_id = %d", $where['dept_id']);
+        }
+
         if (isset($where['start_time']) && $where['start_time']) {
             $sql .= sprintf(" AND su.create_time >= '%s'", $where['start_time']);
         }
