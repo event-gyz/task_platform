@@ -49,8 +49,9 @@ $auth_id_arr = explode(',', $auth_ids);
                             <?php if (($value1['level'] === '1') && ($value1['pid'] === $value0['id']) && (in_array($value1['id'], $auth_id_arr))): ?>
                                 <li
                                         class="<?= get_active_str("/{$value1['class']}/{$value1['action']}") ?>"
+                                        auth_id="<?= $value1['id'] ?>"
                                 >
-                                    <a href="/admin/<?= $value1['class'] ?>/<?= $value1['action'] ?>">
+                                    <a href="/admin/<?= $value1['class'] ?>/<?= $value1['action'] ?>?my_auth_id=<?= $value1['id'] ?>">
                                         <?= $value1['auth_name'] ?>
                                     </a>
                                 </li>

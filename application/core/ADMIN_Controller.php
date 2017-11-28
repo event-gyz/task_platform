@@ -34,6 +34,11 @@ class ADMIN_Controller extends CI_Controller {
         $this->load->model('admin/Sys_auth_model');
         $_SESSION['menu_auth_list'] = $this->Sys_auth_model->select_level0_level1_auth_list();
 
+        $my_auth_id = $this->input->get('my_auth_id', true);
+        if (!empty($my_auth_id)) {
+            $_SESSION['my_auth_id'] = $my_auth_id;
+        }
+
         $this->sys_user_info = $this->get_user_info();
     }
 
