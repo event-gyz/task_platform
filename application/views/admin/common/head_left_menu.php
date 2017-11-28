@@ -64,7 +64,7 @@ function get_active_str($cur_path) {
                         <?php foreach ($s_auth_list as $value1): ?>
                             <?php if ($value1['level'] === '1' && $value1['pid'] === $value0['id']): ?>
                                 <li
-                                        class="<?= get_active_str("/{$value1['class']}/{$value1['action']}") ?>"
+                                        class="<?= get_active_str("/{$value1['class']}") ?>"
                                 >
                                     <a href="/admin/<?= $value1['class'] ?>/<?= $value1['action'] ?>">
                                         <?= $value1['auth_name'] ?>
