@@ -32,14 +32,49 @@ class ADMIN_Controller extends CI_Controller {
         $this->host = $this->get_server_address_and_port();
 
         $this->load->model('admin/Sys_auth_model');
-        $_SESSION['auth_list'] = $this->Sys_auth_model->select_level0_level1_auth_list();
+        $_SESSION['menu_auth_list'] = $this->Sys_auth_model->select_level0_level1_auth_list();
 
         $this->sys_user_info = $this->get_user_info();
     }
 
-    // todo 检测用户是否具有操作权限
+    // 检测用户是否具有操作权限
     private function __check_auth() {
 
+        $request_uri = strtolower($_SERVER['REQUEST_URI']);
+        $request_uri = substr($request_uri, '6');// 去掉/admin取其后面的uri
+
+        // 白名单,直接放行
+        $white_list = [
+            '/index/home',
+            '/index/error_403',
+        ];
+
+        if ($this->__has_auth($request_uri, $white_list)) {
+            return true;
+        }
+
+        // 继续检测,判断访问的uri是否在用户的权限数组中
+        $user_auth_path = $this->sys_user_info['user_auth_path'];
+
+        if ($this->__has_auth($request_uri, $user_auth_path)) {
+            return true;
+        }
+
+        return redirect("{$this->get_server_address_and_port()}/admin/index/error_403");
+    }
+
+    private function __has_auth($request_uri, $auth_path_arr) {
+        $is_has_auth = false;
+        foreach ($auth_path_arr as $value) {
+            $cur_path = strtolower($value);
+            $pos      = strpos($request_uri, $cur_path);
+
+            if ($pos !== false) {
+                $is_has_auth = true;
+                break;
+            }
+        }
+        return $is_has_auth;
     }
 
     // 从登录的session中获取用户信息

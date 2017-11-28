@@ -67,7 +67,7 @@ class Login extends CI_Controller {
 
         // 存储认证信息
 
-        $sys_user_info             = [
+        $sys_user_info = [
             'id'        => $info['id'],
             'user_name' => $info['user_name'],
             'nick_name' => $info['nick_name'],
@@ -79,6 +79,19 @@ class Login extends CI_Controller {
             'dept_name' => $info['dept_name'],
             'auth_ids'  => $info['auth_ids'],
         ];
+
+        $user_auth_list = [];
+        if (!empty($info['auth_ids'])) {
+            $user_auth_list = $this->__get_sys_auth_model()->get_auth_list_by_auth_ids($info['auth_ids']);
+        }
+
+        $user_auth_path = [];
+        foreach ($user_auth_list as $value) {
+            $user_auth_path[] = strtolower("/{$value['class']}/{$value['action']}");
+        }
+
+        $sys_user_info['user_auth_path'] = $user_auth_path;
+
         $_SESSION['sys_user_info'] = $sys_user_info;
 
         return redirect("{$this->host}/admin/index/home");
@@ -97,6 +110,14 @@ class Login extends CI_Controller {
     private function __get_sys_user_model() {
         $this->load->model('admin/Sys_user_model');
         return $this->Sys_user_model;
+    }
+
+    /**
+     * @return Sys_auth_model
+     */
+    private function __get_sys_auth_model() {
+        $this->load->model('admin/Sys_auth_model');
+        return $this->Sys_auth_model;
     }
 
     /**

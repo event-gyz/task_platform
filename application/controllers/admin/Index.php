@@ -13,4 +13,8 @@ class Index extends Admin_Controller {
         return $this->load->view('admin/index/index');
     }
 
+    public function error_403() {
+        return $this->load->view('admin/errors/403');
+    }
+
 }

@@ -1,6 +1,6 @@
 <?php
 
-$s_auth_list = $_SESSION['auth_list'];
+$s_auth_list = $_SESSION['menu_auth_list'];
 
 /**
  * 获取当前菜单是否需要激活

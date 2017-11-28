@@ -8,19 +8,21 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            首页
-            <small>首页</small>
+            提示
+            <small></small>
         </h1>
     </section>
 
     <!-- Main content -->
-    <section class="content container-fluid">
+    <section class="content">
 
-        <div class="pad margin no-print">
-            <div class="callout callout-info" style="margin-bottom: 0!important;">
-                欢迎登录自媒体后台管理系统
+        <div class="error-page">
+            <div class="error-content text-red">
+                <h4><i class="fa fa-warning text-red"></i>您没有此操作的权限</h4>
+                <a href="/admin/index/home">返回首页</a>
             </div>
         </div>
+        <!-- /.error-page -->
 
     </section>
     <!-- /.content -->

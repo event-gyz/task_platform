@@ -61,6 +61,11 @@ class Sys_auth_model extends MY_Model {
         return $query->row_array();
     }
 
+    public function get_auth_list_by_auth_ids($auth_ids) {
+        $sql = "SELECT sa.* FROM `{$this->table}` AS sa WHERE id IN ( {$auth_ids} )";
+        return $this->getList($sql);
+    }
+
     public function insert($data) {
         $data['create_time'] = date("Y-m-d H:i:s", time());
         $this->db->insert($this->table, $data);
