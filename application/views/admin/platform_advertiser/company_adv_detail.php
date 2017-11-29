@@ -209,10 +209,7 @@
                         }
                     }
 
-                    this.$message({
-                        message: '审核成功,即将刷新页面...',
-                        type   : 'success'
-                    });
+                    this.$message.success('审核成功,即将刷新页面...');
                     return true;
                 });
             },
