@@ -24,9 +24,11 @@ class Platform_advertiser extends Admin_Controller {
 
         return $this->load->view('admin/platform_advertiser/personal_adv_home_index',
             [
-                'form_data' => $form_data,
-                'list'      => $data['list'],
-                'page_link' => $page_link,
+                'form_data'          => $form_data,
+                'list'               => $data['list'],
+                'page_link'          => $page_link,
+                'adv_audit_status'   => $this->config->item('adv_audit_status'),
+                'adv_account_status' => $this->config->item('adv_account_status'),
             ]
         );
     }
@@ -42,9 +44,11 @@ class Platform_advertiser extends Admin_Controller {
 
         return $this->load->view('admin/platform_advertiser/company_adv_home_index',
             [
-                'form_data' => $form_data,
-                'list'      => $data['list'],
-                'page_link' => $page_link,
+                'form_data'          => $form_data,
+                'list'               => $data['list'],
+                'page_link'          => $page_link,
+                'adv_audit_status'   => $this->config->item('adv_audit_status'),
+                'adv_account_status' => $this->config->item('adv_account_status'),
             ]
         );
     }

@@ -57,21 +57,15 @@
                                         <div class="col-sm-7">
                                             <select class="form-control" name="audit_status">
                                                 <option value="">全部</option>
-                                                <option value="0"
-                                                    <?= $form_data['audit_status'] == '0' ? "selected" : "" ?>
-                                                >
-                                                    待审核
-                                                </option>
-                                                <option value="1"
-                                                    <?= $form_data['audit_status'] == '1' ? "selected" : "" ?>
-                                                >
-                                                    通过
-                                                </option>
-                                                <option value="2"
-                                                    <?= $form_data['audit_status'] == '2' ? "selected" : "" ?>
-                                                >
-                                                    驳回
-                                                </option>
+
+                                                <?php foreach ($adv_audit_status as $key => $value): ?>
+                                                    <option value="<?= $key ?>"
+                                                        <?= $key === $form_data['audit_status'] ? 'selected' : ''; ?>
+                                                    >
+                                                        <?= $value ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+
                                             </select>
                                         </div>
                                     </div>
@@ -119,26 +113,15 @@
                                         <div class="col-sm-7">
                                             <select class="form-control" name="status">
                                                 <option value="">全部</option>
-                                                <option value="0"
-                                                    <?= $form_data['status'] == '0' ? "selected" : "" ?>
-                                                >
-                                                    草稿
-                                                </option>
-                                                <option value="1"
-                                                    <?= $form_data['status'] == '1' ? "selected" : "" ?>
-                                                >
-                                                    待审核
-                                                </option>
-                                                <option value="2"
-                                                    <?= $form_data['status'] == '2' ? "selected" : "" ?>
-                                                >
-                                                    正常
-                                                </option>
-                                                <option value="9"
-                                                    <?= $form_data['status'] == '9' ? "selected" : "" ?>
-                                                >
-                                                    冻结
-                                                </option>
+
+                                                <?php foreach ($adv_account_status as $key => $value): ?>
+                                                    <option value="<?= $key ?>"
+                                                        <?= $key === $form_data['status'] ? 'selected' : ''; ?>
+                                                    >
+                                                        <?= $value ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+
                                             </select>
                                         </div>
                                     </div>
