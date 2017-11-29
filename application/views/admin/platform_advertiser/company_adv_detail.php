@@ -3,8 +3,10 @@
 
 <?php include VIEWPATH . '/admin/common/head.php'; ?>
 
+<link href="https://cdn.bootcss.com/element-ui/2.0.5/theme-chalk/index.css" rel="stylesheet">
+
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div class="content-wrapper" id="app">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -123,15 +125,42 @@
             <!-- /.box-body -->
         </div>
 
-        <div class="row">
-            <div class="col-xs-12 col-xs-offset-5">
-                <button type="button" class="btn btn-default">
-                    返回
-                </button>
-                <button type="button" class="btn btn-primary" style="margin-left: 15px;">
-                    提交
-                </button>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">审核操作</h3>
             </div>
+            <div class="box-body">
+
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+
+                            <el-form-item label="审核结果" prop="audit_status">
+                                <el-radio-group v-model="ruleForm.audit_status">
+                                    <el-radio label="1">通过</el-radio>
+                                    <el-radio label="2">不通过</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+
+                            <el-form-item label="拒绝原因" prop="reasons_for_rejection">
+                                <el-input placeholder="请填写拒绝的原因" type="textarea"
+                                          v-model="ruleForm.reasons_for_rejection"></el-input>
+                            </el-form-item>
+
+                            <el-form-item>
+                                <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                                <el-button @click="goBack('ruleForm')">返回</el-button>
+                            </el-form-item>
+
+                        </el-form>
+
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+            </div>
+            <!-- /.box-body -->
         </div>
 
     </section>
@@ -141,5 +170,60 @@
 <!-- /.content-wrapper -->
 
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
+
+<script src="https://cdn.bootcss.com/vue/2.5.8/vue.min.js"></script>
+<script src="https://cdn.bootcss.com/element-ui/2.0.5/index.js"></script>
+
+<script>
+
+    var Main = {
+        data   : function () {
+            return {
+                ruleForm: {
+                    audit_status         : '',
+                    reasons_for_rejection: ''
+                },
+                rules   : {
+                    audit_status         : [
+                        {required: true, message: '请选审核结果', trigger: 'change'}
+                    ],
+                    reasons_for_rejection: [
+                        {required: false, message: '请填写拒绝的原因', trigger: 'blur'}
+                    ]
+                }
+            };
+        },
+        methods: {
+            submitForm: function (formName) {
+                this.$refs[formName].validate((valid) => {
+
+                    if (!valid) {
+                        this.$message.error('请选审核结果');
+                        return false;
+                    }
+
+                    if (this.ruleForm.audit_status === "2") {
+                        if (this.ruleForm.reasons_for_rejection === "") {
+                            this.$message.error('请填写拒绝的原因');
+                            return false;
+                        }
+                    }
+
+                    this.$message({
+                        message: '审核成功,即将刷新页面...',
+                        type   : 'success'
+                    });
+                    return true;
+                });
+            },
+            goBack    : function (formName) {
+                window.location.href = '/admin/platform_advertiser/company_adv_home';
+            }
+        }
+    };
+    var Ctor = Vue.extend(Main);
+    new Ctor().$mount('#app')
+
+</script>
 
 </html>
