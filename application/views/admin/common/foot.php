@@ -22,7 +22,7 @@
     <script>
 
         // 实现进入子页面时左侧菜单也能高亮起来
-        var my_auth_id     = <?= $_SESSION['my_auth_id']?>;
+        var my_auth_id     = "<?= !empty($_SESSION['my_auth_id']) ? $_SESSION['my_auth_id'] : ""?>";
         var my_auth_id_str = "[my_auth_id='" + my_auth_id + "']";
         $(my_auth_id_str).addClass('active');
 
