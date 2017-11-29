@@ -236,6 +236,10 @@ class Platform_advertiser extends Admin_Controller {
             return $this->response_json(1, '非法操作');
         }
 
+        if ($audit_status === "1") {
+            $reasons_for_rejection = "";
+        }
+
         $info   = [
             'audit_status'          => $audit_status,
             'reasons_for_rejection' => empty($reasons_for_rejection) ? '' : $reasons_for_rejection,
