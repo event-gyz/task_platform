@@ -168,9 +168,26 @@
                                     <th><?= $value['company_address'] ?></th>
                                     <th><?= $value['content_name'] ?></th>
                                     <th><?= $value['content_phone'] ?></th>
-                                    <th><?= $value['audit_status'] ?></th>
+                                    <th>
+                                        <small class="label
+                                            <?= $value['audit_status'] === "0" ? "bg-yellow" : "" ?>
+                                            <?= $value['audit_status'] === "1" ? "bg-green" : "" ?>
+                                            <?= $value['audit_status'] === "2" ? "bg-red" : "" ?>
+                                        ">
+                                            <?= $adv_audit_status[$value['audit_status']] ?>
+                                        </small>
+                                    </th>
                                     <th><?= $value['create_time'] ?></th>
-                                    <th><?= $value['status'] ?></th>
+                                    <th>
+                                        <small class="label
+                                            <?= $value['status'] === "0" ? "bg-gray" : "" ?>
+                                            <?= $value['status'] === "1" ? "bg-yellow" : "" ?>
+                                            <?= $value['status'] === "2" ? "bg-green" : "" ?>
+                                            <?= $value['status'] === "9" ? "bg-red" : "" ?>
+                                        ">
+                                            <?= $adv_account_status[$value['status']] ?>
+                                        </small>
+                                    </th>
                                     <th><?= $value['last_operator_name'] ?></th>
                                     <th><?= $value['update_time'] ?></th>
                                     <th>
