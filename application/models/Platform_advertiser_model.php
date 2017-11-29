@@ -21,6 +21,11 @@ class Platform_advertiser_model extends MY_Model {
 
         // 拼接查询条件
 
+        // 根据用户id
+        if (isset($where['advertiser_id']) && $where['advertiser_id']) {
+            $sql .= sprintf(" AND pa.advertiser_id = %d", $where['advertiser_id']);
+        }
+
         // 根据广告主电话
         if (isset($where['advertiser_phone']) && $where['advertiser_phone']) {
             $sql .= sprintf(" AND pa.advertiser_phone like '%s%%'", $where['advertiser_phone']);
@@ -37,7 +42,7 @@ class Platform_advertiser_model extends MY_Model {
         }
 
         // 根据广告主审核状态
-        if (isset($where['audit_status']) && $where['audit_status']) {
+        if (isset($where['audit_status']) && $where['audit_status'] !== '') {
             $sql .= sprintf(" AND pa.audit_status = %d", $where['audit_status']);
         }
 
@@ -86,7 +91,7 @@ class Platform_advertiser_model extends MY_Model {
         $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);
-
+        
         $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
         return $data;
     }

@@ -68,7 +68,7 @@ class Platform_advertiser extends Admin_Controller {
             $where['advertiser_phone'] = $advertiser_phone;
         }
 
-        if (!empty($audit_status)) {
+        if ($audit_status !== '') {
             $where['audit_status'] = $audit_status;
         }
 
