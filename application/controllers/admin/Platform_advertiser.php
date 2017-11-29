@@ -165,6 +165,14 @@ class Platform_advertiser extends Admin_Controller {
         ];
     }
 
+    // 个人广告主详情
+    public function personal_adv_detail() {
+    }
+
+    // 公司广告主详情
+    public function company_adv_detail() {
+    }
+
     /**
      * @return Platform_advertiser_model
      */

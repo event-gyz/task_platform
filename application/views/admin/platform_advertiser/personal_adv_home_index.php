@@ -189,13 +189,9 @@
                                     <th><?= $value['last_operator_name'] ?></th>
                                     <th><?= $value['update_time'] ?></th>
                                     <th>
-                                        <a href="/admin/sys_department/update?id=<?= $value['advertiser_id'] ?>"
-                                           class="btn btn-info btn-sm">审核</a>
-                                        <a del-url="/admin/sys_department/del?id=<?= $value['advertiser_id'] ?>"
-                                           class="del-department btn btn-danger btn-sm">冻结
-                                        </a>
-                                        <a del-url="/admin/sys_department/del?id=<?= $value['advertiser_id'] ?>"
-                                           class="del-department btn btn-danger btn-sm">解冻
+                                        <a href="/admin/platform_advertiser/personal_adv_detail?id=<?= $value['advertiser_id'] ?>"
+                                           class="btn btn-success btn-sm">
+                                            详情
                                         </a>
                                     </th>
                                 </tr>
