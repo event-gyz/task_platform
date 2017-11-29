@@ -6,7 +6,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class ADMIN_Controller extends CI_Controller {
 
-    protected $_return       = array('error_no' => 0, 'msg' => '', 'data' => array());
     protected $host          = '';
     protected $sys_user_info = [];
 
@@ -87,14 +86,26 @@ class ADMIN_Controller extends CI_Controller {
         return $_SESSION['sys_user_info'];
     }
 
-    protected function response($response = null) {
-        header('Content-Type:application/json;charset=utf-8');
-        if (!empty($response) && $response != null) {
-            echo json_encode($response);
-        } else {
-            echo json_encode($this->_return);
+    /**
+     * 输出json信息
+     *
+     * @param int    $code 返回码
+     * @param string $msg  返回消息
+     * @param array  $data 返回数据
+     *
+     * @return json
+     */
+    protected function response_json($code, $msg = '', $data = array()) {
+        if (!is_numeric($code)) {
+            return '';
         }
-        die();
+        $result = array(
+            'error_no' => $code,
+            'msg'      => $msg,
+            'data'     => $data,
+        );
+        header("Content-type:application/json;;charset=utf-8");
+        die(json_encode($result));
     }
 
     // 获取列表页需要的参数limit和offset

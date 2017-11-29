@@ -6,7 +6,7 @@
 <link href="https://cdn.bootcss.com/element-ui/2.0.5/theme-chalk/index.css" rel="stylesheet">
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" id="app">
+<div class="content-wrapper" id="app" v-loading.body="loading" element-loading-text="拼命加载中">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -173,17 +173,20 @@
 
 <script src="https://cdn.bootcss.com/vue/2.5.8/vue.min.js"></script>
 <script src="https://cdn.bootcss.com/element-ui/2.0.5/index.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
 
 <script>
 
     var Main = {
         data   : function () {
             return {
-                ruleForm: {
+                loading      : false,// 是否显示加载
+                advertiser_id: <?= $info['advertiser_id']?>,
+                ruleForm     : {
                     audit_status         : '',
                     reasons_for_rejection: ''
                 },
-                rules   : {
+                rules        : {
                     audit_status         : [
                         {required: true, message: '请选审核结果', trigger: 'change'}
                     ],
@@ -209,13 +212,55 @@
                         }
                     }
 
-                    this.$message.success('审核成功,即将刷新页面...');
-                    return true;
+                    this.adv_audit();
                 });
             },
             goBack    : function (formName) {
                 window.location.href = '/admin/platform_advertiser/company_adv_home';
-            }
+            },
+            async adv_audit() {
+                try {
+                    this.loading = true;
+                    var url      = '/admin/platform_advertiser/update_adv_audit_status';
+                    var response = await axios.post(
+                        url,
+                        {
+                            "id"                   : this.advertiser_id,
+                            "audit_status"         : this.ruleForm.audit_status,
+                            "reasons_for_rejection": this.ruleForm.reasons_for_rejection,
+                        },
+                    );
+                    this.loading = false;
+                    var resData  = response.data;
+
+                    if (resData.error_no === 0) {
+                        this.$message.success('审核成功,即将刷新页面...');
+                        return window.location.reload();
+                    }
+
+                    return this.$message.error(resData.msg);
+                }
+                catch (error) {
+
+                    this.loading = false;
+
+                    if (error instanceof Error) {
+
+                        if (error.response) {
+                            return this.$message.error(error.response.data.responseText);
+                        }
+
+                        if (error.request) {
+                            console.error(error.request);
+                            return this.$message.error('服务器未响应');
+                        }
+
+                        console.error(error);
+
+                    }
+
+                }
+            },
         }
     };
     var Ctor = Vue.extend(Main);

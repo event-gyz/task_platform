@@ -111,7 +111,7 @@ class Platform_advertiser_model extends MY_Model {
         return $data;
     }
 
-    public function updateInfo($advertiser_id, $info) {
+    public function update_platform_advertiser($advertiser_id, $info) {
         $where = array('advertiser_id' => $advertiser_id);
         return $this->update($info, $where);
     }
