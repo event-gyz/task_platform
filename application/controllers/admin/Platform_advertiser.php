@@ -109,8 +109,7 @@ class Platform_advertiser extends Admin_Controller {
         $company_name  = $this->input->get('company_name', true);
         $content_name  = $this->input->get('content_name', true);
         $audit_status  = $this->input->get('audit_status', true);
-        $start_time    = $this->input->get('start_time', true);
-        $end_time      = $this->input->get('end_time', true);
+        $create_time   = $this->input->get('create_time', true);
         $advertiser_id = $this->input->get('advertiser_id', true);
         $content_phone = $this->input->get('content_phone', true);
         $status        = $this->input->get('status', true);
@@ -128,12 +127,10 @@ class Platform_advertiser extends Admin_Controller {
             $where['audit_status'] = $audit_status;
         }
 
-        if (!empty($start_time)) {
-            $where['start_time'] = $start_time;
-        }
-
-        if (!empty($end_time)) {
-            $where['end_time'] = $end_time;
+        if (!empty($create_time)) {
+            $time_arr            = explode(' - ', $create_time);
+            $where['start_time'] = date('Y-m-d H:i:s', strtotime($time_arr[0]));
+            $where['end_time']   = date('Y-m-d H:i:s', strtotime($time_arr[1] . "+1 day -1 seconds"));
         }
 
         if (!empty($advertiser_id)) {
@@ -156,8 +153,7 @@ class Platform_advertiser extends Admin_Controller {
             'company_name'  => $company_name,
             'content_name'  => $content_name,
             'audit_status'  => $audit_status,
-            'start_time'    => $start_time,
-            'end_time'      => $end_time,
+            'create_time'   => $create_time,
             'advertiser_id' => $advertiser_id,
             'content_phone' => $content_phone,
             'status'        => $status,

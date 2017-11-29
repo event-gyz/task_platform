@@ -226,7 +226,7 @@
 
 <script>
 
-    $('#reservation').daterangepicker()
+    $('#reservation').daterangepicker();
 
     $('.del-department').click(function () {
         var del_url = $(this).attr('del-url');
