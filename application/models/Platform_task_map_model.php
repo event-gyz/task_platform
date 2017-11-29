@@ -54,7 +54,7 @@ class Platform_task_map_model extends MY_Model{
      * @return array
      */
     public function get_media_man_task_list_by_condition($where) {
-
+        $data = [];
         if(!isset($where['media_man_user_id']) || empty($where['media_man_user_id'])){
             return ['total' => 0, 'list' => []];
         }
@@ -68,6 +68,13 @@ class Platform_task_map_model extends MY_Model{
         // 根据用户名
         if (isset($where['media_man_user_id']) && $where['media_man_user_id']) {
             $sql .= sprintf(" AND ptm.media_man_user_id like %d", $where['media_man_user_id']);
+        }
+
+        //根据finance_status
+        if (isset($where['finance_status']) && $where['finance_status']) {
+            $sql .= sprintf(" AND ptr.task_map_id = %d", $where['finance_status']);
+            $moneyCount = str_replace('[*]', 'sum(pt.platform_price) AS c', $sql);
+            $data['moneyTotal']    = $this->getCount($moneyCount);
         }
 
         // 总数
@@ -88,7 +95,59 @@ class Platform_task_map_model extends MY_Model{
 
         $_list = $this->getList($_sql);
 
-        $data = ['total' => $total, 'list' => $_list];
+        $data['total'] = $total;
+        $data['list'] = $_list;
+        return $data;
+    }
+    /**
+     * 自媒体人我的任务列表(已接受的任务)
+     * @param $where
+     * @return array
+     */
+    public function get_media_man_task_list_by_condition($where) {
+        $data = [];
+        if(!isset($where['media_man_user_id']) || empty($where['media_man_user_id'])){
+            return ['total' => 0, 'list' => []];
+        }
+        $param = "pt.*,pmm.*,ptr.platform_pay_money,ptr.platform_pay_way,ptr.finance_status,ptr.pay_time,ptm.task_map_id";
+        $task_table = 'platform_task';
+        $task_receivables_table = 'platform_task_receivables';
+        $media_man_table = 'platform_media_man';
+        $sql = "SELECT [*] FROM `{$this->table}` AS ptm LEFT JOIN `{$task_receivables_table}` AS ptr on ptr.task_map_id=ptm.task_map_id LEFT JOIN `{$task_table}` AS pt ON pt.task_id=ptm.task_id LEFT JOIN `{$media_man_table}` AS pmm on pmm.media_man_id=ptm.media_man_user_id where ptm.receive_status=1 ";
+
+        // 拼接查询条件
+        // 根据用户名
+        if (isset($where['media_man_user_id']) && $where['media_man_user_id']) {
+            $sql .= sprintf(" AND ptm.media_man_user_id like %d", $where['media_man_user_id']);
+        }
+
+        //根据finance_status
+        if (isset($where['finance_status']) && $where['finance_status']) {
+            $sql .= sprintf(" AND ptr.task_map_id = %d", $where['finance_status']);
+            $moneyCount = str_replace('[*]', 'sum(pt.platform_price) AS c', $sql);
+            $data['moneyTotal']    = $this->getCount($moneyCount);
+        }
+
+        // 总数
+        $sqlCount = str_replace('[*]', 'count(ptm.task_map_id) AS c', $sql);
+        $total    = $this->getCount($sqlCount);
+
+        if ($total === '0') {
+            return ['total' => $total, 'list' => []];
+        }
+
+        $sql .= ' ORDER BY ptm.task_map_id DESC';
+
+        $offset = isset($where['offset']) ? $where['offset'] : 0;
+        $limit  = isset($where['limit']) ? $where['limit'] : 10;
+        $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
+
+        $_sql = str_replace('[*]', $param, $sql);
+
+        $_list = $this->getList($_sql);
+
+        $data['total'] = $total;
+        $data['list'] = $_list;
         return $data;
     }
 

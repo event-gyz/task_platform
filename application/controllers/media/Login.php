@@ -182,6 +182,7 @@ class Login extends CI_Controller {
             if($re){
                 //清除掉当前的登录信息
                 $this->session->unset_userdata('user_info');
+                $this->session->unset_userdata($this->_pwd_phone);
                 $this->_return['errorno'] = '1';
                 $this->_return['msg'] = '修改成功';
                 echo json_encode($this->_return);exit;
