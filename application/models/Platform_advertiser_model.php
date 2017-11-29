@@ -3,11 +3,14 @@
 /**
  * Class Platform_advertiser_model
  */
-class Platform_advertiser_model extends MY_Model{
+class Platform_advertiser_model extends MY_Model {
 
     public $table = 'platform_advertiser';
 
-    public function __construct(){
+    const ADVERTISER_TYPE_PERSONAL = 1;// 广告主类型,个人
+    const ADVERTISER_TYPE_COMPANY  = 2;// 广告主类型,企业
+
+    public function __construct() {
         parent::__construct();
     }
 
@@ -17,6 +20,7 @@ class Platform_advertiser_model extends MY_Model{
         $sql = "SELECT [*] FROM `{$this->table}` AS pa where 1=1 ";
 
         // 拼接查询条件
+
         // 根据广告主电话
         if (isset($where['advertiser_phone']) && $where['advertiser_phone']) {
             $sql .= sprintf(" AND pa.advertiser_phone like '%s%%'", $where['advertiser_phone']);
@@ -26,31 +30,37 @@ class Platform_advertiser_model extends MY_Model{
         if (isset($where['advertiser_login_name']) && $where['advertiser_login_name']) {
             $sql .= sprintf(" AND pa.advertiser_login_name like '%s%%'", $where['advertiser_login_name']);
         }
+
         // 根据广告主姓名
         if (isset($where['advertiser_name']) && $where['advertiser_name']) {
             $sql .= sprintf(" AND pa.advertiser_name like '%s%%'", $where['advertiser_name']);
         }
+
         // 根据广告主审核状态
         if (isset($where['audit_status']) && $where['audit_status']) {
             $sql .= sprintf(" AND pa.audit_status = %d", $where['audit_status']);
         }
+
         // 根据广告主账户状态
         if (isset($where['status']) && $where['status']) {
             $sql .= sprintf(" AND pa.status = %d", $where['status']);
         }
+
         // 根据广告主身份证号
         if (isset($where['id_card']) && $where['id_card']) {
             $sql .= sprintf(" AND pa.id_card like '%s%%'", $where['id_card']);
         }
+
         // 根据广告主类型
         if (isset($where['advertiser_type']) && $where['advertiser_type']) {
             $sql .= sprintf(" AND pa.advertiser_type = %d", $where['advertiser_type']);
-//            $sql .= " AND pa.orderId in ({$where['order_ids']})";
         }
+
         // 根据广告主创建开始时间
         if (isset($where['start_time']) && $where['start_time']) {
             $sql .= sprintf(" AND pa.create_time >= '%s'", $where['start_time']);
         }
+
         // 根据广告主创建结束时间
         if (isset($where['end_time']) && $where['end_time']) {
             $sql .= sprintf(" AND pa.create_time <= '%s'", $where['end_time']);
@@ -81,9 +91,9 @@ class Platform_advertiser_model extends MY_Model{
         return $data;
     }
 
-    public function updateInfo($advertiser_id,$info){
-        $where = array('advertiser_id'=>$advertiser_id);
-        return $this->update($info, $where );
+    public function updateInfo($advertiser_id, $info) {
+        $where = array('advertiser_id' => $advertiser_id);
+        return $this->update($info, $where);
     }
 
     public function select_by_id($advertiser_id) {
@@ -92,7 +102,7 @@ class Platform_advertiser_model extends MY_Model{
         return $query->row_array();
     }
 
-    public function insert($data){
+    public function insert($data) {
 
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();

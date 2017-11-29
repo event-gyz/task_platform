@@ -92,8 +92,9 @@ class Platform_advertiser extends Admin_Controller {
             $where['status'] = $status;
         }
 
-        $page_arr = $this->get_list_limit_and_offset_params();
-        $where    = array_merge($page_arr, $where);
+        $page_arr                 = $this->get_list_limit_and_offset_params();
+        $where['advertiser_type'] = Platform_advertiser_model::ADVERTISER_TYPE_PERSONAL;
+        $where                    = array_merge($page_arr, $where);
 
         return [
             'advertiser_name'  => $advertiser_name,
@@ -151,8 +152,9 @@ class Platform_advertiser extends Admin_Controller {
             $where['status'] = $status;
         }
 
-        $page_arr = $this->get_list_limit_and_offset_params();
-        $where    = array_merge($page_arr, $where);
+        $page_arr                 = $this->get_list_limit_and_offset_params();
+        $where['advertiser_type'] = Platform_advertiser_model::ADVERTISER_TYPE_PERSONAL;
+        $where                    = array_merge($page_arr, $where);
 
         return [
             'company_name'  => $company_name,
