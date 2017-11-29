@@ -5,6 +5,8 @@ class Login extends CI_Controller {
 
 
     public $_model = 'plat_code';
+    public $_pwd_phone = 'pwd_phone';
+    public $_pwdmodel = 'plat_pwd_code';
     public function __construct(){
         parent::__construct ();
         $this->load->helper ( array (
@@ -43,7 +45,7 @@ class Login extends CI_Controller {
                 'media_man_password' => $password
             );
 
-            $userInfo = $this->__get_media_man_model()->select_by_login_name($data['media_man_login_name']);
+            $userInfo = $this->__get_media_man_model()->selectByLoginName($data['media_man_login_name']);
             if(empty($userInfo)){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '用户不存在';
@@ -169,14 +171,14 @@ class Login extends CI_Controller {
             $this->_return['msg'] = '两次密码不一致，请修改后重试';
             echo json_encode($this->_return);exit;
         }
-        //todo 调整 兼容忘记密码功能
-        $user_info = $this->session->userdata('user_info');
-        if(empty($user_info['media_man_id'])){
+        //兼容忘记密码功能
+        $phone = $this->session->userdata($this->_pwd_phone);
+        if(empty($phone)){
             $this->_return['errorno'] = '-1';
             $this->_return['msg'] = '数据异常';
             echo json_encode($this->_return);exit;
         }else{
-            $re = $this->__get_media_man_model()->updateInfo($user_info['media_man_id'],['media_man_password'=>Wap::generate_wap_user_password($pwd)]);
+            $re = $this->__get_media_man_model()->updateInfoByPhone($phone,['media_man_password'=>Wap::generate_wap_user_password($pwd)]);
             if($re){
                 //清除掉当前的登录信息
                 $this->session->unset_userdata('user_info');
@@ -199,7 +201,8 @@ class Login extends CI_Controller {
      */
     public function sendCode()
     {
-//        $_POST['phone'] = '15710061246';
+//        $_POST['phone'] = '157100612488';
+//        $_POST['type'] = 'pwd';
         // 判断传递参数是否为空
         if (!isset($_POST['phone']) || empty($_POST['phone'])) {
             $this->_return['errorno'] = '-1';
@@ -207,10 +210,24 @@ class Login extends CI_Controller {
             echo json_encode($this->_return);exit;
         }
 
+        if (isset($_POST['type']) && ($_POST['type']=='pwd')) {
+            $model = $this->_pwdmodel;
+            //验证当前手机号是否注册过
+            $res = $this->__get_media_man_model()->selectByPhone($_POST['phone']);
+            if(empty($res)){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '手机号还未注册过';
+                echo json_encode($this->_return);exit;
+            }
+
+        }else{
+            $model = $this->_model;
+        }
+
         $phone = $_POST['phone'];
 
         // 判断是否可以正常发送
-        $check = $this->__checkSendCode($phone,$this->_model);
+        $check = $this->__checkSendCode($phone,$model);
         if ($check !== true) {
             $this->_return['errorno'] = $check['status'];
             $this->_return['msg'] = $check['msg'];
@@ -221,7 +238,7 @@ class Login extends CI_Controller {
         //todo 发送验证码
 //        $this->__sendPhoneMsg($phone,$code ,1);
 
-        $model = $this->_model . $phone;
+        $model = $model . $phone;
 
         $this->__recordSendCodeTimes($phone);
 
@@ -232,48 +249,12 @@ class Login extends CI_Controller {
 
     }
 
-    /**
-     * 发送修改密码验证码
-     */
-    public function sendUpdatePwdCode()
-    {
-//        $_POST['phone'] = '15710061246';
-        // 判断传递参数是否为空
-        if (!isset($_POST['phone']) || empty($_POST['phone'])) {
-            $this->_return['errorno'] = '-1';
-            $this->_return['msg'] = '手机号不能为空';
-            echo json_encode($this->_return);exit;
-        }
-
-        $phone = $_POST['phone'];
-
-        // 判断是否可以正常发送
-        $check = $this->__checkSendCode($phone,$this->_model);
-        if ($check !== true) {
-            $this->_return['errorno'] = $check['status'];
-            $this->_return['msg'] = $check['msg'];
-            echo json_encode($this->_return);exit;
-        }
-        $code = mt_rand(100000, 999999);
-
-        //todo 发送验证码
-//        $this->__sendPhoneMsg($phone,$code ,1);
-
-        $model = $this->_model . $phone;
-
-        $this->__recordSendCodeTimes($phone);
-
-        $this->session->set_userdata($model, ['sendTime' => time(), 'code' => $code]);
-
-        $this->_return['msg'] = '发送成功';
-        echo json_encode($this->_return);exit;
-
-    }
 
     //记录当前用户发送验证码次数
     private function __recordSendCodeTimes($phone){
         $timemodel = 'times' . $phone;
         $userTimes = $this->session->userdata($timemodel);
+//        print_r($userTimes);
         if(!empty($userTimes['times'])){
             $times = $userTimes['times']+1;
         }else{
@@ -299,6 +280,7 @@ class Login extends CI_Controller {
      * 校验验证码
      * @param $phone
      * @param $code
+     * @param $model
      * @return array|bool
      */
     private function __verifyCode($phone,$code,$model){
@@ -329,13 +311,23 @@ class Login extends CI_Controller {
         $phone = (int)$_POST['phone'];
         $code  = (int)$_POST['code'];
 
-        $re = $this->__verifyCode($phone,$code,$this->_model);
+        if (isset($_POST['type']) && ($_POST['type']=='pwd')) {
+            $model = $this->_pwdmodel;
+        }else{
+            $model = $this->_model;
+        }
+
+        $re = $this->__verifyCode($phone,$code,$model);
         if($re['errorno'] < 0){
             $this->_return = array_merge($this->_return,$re);
             echo json_encode($this->_return);exit;
         }
         //删除掉验证码
-        $this->session->unset_userdata($this->_model.$phone);
+        $this->session->unset_userdata($model.$phone);
+        if (isset($_POST['type']) && ($_POST['type']=='pwd')) {
+            //保存当天用户校验过的手机号
+            $this->session->set_userdata($this->_pwd_phone,$phone);
+        }
         $this->_return['errorno'] = '1';
         $this->_return['msg'] = '验证成功';
         echo json_encode($this->_return);exit;
@@ -352,7 +344,7 @@ class Login extends CI_Controller {
         $model = $model.$phone;
 
         if( !preg_match($pattern, $phone) ) {
-            return array( 'status'=>-1,'msg'=>'手机号有误' );
+            return array( 'status'=>-1,'msg'=>'手机号格式有误' );
         }
         $codeInSession = $this->session->userdata($model);
         $userTimes = $this->__getSendCodeTimes($phone);

@@ -30,7 +30,7 @@ class Index extends CI_Controller {
             redirect('/media/login/login');
         }
         if(($user_info['audit_status'] != 1) || ($user_info['status'] != 2)){
-            $userInfo = $this->__get_media_man_model()->select_by_id($user_info['media_man_id']);
+            $userInfo = $this->__get_media_man_model()->selectById($user_info['media_man_id']);
             $this->session->set_userdata('user_info',$userInfo);
             if($userInfo['status']==0){
                 //跳到完善基础信息页面
@@ -177,7 +177,7 @@ class Index extends CI_Controller {
     // 查询自媒体人
     public function select_by_id() {
         $sys_user_id = 1;
-        $result      = $this->__get_media_man_model()->select_by_id($sys_user_id);
+        $result      = $this->__get_media_man_model()->selectById($sys_user_id);
         print_r($result);
     }
 
@@ -294,7 +294,7 @@ class Index extends CI_Controller {
     public function getMediaManInfo(){
         $user_info = $this->__get_user_session();
         $media_man_id = $user_info['media_man_id'];
-        $result = $this->__get_media_man_model()->select_by_id($media_man_id);
+        $result = $this->__get_media_man_model()->selectById($media_man_id);
         $this->_return['errorno'] = 1;
         $this->_return['msg'] = '成功';
         $this->_return['data'] = $result;
@@ -339,7 +339,48 @@ class Index extends CI_Controller {
         }
     }
 
+    /**
+     *  我的列表 （我的任务）
+     */
+    public function myTaskList(){
+        $user_info = $this->__get_user_session();
+        $where['media_man_user_id'] = $user_info['media_man_id'];
+        $result = $this->__get_task_map_model()->get_media_man_task_list_by_condition($where);
+        if(empty($result['total'])){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '没有已领取的任务';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
+    }
 
+    /**
+     *  我的任务详情 （我的任务）
+     */
+    public function myTaskDetail(){
+        $user_info = $this->__get_user_session();
+        $where['media_man_user_id'] = $user_info['media_man_id'];
+        $_POST['task_map_id'] = 1;
+        if(!isset($_POST['task_map_id']) || empty($_POST['task_map_id'])){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '参数错误';
+            echo json_encode($this->_return);exit;
+        }
+        $where['task_map_id'] = $_POST['task_map_id'];
+        $result = $this->__get_task_map_model()->get_media_man_task_detail_by_condition($where);
+        if(isset($result['total'])){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '没有待领取任务';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
+    }
 
 
     /**

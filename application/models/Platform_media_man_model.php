@@ -82,15 +82,26 @@ class Platform_media_man_model extends MY_Model{
         return $this->update($info, $where );
     }
 
-    public function select_by_id($media_man_id) {
+    public function updateInfoByPhone($phone,$info){
+        $where = array('media_man_phone'=>$phone);
+        return $this->update($info, $where );
+    }
+
+    public function selectById($media_man_id) {
 
         $query = $this->db->get_where($this->getTableName(), array('media_man_id' => $media_man_id));
         return $query->row_array();
     }
 
-    public function select_by_login_name($login_name) {
+    public function selectByLoginName($login_name) {
 
         $query = $this->db->get_where($this->getTableName(), array('media_man_login_name' => $login_name));
+        return $query->row_array();
+    }
+
+    public function selectByPhone($phone) {
+
+        $query = $this->db->get_where($this->getTableName(), array('media_man_phone' => $phone));
         return $query->row_array();
     }
 
