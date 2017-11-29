@@ -125,43 +125,47 @@
             <!-- /.box-body -->
         </div>
 
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">审核操作</h3>
-            </div>
-            <div class="box-body">
+        <?php if (in_array($info['audit_status'], [0, 2])): ?>
 
-                <div class="row">
-                    <div class="col-xs-12">
-
-                        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-
-                            <el-form-item label="审核结果" prop="audit_status">
-                                <el-radio-group v-model="ruleForm.audit_status">
-                                    <el-radio label="1">通过</el-radio>
-                                    <el-radio label="2">不通过</el-radio>
-                                </el-radio-group>
-                            </el-form-item>
-
-                            <el-form-item label="拒绝原因" prop="reasons_for_rejection">
-                                <el-input placeholder="请填写拒绝的原因" type="textarea"
-                                          v-model="ruleForm.reasons_for_rejection"></el-input>
-                            </el-form-item>
-
-                            <el-form-item>
-                                <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                                <el-button @click="goBack('ruleForm')">返回</el-button>
-                            </el-form-item>
-
-                        </el-form>
-
-                    </div>
-                    <!-- /.col -->
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">审核操作</h3>
                 </div>
+                <div class="box-body">
 
+                    <div class="row">
+                        <div class="col-xs-12">
+
+                            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+
+                                <el-form-item label="审核结果" prop="audit_status">
+                                    <el-radio-group v-model="ruleForm.audit_status">
+                                        <el-radio label="1">通过</el-radio>
+                                        <el-radio label="2">不通过</el-radio>
+                                    </el-radio-group>
+                                </el-form-item>
+
+                                <el-form-item label="拒绝原因" prop="reasons_for_rejection">
+                                    <el-input placeholder="请填写拒绝的原因" type="textarea"
+                                              v-model="ruleForm.reasons_for_rejection"></el-input>
+                                </el-form-item>
+
+                                <el-form-item>
+                                    <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                                    <el-button @click="goBack('ruleForm')">返回</el-button>
+                                </el-form-item>
+
+                            </el-form>
+
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
             </div>
-            <!-- /.box-body -->
-        </div>
+
+        <?php endif; ?>
 
     </section>
     <!-- /.content -->
