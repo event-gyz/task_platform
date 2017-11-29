@@ -2,7 +2,7 @@
 <html>
 
 <?php include VIEWPATH . '/admin/common/head.php'; ?>
-<link href="/assets/select2/css/select2.css" rel="stylesheet"/>
+<link href="/assets/select2/css/select2.min.css" rel="stylesheet"/>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -120,7 +120,7 @@
 <!-- /.content-wrapper -->
 
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
-<script src="/assets/select2/js/select2.js"></script>
+<script src="/assets/select2/js/select2.full.min.js"></script>
 
 <script>
 

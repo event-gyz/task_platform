@@ -2,6 +2,7 @@
 <html>
 
 <?php include VIEWPATH . '/admin/common/head.php'; ?>
+<link href="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.min.css" rel="stylesheet">
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -77,23 +78,14 @@
 
                                     <div class="form-group col-xs-3">
                                         <label class="col-sm-3 control-label">注册时间</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control"
-                                                   name="start_time"
-                                                   value="<?= $form_data['start_time'] ?>"
-                                            >
-
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" name="create_time"
+                                                   class="form-control pull-right"
+                                                   id="reservation">
                                         </div>
-
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control"
-                                                   name="end_time"
-                                                   value="<?= $form_data['end_time'] ?>"
-                                            >
-
-                                        </div>
-
-
                                     </div>
 
                                 </div>
@@ -198,7 +190,7 @@
                                         <a href="/admin/sys_department/update?id=<?= $value['advertiser_id'] ?>"
                                            class="btn btn-info btn-sm">审核</a>
                                         <a del-url="/admin/sys_department/del?id=<?= $value['advertiser_id'] ?>"
-                                                class="del-department btn btn-danger btn-sm">冻结
+                                           class="del-department btn btn-danger btn-sm">冻结
                                         </a>
                                         <a del-url="/admin/sys_department/del?id=<?= $value['advertiser_id'] ?>"
                                            class="del-department btn btn-danger btn-sm">解冻
@@ -227,8 +219,12 @@
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
 
 <script src="/assets/layer/layer.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.min.js"></script>
 
 <script>
+
+    $('#reservation').daterangepicker()
 
     $('.del-department').click(function () {
         var del_url = $(this).attr('del-url');
