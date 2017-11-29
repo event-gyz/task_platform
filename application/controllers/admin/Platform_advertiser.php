@@ -167,10 +167,46 @@ class Platform_advertiser extends Admin_Controller {
 
     // 个人广告主详情
     public function personal_adv_detail() {
+
+        $id = $this->input->get('id', true);
+
+        if (empty($id)) {
+            return redirect("{$this->host}/admin/platform_advertiser/personal_adv_home_index");
+        }
+
+        $info = $this->__get_platform_advertiser_model()->select_by_id($id);
+
+        if (empty($info)) {
+            return redirect("{$this->host}/admin/platform_advertiser/personal_adv_home_index");
+        }
+
+        return $this->load->view('admin/platform_advertiser/personal_adv_detail',
+            [
+                'info' => $info,
+            ]
+        );
     }
 
     // 公司广告主详情
     public function company_adv_detail() {
+
+        $id = $this->input->get('id', true);
+
+        if (empty($id)) {
+            return redirect("{$this->host}/admin/platform_advertiser/company_adv_home_index");
+        }
+
+        $info = $this->__get_platform_advertiser_model()->select_by_id($id);
+
+        if (empty($info)) {
+            return redirect("{$this->host}/admin/platform_advertiser/company_adv_home_index");
+        }
+
+        return $this->load->view('admin/platform_advertiser/company_adv_detail',
+            [
+                'info' => $info,
+            ]
+        );
     }
 
     /**
