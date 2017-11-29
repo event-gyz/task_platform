@@ -24,9 +24,11 @@ class Platform_advertiser extends Admin_Controller {
 
         return $this->load->view('admin/platform_advertiser/personal_adv_home_index',
             [
-                'form_data' => $form_data,
-                'list'      => $data['list'],
-                'page_link' => $page_link,
+                'form_data'          => $form_data,
+                'list'               => $data['list'],
+                'page_link'          => $page_link,
+                'adv_audit_status'   => $this->config->item('adv_audit_status'),
+                'adv_account_status' => $this->config->item('adv_account_status'),
             ]
         );
     }
@@ -42,9 +44,11 @@ class Platform_advertiser extends Admin_Controller {
 
         return $this->load->view('admin/platform_advertiser/company_adv_home_index',
             [
-                'form_data' => $form_data,
-                'list'      => $data['list'],
-                'page_link' => $page_link,
+                'form_data'          => $form_data,
+                'list'               => $data['list'],
+                'page_link'          => $page_link,
+                'adv_audit_status'   => $this->config->item('adv_audit_status'),
+                'adv_account_status' => $this->config->item('adv_account_status'),
             ]
         );
     }
@@ -53,8 +57,7 @@ class Platform_advertiser extends Admin_Controller {
         $advertiser_name  = $this->input->get('advertiser_name', true);
         $advertiser_phone = $this->input->get('advertiser_phone', true);
         $audit_status     = $this->input->get('audit_status', true);
-        $start_time       = $this->input->get('start_time', true);
-        $end_time         = $this->input->get('end_time', true);
+        $create_time      = $this->input->get('create_time', true);
         $id_card          = $this->input->get('id_card', true);
         $advertiser_id    = $this->input->get('advertiser_id', true);
         $status           = $this->input->get('status', true);
@@ -68,16 +71,14 @@ class Platform_advertiser extends Admin_Controller {
             $where['advertiser_phone'] = $advertiser_phone;
         }
 
-        if ($audit_status !== '') {
+        if ($audit_status !== '' && $audit_status !== null) {
             $where['audit_status'] = $audit_status;
         }
 
-        if (!empty($start_time)) {
-            $where['start_time'] = $start_time;
-        }
-
-        if (!empty($end_time)) {
-            $where['end_time'] = $end_time;
+        if (!empty($create_time)) {
+            $time_arr            = explode(' - ', $create_time);
+            $where['start_time'] = date('Y-m-d H:i:s', strtotime($time_arr[0]));
+            $where['end_time']   = date('Y-m-d H:i:s', strtotime($time_arr[1] . "+1 day -1 seconds"));
         }
 
         if (!empty($id_card)) {
@@ -88,7 +89,7 @@ class Platform_advertiser extends Admin_Controller {
             $where['advertiser_id'] = $advertiser_id;
         }
 
-        if ($status !== '') {
+        if ($status !== '' && $status !== null) {
             $where['status'] = $status;
         }
 
@@ -100,8 +101,7 @@ class Platform_advertiser extends Admin_Controller {
             'advertiser_name'  => $advertiser_name,
             'advertiser_phone' => $advertiser_phone,
             'audit_status'     => $audit_status,
-            'start_time'       => $start_time,
-            'end_time'         => $end_time,
+            'create_time'      => $create_time,
             'id_card'          => $id_card,
             'advertiser_id'    => $advertiser_id,
             'status'           => $status,
@@ -113,8 +113,7 @@ class Platform_advertiser extends Admin_Controller {
         $company_name  = $this->input->get('company_name', true);
         $content_name  = $this->input->get('content_name', true);
         $audit_status  = $this->input->get('audit_status', true);
-        $start_time    = $this->input->get('start_time', true);
-        $end_time      = $this->input->get('end_time', true);
+        $create_time   = $this->input->get('create_time', true);
         $advertiser_id = $this->input->get('advertiser_id', true);
         $content_phone = $this->input->get('content_phone', true);
         $status        = $this->input->get('status', true);
@@ -128,16 +127,14 @@ class Platform_advertiser extends Admin_Controller {
             $where['content_name'] = $content_name;
         }
 
-        if ($audit_status !== '') {
+        if ($audit_status !== '' && $audit_status !== null) {
             $where['audit_status'] = $audit_status;
         }
 
-        if (!empty($start_time)) {
-            $where['start_time'] = $start_time;
-        }
-
-        if (!empty($end_time)) {
-            $where['end_time'] = $end_time;
+        if (!empty($create_time)) {
+            $time_arr            = explode(' - ', $create_time);
+            $where['start_time'] = date('Y-m-d H:i:s', strtotime($time_arr[0]));
+            $where['end_time']   = date('Y-m-d H:i:s', strtotime($time_arr[1] . "+1 day -1 seconds"));
         }
 
         if (!empty($advertiser_id)) {
@@ -148,7 +145,7 @@ class Platform_advertiser extends Admin_Controller {
             $where['content_phone'] = $content_phone;
         }
 
-        if ($status !== '') {
+        if ($status !== '' && $status !== null) {
             $where['status'] = $status;
         }
 
@@ -160,13 +157,56 @@ class Platform_advertiser extends Admin_Controller {
             'company_name'  => $company_name,
             'content_name'  => $content_name,
             'audit_status'  => $audit_status,
-            'start_time'    => $start_time,
-            'end_time'      => $end_time,
+            'create_time'   => $create_time,
             'advertiser_id' => $advertiser_id,
             'content_phone' => $content_phone,
             'status'        => $status,
             'where'         => $where,
         ];
+    }
+
+    // 个人广告主详情
+    public function personal_adv_detail() {
+
+        $id = $this->input->get('id', true);
+
+        if (empty($id)) {
+            return redirect("{$this->host}/admin/platform_advertiser/personal_adv_home_index");
+        }
+
+        $info = $this->__get_platform_advertiser_model()->select_by_id($id);
+
+        if (empty($info)) {
+            return redirect("{$this->host}/admin/platform_advertiser/personal_adv_home_index");
+        }
+
+        return $this->load->view('admin/platform_advertiser/personal_adv_detail',
+            [
+                'info' => $info,
+            ]
+        );
+    }
+
+    // 公司广告主详情
+    public function company_adv_detail() {
+
+        $id = $this->input->get('id', true);
+
+        if (empty($id)) {
+            return redirect("{$this->host}/admin/platform_advertiser/company_adv_home_index");
+        }
+
+        $info = $this->__get_platform_advertiser_model()->select_by_id($id);
+
+        if (empty($info)) {
+            return redirect("{$this->host}/admin/platform_advertiser/company_adv_home_index");
+        }
+
+        return $this->load->view('admin/platform_advertiser/company_adv_detail',
+            [
+                'info' => $info,
+            ]
+        );
     }
 
     /**

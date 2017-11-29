@@ -57,21 +57,15 @@
                                         <div class="col-sm-7">
                                             <select class="form-control" name="audit_status">
                                                 <option value="">全部</option>
-                                                <option value="0"
-                                                    <?= $form_data['audit_status'] == '0' ? "selected" : "" ?>
-                                                >
-                                                    待审核
-                                                </option>
-                                                <option value="1"
-                                                    <?= $form_data['audit_status'] == '1' ? "selected" : "" ?>
-                                                >
-                                                    通过
-                                                </option>
-                                                <option value="2"
-                                                    <?= $form_data['audit_status'] == '2' ? "selected" : "" ?>
-                                                >
-                                                    驳回
-                                                </option>
+
+                                                <?php foreach ($adv_audit_status as $key => $value): ?>
+                                                    <option value="<?= $key ?>"
+                                                        <?= $key === $form_data['audit_status'] ? 'selected' : ''; ?>
+                                                    >
+                                                        <?= $value ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+
                                             </select>
                                         </div>
                                     </div>
@@ -84,7 +78,9 @@
                                             </div>
                                             <input type="text" name="create_time"
                                                    class="form-control pull-right"
-                                                   id="reservation">
+                                                   id="reservation"
+                                                   value="<?= $form_data['create_time'] ?>"
+                                            >
                                         </div>
                                     </div>
 
@@ -117,26 +113,15 @@
                                         <div class="col-sm-7">
                                             <select class="form-control" name="status">
                                                 <option value="">全部</option>
-                                                <option value="0"
-                                                    <?= $form_data['status'] == '0' ? "selected" : "" ?>
-                                                >
-                                                    草稿
-                                                </option>
-                                                <option value="1"
-                                                    <?= $form_data['status'] == '1' ? "selected" : "" ?>
-                                                >
-                                                    待审核
-                                                </option>
-                                                <option value="2"
-                                                    <?= $form_data['status'] == '2' ? "selected" : "" ?>
-                                                >
-                                                    正常
-                                                </option>
-                                                <option value="9"
-                                                    <?= $form_data['status'] == '9' ? "selected" : "" ?>
-                                                >
-                                                    冻结
-                                                </option>
+
+                                                <?php foreach ($adv_account_status as $key => $value): ?>
+                                                    <option value="<?= $key ?>"
+                                                        <?= $key === $form_data['status'] ? 'selected' : ''; ?>
+                                                    >
+                                                        <?= $value ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+
                                             </select>
                                         </div>
                                     </div>
@@ -181,19 +166,32 @@
                                     <th><?= $value['advertiser_name'] ?></th>
                                     <th><?= $value['advertiser_phone'] ?></th>
                                     <th><?= $value['id_card'] ?></th>
-                                    <th><?= $value['audit_status'] ?></th>
+                                    <th>
+                                        <small class="label
+                                            <?= $value['audit_status'] === "0" ? "bg-yellow" : "" ?>
+                                            <?= $value['audit_status'] === "1" ? "bg-green" : "" ?>
+                                            <?= $value['audit_status'] === "2" ? "bg-red" : "" ?>
+                                        ">
+                                            <?= $adv_audit_status[$value['audit_status']] ?>
+                                        </small>
+                                    </th>
                                     <th><?= $value['create_time'] ?></th>
-                                    <th><?= $value['status'] ?></th>
+                                    <th>
+                                        <small class="label
+                                            <?= $value['status'] === "0" ? "bg-gray" : "" ?>
+                                            <?= $value['status'] === "1" ? "bg-yellow" : "" ?>
+                                            <?= $value['status'] === "2" ? "bg-green" : "" ?>
+                                            <?= $value['status'] === "9" ? "bg-red" : "" ?>
+                                        ">
+                                            <?= $adv_account_status[$value['status']] ?>
+                                        </small>
+                                    </th>
                                     <th><?= $value['last_operator_name'] ?></th>
                                     <th><?= $value['update_time'] ?></th>
                                     <th>
-                                        <a href="/admin/sys_department/update?id=<?= $value['advertiser_id'] ?>"
-                                           class="btn btn-info btn-sm">审核</a>
-                                        <a del-url="/admin/sys_department/del?id=<?= $value['advertiser_id'] ?>"
-                                           class="del-department btn btn-danger btn-sm">冻结
-                                        </a>
-                                        <a del-url="/admin/sys_department/del?id=<?= $value['advertiser_id'] ?>"
-                                           class="del-department btn btn-danger btn-sm">解冻
+                                        <a href="/admin/platform_advertiser/personal_adv_detail?id=<?= $value['advertiser_id'] ?>"
+                                           class="btn btn-success btn-sm">
+                                            详情
                                         </a>
                                     </th>
                                 </tr>
@@ -224,7 +222,15 @@
 
 <script>
 
-    $('#reservation').daterangepicker()
+    $('#reservation').daterangepicker({
+        locale: {
+            applyLabel : '确定',
+            cancelLabel: '取消',
+            daysOfWeek : ['日', '一', '二', '三', '四', '五', '六'],
+            monthNames : ['一月', '二月', '三月', '四月', '五月', '六月',
+                '七月', '八月', '九月', '十月', '十一月', '十二月'],
+        }
+    });
 
     $('.del-department').click(function () {
         var del_url = $(this).attr('del-url');
