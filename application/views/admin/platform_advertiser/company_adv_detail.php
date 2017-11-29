@@ -83,6 +83,21 @@
                                         ">
                             <?= $adv_account_status[$info['status']] ?>
                         </small>
+
+                        <?php if ($info['status'] === "9"): ?>
+                            <button @click="update_adv_account_status('2','<?= $info['advertiser_id'] ?>')"
+                                    class="btn btn-success btn-sm" style="margin-left: 10px;">
+                                解冻
+                            </button>
+                        <?php endif; ?>
+
+                        <?php if ($info['status'] === "2"): ?>
+                            <button @click="update_adv_account_status('9','<?= $info['advertiser_id'] ?>')"
+                                    class="btn btn-danger btn-sm" style="margin-left: 10px;">
+                                冻结
+                            </button>
+                        <?php endif; ?>
+
                         <br><br>
                     </div>
                     <div class="col-sm-3">
