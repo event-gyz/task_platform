@@ -59,14 +59,31 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>审核状态：</b> <?= $info['audit_status'] ?><br><br>
+                        <b>审核状态：</b>
+                        <small class="label
+                                            <?= $info['audit_status'] === "0" ? "bg-yellow" : "" ?>
+                                            <?= $info['audit_status'] === "1" ? "bg-green" : "" ?>
+                                            <?= $info['audit_status'] === "2" ? "bg-red" : "" ?>
+                                        ">
+                            <?= $adv_audit_status[$info['audit_status']] ?>
+                        </small>
+                        <br><br>
                     </div>
 
                 </div>
 
                 <div class="row">
                     <div class="col-sm-3">
-                        <b>账户状态：</b> <?= $info['status'] ?><br><br>
+                        <b>账户状态：</b>
+                        <small class="label
+                                            <?= $info['status'] === "0" ? "bg-gray" : "" ?>
+                                            <?= $info['status'] === "1" ? "bg-yellow" : "" ?>
+                                            <?= $info['status'] === "2" ? "bg-green" : "" ?>
+                                            <?= $info['status'] === "9" ? "bg-red" : "" ?>
+                                        ">
+                            <?= $adv_account_status[$info['status']] ?>
+                        </small>
+                        <br><br>
                     </div>
                     <div class="col-sm-3">
                         <b>营业执照：</b>
