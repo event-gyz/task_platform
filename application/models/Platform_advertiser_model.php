@@ -91,7 +91,7 @@ class Platform_advertiser_model extends MY_Model {
         $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);
-        
+
         $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
         return $data;
     }
