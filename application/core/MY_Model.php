@@ -137,7 +137,7 @@ class MY_Model {
         if ($effect === false) {
             throw new SystemError(SystemError::DB_SQL_FAIL);
         }
-        return $effect;
+        return $this->db->affected_rows();
     }
 
     /**

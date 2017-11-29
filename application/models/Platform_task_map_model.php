@@ -131,35 +131,38 @@ class Platform_task_map_model extends MY_Model{
     }
 
     //未领取的有效的任务列表
-    public function getTaskDetail($media_man_id,$map_id){
+    public function getTaskDetail($media_man_id,$where){
         if(empty($media_man_id)){
             return false;
         }
-        $param = "pt.*,ptm.create_time as allot_time";
+        $param = "pt.*,ptm.create_time as allot_time,ptm.task_map_id";
         $sql = "SELECT [*] FROM `{$this->table}` AS ptm LEFT JOIN platform_task as pt ON ptm.task_id=pt.task_id where 1=1 ";
 
         // 拼接查询条件
 
         // 根据media_man_id
         $sql .= sprintf(" AND ptm.media_man_user_id = %d", $media_man_id);
-        $sql .= sprintf(" AND ptm.task_map_id = %d", $map_id);
-        $sql .= sprintf(" AND ptm.receive_status = %d", 0);
-        $sql .= sprintf(" AND pt.release_status = %d", 1);
+        if (isset($where['map_id']) && $where['map_id']) {
+            $sql .= sprintf(" AND ptm.task_map_id = %d", $where['map_id']);
+        }
+        if (isset($where['receive_status']) && $where['receive_status']) {
+            $sql .= sprintf(" AND ptm.receive_status = %d", $where['receive_status']);
+        }
+        if (isset($where['release_status']) && $where['release_status']) {
+            $sql .= sprintf(" AND pt.release_status = %d", $where['release_status']);
+        }
 
         // 总数
         $sqlCount = str_replace('[*]', 'count(ptm.task_map_id) AS c', $sql);
         $total    = $this->getCount($sqlCount);
 
         if ($total === '0') {
-            return ['total' => $total, 'list' => []];
+            return false;
         }
 
         $_sql = str_replace('[*]', $param, $sql);
 
-        $_list = $this->getRow($_sql);
-
-        $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
-        return $data;
+        return $this->getRow($_sql);
     }
 }
 

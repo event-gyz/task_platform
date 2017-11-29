@@ -220,12 +220,12 @@ class Index extends CI_Controller {
 
         //超时未领取的任务置为超时
         $this->__get_task_map_model()->updateTimeOutTaskMap($media_man_id);
-        $result = $this->__get_task_map_model()->getMissionHall($media_man_id,$map_id);
-        unset($result['sql']);
 
+        $where['map_id'] = $map_id;
+        $where['receive_status'] = 0;
+        $where['release_status'] = 1;
+        $result = $this->__get_task_map_model()->getTaskDetail($media_man_id,$where);
         $result['allot_time'] = $this->timediff(strtotime($result['allot_time']));
-
-
         if(is_array($result) && !empty($result)){
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '成功';
@@ -233,17 +233,59 @@ class Index extends CI_Controller {
             echo json_encode($this->_return);exit;
         }else{
             $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '暂无分配的任务';
+            $this->_return['msg'] = '任务已失效';
             echo json_encode($this->_return);exit;
         }
     }
 
     /**
+     * 接受任务
+     */
+    public function acceptTask(){
+        $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 1;
+        $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 1;
+        $where['task_map_id'] = $map_id;
+        $where['task_id'] = $task_id;
+        $user_info = $this->session->userdata('user_info');
+        $where['media_man_user_id'] = $user_info['media_man_id'];
+        $where['receive_status'] = 0;
+        $info ['receive_status'] = 1;
+        $result = $this->__get_task_map_model()->updateStatus($where,$info);
+        if(!empty($result)){
+            $this->_return['errorno'] = 1;
+            $this->_return['msg'] = '成功';
+            echo json_encode($this->_return);exit;
+        }else{
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '操作失败';
+            echo json_encode($this->_return);exit;
+        }
+
+    }
+
+    /**
+     * 拒绝任务
+     */
+    public function refuseTask(){
+        $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 0;
+        $where['task_map_id'] = $map_id;
+        $where['receive_status'] = 0;
+        $info ['receive_status'] = 2;
+        $result = $this->__get_task_map_model()->updateStatus($where,$info);
+        if(!empty($result)){
+            $this->_return['errorno'] = 1;
+            $this->_return['msg'] = '成功';
+            echo json_encode($this->_return);exit;
+        }else{
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '操作失败';
+            echo json_encode($this->_return);exit;
+        }
+    }
+    /**
      * 获取剩余时间
-     *
-     * @param int $begin_time
-     * @param int $end_time
-     * @return array
+     * @param $allot_time
+     * @return bool|string
      */
     private function timediff($allot_time){
         $result = Wap::timediff($allot_time+7200);
