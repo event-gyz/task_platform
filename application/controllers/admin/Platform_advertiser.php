@@ -93,7 +93,7 @@ class Platform_advertiser extends Admin_Controller {
         }
 
         $page_arr                 = $this->get_list_limit_and_offset_params();
-        $where['advertiser_type'] = Platform_advertiser_model::ADVERTISER_TYPE_PERSONAL;
+        $where['advertiser_type'] = 1;
         $where                    = array_merge($page_arr, $where);
 
         return [
@@ -153,7 +153,7 @@ class Platform_advertiser extends Admin_Controller {
         }
 
         $page_arr                 = $this->get_list_limit_and_offset_params();
-        $where['advertiser_type'] = Platform_advertiser_model::ADVERTISER_TYPE_PERSONAL;
+        $where['advertiser_type'] = 2;
         $where                    = array_merge($page_arr, $where);
 
         return [
