@@ -84,7 +84,9 @@
                                             </div>
                                             <input type="text" name="create_time"
                                                    class="form-control pull-right"
-                                                   id="reservation">
+                                                   id="reservation"
+                                                   value="<?= $form_data['create_time'] ?>"
+                                            >
                                         </div>
                                     </div>
 
