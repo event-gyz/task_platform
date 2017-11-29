@@ -128,7 +128,7 @@ class Platform_advertiser extends Admin_Controller {
             $where['content_name'] = $content_name;
         }
 
-        if (!empty($audit_status)) {
+        if ($audit_status !== '') {
             $where['audit_status'] = $audit_status;
         }
 
@@ -148,7 +148,7 @@ class Platform_advertiser extends Admin_Controller {
             $where['content_phone'] = $content_phone;
         }
 
-        if (!empty($status)) {
+        if ($status !== '') {
             $where['status'] = $status;
         }
 

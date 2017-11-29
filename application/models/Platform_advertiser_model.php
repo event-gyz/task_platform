@@ -21,6 +21,21 @@ class Platform_advertiser_model extends MY_Model {
 
         // 拼接查询条件
 
+        // 根据公司名称
+        if (isset($where['company_name']) && $where['company_name']) {
+            $sql .= sprintf(" AND pa.company_name like '%s%%'", $where['company_name']);
+        }
+
+        // 根据公司联系人姓名
+        if (isset($where['content_name']) && $where['content_name']) {
+            $sql .= sprintf(" AND pa.content_name like '%s%%'", $where['content_name']);
+        }
+
+        // 根据公司联系人电话
+        if (isset($where['content_phone']) && $where['content_phone']) {
+            $sql .= sprintf(" AND pa.content_phone like '%s%%'", $where['content_phone']);
+        }
+
         // 根据用户id
         if (isset($where['advertiser_id']) && $where['advertiser_id']) {
             $sql .= sprintf(" AND pa.advertiser_id = %d", $where['advertiser_id']);
