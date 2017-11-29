@@ -88,7 +88,7 @@ class Platform_advertiser extends Admin_Controller {
             $where['advertiser_id'] = $advertiser_id;
         }
 
-        if (!empty($status)) {
+        if ($status !== '') {
             $where['status'] = $status;
         }
 

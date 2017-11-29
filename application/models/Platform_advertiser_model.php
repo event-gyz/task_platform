@@ -47,7 +47,7 @@ class Platform_advertiser_model extends MY_Model {
         }
 
         // 根据广告主账户状态
-        if (isset($where['status']) && $where['status']) {
+        if (isset($where['status']) && $where['status'] !== '') {
             $sql .= sprintf(" AND pa.status = %d", $where['status']);
         }
 
