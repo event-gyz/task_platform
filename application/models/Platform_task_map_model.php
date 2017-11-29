@@ -100,11 +100,12 @@ class Platform_task_map_model extends MY_Model{
         return $data;
     }
     /**
-     * 自媒体人我的任务列表(已接受的任务)
+     * todo
+     * 自媒体人错过的收入
      * @param $where
      * @return array
      */
-    public function get_media_man_task_list_by_condition($where) {
+    public function get_media_man_miss_income($where) {
         $data = [];
         if(!isset($where['media_man_user_id']) || empty($where['media_man_user_id'])){
             return ['total' => 0, 'list' => []];
