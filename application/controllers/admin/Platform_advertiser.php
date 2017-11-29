@@ -68,7 +68,7 @@ class Platform_advertiser extends Admin_Controller {
             $where['advertiser_phone'] = $advertiser_phone;
         }
 
-        if (!empty($audit_status)) {
+        if ($audit_status !== '') {
             $where['audit_status'] = $audit_status;
         }
 
@@ -88,12 +88,13 @@ class Platform_advertiser extends Admin_Controller {
             $where['advertiser_id'] = $advertiser_id;
         }
 
-        if (!empty($status)) {
+        if ($status !== '') {
             $where['status'] = $status;
         }
 
-        $page_arr = $this->get_list_limit_and_offset_params();
-        $where    = array_merge($page_arr, $where);
+        $page_arr                 = $this->get_list_limit_and_offset_params();
+        $where['advertiser_type'] = 1;
+        $where                    = array_merge($page_arr, $where);
 
         return [
             'advertiser_name'  => $advertiser_name,
@@ -127,7 +128,7 @@ class Platform_advertiser extends Admin_Controller {
             $where['content_name'] = $content_name;
         }
 
-        if (!empty($audit_status)) {
+        if ($audit_status !== '') {
             $where['audit_status'] = $audit_status;
         }
 
@@ -147,12 +148,13 @@ class Platform_advertiser extends Admin_Controller {
             $where['content_phone'] = $content_phone;
         }
 
-        if (!empty($status)) {
+        if ($status !== '') {
             $where['status'] = $status;
         }
 
-        $page_arr = $this->get_list_limit_and_offset_params();
-        $where    = array_merge($page_arr, $where);
+        $page_arr                 = $this->get_list_limit_and_offset_params();
+        $where['advertiser_type'] = 2;
+        $where                    = array_merge($page_arr, $where);
 
         return [
             'company_name'  => $company_name,
