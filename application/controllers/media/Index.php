@@ -25,7 +25,7 @@ class Index extends CI_Controller {
     );
 
     private function checkUserLogin(){
-        $user_info = $this->session->userdata('user_info');
+        $user_info = $this->__get_user_session();
         if(!$user_info['media_man_id']){
             redirect('/media/login/login');
         }
@@ -118,7 +118,7 @@ class Index extends CI_Controller {
             );
 
             //通过session获取用户信息
-            $userInfo = $this->session->userdata('user_info');
+            $userInfo = $this->__get_user_session();
             $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
             if ($re) {
 //                $userInfo = array_merge($userInfo,$data);
@@ -156,7 +156,7 @@ class Index extends CI_Controller {
             );
 
             //通过session获取用户信息
-            $userInfo = $this->session->userdata('user_info');
+            $userInfo = $this->__get_user_session();
             $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
             if ($re) {
 //                $userInfo = array_merge($userInfo,$data);
@@ -185,7 +185,7 @@ class Index extends CI_Controller {
     public function getMissionHall(){
 
         $page = (isset($_POST['page'])&&!empty($_POST['page'])) ? $_POST['page'] : 0;
-        $user_info = $this->session->userdata('user_info');
+        $user_info = $this->__get_user_session();
         $media_man_id = $user_info['media_man_id'];
 
         //超时未领取的任务置为超时
@@ -193,7 +193,7 @@ class Index extends CI_Controller {
         $result = $this->__get_task_map_model()->getMissionHall($media_man_id,$page);
         unset($result['sql']);
         foreach($result['list'] as $key => &$value){
-            $allot_time = $this->timediff(strtotime($value['allot_time']));
+            $allot_time = $this->__timediff(strtotime($value['allot_time']));
             if($allot_time){
                 $value['allot_time']  = $allot_time;
             }else{
@@ -215,7 +215,7 @@ class Index extends CI_Controller {
     // 任务大厅任务详情
     public function getMissionHallTaskDetail(){
         $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 0;
-        $user_info = $this->session->userdata('user_info');
+        $user_info = $this->__get_user_session();
         $media_man_id = $user_info['media_man_id'];
 
         //超时未领取的任务置为超时
@@ -225,7 +225,7 @@ class Index extends CI_Controller {
         $where['receive_status'] = 0;
         $where['release_status'] = 1;
         $result = $this->__get_task_map_model()->getTaskDetail($media_man_id,$where);
-        $result['allot_time'] = $this->timediff(strtotime($result['allot_time']));
+        $result['allot_time'] = $this->__timediff(strtotime($result['allot_time']));
         if(is_array($result) && !empty($result)){
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '成功';
@@ -246,14 +246,14 @@ class Index extends CI_Controller {
         $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 1;
         $where['task_map_id'] = $map_id;
         $where['task_id'] = $task_id;
-        $user_info = $this->session->userdata('user_info');
+        $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $where['receive_status'] = 0;
         $info ['receive_status'] = 1;
         $result = $this->__get_task_map_model()->updateStatus($where,$info);
         if(!empty($result)){
             $this->_return['errorno'] = 1;
-            $this->_return['msg'] = '成功';
+            $this->_return['msg'] = '领取成功';
             echo json_encode($this->_return);exit;
         }else{
             $this->_return['errorno'] = -1;
@@ -267,14 +267,18 @@ class Index extends CI_Controller {
      * 拒绝任务
      */
     public function refuseTask(){
-        $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 0;
+        $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 1;
+        $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 1;
         $where['task_map_id'] = $map_id;
+        $where['task_id'] = $task_id;
+        $user_info = $this->__get_user_session();
+        $where['media_man_user_id'] = $user_info['media_man_id'];
         $where['receive_status'] = 0;
         $info ['receive_status'] = 2;
         $result = $this->__get_task_map_model()->updateStatus($where,$info);
         if(!empty($result)){
             $this->_return['errorno'] = 1;
-            $this->_return['msg'] = '成功';
+            $this->_return['msg'] = '拒绝成功';
             echo json_encode($this->_return);exit;
         }else{
             $this->_return['errorno'] = -1;
@@ -282,12 +286,68 @@ class Index extends CI_Controller {
             echo json_encode($this->_return);exit;
         }
     }
+
+
+    /**
+     * 我的列表 （我的资料）
+     */
+    public function getMediaManInfo(){
+        $user_info = $this->__get_user_session();
+        $media_man_id = $user_info['media_man_id'];
+        $result = $this->__get_media_man_model()->select_by_id($media_man_id);
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
+    }
+
+    /**
+     * 我的列表 （我的消息）
+     */
+    public function myMessage(){
+        $user_info = $this->__get_user_session();
+        $where['user_id'] = $user_info['media_man_id'];
+        $where['user_type'] = '2';
+        $where['message_status'] = '0';
+        $result = $this->__get_user_message_model()->get_user_message_list_by_condition($where);
+        if(empty($result['total'])){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '没有新的消息';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
+    }
+    /**
+     * 我的列表 （我的消息-删除消息）
+     */
+    public function delMessage(){
+        $user_message_id = $_POST['message_id'];
+        if(empty($user_message_id)){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '非法参数';
+            echo json_encode($this->_return);exit;
+        }
+        $info['message_status'] = '1';
+        $result = $this->__get_user_message_model()->update_user_message($user_message_id, $info);
+        if($result){
+            $this->_return['errorno'] = 1;
+            $this->_return['msg'] = '成功';
+            echo json_encode($this->_return);exit;
+        }
+    }
+
+
+
+
     /**
      * 获取剩余时间
      * @param $allot_time
      * @return bool|string
      */
-    private function timediff($allot_time){
+    private function __timediff($allot_time){
         $result = Wap::timediff($allot_time+7200);
         if(!is_array($result) || $result<0){
             //任务已经超时，修改任务状态
@@ -309,7 +369,16 @@ class Index extends CI_Controller {
 
 
 
-
+    private function __get_user_session(){
+        $userSession = $this->session->userdata('user_info');
+        if(empty($userSession) || !is_array($userSession)){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '用户信息有误请重新登录';
+            //todo 跳到登录页面
+            echo json_encode($this->_return);exit;
+        }
+        return $userSession;
+    }
 
 
 
@@ -329,7 +398,13 @@ class Index extends CI_Controller {
         return $this->Platform_task_map_model;
     }
 
-
+    /**
+     * @return User_message_model
+     */
+    private function __get_user_message_model() {
+        $this->load->model('User_message_model');
+        return $this->User_message_model;
+    }
 
 
 

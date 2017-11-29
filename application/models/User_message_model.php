@@ -21,6 +21,10 @@ class User_message_model extends MY_Model {
             $sql .= sprintf(" AND um.user_id = %d", $where['user_id']);
         }
 
+        if (isset($where['user_type']) && $where['user_type']) {
+            $sql .= sprintf(" AND um.user_type = %d", $where['user_type']);
+        }
+
         if (isset($where['message_status']) && $where['message_status']) {
             $sql .= sprintf(" AND um.message_status = %d", $where['message_status']);
         }
@@ -67,7 +71,6 @@ class User_message_model extends MY_Model {
     }
 
     public function update_user_message($user_message_id, $info) {
-        $info['update_time'] = date('Y-m-d H:i:s', time());
         $where               = array('id' => $user_message_id);
         return $this->update($info, $where);
     }
