@@ -174,7 +174,7 @@ class Platform_advertiser extends Admin_Controller {
             return redirect("{$this->host}/admin/platform_advertiser/personal_adv_home_index");
         }
 
-        $info = $this->__get_platform_advertiser_model()->select_by_id($id);
+        $info = $this->__get_platform_advertiser_model()->selectById($id);
 
         if (empty($info)) {
             return redirect("{$this->host}/admin/platform_advertiser/personal_adv_home_index");
@@ -198,7 +198,7 @@ class Platform_advertiser extends Admin_Controller {
             return redirect("{$this->host}/admin/platform_advertiser/company_adv_home_index");
         }
 
-        $info = $this->__get_platform_advertiser_model()->select_by_id($id);
+        $info = $this->__get_platform_advertiser_model()->selectById($id);
 
         if (empty($info)) {
             return redirect("{$this->host}/admin/platform_advertiser/company_adv_home_index");
@@ -230,7 +230,7 @@ class Platform_advertiser extends Admin_Controller {
             return $this->response_json(1, 'audit_status不能为空');
         }
 
-        $info = $this->__get_platform_advertiser_model()->select_by_id($id);
+        $info = $this->__get_platform_advertiser_model()->selectById($id);
 
         if (empty($info)) {
             return $this->response_json(1, '查找不到对应的信息');
@@ -240,17 +240,22 @@ class Platform_advertiser extends Admin_Controller {
             return $this->response_json(1, '非法操作');
         }
 
-        $info['audit_status']          = $audit_status;
-        $info['reasons_for_rejection'] = empty($reasons_for_rejection) ? '' : $reasons_for_rejection;
+        $update_info['audit_status']          = $audit_status;
+        $update_info['reasons_for_rejection'] = empty($reasons_for_rejection) ? '' : $reasons_for_rejection;
+        $sys_log_content                      = '广告主审核驳回,驳回的原因是:' . $update_info['reasons_for_rejection'];
 
         if ($audit_status === "1") {
-            $info['reasons_for_rejection'] = "";
-            $info['status']                = 2;// 当审核通过后需要将status设置为2正常
+            $update_info['reasons_for_rejection'] = "";
+            $update_info['status']                = 2;// 当审核通过后需要将status设置为2正常
+            $sys_log_content                      = '广告主审核通过';
         }
 
-        $result = $this->__get_platform_advertiser_model()->update_platform_advertiser($id, $info);
+        $result = $this->__get_platform_advertiser_model()->updateInfo($id, $update_info);
 
         if ($result === 1) {
+
+            $this->add_sys_log(2, $sys_log_content, json_encode($info), json_encode($update_info));
+
             return $this->response_json(0, '操作成功');
         }
 
@@ -274,7 +279,7 @@ class Platform_advertiser extends Admin_Controller {
             return $this->response_json(1, 'account_status不能为空');
         }
 
-        $info = $this->__get_platform_advertiser_model()->select_by_id($id);
+        $info = $this->__get_platform_advertiser_model()->selectById($id);
 
         if (empty($info)) {
             return $this->response_json(1, '查找不到对应的信息');
@@ -284,17 +289,21 @@ class Platform_advertiser extends Admin_Controller {
             return $this->response_json(1, '非法操作');
         }
 
+        $update_info['status']          = $account_status;
+        $update_info['freezing_reason'] = empty($freezing_reason) ? '' : $freezing_reason;
+        $sys_log_content                = '广告主账户被冻结,冻结的原因是:' . $update_info['freezing_reason'];
+
         if ($account_status === "2") {
-            $freezing_reason = "";
+            $update_info['freezing_reason'] = "";
+            $sys_log_content                = '广告主账户被解冻';
         }
 
-        $info   = [
-            'status'          => $account_status,
-            'freezing_reason' => empty($freezing_reason) ? '' : $freezing_reason,
-        ];
-        $result = $this->__get_platform_advertiser_model()->update_platform_advertiser($id, $info);
+        $result = $this->__get_platform_advertiser_model()->updateInfo($id, $update_info);
 
         if ($result === 1) {
+
+            $this->add_sys_log(5, $sys_log_content, json_encode($info), json_encode($update_info));
+
             return $this->response_json(0, '操作成功');
         }
 
