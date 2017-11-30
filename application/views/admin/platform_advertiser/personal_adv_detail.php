@@ -174,7 +174,8 @@
             <!-- /.box-body -->
         </div>
 
-        <?php if (in_array($info['audit_status'], [0, 2])): ?>
+        <!--帐号状态status=1待审核,审核状态audit_status=0待审核或者审核状态audit_status=2驳回时才进行审核-->
+        <?php if (($info['status'] === "1") && in_array($info['audit_status'], [0, 2])): ?>
 
             <div class="box box-default">
                 <div class="box-header with-border">

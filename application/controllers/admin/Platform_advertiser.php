@@ -240,14 +240,14 @@ class Platform_advertiser extends Admin_Controller {
             return $this->response_json(1, '非法操作');
         }
 
+        $info['audit_status']          = $audit_status;
+        $info['reasons_for_rejection'] = empty($reasons_for_rejection) ? '' : $reasons_for_rejection;
+
         if ($audit_status === "1") {
-            $reasons_for_rejection = "";
+            $info['reasons_for_rejection'] = "";
+            $info['status']                = 2;// 当审核通过后需要将status设置为2正常
         }
 
-        $info   = [
-            'audit_status'          => $audit_status,
-            'reasons_for_rejection' => empty($reasons_for_rejection) ? '' : $reasons_for_rejection,
-        ];
         $result = $this->__get_platform_advertiser_model()->update_platform_advertiser($id, $info);
 
         if ($result === 1) {
