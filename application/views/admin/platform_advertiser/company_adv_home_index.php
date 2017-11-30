@@ -233,17 +233,6 @@
         }
     });
 
-    $('.del-department').click(function () {
-        var del_url = $(this).attr('del-url');
-
-        layer.confirm(
-            '确定删除此部门？',
-            {btn: ['确定', '取消']},
-            function () {
-                window.location.href = del_url;
-            });
-    });
-
 </script>
 
 </html>

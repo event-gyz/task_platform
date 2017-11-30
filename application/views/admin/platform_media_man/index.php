@@ -9,8 +9,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            个人广告主审核列表
-            <small>管理个人广告主的审核</small>
+            自媒体人审核列表
+            <small>管理自媒体人的审核</small>
         </h1>
     </section>
 
@@ -33,21 +33,21 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="advertiser_name" class="col-sm-3 control-label">姓名</label>
+                                        <label for="media_man_name" class="col-sm-3 control-label">姓名</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="advertiser_name"
-                                                   placeholder="输入姓名来搜索..." name="advertiser_name"
-                                                   value="<?= $form_data['advertiser_name'] ?>"
+                                            <input type="text" class="form-control"
+                                                   placeholder="输入姓名来搜索..." name="media_man_name"
+                                                   value="<?= $form_data['media_man_name'] ?>"
                                             >
                                         </div>
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="advertiser_phone" class="col-sm-3 control-label">手机号码</label>
+                                        <label for="school_name" class="col-sm-4 control-label">学校名称</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control" id="advertiser_phone"
-                                                   placeholder="输入手机号码来搜索..." name="advertiser_phone"
-                                                   value="<?= $form_data['advertiser_phone'] ?>"
+                                            <input type="text" class="form-control"
+                                                   placeholder="输入学校名称来搜索..." name="school_name"
+                                                   value="<?= $form_data['school_name'] ?>"
                                             >
                                         </div>
                                     </div>
@@ -89,21 +89,21 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="id_card" class="col-sm-3 control-label">身份证号</label>
+                                        <label for="sex" class="col-sm-3 control-label">性别</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
-                                                   placeholder="输入身份证号来搜索..." name="id_card"
-                                                   value="<?= $form_data['id_card'] ?>"
+                                                   placeholder="输入性别来搜索..." name="sex"
+                                                   value="<?= $form_data['sex'] ?>"
                                             >
                                         </div>
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="advertiser_id" class="col-sm-3 control-label">用户ID</label>
+                                        <label for="media_man_phone" class="col-sm-4 control-label">电话</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
-                                                   placeholder="输入用户ID来搜索..." name="advertiser_id"
-                                                   value="<?= $form_data['advertiser_id'] ?>"
+                                                   placeholder="输入电话来搜索..." name="media_man_phone"
+                                                   value="<?= $form_data['media_man_phone'] ?>"
                                             >
                                         </div>
                                     </div>
@@ -123,6 +123,16 @@
                                                 <?php endforeach; ?>
 
                                             </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-xs-3">
+                                        <label for="tag" class="col-sm-4 control-label">标签</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control"
+                                                   placeholder="输入标签来搜索..." name="tag"
+                                                   value="<?= $form_data['tag'] ?>"
+                                            >
                                         </div>
                                     </div>
 
@@ -149,8 +159,9 @@
                                 <th>用户ID</th>
                                 <th>用户名</th>
                                 <th>姓名</th>
-                                <th>手机号码</th>
-                                <th>身份证号</th>
+                                <th>性别</th>
+                                <th>电话</th>
+                                <th>学校名称</th>
                                 <th>审核状态</th>
                                 <th>注册时间</th>
                                 <th>帐号状态</th>
@@ -161,11 +172,12 @@
 
                             <?php foreach ($list as $value): ?>
                                 <tr>
-                                    <th><?= $value['advertiser_id'] ?></th>
-                                    <th><?= $value['advertiser_login_name'] ?></th>
-                                    <th><?= $value['advertiser_name'] ?></th>
-                                    <th><?= $value['advertiser_phone'] ?></th>
-                                    <th><?= $value['id_card'] ?></th>
+                                    <th><?= $value['media_man_id'] ?></th>
+                                    <th><?= $value['media_man_login_name'] ?></th>
+                                    <th><?= $value['media_man_name'] ?></th>
+                                    <th><?= $value['sex'] ?></th>
+                                    <th><?= $value['media_man_phone'] ?></th>
+                                    <th><?= $value['school_name'] ?></th>
                                     <th>
                                         <small class="label
                                             <?= $value['audit_status'] === "0" ? "bg-yellow" : "" ?>
@@ -189,7 +201,7 @@
                                     <th><?= $value['last_operator_name'] ?></th>
                                     <th><?= $value['update_time'] ?></th>
                                     <th>
-                                        <a href="/admin/platform_advertiser/personal_adv_detail?id=<?= $value['advertiser_id'] ?>"
+                                        <a href="/admin/platform_advertiser/company_adv_detail?id=<?= $value['advertiser_id'] ?>"
                                            class="btn btn-success btn-sm">
                                             详情
                                         </a>
