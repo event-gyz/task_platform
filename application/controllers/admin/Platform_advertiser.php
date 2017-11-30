@@ -186,7 +186,7 @@ class Platform_advertiser extends Admin_Controller {
         return $this->load->view('admin/platform_advertiser/personal_adv_detail',
             [
                 'info'               => $info,
-                'log_list'           => $log_list,
+                'log_list'           => $log_list['list'],
                 'adv_audit_status'   => $this->config->item('adv_audit_status'),
                 'adv_account_status' => $this->config->item('adv_account_status'),
             ]
@@ -214,7 +214,7 @@ class Platform_advertiser extends Admin_Controller {
         return $this->load->view('admin/platform_advertiser/company_adv_detail',
             [
                 'info'               => $info,
-                'log_list'           => $log_list,
+                'log_list'           => $log_list['list'],
                 'adv_audit_status'   => $this->config->item('adv_audit_status'),
                 'adv_account_status' => $this->config->item('adv_account_status'),
             ]
