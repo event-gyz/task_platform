@@ -34,21 +34,22 @@ class Platform_media_man extends Admin_Controller {
     }
 
     private function __build_where_list() {
-        $advertiser_name  = $this->input->get('advertiser_name', true);
-        $advertiser_phone = $this->input->get('advertiser_phone', true);
-        $audit_status     = $this->input->get('audit_status', true);
-        $create_time      = $this->input->get('create_time', true);
-        $id_card          = $this->input->get('id_card', true);
-        $advertiser_id    = $this->input->get('advertiser_id', true);
-        $status           = $this->input->get('status', true);
+        $media_man_name  = $this->input->get('media_man_name', true);
+        $school_name     = $this->input->get('school_name', true);
+        $audit_status    = $this->input->get('audit_status', true);
+        $create_time     = $this->input->get('create_time', true);
+        $sex             = $this->input->get('sex', true);
+        $media_man_phone = $this->input->get('media_man_phone', true);
+        $status          = $this->input->get('status', true);
+        $tag             = $this->input->get('tag', true);
 
         $where = [];
-        if (!empty($advertiser_name)) {
-            $where['advertiser_name'] = $advertiser_name;
+        if (!empty($media_man_name)) {
+            $where['media_man_name'] = $media_man_name;
         }
 
-        if (!empty($advertiser_phone)) {
-            $where['advertiser_phone'] = $advertiser_phone;
+        if (!empty($school_name)) {
+            $where['school_name'] = $school_name;
         }
 
         if ($audit_status !== '' && $audit_status !== null) {
@@ -61,16 +62,20 @@ class Platform_media_man extends Admin_Controller {
             $where['end_time']   = date('Y-m-d H:i:s', strtotime($time_arr[1] . "+1 day -1 seconds"));
         }
 
-        if (!empty($id_card)) {
-            $where['id_card'] = $id_card;
+        if (!empty($sex)) {
+            $where['sex'] = $sex;
         }
 
-        if (!empty($advertiser_id)) {
-            $where['advertiser_id'] = $advertiser_id;
+        if (!empty($media_man_phone)) {
+            $where['media_man_phone'] = $media_man_phone;
         }
 
         if ($status !== '' && $status !== null) {
             $where['status'] = $status;
+        }
+
+        if (!empty($tag)) {
+            $where['tag'] = $tag;
         }
 
         $page_arr                 = $this->get_list_limit_and_offset_params();
@@ -78,14 +83,15 @@ class Platform_media_man extends Admin_Controller {
         $where                    = array_merge($page_arr, $where);
 
         return [
-            'advertiser_name'  => $advertiser_name,
-            'advertiser_phone' => $advertiser_phone,
-            'audit_status'     => $audit_status,
-            'create_time'      => $create_time,
-            'id_card'          => $id_card,
-            'advertiser_id'    => $advertiser_id,
-            'status'           => $status,
-            'where'            => $where,
+            'media_man_name'  => $media_man_name,
+            'school_name'     => $school_name,
+            'audit_status'    => $audit_status,
+            'create_time'     => $create_time,
+            'sex'             => $sex,
+            'media_man_phone' => $media_man_phone,
+            'status'          => $status,
+            'tag'             => $tag,
+            'where'           => $where,
         ];
     }
 
