@@ -259,7 +259,46 @@ class Platform_advertiser extends Admin_Controller {
 
     // 个人广告主和公司广告主的账户状态变更
     public function update_adv_account_status() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
 
+        $id              = $req_data['id'];
+        $account_status  = $req_data['account_status'];
+        $freezing_reason = $req_data['freezing_reason'];
+
+        if (empty($id)) {
+            return $this->response_json(1, 'id不能为空');
+        }
+
+        if (empty($account_status)) {
+            return $this->response_json(1, 'account_status不能为空');
+        }
+
+        $info = $this->__get_platform_advertiser_model()->select_by_id($id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应的信息');
+        }
+
+        if (!in_array($account_status, [2, 9])) {
+            return $this->response_json(1, '非法操作');
+        }
+
+        if ($account_status === "2") {
+            $freezing_reason = "";
+        }
+
+        $info   = [
+            'status'          => $account_status,
+            'freezing_reason' => empty($freezing_reason) ? '' : $freezing_reason,
+        ];
+        $result = $this->__get_platform_advertiser_model()->update_platform_advertiser($id, $info);
+
+        if ($result === 1) {
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(1, '非法操作');
     }
 
     /**

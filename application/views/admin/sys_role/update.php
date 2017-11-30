@@ -3,10 +3,8 @@
 
 <?php include VIEWPATH . '/admin/common/head.php'; ?>
 
-<link href="https://cdn.bootcss.com/element-ui/2.0.5/theme-chalk/index.css" rel="stylesheet">
-
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" id="app">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -87,9 +85,6 @@
 <!-- /.content-wrapper -->
 
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
-
-<script src="https://cdn.bootcss.com/vue/2.5.8/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/element-ui/2.0.5/index.js"></script>
 
 <script>
 

@@ -3,10 +3,8 @@
 
 <?php include VIEWPATH . '/admin/common/head.php'; ?>
 
-<link href="https://cdn.bootcss.com/element-ui/2.0.5/theme-chalk/index.css" rel="stylesheet">
-
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" id="app" v-loading.body="loading" element-loading-text="拼命加载中">
+<div class="content-wrapper" v-loading.body="loading" element-loading-text="拼命加载中">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -207,10 +205,6 @@
 
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
 
-<script src="https://cdn.bootcss.com/vue/2.5.8/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/element-ui/2.0.5/index.js"></script>
-<script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
-
 <script>
 
     var Main = {
@@ -233,7 +227,7 @@
             };
         },
         methods: {
-            submitForm: function (formName) {
+            submitForm               : function (formName) {
                 this.$refs[formName].validate((valid) => {
 
                     if (!valid) {
@@ -251,10 +245,10 @@
                     this.adv_audit();
                 });
             },
-            goBack    : function (formName) {
+            goBack                   : function (formName) {
                 window.location.href = '/admin/platform_advertiser/company_adv_home';
             },
-            async adv_audit() {
+            adv_audit                : async function () {
                 try {
                     this.loading = true;
                     var url      = '/admin/platform_advertiser/update_adv_audit_status';
@@ -297,6 +291,68 @@
 
                 }
             },
+            update_adv_account_status: async function (account_status, advertiser_id) {
+                try {
+
+                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
+
+
+//                    this.loading = true;
+//                    var url      = '/admin/platform_advertiser/update_adv_account_status';
+//                    var response = await axios.post(
+//                        url,
+//                        {
+//                            "id"             : advertiser_id,
+//                            "account_status" : account_status,
+//                            "freezing_reason": freezing_reason,
+//                        },
+//                    );
+//                    this.loading = false;
+//                    var resData  = response.data;
+//
+//                    if (resData.error_no === 0) {
+//                        this.$message.success('审核成功,即将刷新页面...');
+//                        return window.location.reload();
+//                    }
+//
+//                    return this.$message.error(resData.msg);
+                }
+                catch (error) {
+
+                    this.loading = false;
+
+                    if (error instanceof Error) {
+
+                        if (error.response) {
+                            return this.$message.error(error.response.data.responseText);
+                        }
+
+                        if (error.request) {
+                            console.error(error.request);
+                            return this.$message.error('服务器未响应');
+                        }
+
+                        console.error(error);
+
+                    }
+
+                }
+
+            }
         }
     };
     var Ctor = Vue.extend(Main);
