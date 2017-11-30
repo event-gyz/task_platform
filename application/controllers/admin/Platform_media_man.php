@@ -95,6 +95,29 @@ class Platform_media_man extends Admin_Controller {
         ];
     }
 
+    public function media_man_detail() {
+
+        $id = $this->input->get('id', true);
+
+        if (empty($id)) {
+            return redirect("{$this->host}/admin/platform_media_man/home");
+        }
+
+        $info = $this->__get_platform_media_man_model()->selectById($id);
+
+        if (empty($info)) {
+            return redirect("{$this->host}/admin/platform_media_man/home");
+        }
+
+        return $this->load->view('admin/platform_media_man/media_man_detail',
+            [
+                'info'                 => $info,
+                'media_audit_status'   => $this->config->item('media_audit_status'),
+                'media_account_status' => $this->config->item('media_account_status'),
+            ]
+        );
+    }
+
     /**
      * @return Platform_media_man_model
      */
