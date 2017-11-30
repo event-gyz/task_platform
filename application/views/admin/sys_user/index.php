@@ -163,7 +163,6 @@
 
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
 
-<script src="/assets/layer/layer.js"></script>
 <script src="/assets/select2/js/select2.full.min.js"></script>
 
 <script>
