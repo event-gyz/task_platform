@@ -118,24 +118,28 @@
                                            class="btn btn-info btn-sm">修改</a>
 
                                         <?php if ($value['user_status'] == '0'): ?>
-                                            <a url="/admin/sys_user/update_user_status?user_status=1&id=<?= $value['id'] ?>"
-                                               class="active-user btn btn-success btn-sm">
+                                            <button @click="update_user_status('1','<?= $value['id'] ?>')"
+                                                    class="btn btn-success btn-sm">
                                                 解冻
-                                            </a>
+                                            </button>
                                         <?php endif; ?>
 
                                         <?php if ($value['user_status'] == '1'): ?>
-                                            <a url="/admin/sys_user/update_user_status?user_status=0&id=<?= $value['id'] ?>"
-                                               class="disable-user btn btn-warning btn-sm">
+                                            <button @click="update_user_status('0','<?= $value['id'] ?>')"
+                                                    class="btn btn-warning btn-sm">
                                                 冻结
-                                            </a>
+                                            </button>
                                         <?php endif; ?>
 
-                                        <a url="/admin/sys_user/manager_reset_pwd?id=<?= $value['id'] ?>"
-                                           class="manager-reset-pwd btn btn-primary btn-sm">重置密码</a>
-                                        <button del-url="/admin/sys_user/del?id=<?= $value['id'] ?>"
-                                                class="del-user btn btn-danger btn-sm">删除
+                                        <button @click="manager_reset_pwd('<?= $value['id'] ?>')"
+                                                class="btn btn-primary btn-sm">
+                                            重置密码
                                         </button>
+
+                                        <button @click="del('<?= $value['id'] ?>')" class="btn btn-danger btn-sm">
+                                            删除
+                                        </button>
+
                                     </th>
                                 </tr>
                             <?php endforeach; ?>
@@ -167,49 +171,59 @@
     // 初始化select2下拉框
     $("#select-dept_id").select2();
 
-    $('.del-user').click(function () {
-        var del_url = $(this).attr('del-url');
-
-        layer.confirm(
-            '确定删除此用户？',
-            {btn: ['确定', '取消']},
-            function () {
-                window.location.href = del_url;
-            });
-    });
-
-    $('.manager-reset-pwd').click(function () {
-        var url = $(this).attr('url');
-
-        layer.confirm(
-            '确定重置此用户密码为123456？',
-            {btn: ['确定', '取消']},
-            function () {
-                window.location.href = url;
-            });
-    });
-
-    $('.active-user').click(function () {
-        var url = $(this).attr('url');
-
-        layer.confirm(
-            '确定此用户解冻吗？',
-            {btn: ['确定', '取消']},
-            function () {
-                window.location.href = url;
-            });
-    });
-
-    $('.disable-user').click(function () {
-        var url = $(this).attr('url');
-
-        layer.confirm(
-            '确定此用户冻结吗？冻结后此用户将不能再登录系统。',
-            {btn: ['确定', '取消']},
-            function () {
-                window.location.href = url;
-            });
-    });
+    var Main = {
+        methods: {
+            update_user_status: function (user_status, id) {
+                var message = (user_status === "0") ? "确定将此用户冻结吗？冻结后此用户将不能再登录系统。" : "确定将此用户解冻吗？";
+                var url     = "/admin/sys_user/update_user_status?user_status=" + user_status + "&id=" + id;
+                this.$confirm(message, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText : '取消',
+                    type             : 'warning'
+                }).then(() => {
+                    this.$message({
+                        type   : 'success',
+                        message: '正在执行,请稍候...'
+                    });
+                    window.location.href = url;
+                }).catch(() => {
+                });
+            },
+            manager_reset_pwd : function (id) {
+                var message = "确定重置此用户密码为123456？";
+                var url     = "/admin/sys_user/manager_reset_pwd?id=" + id;
+                this.$confirm(message, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText : '取消',
+                    type             : 'warning'
+                }).then(() => {
+                    this.$message({
+                        type   : 'success',
+                        message: '正在执行,请稍候...'
+                    });
+                    window.location.href = url;
+                }).catch(() => {
+                });
+            },
+            del               : function (id) {
+                var url = "/admin/sys_user/del?id=" + id;
+                this.$confirm('此操作将永久删除此用户, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText : '取消',
+                    type             : 'warning'
+                }).then(() => {
+                    this.$message({
+                        type   : 'success',
+                        message: '正在删除...'
+                    });
+                    window.location.href = url;
+                }).catch(() => {
+                });
+            }
+        }
+    };
+    var Ctor = Vue.extend(Main);
+    new Ctor().$mount('#app');
 
 </script>
 

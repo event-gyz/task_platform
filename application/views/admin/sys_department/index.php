@@ -107,7 +107,7 @@
     var Main = {
         methods: {
             del: function (id) {
-                var del_url = "/admin/sys_department/del?id=" + id;
+                var url = "/admin/sys_department/del?id=" + id;
                 this.$confirm('此操作将永久删除此部门, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText : '取消',
@@ -117,7 +117,7 @@
                         type   : 'success',
                         message: '正在删除...'
                     });
-                    window.location.href = del_url;
+                    window.location.href = url;
                 }).catch(() => {
                 });
             }
