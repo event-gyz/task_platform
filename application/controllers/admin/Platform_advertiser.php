@@ -182,7 +182,9 @@ class Platform_advertiser extends Admin_Controller {
 
         return $this->load->view('admin/platform_advertiser/personal_adv_detail',
             [
-                'info' => $info,
+                'info'               => $info,
+                'adv_audit_status'   => $this->config->item('adv_audit_status'),
+                'adv_account_status' => $this->config->item('adv_account_status'),
             ]
         );
     }
@@ -204,9 +206,60 @@ class Platform_advertiser extends Admin_Controller {
 
         return $this->load->view('admin/platform_advertiser/company_adv_detail',
             [
-                'info' => $info,
+                'info'               => $info,
+                'adv_audit_status'   => $this->config->item('adv_audit_status'),
+                'adv_account_status' => $this->config->item('adv_account_status'),
             ]
         );
+    }
+
+    // 个人广告主和公司广告主的审核
+    public function update_adv_audit_status() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
+
+        $id                    = $req_data['id'];
+        $audit_status          = $req_data['audit_status'];
+        $reasons_for_rejection = $req_data['reasons_for_rejection'];
+
+        if (empty($id)) {
+            return $this->response_json(1, 'id不能为空');
+        }
+
+        if (empty($audit_status)) {
+            return $this->response_json(1, 'audit_status不能为空');
+        }
+
+        $info = $this->__get_platform_advertiser_model()->select_by_id($id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应的信息');
+        }
+
+        if (!in_array($audit_status, [1, 2])) {
+            return $this->response_json(1, '非法操作');
+        }
+
+        if ($audit_status === "1") {
+            $reasons_for_rejection = "";
+        }
+
+        $info   = [
+            'audit_status'          => $audit_status,
+            'reasons_for_rejection' => empty($reasons_for_rejection) ? '' : $reasons_for_rejection,
+        ];
+        $result = $this->__get_platform_advertiser_model()->update_platform_advertiser($id, $info);
+
+        if ($result === 1) {
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(1, '非法操作');
+    }
+
+    // 个人广告主和公司广告主的账户状态变更
+    public function update_adv_account_status() {
+
     }
 
     /**
