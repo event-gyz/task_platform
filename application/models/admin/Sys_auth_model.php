@@ -18,7 +18,7 @@ class Sys_auth_model extends MY_Model {
         // 拼接查询条件
 
         if (isset($where['auth_name']) && $where['auth_name']) {
-            $sql .= sprintf(" AND sa.auth_name = '%s'", $where['auth_name']);
+            $sql .= sprintf(" AND sa.auth_name like '%s%%'", $where['auth_name']);
         }
 
         if (isset($where['level'])) {
