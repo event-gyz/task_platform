@@ -60,7 +60,7 @@
 
                                                 <?php foreach ($media_account_status as $key => $value): ?>
                                                     <option value="<?= $key ?>"
-                                                        <?= $key === $form_data['audit_status'] ? 'selected' : ''; ?>
+                                                        <?= $key == $form_data['audit_status'] ? 'selected' : ''; ?>
                                                     >
                                                         <?= $value ?>
                                                     </option>
@@ -116,7 +116,7 @@
 
                                                 <?php foreach ($media_account_status as $key => $value): ?>
                                                     <option value="<?= $key ?>"
-                                                        <?= $key === $form_data['status'] ? 'selected' : ''; ?>
+                                                        <?= $key == $form_data['status'] ? 'selected' : ''; ?>
                                                     >
                                                         <?= $value ?>
                                                     </option>
