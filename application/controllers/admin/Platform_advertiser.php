@@ -250,7 +250,7 @@ class Platform_advertiser extends Admin_Controller {
             $sys_log_content                      = '广告主审核通过';
         }
 
-        $result = $this->__get_platform_advertiser_model()->update_platform_advertiser($id, $update_info);
+        $result = $this->__get_platform_advertiser_model()->updateInfo($id, $update_info);
 
         if ($result === 1) {
 
@@ -298,7 +298,7 @@ class Platform_advertiser extends Admin_Controller {
             $sys_log_content                = '广告主账户被解冻';
         }
 
-        $result = $this->__get_platform_advertiser_model()->update_platform_advertiser($id, $update_info);
+        $result = $this->__get_platform_advertiser_model()->updateInfo($id, $update_info);
 
         if ($result === 1) {
 
