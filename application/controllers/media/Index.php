@@ -150,7 +150,6 @@ class Index extends CI_Controller {
                 'status' => 1,  //进入后台审核列表
             );
 
-            //通过session获取用户信息
             $userInfo = $this->__get_user_session();
             $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
             if ($re) {
@@ -353,7 +352,7 @@ class Index extends CI_Controller {
     public function myTaskDetail(){
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
-        $_POST['task_map_id'] = 1;
+//        $_POST['task_map_id'] = 1;
         if(!isset($_POST['task_map_id']) || empty($_POST['task_map_id'])){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '参数错误';
@@ -452,6 +451,56 @@ class Index extends CI_Controller {
         echo json_encode($this->_return);exit;
     }
 
+
+//    /**
+//     * 检查该任务是否属于当前用户
+//     * @param $map_id
+//     * @param $handle
+//     * @return bool
+//     */
+//    public function __checkTaskWhetherBelongUser($map_id,$handle){
+//        $userInfo = $this->__get_user_session();
+//        if(empty($task_id)){
+//            $this->_return['errorno'] = -1;
+//            $this->_return['msg'] = '任务ID不能为空';
+//            echo json_encode($this->_return);exit;
+//        }
+//        $where['task_id'] = $task_id;
+//        $result = $this->__get_task_model()->selectByCondition($where);
+//
+//        if( $handle == $this->_update ){
+//            if($result['release_status'] != 0 || ($result['audit_status'] != 2 && $result['audit_status'] != 2 && $result['audit_status'] != 0)){
+//                $this->_return['errorno'] = -1;
+//                $this->_return['msg'] = '当前任务不可以进行修改';
+//                echo json_encode($this->_return);exit;
+//            }
+//        }
+//
+//        if( $handle == $this->_submitAudit ){
+//            if($result['audit_status'] != 0){
+//                $this->_return['errorno'] = -1;
+//                $this->_return['msg'] = '当前任务不可以提交审核';
+//                echo json_encode($this->_return);exit;
+//            }
+//        }
+//
+//        if( $handle == $this->_endTask ){
+//            if($result['start_time'] - time() < 43200){
+//                $this->_return['errorno'] = -1;
+//                //todo 文案补全
+//                $this->_return['msg'] = '距离任务开始小于12小时不可结束任务，如需结束任务请联系';
+//                echo json_encode($this->_return);exit;
+//            }
+//        }
+//
+//        if($result['advertiser_user_id'] != $userInfo['advertiser_id']){
+//            $this->_return['errorno'] = -1;
+//            $this->_return['msg'] = '该任务不属于你，不可以进行操作';
+//            echo json_encode($this->_return);exit;
+//        }else{
+//            return true;
+//        }
+//    }
 
 
     /**

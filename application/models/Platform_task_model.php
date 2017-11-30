@@ -98,5 +98,65 @@ class Platform_task_model extends MY_Model{
         return $this->db->insert_id();
     }
 
+    public function getAdvertiserTaskListByCondition($where, $fields = "pt.*,ptp.finance_status,ptp.finance_status") {
+
+        $sql = "SELECT [*] FROM `{$this->table}` AS pt LEFT JOIN `platform_task_payment` AS ptp on pt.task_id=ptp.task_id where 1=1 ";
+
+        if(empty($where['advertiser_user_id'])){
+            return false;
+        }
+        // 拼接查询条件
+        // 根据任务名称
+        if (isset($where['advertiser_user_id']) && $where['advertiser_user_id']) {
+            $sql .= sprintf(" AND pt.advertiser_user_id = %d", $where['advertiser_user_id']);
+        }
+
+
+        // 总数
+        $sqlCount = str_replace('[*]', 'count(pt.task_id) AS c', $sql);
+        $total    = $this->getCount($sqlCount);
+
+        if ($total === '0') {
+            return ['total' => $total, 'list' => []];
+        }
+
+        $offset = !empty($page) ? $page : 0;
+        $limit  = isset($where['limit']) ? $where['limit'] : 10;
+        $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
+
+        $_sql = str_replace('[*]', $fields, $sql);
+
+        $_list = $this->getList($_sql);
+
+        $data = ['total' => $total, 'list' => $_list];
+        return $data;
+    }
+
+    public function getAdvertiserTaskDetailByCondition($where, $fields = "pt.*,ptp.finance_status,ptp.finance_status") {
+
+        $sql = "SELECT [*] FROM `{$this->table}` AS pt LEFT JOIN `platform_task_payment` AS ptp on pt.task_id=ptp.task_id where 1=1 ";
+
+        if(empty($where['advertiser_user_id'])){
+            return false;
+        }
+        if(empty($where['task_id'])){
+            return false;
+        }
+        // 拼接查询条件
+        // 根据任务名称
+        if (isset($where['advertiser_user_id']) && $where['advertiser_user_id']) {
+            $sql .= sprintf(" AND pt.advertiser_user_id = %d", $where['advertiser_user_id']);
+        }
+        if (isset($where['task_id']) && $where['task_id']) {
+            $sql .= sprintf(" AND pt.task_id = %d", $where['task_id']);
+        }
+
+
+        $_sql = str_replace('[*]', $fields, $sql);
+
+        return $this->getRow($_sql);
+
+    }
+
 }
 

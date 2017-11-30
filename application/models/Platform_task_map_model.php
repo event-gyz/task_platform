@@ -103,8 +103,7 @@ class Platform_task_map_model extends MY_Model{
 
         $_list = $this->getList($_sql);
 
-        $data['total'] = $total;
-        $data['list'] = $_list;
+        $data = ['total' => $total, 'list' => $_list];
         return $data;
     }
 

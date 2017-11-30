@@ -8,6 +8,7 @@ class Index extends CI_Controller {
     public $_update = 'update';
     public $_submitAudit = 'audit';
     public $_endTask = 'endTask';
+    public $_payTask = 'payTask';
     public function __construct(){
         parent::__construct ();
         $this->load->helper ( array (
@@ -270,6 +271,81 @@ class Index extends CI_Controller {
     }
 
 
+
+
+    /**
+     * 我的列表 （我的资料）
+     */
+    public function getAdvertiserInfo(){
+        $user_info = $this->__get_user_session();
+        $advertiser_id = $user_info['advertiser_id'];
+        $result = $this->__get_advertiser_model()->selectById($advertiser_id);
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
+    }
+
+    /**
+     * 我的列表 （我的消息）
+     */
+    public function myMessage(){
+        $user_info = $this->__get_user_session();
+        $where['user_id'] = $user_info['advertiser_id'];
+        $where['user_type'] = 1;
+        $where['message_status'] = '0';
+        $result = $this->__get_user_message_model()->get_user_message_list_by_condition($where);
+        if(empty($result['total'])){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '没有新的消息';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
+    }
+    /**
+     * 我的列表 （我的消息-删除消息）
+     */
+    public function delMessage(){
+        $user_message_id = $_POST['message_id'];
+        if(empty($user_message_id)){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '非法参数';
+            echo json_encode($this->_return);exit;
+        }
+        $info['message_status'] = '1';
+        $result = $this->__get_user_message_model()->update_user_message($user_message_id, $info);
+        if($result){
+            $this->_return['errorno'] = 1;
+            $this->_return['msg'] = '成功';
+            echo json_encode($this->_return);exit;
+        }
+    }
+
+
+    /**
+     *  我的列表 （我的任务）
+     */
+    public function myTaskList(){
+        if(isset($_POST['page']) && !empty($_POST['page'])){
+            $where['offset'] = $_POST['page'];
+        }
+        $user_info = $this->__get_user_session();
+        $where['advertiser_user_id'] = $user_info['advertiser_id'];
+        $result = $this->__get_task_model()->getAdvertiserTaskListByCondition($where);
+        if(empty($result['total'])){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '没有已领取的任务';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
+    }
+
     /**
      * 我的任务 提交审核
      */
@@ -304,7 +380,7 @@ class Index extends CI_Controller {
         $result = $this->__get_task_model()->updateInfo($task_id,$info);
         if(!empty($result)){
             $this->_return['errorno'] = 1;
-            $this->_return['msg'] = '拒绝成功';
+            $this->_return['msg'] = '操作成功';
             echo json_encode($this->_return);exit;
         }else{
             $this->_return['errorno'] = -1;
@@ -315,92 +391,19 @@ class Index extends CI_Controller {
 
 
     /**
-     * 我的列表 （我的资料）
-     */
-    public function getMediaManInfo(){
-        $user_info = $this->__get_user_session();
-        $advertiser_id = $user_info['advertiser_id'];
-        $result = $this->__get_advertiser_model()->selectById($advertiser_id);
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
-    }
-
-    /**
-     * 我的列表 （我的消息）
-     */
-    public function myMessage(){
-        $user_info = $this->__get_user_session();
-        $where['user_id'] = $user_info['advertiser_id'];
-        $where['user_type'] = '2';
-        $where['message_status'] = '0';
-        $result = $this->__get_user_message_model()->get_user_message_list_by_condition($where);
-        if(empty($result['total'])){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '没有新的消息';
-            echo json_encode($this->_return);exit;
-        }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
-    }
-    /**
-     * 我的列表 （我的消息-删除消息）
-     */
-    public function delMessage(){
-        $user_message_id = $_POST['message_id'];
-        if(empty($user_message_id)){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '非法参数';
-            echo json_encode($this->_return);exit;
-        }
-        $info['message_status'] = '1';
-        $result = $this->__get_user_message_model()->update_user_message($user_message_id, $info);
-        if($result){
-            $this->_return['errorno'] = 1;
-            $this->_return['msg'] = '成功';
-            echo json_encode($this->_return);exit;
-        }
-    }
-
-    /**
-     *  我的列表 （我的任务）
-     */
-    public function myTaskList(){
-        if(isset($_POST['page']) && !empty($_POST['page'])){
-            $where['offset'] = $_POST['page'];
-        }
-        $user_info = $this->__get_user_session();
-        $where['advertiser_user_id'] = $user_info['advertiser_id'];
-        $result = $this->__get_task_map_model()->get_advertiser_task_list_by_condition($where);
-        if(empty($result['total'])){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '没有已领取的任务';
-            echo json_encode($this->_return);exit;
-        }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
-    }
-
-    /**
      *  我的列表 （我的任务详情）
      */
     public function myTaskDetail(){
         $user_info = $this->__get_user_session();
         $where['advertiser_user_id'] = $user_info['advertiser_id'];
-        $_POST['task_map_id'] = 1;
-        if(!isset($_POST['task_map_id']) || empty($_POST['task_map_id'])){
+        if(!isset($_POST['task_id']) || empty($_POST['task_id'])){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '参数错误';
             echo json_encode($this->_return);exit;
         }
-        $where['task_map_id'] = $_POST['task_map_id'];
-        $result = $this->__get_task_map_model()->get_advertiser_task_detail_by_condition($where);
-        if(isset($result['total'])){
+        $where['task_id'] = $_POST['task_id'];
+        $result = $this->__get_task_model()->getAdvertiserTaskDetailByCondition($where);
+        if(empty($result)){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '没有任务';
             echo json_encode($this->_return);exit;
@@ -411,7 +414,27 @@ class Index extends CI_Controller {
         echo json_encode($this->_return);exit;
     }
 
+    /**
+     *  确认付款
+     */
+    public function payTask(){
+        $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 0;
 
+        $info ['pay_status'] = 1;
+
+        $this->__checkTaskWhetherBelongUser($task_id,$this->_payTask);
+
+        $result = $this->__get_task_model()->updateInfo($task_id,$info);
+        if(!empty($result)){
+            $this->_return['errorno'] = 1;
+            $this->_return['msg'] = '操作成功';
+            echo json_encode($this->_return);exit;
+        }else{
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '操作失败';
+            echo json_encode($this->_return);exit;
+        }
+    }
 
     /**
      * 检查该任务是否属于当前用户
@@ -450,6 +473,14 @@ class Index extends CI_Controller {
                 $this->_return['errorno'] = -1;
                 //todo 文案补全
                 $this->_return['msg'] = '距离任务开始小于12小时不可结束任务，如需结束任务请联系';
+                echo json_encode($this->_return);exit;
+            }
+        }
+
+        if( $handle == $this->_payTask ){
+            if($result['audit_status'] != 3){
+                $this->_return['errorno'] = -1;
+                $this->_return['msg'] = '任务审核通过才可以付款';
                 echo json_encode($this->_return);exit;
             }
         }
