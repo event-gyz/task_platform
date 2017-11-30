@@ -30,6 +30,7 @@ class ADMIN_Controller extends CI_Controller {
     private function __init() {
         $this->host = $this->get_server_address_and_port();
 
+        $this->load->model('admin/Sys_log_model');
         $this->load->model('admin/Sys_auth_model');
         $_SESSION['menu_auth_list'] = $this->Sys_auth_model->select_level0_level1_auth_list();
 
@@ -162,6 +163,32 @@ class ADMIN_Controller extends CI_Controller {
             }
         }
         return $protocol . $host;
+    }
+
+    /**
+     * 添加系统操作日志
+     *
+     * @param int    $sys_log_type    系统日志类型,1登录,2审核广告主,3审核自媒体人,4审核任务,5冻结广告主,6冻结自媒体人,7确认广告主付款,8修改任务价格,9手工作废
+     * @param string $sys_log_content 日志内容
+     * @param string $old_data        原数据
+     * @param string $new_data        新数据
+     */
+    protected function add_sys_log($sys_log_type, $sys_log_content = '', $old_data = '', $new_data = '') {
+        try {
+
+            $data = [
+                'sys_user_id'     => $this->sys_user_info['id'],
+                'sys_user_name'   => $this->sys_user_info['user_name'],
+                'sys_log_type'    => $sys_log_type,
+                'sys_log_content' => $sys_log_content,
+                'old_data'        => $old_data,
+                'new_data'        => $new_data,
+            ];
+
+            $this->Sys_log_model->insert($data);
+
+        } catch (Exception $e) {
+        }
     }
 
 }

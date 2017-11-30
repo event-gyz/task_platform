@@ -17,10 +17,12 @@
         <link rel="stylesheet"
               href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
+        <link href="https://cdn.bootcss.com/element-ui/2.0.5/theme-chalk/index.css" rel="stylesheet">
+
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
-        <div class="wrapper">
+        <div class="wrapper" id="app">
 
             <?php include VIEWPATH . '/admin/common/head_left_header.php'; ?>
 

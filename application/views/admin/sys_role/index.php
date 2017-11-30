@@ -80,8 +80,8 @@
                                     <th>
                                         <a href="/admin/sys_role/update?id=<?= $value['id'] ?>"
                                            class="btn btn-info btn-sm">修改</a>
-                                        <button del-url="/admin/sys_role/del?id=<?= $value['id'] ?>"
-                                                class="del-role btn btn-danger btn-sm">删除
+                                        <button @click="del('<?= $value['id'] ?>')" class="btn btn-danger btn-sm">
+                                            删除
                                         </button>
                                     </th>
                                 </tr>
@@ -106,20 +106,29 @@
 
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
 
-<script src="/assets/layer/layer.js"></script>
-
 <script>
 
-    $('.del-role').click(function () {
-        var del_url = $(this).attr('del-url');
-
-        layer.confirm(
-            '确定删除此角色？',
-            {btn: ['确定', '取消']},
-            function () {
-                window.location.href = del_url;
-            });
-    });
+    var Main = {
+        methods: {
+            del: function (id) {
+                var url = "/admin/sys_role/del?id=" + id;
+                this.$confirm('此操作将永久删除此角色, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText : '取消',
+                    type             : 'warning'
+                }).then(() => {
+                    this.$message({
+                        type   : 'success',
+                        message: '正在删除...'
+                    });
+                    window.location.href = url;
+                }).catch(() => {
+                });
+            }
+        }
+    };
+    var Ctor = Vue.extend(Main);
+    new Ctor().$mount('#app');
 
 </script>
 

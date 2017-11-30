@@ -3,10 +3,8 @@
 
 <?php include VIEWPATH . '/admin/common/head.php'; ?>
 
-<link href="https://cdn.bootcss.com/element-ui/2.0.5/theme-chalk/index.css" rel="stylesheet">
-
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" id="app" v-loading.body="loading" element-loading-text="拼命加载中">
+<div class="content-wrapper" v-loading.body="loading" element-loading-text="拼命加载中">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -157,7 +155,8 @@
             <!-- /.box-body -->
         </div>
 
-        <?php if (in_array($info['audit_status'], [0, 2])): ?>
+        <!--帐号状态status=1待审核,审核状态audit_status=0待审核或者审核状态audit_status=2驳回时才进行审核-->
+        <?php if (($info['status'] === "1") && in_array($info['audit_status'], [0, 2])): ?>
 
             <div class="box box-default">
                 <div class="box-header with-border">
@@ -207,10 +206,6 @@
 
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
 
-<script src="https://cdn.bootcss.com/vue/2.5.8/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/element-ui/2.0.5/index.js"></script>
-<script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
-
 <script>
 
     var Main = {
@@ -233,7 +228,7 @@
             };
         },
         methods: {
-            submitForm: function (formName) {
+            submitForm                  : function (formName) {
                 this.$refs[formName].validate((valid) => {
 
                     if (!valid) {
@@ -251,10 +246,10 @@
                     this.adv_audit();
                 });
             },
-            goBack    : function (formName) {
+            goBack                      : function (formName) {
                 window.location.href = '/admin/platform_advertiser/company_adv_home';
             },
-            async adv_audit() {
+            adv_audit                   : async function () {
                 try {
                     this.loading = true;
                     var url      = '/admin/platform_advertiser/update_adv_audit_status';
@@ -270,7 +265,7 @@
                     var resData  = response.data;
 
                     if (resData.error_no === 0) {
-                        this.$message.success('审核成功,即将刷新页面...');
+                        this.$message.success('操作成功,即将刷新页面...');
                         return window.location.reload();
                     }
 
@@ -297,6 +292,82 @@
 
                 }
             },
+            update_adv_account_status   : async function (account_status, advertiser_id) {
+
+                var message = (account_status === "2") ? "确定要将此用户解冻吗，解冻后可正常登陆使用。" : "确定要将此用户冻结吗，冻结后无法正常登陆。";
+
+                this.$confirm(message, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText : '取消',
+                    type             : 'warning'
+                }).then(async () => {
+
+                    var freezing_reason = "";
+
+                    if (account_status === "9") {
+
+                        await this.$prompt('请输入冻结的原因', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText : '取消',
+                            inputValidator   : (value) => { return value !== null; },
+                            inputErrorMessage: '冻结原因不能为空'
+                        }).then(({value}) => {
+                            freezing_reason = value;
+                        }).catch(() => {
+                        });
+
+                    }
+
+                    await this.do_update_adv_account_status(account_status, advertiser_id, freezing_reason);
+
+                }).catch(() => {
+                });
+
+            },
+            do_update_adv_account_status: async function (account_status, advertiser_id, freezing_reason) {
+                try {
+
+                    this.loading = true;
+                    var url      = '/admin/platform_advertiser/update_adv_account_status';
+                    var response = await axios.post(
+                        url,
+                        {
+                            "id"             : advertiser_id,
+                            "account_status" : account_status,
+                            "freezing_reason": freezing_reason,
+                        },
+                    );
+                    this.loading = false;
+                    var resData  = response.data;
+
+                    if (resData.error_no === 0) {
+                        this.$message.success('操作成功,即将刷新页面...');
+                        return window.location.reload();
+                    }
+
+                    return this.$message.error(resData.msg);
+
+                } catch (error) {
+
+                    this.loading = false;
+
+                    if (error instanceof Error) {
+
+                        if (error.response) {
+                            return this.$message.error(error.response.data.responseText);
+                        }
+
+                        if (error.request) {
+                            console.error(error.request);
+                            return this.$message.error('服务器未响应');
+                        }
+
+                        console.error(error);
+
+                    }
+
+                }
+            }
         }
     };
     var Ctor = Vue.extend(Main);
