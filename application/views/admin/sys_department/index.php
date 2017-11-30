@@ -102,8 +102,6 @@
 
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
 
-<script src="/assets/layer/layer.js"></script>
-
 <script>
 
     var Main = {
