@@ -74,24 +74,24 @@ class Index extends CI_Controller {
 
             if(!isset($_POST ['name']) || empty($_POST ['name'])){
                 $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '名字不能为空';
+                $this->_return['msg'] = '请填写姓名';
                 echo json_encode($this->_return);exit;
             }
             if(!isset($_POST ['sex']) || empty($_POST ['sex'])){
                 $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '性别不能为空';
+                $this->_return['msg'] = '请选择性别';
                 echo json_encode($this->_return);exit;
             }
 
             if(!isset($_POST ['zfb_nu']) || empty($_POST ['zfb_nu'])){
                 $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '支付宝账号不能为空';
+                $this->_return['msg'] = '请填写支付宝账号';
                 echo json_encode($this->_return);exit;
             }
 
             if(!isset($_POST ['zfb_realname']) || empty($_POST ['zfb_realname'])){
                 $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '真实姓名不能为空';
+                $this->_return['msg'] = '请填写真实姓名';
                 echo json_encode($this->_return);exit;
             }
 
@@ -154,8 +154,6 @@ class Index extends CI_Controller {
             $userInfo = $this->__get_user_session();
             $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
             if ($re) {
-//                $userInfo = array_merge($userInfo,$data);
-//                $this->session->set_userdata('user_info',$userInfo);
                 $this->_return['errorno'] = '1';
                 $this->_return['msg'] = '保存成功';
                 echo json_encode($this->_return);

@@ -6,6 +6,8 @@ class Login extends CI_Controller {
     public $_model = 'ad_plat_code';
     public $_pwd_phone = 'ad_pwd_phone';
     public $_pwdmodel = 'ad_plat_pwd_code';
+    public $_user_info = 'ad_user_info';
+
     public function __construct(){
         parent::__construct ();
         $this->load->helper ( array (
@@ -25,7 +27,7 @@ class Login extends CI_Controller {
     //登录
     public function login() {
         if (empty($_POST)) {
-            $this->load->view('media/login');
+            $this->load->view('advertiser/login');
         } else {
 
             if(!isset($_POST ['username']) || empty($_POST ['username'])){
@@ -40,22 +42,22 @@ class Login extends CI_Controller {
             }
             $password = Wap::generate_wap_user_password($_POST ['password']);
             $data = array (
-                'media_man_login_name' => trim($_POST['username']),
-                'media_man_password' => $password
+                'advertiser_login_name' => trim($_POST['username']),
+                'advertiser_password' => $password
             );
 
-            $userInfo = $this->__get_media_man_model()->selectByLoginName($data['media_man_login_name']);
+            $userInfo = $this->__get_advertiser_model()->selectByLoginName($data['advertiser_login_name']);
             if(empty($userInfo)){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '用户不存在';
                 echo json_encode($this->_return);exit;
             }
-            if ($userInfo['media_man_password'] != $password) {
+            if ($userInfo['advertiser_password'] != $password) {
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '密码错误';
                 echo json_encode($this->_return);exit;
             }else{
-                $this->session->set_userdata('user_info',$userInfo);
+                $this->session->set_userdata($this->_user_info,$userInfo);
                 if($userInfo['audit_status']==1 && $userInfo['status']==2) {
                     $this->_return['errorno'] = '1';
                     $this->_return['msg'] = '登录成功';
@@ -95,7 +97,7 @@ class Login extends CI_Controller {
     //注册
     public function register() {
         if (empty($_POST)) {
-            $this->load->view('media/register');
+            $this->load->view('advertiser/register');
         } else {
             if(!isset($_POST ['username']) || empty($_POST ['username'])){
                 $this->_return['errorno'] = '-1';
@@ -139,14 +141,14 @@ class Login extends CI_Controller {
 
             $password = Wap::generate_wap_user_password($_POST ['password']);
             $data = array (
-                'media_man_login_name' => trim($_POST['username']),
-                'media_man_password' => $password,
-                'media_man_phone' => trim($_POST['phone'])
+                'advertiser_login_name' => trim($_POST['username']),
+                'advertiser_password' => $password,
+                'advertiser_phone' => trim($_POST['phone'])
             );
-            $re = $this->__get_media_man_model()->insert ($data );
+            $re = $this->__get_advertiser_model()->insert ($data );
             if($re){
-                $data['media_man_id'] = $re;
-                $this->session->set_userdata('user_info',$data);
+                $data['advertiser_id'] = $re;
+                $this->session->set_userdata($this->_user_info,$data);
                 $this->_return['errorno'] = 1;
                 $this->_return['msg'] = '注册成功';
                 //删除注册时用到的session
@@ -177,10 +179,10 @@ class Login extends CI_Controller {
             $this->_return['msg'] = '数据异常';
             echo json_encode($this->_return);exit;
         }else{
-            $re = $this->__get_media_man_model()->updateInfoByPhone($phone,['media_man_password'=>Wap::generate_wap_user_password($pwd)]);
+            $re = $this->__get_advertiser_model()->updateInfoByPhone($phone,['advertiser_password'=>Wap::generate_wap_user_password($pwd)]);
             if($re){
                 //清除掉当前的登录信息
-                $this->session->unset_userdata('user_info');
+                $this->session->unset_userdata($this->_user_info);
                 $this->session->unset_userdata($this->_pwd_phone);
                 $this->_return['errorno'] = '1';
                 $this->_return['msg'] = '修改成功';
@@ -193,7 +195,7 @@ class Login extends CI_Controller {
     //退出登录
     public function logout(){
         $this->session->sess_destroy();
-        $this->load->view ( 'media/login' );
+        $this->load->view ( 'advertiser/login' );
     }
 
     /**
@@ -213,7 +215,7 @@ class Login extends CI_Controller {
         if (isset($_POST['type']) && ($_POST['type']=='pwd')) {
             $model = $this->_pwdmodel;
             //验证当前手机号是否注册过
-            $res = $this->__get_media_man_model()->selectByPhone($_POST['phone']);
+            $res = $this->__get_advertiser_model()->selectByPhone($_POST['phone']);
             if(empty($res)){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '手机号还未注册过';
@@ -388,10 +390,10 @@ class Login extends CI_Controller {
     }
 
     /**
-     * @return Platform_media_man_model
+     * @return Platform_advertiser_model
      */
-    private function __get_media_man_model() {
-        $this->load->model('Platform_media_man_model');
-        return $this->Platform_media_man_model;
+    private function __get_advertiser_model() {
+        $this->load->model('Platform_advertiser_model');
+        return $this->Platform_advertiser_model;
     }
 }

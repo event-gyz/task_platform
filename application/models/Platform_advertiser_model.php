@@ -111,14 +111,35 @@ class Platform_advertiser_model extends MY_Model {
         return $data;
     }
 
-    public function update_platform_advertiser($advertiser_id, $info) {
-        $where = array('advertiser_id' => $advertiser_id);
-        return $this->update($info, $where);
+
+    public function updateInfo($advertiser_id,$info){
+        if(empty($advertiser_id)){
+            return false;
+        }
+        $where = array('advertiser_id'=>$advertiser_id);
+        return $this->update($info, $where );
     }
 
-    public function select_by_id($advertiser_id) {
+    public function updateInfoByPhone($phone,$info){
+        $where = array('advertiser_phone'=>$phone);
+        return $this->update($info, $where );
+    }
+
+    public function selectByPhone($phone) {
+
+        $query = $this->db->get_where($this->getTableName(), array('advertiser_phone' => $phone));
+        return $query->row_array();
+    }
+
+    public function selectById($advertiser_id) {
 
         $query = $this->db->get_where($this->getTableName(), array('advertiser_id' => $advertiser_id));
+        return $query->row_array();
+    }
+
+    public function selectByLoginName($login_name) {
+
+        $query = $this->db->get_where($this->getTableName(), array('advertiser_login_name' => $login_name));
         return $query->row_array();
     }
 

@@ -3,6 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Index extends CI_Controller {
 
+    public $_user_info = 'ad_user_info';
+
+    public $_update = 'update';
+    public $_submitAudit = 'audit';
+    public $_endTask = 'endTask';
     public function __construct(){
         parent::__construct ();
         $this->load->helper ( array (
@@ -11,7 +16,7 @@ class Index extends CI_Controller {
         ) );
         $this->load->library('session');
         $this->load->helper('Wap');
-        $this->checkUserLogin();
+//        $this->checkUserLogin();
 
     }
     // 返回规范
@@ -23,12 +28,12 @@ class Index extends CI_Controller {
 
     private function checkUserLogin(){
         $user_info = $this->__get_user_session();
-        if(!$user_info['media_man_id']){
-            redirect('/media/login/login');
+        if(!$user_info['advertiser_id']){
+            redirect('/advertiser/login/login');
         }
         if(($user_info['audit_status'] != 1) || ($user_info['status'] != 2)){
-            $userInfo = $this->__get_media_man_model()->selectById($user_info['media_man_id']);
-            $this->session->set_userdata('user_info',$userInfo);
+            $userInfo = $this->__get_advertiser_model()->selectById($user_info['advertiser_id']);
+            $this->session->set_userdata($this->_user_info,$userInfo);
             if($userInfo['status']==0){
                 //跳到完善基础信息页面
 //                $this->_return['errorno'] = '2';
@@ -45,7 +50,7 @@ class Index extends CI_Controller {
 //                $this->_return['msg'] = '驳回';
 //                //驳回原因
 //                $this->_return['data'] = $userInfo['reasons_for_rejection'];
-                echo json_encode($this->_return);exit;
+//                echo json_encode($this->_return);exit;
             }else if($userInfo['status']==9){
                 //跳到冻结页面
 //                $this->_return['errorno'] = '9';
@@ -57,214 +62,246 @@ class Index extends CI_Controller {
                     return true;
             }
         }
+        return false;
     }
 
 
     public function home() {
-        $where  = ['offset' => 0, 'limit' => 1];
-        $result = $this->__get_media_man_model()->get_media_man_list_by_condition($where);
-        $this->load->view('media/index');
+//        $where  = ['offset' => 0, 'limit' => 1];
+//        $result = $this->__get_advertiser_model()->get_advertiser_list_by_condition($where);
+//        $this->load->view('advertiser/index');
     }
 
-    // 保存自媒体人基础信息
-    public function saveBaseInfo() {
+    // 保存广告主基础信息
+    public function saveInfo() {
         if (empty($_POST)) {
-            $this->load->view('media/baseInfo');
+            $this->load->view('advertiser/baseInfo');
         } else {
-
-            if(!isset($_POST ['name']) || empty($_POST ['name'])){
+            if(!isset($_POST ['type']) || empty($_POST ['type'])){
                 $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '名字不能为空';
+                $this->_return['msg'] = '请选择类型';
                 echo json_encode($this->_return);exit;
             }
-            if(!isset($_POST ['sex']) || empty($_POST ['sex'])){
-                $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '性别不能为空';
-                echo json_encode($this->_return);exit;
-            }
+            //个人
+            if($_POST ['type'] == 1){
+                if(!isset($_POST ['name']) || empty($_POST ['name'])){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '请填写姓名';
+                    echo json_encode($this->_return);exit;
+                }
+                if(!isset($_POST ['id_card']) || empty($_POST ['id_card'])){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '请填写身份证号';
+                    echo json_encode($this->_return);exit;
+                }
 
-            if(!isset($_POST ['zfb_nu']) || empty($_POST ['zfb_nu'])){
-                $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '支付宝账号不能为空';
-                echo json_encode($this->_return);exit;
-            }
+                if(!isset($_POST ['id_card_positive_pic']) || empty($_POST ['id_card_positive_pic'])){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '请上传身份证正面照片';
+                    echo json_encode($this->_return);exit;
+                }
 
-            if(!isset($_POST ['zfb_realname']) || empty($_POST ['zfb_realname'])){
-                $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '真实姓名不能为空';
-                echo json_encode($this->_return);exit;
-            }
+                if(!isset($_POST ['id_card_back_pic']) || empty($_POST ['id_card_back_pic'])){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '请上传身份证反面照片';
+                    echo json_encode($this->_return);exit;
+                }
 
-
-            $data = array (
-                'media_man_name' => trim($_POST['name']),
-                'sex' => (int)($_POST['sex']),
-                'zfb_nu' => trim($_POST['zfb_nu']),
-                'zfb_realname' => trim($_POST['zfb_realname']),
-                'school_name' => trim($_POST['school_name']),
-                'school_type' => (int)$_POST['school_type'],
-                'school_province' => (int)$_POST['school_province'],
-                'school_city' => (int)$_POST['school_city'],
-                'school_area' => (int)$_POST['school_area'],
-                'school_level' => (int)$_POST['school_level'],
-                'age' => (int)($_POST['age']),
-                'local' => json_encode($_POST['local']),
-                'hobby' => json_encode($_POST['hobby']),
-            );
-
-            //通过session获取用户信息
-            $userInfo = $this->__get_user_session();
-            $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
-            if ($re) {
-//                $userInfo = array_merge($userInfo,$data);
-//                $this->session->set_userdata('user_info',$userInfo);
-                $this->_return['errorno'] = '1';
-                $this->_return['msg'] = '保存成功';
-                echo json_encode($this->_return);
-                exit;
-            }
-
-        }
-    }
-
-    // 保存自媒体人账户信息
-    public function savePromotedInfo() {
-        if (empty($_POST)) {
-            $this->load->view('media/promotedInfo');
-        } else {
-
-            if((!isset($_POST ['wx_code']) || empty($_POST ['wx_code']) || !isset($_POST ['wx_type']) || empty($_POST ['wx_type']) || !isset($_POST ['wx_max_fans']) || empty($_POST ['wx_max_fans'])) || (!isset($_POST ['weibo_nickname']) || empty($_POST ['weibo_nickname']) || !isset($_POST ['weibo_type']) || empty($_POST ['weibo_type']) || !isset($_POST ['weibo_max_fans']) || empty($_POST ['weibo_max_fans']) || !isset($_POST ['weibo_link']) || empty($_POST ['weibo_link']))){
-                $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '请至少完善一个推广账号，否则将无法提交审核';
-                echo json_encode($this->_return);exit;
-            }
-
-            $data = array (
-                'wx_code' => trim($_POST['wx_code']),
-                'wx_type' => (int)$_POST['wx_type'],
-                'wx_max_fans' => (int)$_POST['wx_max_fans'],
-                'weibo_nickname' => trim($_POST['weibo_nickname']),
-                'weibo_type' => (int)$_POST['weibo_type'],
-                'weibo_max_fans' => (int)$_POST['weibo_max_fans'],
-                'weibo_link' => trim($_POST['weibo_link']),
-                'status' => 1,  //进入后台审核列表
-            );
-
-            //通过session获取用户信息
-            $userInfo = $this->__get_user_session();
-            $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
-            if ($re) {
-//                $userInfo = array_merge($userInfo,$data);
-//                $this->session->set_userdata('user_info',$userInfo);
-                $this->_return['errorno'] = '1';
-                $this->_return['msg'] = '保存成功';
-                echo json_encode($this->_return);
-                exit;
-            }
-        }
-    }
-
-
-    /**
-     * 任务大厅
-     */
-    public function getMissionHall(){
-
-        $page = (isset($_POST['page'])&&!empty($_POST['page'])) ? $_POST['page'] : 0;
-        $user_info = $this->__get_user_session();
-        $media_man_id = $user_info['media_man_id'];
-
-        //超时未领取的任务置为超时
-        $this->__get_task_map_model()->updateTimeOutTaskMap($media_man_id);
-        $result = $this->__get_task_map_model()->getMissionHall($media_man_id,$page);
-        unset($result['sql']);
-        foreach($result['list'] as $key => &$value){
-            $allot_time = $this->__timediff(strtotime($value['allot_time']));
-            if($allot_time){
-                $value['allot_time']  = $allot_time;
+                if(!isset($_POST ['handheld_id_card_pic']) || empty($_POST ['handheld_id_card_pic'])){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '请上传手持身份证照片';
+                    echo json_encode($this->_return);exit;
+                }
+                $data = array (
+                    'name' => trim($_POST['name']),
+                    'id_card' => $_POST['id_card'],
+                    'id_card_positive_pic' => $_POST['id_card_positive_pic'],
+                    'id_card_back_pic' => (int)$_POST['id_card_back_pic'],
+                    'handheld_id_card_pic' => $_POST['handheld_id_card_pic'],
+                );
+            //企业
             }else{
-                unset($result['list'][$key]);
+                if(!isset($_POST ['company_name']) || empty($_POST ['company_name'])){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '请填写公司名称';
+                    echo json_encode($this->_return);exit;
+                }
+                if(!isset($_POST ['company_address']) || empty($_POST ['company_address'])){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '请填写公司地址';
+                    echo json_encode($this->_return);exit;
+                }
+                //todo 跟现有的广告主电话不能重复
+                if(!isset($_POST ['content_name']) || empty($_POST ['content_name'])){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '请填写联系人姓名';
+                    echo json_encode($this->_return);exit;
+                }
+                if(!isset($_POST ['content_phone']) || empty($_POST ['content_phone'])){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '请填写联系人电话';
+                    echo json_encode($this->_return);exit;
+                }
+                if(!isset($_POST ['business_license_pic']) || empty($_POST ['business_license_pic'])){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '请上传营业执照';
+                    echo json_encode($this->_return);exit;
+                }
+                $data = array (
+                    'company_name' => trim($_POST['company_name']),
+                    'company_address' => $_POST['company_address'],
+                    'content_name' => $_POST['content_name'],
+                    'content_phone' => (int)$_POST['content_phone'],
+                    'business_license_pic' => $_POST['business_license_pic'],
+                );
             }
-        }
-        if(is_array($result['list']) && !empty($result['list'])){
-            $this->_return['errorno'] = 1;
-            $this->_return['msg'] = '成功';
-            $this->_return['data'] = $result;
-            echo json_encode($this->_return);exit;
-        }else{
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '暂无分配的任务';
-            echo json_encode($this->_return);exit;
-        }
-    }
+            //进入后台审核列表
+            $data['status'] = 1;
 
-    //
-    /**
-     * 任务大厅任务详情
-     */
-    public function getMissionHallTaskDetail(){
-        $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 0;
-        $user_info = $this->__get_user_session();
-        $media_man_id = $user_info['media_man_id'];
+            //通过session获取用户信息
+            $userInfo = $this->__get_user_session();
+            $re = $this->__get_advertiser_model()->updateInfo($userInfo['advertiser_id'],$data);
+            if ($re) {
+                $this->_return['errorno'] = '1';
+                $this->_return['msg'] = '保存成功';
+                echo json_encode($this->_return);
+                exit;
+            }
 
-        //超时未领取的任务置为超时
-        $this->__get_task_map_model()->updateTimeOutTaskMap($media_man_id);
-
-        $where['map_id'] = $map_id;
-        $where['receive_status'] = 0;
-        $where['release_status'] = 1;
-        $result = $this->__get_task_map_model()->getUnclaimedTaskDetail($media_man_id,$where);
-        $result['allot_time'] = $this->__timediff(strtotime($result['allot_time']));
-        if(is_array($result) && !empty($result)){
-            $this->_return['errorno'] = 1;
-            $this->_return['msg'] = '成功';
-            $this->_return['data'] = $result;
-            echo json_encode($this->_return);exit;
-        }else{
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '任务已失效';
-            echo json_encode($this->_return);exit;
         }
     }
 
+
+
     /**
-     * 任务大厅 接受任务
+     * 开始推广
      */
-    public function acceptTask(){
-        $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 1;
-        $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 1;
-        $where['task_map_id'] = $map_id;
+    public function extension(){
+
+    }
+
+    /**
+     * 开始推广
+     */
+    public function getTaskInfo(){
+//        $_POST['task_id'] = 1;
+        $task_id = $_POST['task_id'];
+
+        if(empty($task_id)){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '任务ID不能为空';
+            echo json_encode($this->_return);exit;
+        }
+
+        $this->__checkTaskWhetherBelongUser($task_id,$this->_update);
+
         $where['task_id'] = $task_id;
-        $user_info = $this->__get_user_session();
-        $where['media_man_user_id'] = $user_info['media_man_id'];
-        $where['receive_status'] = 0;
-        $info ['receive_status'] = 1;
-        $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
-        if(!empty($result)){
-            $this->_return['errorno'] = 1;
-            $this->_return['msg'] = '领取成功';
+        $result = $this->__get_task_model()->selectByCondition($where);
+
+        if(empty($result)){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '参数有误，请重试';
             echo json_encode($this->_return);exit;
         }else{
+            $this->_return['errorno'] = 1;
+            $this->_return['msg'] = '成功';
+            $this->_return['data'] = $result;
+            echo json_encode($this->_return);exit;
+        }
+    }
+
+    // 保存任务/修改任务 接口
+    public function saveTask(){
+        $task_id = $_POST['task_id'];
+        $task_type = $_POST['task_type'];
+        $title = $_POST['title'];
+        $link = $_POST['link'];
+        $pics = $_POST['pics'];
+        $task_describe = $_POST['task_describe'];
+        $price = $_POST['price'];
+        $media_man_number = $_POST['media_man_number'];
+        $total_price = $_POST['price']*$_POST['media_man_number'];
+        $require_age = $_POST['require_age'];
+        $require_local = $_POST['require_local'];
+        $start_time = $_POST['start_time'];
+        $end_time = $_POST['end_time'];
+        $publishing_platform = $_POST['publishing_platform'];
+        $completion_criteria = $_POST['completion_criteria'];
+        $audit_status = $_POST['audit_status'];
+
+        $data['task_type'] = $task_type;
+        $data['title'] = $title;
+        $data['link'] = $link;
+        $data['pics'] = $pics;
+        $data['task_describe'] = $task_describe;
+        $data['price'] = $price;
+        $data['media_man_number'] = $media_man_number;
+        $data['total_price'] = $total_price;
+        $data['require_age'] = $require_age;
+        $data['require_local'] = $require_local;
+        $data['start_time'] = $start_time;
+        $data['end_time'] = $end_time;
+        $data['publishing_platform'] = $publishing_platform;
+        $data['completion_criteria'] = $completion_criteria;
+        $data['audit_status'] = $audit_status; //审核状态 0、1
+
+        //新增
+        if(empty($task_id)){
+            $userInfo = $this->__get_user_session();
+            $data['advertiser_user_id'] = $userInfo['advertiser_id'];
+            $re = $this->__get_task_model()->insert($data);
+        //修改
+        }else{
+            $this->__checkTaskWhetherBelongUser($task_id,$this->_update);
+
+            $re = $this->__get_task_model()->updateInfo($task_id,$data);
+        }
+
+        if(empty($re)){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '操作失败';
             echo json_encode($this->_return);exit;
+        }else{
+            $this->_return['errorno'] = 1;
+            $this->_return['msg'] = '操作成功';
+            echo json_encode($this->_return);exit;
+        }
+
+    }
+
+
+    /**
+     * 我的任务 提交审核
+     */
+    public function submitAudit(){
+        $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 0;
+        $info ['audit_status'] = 1;
+
+        $this->__checkTaskWhetherBelongUser($task_id,$this->_submitAudit);
+
+        $result = $this->__get_task_model()->updateInfo($task_id,$info);
+        if(!empty($result)){
+            $this->_return['errorno'] = 1;
+            $this->_return['msg'] = '提交成功';
+            echo json_encode($this->_return);exit;
+        }else{
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '提交失败';
+            echo json_encode($this->_return);exit;
         }
 
     }
 
     /**
-     * 任务大厅 拒绝任务
+     * 我的任务 结束任务
      */
-    public function refuseTask(){
-        $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 1;
-        $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 1;
-        $where['task_map_id'] = $map_id;
-        $where['task_id'] = $task_id;
-        $user_info = $this->__get_user_session();
-        $where['media_man_user_id'] = $user_info['media_man_id'];
-        $where['receive_status'] = 0;
-        $info ['receive_status'] = 2;
-        $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
+    public function endTask(){
+        $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 0;
+        $info ['release_status'] = 7;
+
+        $this->__checkTaskWhetherBelongUser($task_id,$this->_endTask);
+
+        $result = $this->__get_task_model()->updateInfo($task_id,$info);
         if(!empty($result)){
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '拒绝成功';
@@ -282,8 +319,8 @@ class Index extends CI_Controller {
      */
     public function getMediaManInfo(){
         $user_info = $this->__get_user_session();
-        $media_man_id = $user_info['media_man_id'];
-        $result = $this->__get_media_man_model()->selectById($media_man_id);
+        $advertiser_id = $user_info['advertiser_id'];
+        $result = $this->__get_advertiser_model()->selectById($advertiser_id);
         $this->_return['errorno'] = 1;
         $this->_return['msg'] = '成功';
         $this->_return['data'] = $result;
@@ -295,7 +332,7 @@ class Index extends CI_Controller {
      */
     public function myMessage(){
         $user_info = $this->__get_user_session();
-        $where['user_id'] = $user_info['media_man_id'];
+        $where['user_id'] = $user_info['advertiser_id'];
         $where['user_type'] = '2';
         $where['message_status'] = '0';
         $result = $this->__get_user_message_model()->get_user_message_list_by_condition($where);
@@ -336,8 +373,8 @@ class Index extends CI_Controller {
             $where['offset'] = $_POST['page'];
         }
         $user_info = $this->__get_user_session();
-        $where['media_man_user_id'] = $user_info['media_man_id'];
-        $result = $this->__get_task_map_model()->get_media_man_task_list_by_condition($where);
+        $where['advertiser_user_id'] = $user_info['advertiser_id'];
+        $result = $this->__get_task_map_model()->get_advertiser_task_list_by_condition($where);
         if(empty($result['total'])){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '没有已领取的任务';
@@ -354,7 +391,7 @@ class Index extends CI_Controller {
      */
     public function myTaskDetail(){
         $user_info = $this->__get_user_session();
-        $where['media_man_user_id'] = $user_info['media_man_id'];
+        $where['advertiser_user_id'] = $user_info['advertiser_id'];
         $_POST['task_map_id'] = 1;
         if(!isset($_POST['task_map_id']) || empty($_POST['task_map_id'])){
             $this->_return['errorno'] = -1;
@@ -362,7 +399,7 @@ class Index extends CI_Controller {
             echo json_encode($this->_return);exit;
         }
         $where['task_map_id'] = $_POST['task_map_id'];
-        $result = $this->__get_task_map_model()->get_media_man_task_detail_by_condition($where);
+        $result = $this->__get_task_map_model()->get_advertiser_task_detail_by_condition($where);
         if(isset($result['total'])){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '没有任务';
@@ -375,85 +412,56 @@ class Index extends CI_Controller {
     }
 
 
-    /**
-     *  我的列表  （交付任务页面）
-     */
-    public function deliveryTaskView(){
-        $task_id = $_GET['task_id'];
-        $user_info = $this->__get_user_session();
-        if(!$user_info['media_man_id']){
-            redirect('/media/login/login');
-        }
-        $where ['media_man_user_id'] = $user_info['media_man_id'];
-        $where ['task_id'] = $task_id;
-        $info = $this->__get_task_map_model()->get_media_man_task_detail_by_condition($where);
-        $this->load->view('media/delivery_task',$info);
-    }
 
     /**
-     *  我的列表（post交付任务）
+     * 检查该任务是否属于当前用户
+     * @param $task_id
+     * @param $handle
+     * @return bool
      */
-    public function postDeliveryTask() {
-        if(!isset($_POST ['task_id']) || empty($_POST ['task_id'])){
-            $this->_return['errorno'] = '-1';
+    public function __checkTaskWhetherBelongUser($task_id,$handle){
+        $userInfo = $this->__get_user_session();
+        if(empty($task_id)){
+            $this->_return['errorno'] = -1;
             $this->_return['msg'] = '任务ID不能为空';
             echo json_encode($this->_return);exit;
         }
-        if(!isset($_POST ['deliver_link'])){
-            $this->_return['errorno'] = '-1';
-            $this->_return['msg'] = '任务结果链接不能为空';
-            echo json_encode($this->_return);exit;
-        }else{
-            $info ['deliver_link'] = $_POST ['deliver_link'];
-        }
-        if(!isset($_POST ['deliver_images'])){
-            $this->_return['errorno'] = '-1';
-            $this->_return['msg'] = '任务结果图片不能为空';
-            echo json_encode($this->_return);exit;
-        }else{
-            $info ['deliver_images'] = $_POST ['deliver_images'];
-        }
-        $user_info = $this->__get_user_session();
-        if(!$user_info['media_man_id']){
-            redirect('/media/login/login');
-        }
-        $where['task_id'] = $_POST['task_id'];
-        $where['media_man_user_id'] = $user_info['media_man_id'];
-        $where['deliver_status'] = 0;
-        $info ['deliver_status'] = 1;
-        $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
-        if(!$result){
-            $this->_return['errorno'] = '-1';
-            $this->_return['msg'] = '交付失败';
-            echo json_encode($this->_return);exit;
-        }
-        $this->_return['errorno'] = '1';
-        $this->_return['msg'] = '交付成功';
-        echo json_encode($this->_return);exit;
-    }
+        $where['task_id'] = $task_id;
+        $result = $this->__get_task_model()->selectByCondition($where);
 
-    /**
-     *  我的列表 （我的收入）
-     */
-    public function myIncomeList(){
-        if(isset($_POST['page']) && !empty($_POST['page'])){
-            $where['offset'] = $_POST['page'];
+        if( $handle == $this->_update ){
+            if($result['release_status'] != 0 || ($result['audit_status'] != 2 && $result['audit_status'] != 2 && $result['audit_status'] != 0)){
+                $this->_return['errorno'] = -1;
+                $this->_return['msg'] = '当前任务不可以进行修改';
+                echo json_encode($this->_return);exit;
+            }
         }
-        $user_info = $this->__get_user_session();
-        $where['media_man_user_id'] = $user_info['media_man_id'];
-        $where['finance_status'] = 1;
-        $result = $this->__get_task_map_model()->get_media_man_task_list_by_condition($where);
-        if(empty($result['total'])){
+
+        if( $handle == $this->_submitAudit ){
+            if($result['audit_status'] != 0){
+                $this->_return['errorno'] = -1;
+                $this->_return['msg'] = '当前任务不可以提交审核';
+                echo json_encode($this->_return);exit;
+            }
+        }
+
+        if( $handle == $this->_endTask ){
+            if($result['start_time'] - time() < 43200){
+                $this->_return['errorno'] = -1;
+                //todo 文案补全
+                $this->_return['msg'] = '距离任务开始小于12小时不可结束任务，如需结束任务请联系';
+                echo json_encode($this->_return);exit;
+            }
+        }
+
+        if($result['advertiser_user_id'] != $userInfo['advertiser_id']){
             $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '暂时还没有收入哦，快去完成任务吧';
+            $this->_return['msg'] = '该任务不属于你，不可以进行操作';
             echo json_encode($this->_return);exit;
+        }else{
+            return true;
         }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
     }
-
 
 
     /**
@@ -472,11 +480,23 @@ class Index extends CI_Controller {
     }
 
 
-
-
-
-
-
+//    public function do_upload() {
+//        //上传配置
+//        $config['upload_path']      = './uploads/';
+//        $config['allowed_types']    = 'gif|jpg|png';
+//        $config['max_size']     = 100000;
+//
+//        //加载上传类
+//        $this->load->library('upload', $config);
+//
+//        //执行上传任务
+//        if($this->upload->do_upload('userfile')){
+//            echo '上传成功';  //如果上传成功返回成功信息
+//        }
+//        else{
+//            echo '上传失败，请重试'; //如果上传失败返回错误信息
+//        }
+//    }
 
 
 
@@ -484,7 +504,7 @@ class Index extends CI_Controller {
 
 
     private function __get_user_session(){
-        $userSession = $this->session->userdata('user_info');
+        $userSession = $this->session->userdata($this->_user_info);
         if(empty($userSession) || !is_array($userSession)){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '用户信息有误请重新登录';
@@ -497,11 +517,11 @@ class Index extends CI_Controller {
 
 
     /**
-     * @return Platform_media_man_model
+     * @return Platform_advertiser_model
      */
-    private function __get_media_man_model() {
-        $this->load->model('Platform_media_man_model');
-        return $this->Platform_media_man_model;
+    private function __get_advertiser_model() {
+        $this->load->model('Platform_advertiser_model');
+        return $this->Platform_advertiser_model;
     }
 
     /**

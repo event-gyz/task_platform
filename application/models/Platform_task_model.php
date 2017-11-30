@@ -77,11 +77,19 @@ class Platform_task_model extends MY_Model{
         return $this->update($info, $where );
     }
 
-    public function select_by_id($task_id) {
+    public function selectById($task_id) {
         if(empty($task_id)){
             return false;
         }
         $query = $this->db->get_where($this->getTableName(), array('task_id' => $task_id));
+        return $query->row_array();
+    }
+
+    public function selectByCondition($where) {
+        if(empty($where)){
+            return false;
+        }
+        $query = $this->db->get_where($this->getTableName(), $where);
         return $query->row_array();
     }
 

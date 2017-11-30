@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>评论</title>
+	<link rel="stylesheet" href="http://links.eventown.com.cn/css/ht-framework.min.css">
+	<link rel="stylesheet" href="http://links.eventown.com.cn/css/common.min.css">
+	<link rel="stylesheet" href="http://at.alicdn.com/t/font_yh51hlnmj78yf1or.css">
+	<link href="../assets/css/user_common.css" rel="stylesheet">
+	<script src="http://links.eventown.com.cn/js/4.0/jquery-1.8.2.min.js"></script>
+	<style>
+	 .Navigation{
+	   font-size: 16px;
+	   padding: 10px 0 20px 0;
+	 }
+	 .Navigation .backorder{
+	 	margin-right: 5px;
+	 }
+	 .Navigation .backorder a{
+	 	color: #999999;
+	 }
+	 .userinformaiton{
+	 	display: block;
+	 	overflow: hidden;
+	 }
+	 .userinformaiton img{
+        height: 80px;
+        width: 80px;
+        float: left;
+        margin-right: 10px;
+	 }
+	 .userinformaiton .xinxi{
+	 	float: left;
+	 }
+	 .userinformaiton .xinxi span{
+	 	display: block;
+	 	font-size: 14px;
+	 	padding:3px 0;
+	 }
+	 .userinformaiton .xinxi .hotelName{
+	 	color: #999999;
+	 	font-size: 15px;
+	 }
+	 .pinglun{
+	 	overflow: hidden;
+	 	margin-left:90px;
+	 }
+	 .pl_star i{
+	 	color: #d8cccc;
+	 	cursor: pointer;
+	 }
+	 .pl_star i{
+	 	margin-right: 10px;
+	 	font-size:28px;
+	 }
+	 .pl_star i.active{
+	 	color: #ffb20a;
+	 }
+	 .pinglun .star_text{
+        font-size: 14px;
+        margin-right:20px
+	 }
+	 .pinglun>div{
+	 	margin: 20px 0px;
+	 }
+	 .pingjia span{
+	 	float: left;
+	 	margin-right: 30px;
+	 }
+	 .submit{
+	 	margin-left: 83px !important;
+	 }
+	 .submit button{
+	 	width: 140px;
+	 	height:40px;
+	 	background: rgba(22, 155, 213, 1);
+	 	color: #ffffff;
+	 	border: none;
+	 	border-radius: 3px;
+	 }
+	 .text_evaluate{
+	 	color: #d8cccc;;
+	 }
+	</style>
+</head>
+<body>
+	  <div class="u_main clearfix w1170">
+      <div class="u_content">
+      	<div class="white_bg clearfix">
+          <div class="Navigation"><span class="backorder"><a href="javascript:;">订单管理/</a></span><span class="hotelEvaluate">酒店评价</span></div>
+          <div class="body-main-right">
+             <div class="userinformaiton">
+             	<img src="">
+             	<div class="xinxi">
+             		<span class="hotelName">北京万豪国际酒店</span>
+             		<span>订单号：hotel293034450</span>
+             		<span>入住时间：2017-4-2至2017-4-3</span>
+             	</div>
+             </div>
+             <div class="pinglun">
+             	 <div class="pl_star">
+             	 	<span class="star_text">总体评价</span>
+             	 	<span><i class="icon iconfont active">&#xe630;</i><i class="icon iconfont active">&#xe630;</i><i class="icon iconfont active">&#xe630;</i><i class="icon iconfont active">&#xe630;</i><i class="icon iconfont active">&#xe630;</i><span>
+             	 	<span class="text_evaluate">5分,非常满意</span>
+             	 	<input type="hidden" value="5" id="score">
+             	 </div>
+             	 <div class="pingjia">
+             	 	<span>文字评价</span><textarea rows="6" style="width:680px;" placeholder="请简单写写您对本次酒店入住后的体验..."></textarea>             	 
+             	 </div>
+             	 <div class="submit">
+             	 	<button>提交评价</button>
+             	 </div>
+             </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+</body>
+<script type="text/javascript">
+	$(function(){
+		var arr=$(".pl_star i");
+		$(".pl_star i").click(function(){
+			var sum=$(this).index();
+			$(".score").val(sum);
+			addstar(sum);
+			starText(sum);
+		})
+		function addstar(star){
+			$(".pl_star i").removeClass("active");
+			for(var i=0;i<star+1;i++){
+				$(arr[i]).addClass("active");
+			}
+		}
+		function starText(sum){
+			if(sum==0){
+                $(".text_evaluate").html("1分,差");
+			}else if(sum==1){
+				$(".text_evaluate").html("2分,待提高");
+			}else if(sum==2){
+                $(".text_evaluate").html("3分,基本满意");
+			}else if(sum==3){
+                $(".text_evaluate").html("4分,很好");
+			}else if(sum==4){
+                $(".text_evaluate").html("5分,非常好");
+			}
+		}
+	})
+</script>
+</html>
