@@ -62,70 +62,26 @@ class Platform_task_map_model extends MY_Model{
         $task_table = 'platform_task';
         $task_receivables_table = 'platform_task_receivables';
         $media_man_table = 'platform_media_man';
-        $sql = "SELECT [*] FROM `{$this->table}` AS ptm LEFT JOIN `{$task_receivables_table}` AS ptr on ptr.task_map_id=ptm.task_map_id LEFT JOIN `{$task_table}` AS pt ON pt.task_id=ptm.task_id LEFT JOIN `{$media_man_table}` AS pmm on pmm.media_man_id=ptm.media_man_user_id where ptm.receive_status=1 ";
+        $sql = "SELECT [*] FROM `{$this->table}` AS ptm LEFT JOIN `{$task_receivables_table}` AS ptr on ptr.task_map_id=ptm.task_map_id LEFT JOIN `{$task_table}` AS pt ON pt.task_id=ptm.task_id LEFT JOIN `{$media_man_table}` AS pmm on pmm.media_man_id=ptm.media_man_user_id where 1=1 ";
 
         // 拼接查询条件
         // 根据用户名
         if (isset($where['media_man_user_id']) && $where['media_man_user_id']) {
-            $sql .= sprintf(" AND ptm.media_man_user_id like %d", $where['media_man_user_id']);
+            $sql .= sprintf(" AND ptm.media_man_user_id = %d", $where['media_man_user_id']);
         }
 
         //根据finance_status
         if (isset($where['finance_status']) && $where['finance_status']) {
-            $sql .= sprintf(" AND ptr.task_map_id = %d", $where['finance_status']);
+            $notInComeSql = $sql;
+            $sql .= sprintf(" AND ptr.finance_status = %d", $where['finance_status']);
+            $sql .= sprintf(" AND ptm.receive_status = %d", 1);
+            //超时
+            $notInComeSql .= sprintf(" AND ptm.receive_status = %d", 3);
+
             $moneyCount = str_replace('[*]', 'sum(pt.platform_price) AS c', $sql);
-            $data['moneyTotal']    = $this->getCount($moneyCount);
-        }
+            $notInComeMoneyCount = str_replace('[*]', 'sum(pt.platform_price) AS c', $notInComeSql);
 
-        // 总数
-        $sqlCount = str_replace('[*]', 'count(ptm.task_map_id) AS c', $sql);
-        $total    = $this->getCount($sqlCount);
-
-        if ($total === '0') {
-            return ['total' => $total, 'list' => []];
-        }
-
-        $sql .= ' ORDER BY ptm.task_map_id DESC';
-
-        $offset = isset($where['offset']) ? $where['offset'] : 0;
-        $limit  = isset($where['limit']) ? $where['limit'] : 10;
-        $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
-
-        $_sql = str_replace('[*]', $param, $sql);
-
-        $_list = $this->getList($_sql);
-
-        $data['total'] = $total;
-        $data['list'] = $_list;
-        return $data;
-    }
-    /**
-     * todo
-     * 自媒体人错过的收入
-     * @param $where
-     * @return array
-     */
-    public function get_media_man_miss_income($where) {
-        $data = [];
-        if(!isset($where['media_man_user_id']) || empty($where['media_man_user_id'])){
-            return ['total' => 0, 'list' => []];
-        }
-        $param = "pt.*,pmm.*,ptr.platform_pay_money,ptr.platform_pay_way,ptr.finance_status,ptr.pay_time,ptm.task_map_id";
-        $task_table = 'platform_task';
-        $task_receivables_table = 'platform_task_receivables';
-        $media_man_table = 'platform_media_man';
-        $sql = "SELECT [*] FROM `{$this->table}` AS ptm LEFT JOIN `{$task_receivables_table}` AS ptr on ptr.task_map_id=ptm.task_map_id LEFT JOIN `{$task_table}` AS pt ON pt.task_id=ptm.task_id LEFT JOIN `{$media_man_table}` AS pmm on pmm.media_man_id=ptm.media_man_user_id where ptm.receive_status=1 ";
-
-        // 拼接查询条件
-        // 根据用户名
-        if (isset($where['media_man_user_id']) && $where['media_man_user_id']) {
-            $sql .= sprintf(" AND ptm.media_man_user_id like %d", $where['media_man_user_id']);
-        }
-
-        //根据finance_status
-        if (isset($where['finance_status']) && $where['finance_status']) {
-            $sql .= sprintf(" AND ptr.task_map_id = %d", $where['finance_status']);
-            $moneyCount = str_replace('[*]', 'sum(pt.platform_price) AS c', $sql);
+            $data['notInComeMoneyTotal']    = $this->getCount($notInComeMoneyCount);
             $data['moneyTotal']    = $this->getCount($moneyCount);
         }
 
@@ -153,13 +109,13 @@ class Platform_task_map_model extends MY_Model{
     }
 
     /**
-     * 自媒体人我的任务列表(已接受的任务)
+     * 自媒体人我的任务详情(已接受的任务)
      * @param $where
      * @return array
      */
     public function get_media_man_task_detail_by_condition($where) {
 
-        $param = "pt.*,ptr.platform_pay_money,ptr.platform_pay_way,ptr.finance_status,ptr.pay_time";
+        $param = "pt.*,ptm.*,ptr.platform_pay_money,ptr.platform_pay_way,ptr.finance_status,ptr.pay_time,ptm.reasons_for_rejection as tm_reasons_for_rejection";
         $task_table = 'platform_task';
         $task_receivables_table = 'platform_task_receivables';
         $sql = "SELECT [*] FROM `{$this->table}` AS ptm  LEFT JOIN `{$task_table}` AS pt ON pt.task_id=ptm.task_id LEFT JOIN `{$task_receivables_table}` AS ptr on ptr.task_map_id=ptm.task_map_id where ptm.receive_status=1 ";
@@ -172,6 +128,10 @@ class Platform_task_map_model extends MY_Model{
         //根据map_id
         if (isset($where['task_map_id']) && $where['task_map_id']) {
             $sql .= sprintf(" AND ptm.task_map_id = %d", $where['task_map_id']);
+        }
+        //根据task_id
+        if (isset($where['task_id']) && $where['task_id']) {
+            $sql .= sprintf(" AND ptm.task_id = %d", $where['task_id']);
         }
 
         // 总数
@@ -194,7 +154,7 @@ class Platform_task_map_model extends MY_Model{
      */
     //todo 要写脚本修改状态为忽略
     //todo 自媒体人交付任务的时候将map表的deliver_status改为1
-    public function updateStatus($where,$info){
+    public function updateMapInfo($where, $info){
         if(!isset($where['task_map_id']) || empty($where['task_map_id'])){
             return false;
         }else if((!isset($where['task_id']) || empty($where['task_id'])) && !isset($where['media_man_user_id']) || empty($where['media_man_user_id'])){
@@ -268,8 +228,9 @@ class Platform_task_map_model extends MY_Model{
         return $data;
     }
 
-    //未领取的有效的任务详情
-    public function getTaskDetail($media_man_id,$where){
+    //未领取的任务详情
+    //todo 增加广告主关闭判断
+    public function getUnclaimedTaskDetail($media_man_id, $where){
         if(empty($media_man_id)){
             return false;
         }
@@ -302,5 +263,6 @@ class Platform_task_map_model extends MY_Model{
 
         return $this->getRow($_sql);
     }
+
 }
 

@@ -69,8 +69,6 @@ class Index extends CI_Controller {
         $this->load->view('media/index');
     }
 
-
-
     // 保存自媒体人基础信息
     public function saveBaseInfo() {
         if (empty($_POST)) {
@@ -169,19 +167,10 @@ class Index extends CI_Controller {
         }
     }
 
-    // 更新自媒体人
-    public function update_sys_user() {
-//        $result      = $this->__get_media_man_model()->update_sys_user($sys_user_id, $info);
-    }
 
-    // 查询自媒体人
-    public function select_by_id() {
-        $sys_user_id = 1;
-        $result      = $this->__get_media_man_model()->selectById($sys_user_id);
-        print_r($result);
-    }
-
-    // 任务大厅
+    /**
+     * 任务大厅
+     */
     public function getMissionHall(){
 
         $page = (isset($_POST['page'])&&!empty($_POST['page'])) ? $_POST['page'] : 0;
@@ -212,7 +201,10 @@ class Index extends CI_Controller {
         }
     }
 
-    // 任务大厅任务详情
+    //
+    /**
+     * 任务大厅任务详情
+     */
     public function getMissionHallTaskDetail(){
         $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 0;
         $user_info = $this->__get_user_session();
@@ -224,7 +216,7 @@ class Index extends CI_Controller {
         $where['map_id'] = $map_id;
         $where['receive_status'] = 0;
         $where['release_status'] = 1;
-        $result = $this->__get_task_map_model()->getTaskDetail($media_man_id,$where);
+        $result = $this->__get_task_map_model()->getUnclaimedTaskDetail($media_man_id,$where);
         $result['allot_time'] = $this->__timediff(strtotime($result['allot_time']));
         if(is_array($result) && !empty($result)){
             $this->_return['errorno'] = 1;
@@ -239,7 +231,7 @@ class Index extends CI_Controller {
     }
 
     /**
-     * 接受任务
+     * 任务大厅 接受任务
      */
     public function acceptTask(){
         $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 1;
@@ -250,7 +242,7 @@ class Index extends CI_Controller {
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $where['receive_status'] = 0;
         $info ['receive_status'] = 1;
-        $result = $this->__get_task_map_model()->updateStatus($where,$info);
+        $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
         if(!empty($result)){
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '领取成功';
@@ -264,7 +256,7 @@ class Index extends CI_Controller {
     }
 
     /**
-     * 拒绝任务
+     * 任务大厅 拒绝任务
      */
     public function refuseTask(){
         $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 1;
@@ -275,7 +267,7 @@ class Index extends CI_Controller {
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $where['receive_status'] = 0;
         $info ['receive_status'] = 2;
-        $result = $this->__get_task_map_model()->updateStatus($where,$info);
+        $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
         if(!empty($result)){
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '拒绝成功';
@@ -343,6 +335,9 @@ class Index extends CI_Controller {
      *  我的列表 （我的任务）
      */
     public function myTaskList(){
+        if(isset($_POST['page']) && !empty($_POST['page'])){
+            $where['offset'] = $_POST['page'];
+        }
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $result = $this->__get_task_map_model()->get_media_man_task_list_by_condition($where);
@@ -358,7 +353,7 @@ class Index extends CI_Controller {
     }
 
     /**
-     *  我的任务详情 （我的任务）
+     *  我的列表 （我的任务详情）
      */
     public function myTaskDetail(){
         $user_info = $this->__get_user_session();
@@ -373,7 +368,7 @@ class Index extends CI_Controller {
         $result = $this->__get_task_map_model()->get_media_man_task_detail_by_condition($where);
         if(isset($result['total'])){
             $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '没有待领取任务';
+            $this->_return['msg'] = '没有任务';
             echo json_encode($this->_return);exit;
         }
         $this->_return['errorno'] = 1;
@@ -382,10 +377,71 @@ class Index extends CI_Controller {
         echo json_encode($this->_return);exit;
     }
 
+
+    /**
+     *  我的列表  （交付任务页面）
+     */
+    public function deliveryTaskView(){
+        $task_id = $_GET['task_id'];
+        $user_info = $this->__get_user_session();
+        if(!$user_info['media_man_id']){
+            redirect('/media/login/login');
+        }
+        $where ['media_man_user_id'] = $user_info['media_man_id'];
+        $where ['task_id'] = $task_id;
+        $info = $this->__get_task_map_model()->get_media_man_task_detail_by_condition($where);
+        $this->load->view('media/delivery_task',$info);
+    }
+
+    /**
+     *  我的列表（post交付任务）
+     */
+    public function postDeliveryTask() {
+        if(!isset($_POST ['task_id']) || empty($_POST ['task_id'])){
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '任务ID不能为空';
+            echo json_encode($this->_return);exit;
+        }
+        if(!isset($_POST ['deliver_link'])){
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '任务结果链接不能为空';
+            echo json_encode($this->_return);exit;
+        }else{
+            $info ['deliver_link'] = $_POST ['deliver_link'];
+        }
+        if(!isset($_POST ['deliver_images'])){
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '任务结果图片不能为空';
+            echo json_encode($this->_return);exit;
+        }else{
+            $info ['deliver_images'] = $_POST ['deliver_images'];
+        }
+        $user_info = $this->__get_user_session();
+        if(!$user_info['media_man_id']){
+            redirect('/media/login/login');
+        }
+        $where['task_id'] = $_POST['task_id'];
+        $where['media_man_user_id'] = $user_info['media_man_id'];
+        $where['deliver_status'] = 0;
+        $info ['deliver_status'] = 1;
+        $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
+        if(!$result){
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '交付失败';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = '1';
+        $this->_return['msg'] = '交付成功';
+        echo json_encode($this->_return);exit;
+    }
+
     /**
      *  我的列表 （我的收入）
      */
     public function myIncomeList(){
+        if(isset($_POST['page']) && !empty($_POST['page'])){
+            $where['offset'] = $_POST['page'];
+        }
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $where['finance_status'] = 1;
@@ -400,6 +456,9 @@ class Index extends CI_Controller {
         $this->_return['data'] = $result;
         echo json_encode($this->_return);exit;
     }
+
+
+
     /**
      * 获取剩余时间
      * @param $allot_time
@@ -464,6 +523,13 @@ class Index extends CI_Controller {
         return $this->User_message_model;
     }
 
+    /**
+     * @return Platform_task_model
+     */
+    private function __get_task_model() {
+        $this->load->model('Platform_task_model');
+        return $this->Platform_task_model;
+    }
 
 
 

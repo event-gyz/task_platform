@@ -78,6 +78,9 @@ class Platform_task_model extends MY_Model{
     }
 
     public function select_by_id($task_id) {
+        if(empty($task_id)){
+            return false;
+        }
         $query = $this->db->get_where($this->getTableName(), array('task_id' => $task_id));
         return $query->row_array();
     }
