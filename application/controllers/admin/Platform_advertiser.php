@@ -180,9 +180,13 @@ class Platform_advertiser extends Admin_Controller {
             return redirect("{$this->host}/admin/platform_advertiser/personal_adv_home_index");
         }
 
+        $where    = ['operate_data_id' => $id, 'sys_log_type' => "2,5", "offset" => 0, "limit" => 200];
+        $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
+
         return $this->load->view('admin/platform_advertiser/personal_adv_detail',
             [
                 'info'               => $info,
+                'log_list'           => $log_list,
                 'adv_audit_status'   => $this->config->item('adv_audit_status'),
                 'adv_account_status' => $this->config->item('adv_account_status'),
             ]
@@ -204,9 +208,13 @@ class Platform_advertiser extends Admin_Controller {
             return redirect("{$this->host}/admin/platform_advertiser/company_adv_home_index");
         }
 
+        $where    = ['operate_data_id' => $id, 'sys_log_type' => "2,5", "offset" => 0, "limit" => 200];
+        $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
+
         return $this->load->view('admin/platform_advertiser/company_adv_detail',
             [
                 'info'               => $info,
+                'log_list'           => $log_list,
                 'adv_audit_status'   => $this->config->item('adv_audit_status'),
                 'adv_account_status' => $this->config->item('adv_account_status'),
             ]
@@ -254,7 +262,7 @@ class Platform_advertiser extends Admin_Controller {
 
         if ($result === 1) {
 
-            $this->add_sys_log(2, $sys_log_content, json_encode($info), json_encode($update_info));
+            $this->add_sys_log(2, $sys_log_content, $id, json_encode($info), json_encode($update_info));
 
             return $this->response_json(0, '操作成功');
         }
@@ -302,7 +310,7 @@ class Platform_advertiser extends Admin_Controller {
 
         if ($result === 1) {
 
-            $this->add_sys_log(5, $sys_log_content, json_encode($info), json_encode($update_info));
+            $this->add_sys_log(5, $sys_log_content, $id, json_encode($info), json_encode($update_info));
 
             return $this->response_json(0, '操作成功');
         }
