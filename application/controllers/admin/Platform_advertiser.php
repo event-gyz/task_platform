@@ -289,7 +289,7 @@ class Platform_advertiser extends Admin_Controller {
             return $this->response_json(1, '非法操作');
         }
 
-        $update_info['account_status']  = $account_status;
+        $update_info['status']          = $account_status;
         $update_info['freezing_reason'] = empty($freezing_reason) ? '' : $freezing_reason;
         $sys_log_content                = '广告主账户被冻结,冻结的原因是:' . $update_info['freezing_reason'];
 
