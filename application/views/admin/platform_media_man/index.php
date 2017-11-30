@@ -58,7 +58,7 @@
                                             <select class="form-control" name="audit_status">
                                                 <option value="">全部</option>
 
-                                                <?php foreach ($media_account_status as $key => $value): ?>
+                                                <?php foreach ($media_audit_status as $key => $value): ?>
                                                     <option value="<?= $key ?>"
                                                         <?= $key == $form_data['audit_status'] ? 'selected' : ''; ?>
                                                     >
