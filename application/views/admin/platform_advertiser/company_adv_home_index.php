@@ -218,7 +218,6 @@
 
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
 
-<script src="/assets/layer/layer.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.min.js"></script>
 
