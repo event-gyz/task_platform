@@ -91,10 +91,21 @@
                                     <div class="form-group col-xs-3">
                                         <label for="sex" class="col-sm-3 control-label">性别</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control"
-                                                   placeholder="输入性别来搜索..." name="sex"
-                                                   value="<?= $form_data['sex'] ?>"
-                                            >
+
+                                            <select class="form-control" name="sex">
+                                                <option value="">全部</option>
+                                                <option value="1"
+                                                    <?= "1" === $form_data['sex'] ? 'selected' : ''; ?>
+                                                >
+                                                    男
+                                                </option>
+                                                <option value="2"
+                                                    <?= "2" === $form_data['sex'] ? 'selected' : ''; ?>
+                                                >
+                                                    女
+                                                </option>
+                                            </select>
+
                                         </div>
                                     </div>
 
