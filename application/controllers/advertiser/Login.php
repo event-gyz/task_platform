@@ -3,10 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller {
 
-
-    public $_model = 'mm_plat_code';
-    public $_pwd_phone = 'mm_pwd_phone';
-    public $_pwdmodel = 'mm_plat_pwd_code';
+    public $_model = 'ad_plat_code';
+    public $_pwd_phone = 'ad_pwd_phone';
+    public $_pwdmodel = 'ad_plat_pwd_code';
     public function __construct(){
         parent::__construct ();
         $this->load->helper ( array (
@@ -255,7 +254,6 @@ class Login extends CI_Controller {
     private function __recordSendCodeTimes($phone){
         $timemodel = 'times' . $phone;
         $userTimes = $this->session->userdata($timemodel);
-//        print_r($userTimes);
         if(!empty($userTimes['times'])){
             $times = $userTimes['times']+1;
         }else{

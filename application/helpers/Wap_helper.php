@@ -3,7 +3,7 @@
 
 class Wap {
     protected $CI;
-    const SALT = 'media';
+    const SALT = 'plat';
     public function __construct() {
         $this->CI =& get_instance();
     }
