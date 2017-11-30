@@ -24,9 +24,11 @@ class Platform_media_man extends Admin_Controller {
 
         return $this->load->view('admin/platform_media_man/index',
             [
-                'form_data' => $form_data,
-                'list'      => $data['list'],
-                'page_link' => $page_link,
+                'form_data'            => $form_data,
+                'list'                 => $data['list'],
+                'page_link'            => $page_link,
+                'media_audit_status'   => $this->config->item('media_audit_status'),
+                'media_account_status' => $this->config->item('media_account_status'),
             ]
         );
     }

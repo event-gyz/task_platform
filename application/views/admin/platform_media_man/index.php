@@ -58,7 +58,7 @@
                                             <select class="form-control" name="audit_status">
                                                 <option value="">全部</option>
 
-                                                <?php foreach ($adv_audit_status as $key => $value): ?>
+                                                <?php foreach ($media_account_status as $key => $value): ?>
                                                     <option value="<?= $key ?>"
                                                         <?= $key === $form_data['audit_status'] ? 'selected' : ''; ?>
                                                     >
@@ -114,7 +114,7 @@
                                             <select class="form-control" name="status">
                                                 <option value="">全部</option>
 
-                                                <?php foreach ($adv_account_status as $key => $value): ?>
+                                                <?php foreach ($media_account_status as $key => $value): ?>
                                                     <option value="<?= $key ?>"
                                                         <?= $key === $form_data['status'] ? 'selected' : ''; ?>
                                                     >
@@ -127,7 +127,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="tag" class="col-sm-4 control-label">标签</label>
+                                        <label for="tag" class="col-sm-3 control-label">标签</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
                                                    placeholder="输入标签来搜索..." name="tag"
@@ -136,8 +136,15 @@
                                         </div>
                                     </div>
 
+                                </div>
+
+                                <div class="row">
+
                                     <div class="form-group col-xs-3">
-                                        <button type="submit" class="btn btn-info">搜索</button>
+                                        <label for="sex" class="col-sm-3 control-label"></label>
+                                        <div class="col-sm-7">
+                                            <button type="submit" class="btn btn-info">搜索</button>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -184,7 +191,7 @@
                                             <?= $value['audit_status'] === "1" ? "bg-green" : "" ?>
                                             <?= $value['audit_status'] === "2" ? "bg-red" : "" ?>
                                         ">
-                                            <?= $adv_audit_status[$value['audit_status']] ?>
+                                            <?= $media_account_status[$value['audit_status']] ?>
                                         </small>
                                     </th>
                                     <th><?= $value['create_time'] ?></th>
@@ -195,13 +202,13 @@
                                             <?= $value['status'] === "2" ? "bg-green" : "" ?>
                                             <?= $value['status'] === "9" ? "bg-red" : "" ?>
                                         ">
-                                            <?= $adv_account_status[$value['status']] ?>
+                                            <?= $media_account_status[$value['status']] ?>
                                         </small>
                                     </th>
                                     <th><?= $value['last_operator_name'] ?></th>
                                     <th><?= $value['update_time'] ?></th>
                                     <th>
-                                        <a href="/admin/platform_advertiser/company_adv_detail?id=<?= $value['advertiser_id'] ?>"
+                                        <a href="/admin/platform_media_man/media_man_detail?id=<?= $value['media_man_id'] ?>"
                                            class="btn btn-success btn-sm">
                                             详情
                                         </a>
