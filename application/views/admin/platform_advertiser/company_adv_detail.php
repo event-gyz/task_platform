@@ -227,7 +227,7 @@
             };
         },
         methods: {
-            submitForm               : function (formName) {
+            submitForm                  : function (formName) {
                 this.$refs[formName].validate((valid) => {
 
                     if (!valid) {
@@ -245,10 +245,10 @@
                     this.adv_audit();
                 });
             },
-            goBack                   : function (formName) {
+            goBack                      : function (formName) {
                 window.location.href = '/admin/platform_advertiser/company_adv_home';
             },
-            adv_audit                : async function () {
+            adv_audit                   : async function () {
                 try {
                     this.loading = true;
                     var url      = '/admin/platform_advertiser/update_adv_audit_status';
@@ -264,7 +264,7 @@
                     var resData  = response.data;
 
                     if (resData.error_no === 0) {
-                        this.$message.success('审核成功,即将刷新页面...');
+                        this.$message.success('操作成功,即将刷新页面...');
                         return window.location.reload();
                     }
 
@@ -291,47 +291,62 @@
 
                 }
             },
-            update_adv_account_status: async function (account_status, advertiser_id) {
+            update_adv_account_status   : async function (account_status, advertiser_id) {
+
+                var message = (account_status === "2") ? "确定要将此用户解冻吗，解冻后可正常登陆使用。" : "确定要将此用户冻结吗，冻结后无法正常登陆。";
+
+                this.$confirm(message, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText : '取消',
+                    type             : 'warning'
+                }).then(async () => {
+
+                    var freezing_reason = "";
+
+                    if (account_status === "9") {
+
+                        await this.$prompt('请输入冻结的原因', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText : '取消',
+                            inputValidator   : (value) => { return value !== null; },
+                            inputErrorMessage: '冻结原因不能为空'
+                        }).then(({value}) => {
+                            freezing_reason = value;
+                        }).catch(() => {
+                        });
+
+                    }
+
+                    await this.do_update_adv_account_status(account_status, advertiser_id, freezing_reason);
+
+                }).catch(() => {
+                });
+
+            },
+            do_update_adv_account_status: async function (account_status, advertiser_id, freezing_reason) {
                 try {
 
-                    this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        this.$message({
-                            type: 'success',
-                            message: '删除成功!'
-                        });
-                    }).catch(() => {
-                        this.$message({
-                            type: 'info',
-                            message: '已取消删除'
-                        });
-                    });
+                    this.loading = true;
+                    var url      = '/admin/platform_advertiser/update_adv_account_status';
+                    var response = await axios.post(
+                        url,
+                        {
+                            "id"             : advertiser_id,
+                            "account_status" : account_status,
+                            "freezing_reason": freezing_reason,
+                        },
+                    );
+                    this.loading = false;
+                    var resData  = response.data;
 
+                    if (resData.error_no === 0) {
+                        this.$message.success('操作成功,即将刷新页面...');
+                        return window.location.reload();
+                    }
 
-//                    this.loading = true;
-//                    var url      = '/admin/platform_advertiser/update_adv_account_status';
-//                    var response = await axios.post(
-//                        url,
-//                        {
-//                            "id"             : advertiser_id,
-//                            "account_status" : account_status,
-//                            "freezing_reason": freezing_reason,
-//                        },
-//                    );
-//                    this.loading = false;
-//                    var resData  = response.data;
-//
-//                    if (resData.error_no === 0) {
-//                        this.$message.success('审核成功,即将刷新页面...');
-//                        return window.location.reload();
-//                    }
-//
-//                    return this.$message.error(resData.msg);
-                }
-                catch (error) {
+                    return this.$message.error(resData.msg);
+
+                } catch (error) {
 
                     this.loading = false;
 
@@ -351,7 +366,6 @@
                     }
 
                 }
-
             }
         }
     };
