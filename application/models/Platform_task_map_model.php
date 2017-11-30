@@ -112,7 +112,7 @@ class Platform_task_map_model extends MY_Model{
      * @param $where
      * @return array
      */
-    public function get_media_man_task_detail_by_condition($where) {
+    public function getMediaManTaskDetailByCondition($where) {
 
         $param = "pt.*,ptm.*,ptr.platform_pay_money,ptr.platform_pay_way,ptr.finance_status,ptr.pay_time,ptm.reasons_for_rejection as tm_reasons_for_rejection";
         $task_table = 'platform_task';
@@ -162,7 +162,7 @@ class Platform_task_map_model extends MY_Model{
         return $this->update($info, $where );
     }
 
-    public function select_by_id($task_map_id) {
+    public function selectById($task_map_id) {
         $query = $this->db->get_where($this->getTableName(), array('task_map_id' => $task_map_id));
         return $query->row_array();
     }

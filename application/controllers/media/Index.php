@@ -359,7 +359,7 @@ class Index extends CI_Controller {
             echo json_encode($this->_return);exit;
         }
         $where['task_map_id'] = $_POST['task_map_id'];
-        $result = $this->__get_task_map_model()->get_media_man_task_detail_by_condition($where);
+        $result = $this->__get_task_map_model()->getMediaManTaskDetailByCondition($where);
         if(isset($result['total'])){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '没有任务';
@@ -383,7 +383,7 @@ class Index extends CI_Controller {
         }
         $where ['media_man_user_id'] = $user_info['media_man_id'];
         $where ['task_id'] = $task_id;
-        $info = $this->__get_task_map_model()->get_media_man_task_detail_by_condition($where);
+        $info = $this->__get_task_map_model()->getMediaManTaskDetailByCondition($where);
         $this->load->view('media/delivery_task',$info);
     }
 
