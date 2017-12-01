@@ -109,13 +109,114 @@ class Platform_media_man extends Admin_Controller {
             return redirect("{$this->host}/admin/platform_media_man/home");
         }
 
+        $where    = ['operate_data_id' => $id, 'sys_log_type' => "2,5", "offset" => 0, "limit" => 200];
+        $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
+
         return $this->load->view('admin/platform_media_man/media_man_detail',
             [
                 'info'                 => $info,
+                'log_list'             => $log_list['list'],
                 'media_audit_status'   => $this->config->item('media_audit_status'),
                 'media_account_status' => $this->config->item('media_account_status'),
             ]
         );
+    }
+
+    // 媒体人的审核
+    public function update_media_audit_status() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
+
+        $id                    = $req_data['id'];
+        $audit_status          = $req_data['audit_status'];
+        $reasons_for_rejection = $req_data['reasons_for_rejection'];
+
+        if (empty($id)) {
+            return $this->response_json(1, 'id不能为空');
+        }
+
+        if (empty($audit_status)) {
+            return $this->response_json(1, 'audit_status不能为空');
+        }
+
+        $info = $this->__get_platform_media_man_model()->selectById($id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应的信息');
+        }
+
+        if (!in_array($audit_status, [1, 2])) {
+            return $this->response_json(1, '非法操作');
+        }
+
+        $update_info['audit_status']          = $audit_status;
+        $update_info['reasons_for_rejection'] = empty($reasons_for_rejection) ? '' : $reasons_for_rejection;
+        $sys_log_content                      = '媒体人审核驳回,驳回的原因是:' . $update_info['reasons_for_rejection'];
+
+        if ($audit_status === "1") {
+            $update_info['reasons_for_rejection'] = "";
+            $update_info['status']                = 2;// 当审核通过后需要将status设置为2正常
+            $sys_log_content                      = '媒体人审核通过';
+        }
+
+        $result = $this->__get_platform_media_man_model()->updateInfo($id, $update_info);
+
+        if ($result === 1) {
+
+            $this->add_sys_log(3, $sys_log_content, $id, json_encode($info), json_encode($update_info));
+
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(1, '非法操作');
+    }
+
+    // 媒体人的账户状态变更
+    public function update_media_account_status() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
+
+        $id              = $req_data['id'];
+        $account_status  = $req_data['account_status'];
+        $freezing_reason = $req_data['freezing_reason'];
+
+        if (empty($id)) {
+            return $this->response_json(1, 'id不能为空');
+        }
+
+        if (empty($account_status)) {
+            return $this->response_json(1, 'account_status不能为空');
+        }
+
+        $info = $this->__get_platform_media_man_model()->selectById($id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应的信息');
+        }
+
+        if (!in_array($account_status, [2, 9])) {
+            return $this->response_json(1, '非法操作');
+        }
+
+        $update_info['status']          = $account_status;
+        $update_info['freezing_reason'] = empty($freezing_reason) ? '' : $freezing_reason;
+        $sys_log_content                = '媒体人账户被冻结,冻结的原因是:' . $update_info['freezing_reason'];
+
+        if ($account_status === "2") {
+            $update_info['freezing_reason'] = "";
+            $sys_log_content                = '媒体人账户被解冻';
+        }
+
+        $result = $this->__get_platform_media_man_model()->updateInfo($id, $update_info);
+
+        if ($result === 1) {
+
+            $this->add_sys_log(6, $sys_log_content, $id, json_encode($info), json_encode($update_info));
+
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(1, '非法操作');
     }
 
     /**
