@@ -1,0 +1,413 @@
+.main {
+    margin-bottom: 60px;
+}
+
+.index-style .swiper-slide img{
+    width: 100%;
+}
+.index-con {
+    background: #fff;
+    padding: 15px 0;
+}
+.index-con img {
+    width: 100%;
+    display: block;
+}
+.index-con p.button {
+    padding: 20px 15px 0;
+}
+
+.index_button_box {
+    width: 100%;
+    overflow: hidden;
+    padding: 30px 0;
+}
+.index_button_box p {
+    float: left;
+    width: 40%;
+    padding: 0 5%;
+}
+.index_advert_icon {
+    text-align: center;
+}
+.index_advert_icon span {
+    display: inline-block;
+    width: 45%;
+    color: #999;
+}
+.index_advert_icon span img {
+    width: 16px;
+    margin-bottom: -2px;
+}
+.index_advert_icon span.cur {
+    color: #FC9153;
+}
+.generalize_img_box {
+    padding: 10px 0;
+    width: 110%;
+}
+.generalize_img_box li {
+    position: relative;
+    float: left;
+    width: 60px;
+    height: 60px;
+    margin: 0 25px 20px 0;
+    border: 1px solid #eee;
+}
+.generalize_img_box li img {
+    width: 60px;
+    height: 60px;
+}
+.generalize_img_box li i.iconfont {
+    position: absolute;
+    z-index: 10;
+    right: -8px;
+    top:-8px;
+    color: #FC9153;
+    background: #fff;
+}
+.generalize_up_button {
+    width: 100%;
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+.generalize_up_button li {
+    float: left;
+}
+.generalize_up_button li.img {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+}
+.generalize_up_button li.img img {
+    width: 100%;
+}
+.generalize_up_button li.text {
+    padding-left: 15px;
+    width: 180px;
+    height: 60px;
+    line-height: 16px;
+    font-size: 12px;
+}
+table tr.no_bg td.no_bg_td {
+    padding: 0;
+    height: auto;
+    background: #F3F4F8;
+}
+table tr.no_bg div.bg {
+    margin-left: -15px;
+    background: #F3F4F8;
+    padding-left: 15px;
+}
+.sjpt {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 10px;
+}
+.sjpt ul {
+    display: inline-block;
+    padding: 0 20px;
+}
+.sjpt ul li {
+    float: left;
+    text-align: left;
+    margin-right: 15px;
+}
+.sjpt ul li img {
+    width: 35px;
+    margin-top: 15px;
+}
+.sjpt ul li h2 {
+    font-size: 16px;
+}
+.sjpt ul li p {
+    font-size: 12px;
+    color: #999;
+}
+.pt_list {
+    background: #fff;
+    margin-bottom: 10px;
+}
+.pt_list ul {
+    width: 100%;
+    padding: 15px 5px;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+.pt_list li {
+    margin: 0 10px;
+    display: inline-block;
+}
+.pt_list li.style p.img {
+    position: relative;
+    border: 1px solid #eee;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+}
+.pt_list li.style p.img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.pt_list li.style p.img i.iconfont {
+    position: absolute;
+    right: -5px;
+    bottom: -3px;
+    color: #FC9153;
+}
+.pt_list li.style p.name {
+    text-align: center;
+    font-size: 12px;
+}
+.pt_list li.style p.number {
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+}
+.brand {
+    width: 100%;
+    background: #fff;
+    padding: 20px 0;
+}
+.brand .tit {
+    height: 40px;
+    overflow: hidden;
+}
+.brand .tit p {
+    position: relative;
+    margin: 0 auto;
+    width: 150px;
+    height: 12px;
+    border-bottom: 1px solid #333;
+}
+.brand .tit p span {
+    position: absolute;
+    display: inline-block;
+    top: -10px;
+    left: 50%;
+    margin-left: -54px;
+    font-size: 17px;
+    text-align: center;
+    background: #fff;
+    padding: 10px 20px;
+    color: #333;
+}
+.brand ul {
+    width: 110%;
+    overflow: hidden;
+}
+.brand ul li {
+    float: left;
+    margin: 0 11px 15px 12px;
+    width: 70px;
+    height: 45px;
+    text-align: center;
+    line-height: 45px;
+    overflow: hidden;
+}
+.brand ul li img {
+    width: 100%;
+}
+.case_info {
+    padding: 10px;
+    overflow: hidden;
+}
+.case_info img {
+    width: 100%;
+}
+
+/*my*/
+.my .my_head {
+    background: url("../images/advert_bg.png") no-repeat center 0;
+    height: 140px;
+    overflow: hidden;
+    background-size: cover;
+    margin-bottom: 10px;
+}
+.my_head ul {
+    text-align: center;
+    padding-top: 20px;
+}
+.my_head ul li.img {
+    background: #fff;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #FEAE80;
+    overflow: hidden;
+}
+.my_head ul li.img img {
+    width: 100%;
+}
+.my_head ul li.text {
+    text-align: center;
+    font-size: 20px;
+    padding: 5px 0;
+    color: #fff;
+}
+.my_index_table {
+    background: #fff;
+    margin-bottom: 10px;
+}
+.my_index_table td {
+    color: #333;
+}
+.my_index_table td i.iconfont {
+    color: #999;
+}
+.my_index_table img.icon {
+    width: 18px;
+}
+.my .logout {
+    background: #fff;
+    text-align: center;
+    height: 48px;
+    line-height: 48px;
+    font-size: 16px;
+}
+.my_msg_table {
+    background: #fff;
+    width: 100%;
+}
+.my_msg_table td {
+    padding: 8px 8px;
+}
+.my_msg_table td.icon p {
+    position: relative;
+    width: 48px;
+    height: 48px;
+}
+.my_msg_table td.icon p img {
+    width: 48px;
+    height: 48px;
+}
+.my_msg_table td.icon p span {
+    position: absolute;
+    right: -5px;
+    top:-5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 16px;
+    background: red;
+    color: #fff;
+    font-size: 10px;
+}
+.my_msg_table td.msg h2 {
+    color: #0B0A0A;
+    font-size: 16px;
+}
+.my_msg_table td.msg p {
+    font-size: 12px;
+    color: #999;
+    padding: 5px 0;
+    height: 15px;
+    overflow: hidden;
+}
+.my_msg_table td.time {
+    font-size: 12px;
+    color: #999;
+}
+.my_task {
+    padding: 10px;
+}
+.task_box {
+    margin-bottom: 10px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fff;
+}
+.task_box .top {
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    overflow: hidden;
+}
+.task_box .wait {
+    background: #4A4C5B;
+}
+.task_box .proceed {
+    background: #FD9354;
+}
+.task_box .end {
+    background: #44BEA3;
+}
+.task_box .close {
+    background: #999;
+}
+.task_box .top p.name {
+    float: left;
+    padding-left: 10px;
+    color: #fff;
+    font-size: 16px;
+}
+.task_box .top p.name a {
+    color: #fff;
+}
+.task_box .top p.status {
+    float: right;
+    padding-right: 10px;
+    color: #fff;
+    font-size: 14px;
+}
+.task_box .context {
+    width: 100%;
+}
+.task_box .context ul {
+    width: 115%;
+    padding: 5px 0;
+    overflow: hidden;
+}
+.task_box .context ul li {
+    float: left;
+    width: 49.5%;
+    height: 25px;
+    line-height: 25px;
+    text-indent: 6px;
+    font-size: 12px;
+    color: #999;
+}
+.task_box .context ul li span {
+    color: #333;
+}
+.task_box .context ul li span.warn {
+    color: red;
+}
+.task_table {
+    width: 100%;
+}
+.task_table td {
+    padding: 3px 0;
+    height: 45px;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+.task_table td.border {
+    border-right: 1px solid #eee;
+}
+.task_table td a {
+    font-size: 15px;
+    color: #333;
+}
+.task_table td a.pass {
+    color: #41BEA3;
+}
+.task_table td a.warn {
+    color: red;
+}
+.info_table {
+    width: 90%;
+    margin: 0 auto;
+}
+.info_table td {
+    padding: 20px 10px;
+    text-align: center;
+}

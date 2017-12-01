@@ -1,0 +1,537 @@
+@charset "utf-8";
+/* CSS Document */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+    margin:0;
+    padding:0;
+    font-family:'微软雅黑', '黑体', Arial, Helvetica, sans-serif;
+    color:#666;
+}
+html,body {
+    background: #F3F4F8;
+}
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+fieldset,img {
+    border:0
+}
+ol,ul,li {
+    list-style:none
+}
+::-webkit-input-placeholder {
+    color: #999;
+}
+input[type="text"],
+input[type="number"],
+input[type="password"]{
+    border: none;
+    padding: 6px 3px;
+    width: 120px;
+}
+input:focus, textarea:focus {
+    outline: none;
+    border: 1px solid #574E61;
+    box-shadow: 0 0 10px #ccc;
+}
+select {
+    border: 1px solid #ccc;
+    padding: 5px 5px;
+}
+option {
+    padding: 3px 5px;
+    font-size: 14px;
+}
+textarea {
+    border: 1px solid #ccc;
+    padding: 3px 2px;
+    resize: none;
+    line-height: 20px;
+}
+
+a {
+    text-decoration:none;
+    outline: none;
+    color:#FC9153;
+    -webkit-tap-highlight-color: transparent;
+}
+a:hover{
+    outline: none;
+    color: #31a3ea;
+    text-decoration: none;
+}
+a.block-box {
+    display: block;
+    zoom: 1;
+}
+
+.warn {
+    color: red;
+}
+.pass {
+    color: #41BEA3;
+}
+.proceed {
+    color: #FD9354;
+}
+
+.icon14 {
+    font-size: 14px;
+}
+.icon16 {
+    font-size: 16px;
+}
+.icon18 {
+    font-size: 18px;
+}
+.main {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.nav {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    border-top: 1px solid #E5E8EC;
+    overflow: hidden;
+    line-height: 1.3;
+}
+.nav p {
+    padding-top: 5px;
+    float: left;
+    width: 33.3%;
+    text-align: center;
+    font-size: 11px;
+}
+.nav p a {
+    color: #999;
+}
+.nav p i.iconfont {
+    color: #999;
+    font-size: 22px;
+}
+.nav p.cur,
+.nav p.cur i.iconfont,
+.nav p.cur a{
+    color: #FC9153;
+}
+.a_box {
+    display: block;
+    zoom: 1;
+}
+.common_button {
+    display: inline-block;
+    background: #FC9153;
+    width: 100%;
+    height: 44px;
+    border-radius: 22px;
+    color: #fff;
+    font-size: 17px;
+    text-align: center;
+    line-height: 44px;
+    border: none;
+}
+.common_button1 {
+    display: inline-block;
+    background: #4A4C5B;
+    width: 100%;
+    height: 44px;
+    border-radius: 22px;
+    color: #fff;
+    font-size: 17px;
+    text-align: center;
+    line-height: 44px;
+    border: none;
+}
+.common_button2 {
+    display: inline-block;
+    background: #44BEA3;
+    width: 100%;
+    height: 44px;
+    border-radius: 22px;
+    color: #fff;
+    font-size: 17px;
+    text-align: center;
+    line-height: 44px;
+    border: none;
+}
+.common_button3 {
+    display: inline-block;
+    background: #333333;
+    width: 100%;
+    height: 44px;
+    border-radius: 22px;
+    color: #fff;
+    font-size: 17px;
+    text-align: center;
+    line-height: 44px;
+    border: none;
+}
+.common_button4 {
+    display: inline-block;
+    background: #E73018;
+    width: 100%;
+    height: 44px;
+    border-radius: 22px;
+    color: #fff;
+    font-size: 17px;
+    text-align: center;
+    line-height: 44px;
+    border: none;
+}
+/*全局弹层*/
+#mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.7;
+}
+.mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+}
+
+
+/*css3动画*/
+.go-left-in {
+    transform:translate3d(0,0,0);
+    -webkit-transform:translate3d(0,0,0);
+}
+
+.login-title {
+    position: relative;
+}
+.login-title img {
+    display: block;
+    width: 100%;
+}
+.login-title span {
+    position: absolute;
+    display: inline-block;
+    height: 18px;
+    line-height: 18px;
+    font-size: 18px;
+    padding-left: 10px;
+    left: 20px;
+    top: 50%;
+    margin-top: -9px;
+    color: #fff;
+    border-left: 3px solid #fff;
+}
+
+
+.login-style {
+    padding: 15px 0;
+}
+
+.input-box {
+    background: #fff;
+    padding-left: 15px;
+    margin-bottom: 30px;
+}
+table {
+    width: 100%;
+}
+table td,
+table th {
+    height: 50px;
+    padding: 3px 15px 3px 0;
+}
+table td.border_bottom,
+table th.border_bottom{
+    border-bottom: 1px solid #E1E1E1;
+}
+table th {
+    color: #333;
+    font-size: 15px;
+}
+table textarea,
+table input[type="text"],
+table input[type="number"],
+table input[type="password"] {
+    border: none;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 5px;
+    font-size: 15px;
+    color: #333;
+}
+table input:focus,
+table textarea:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.text-box {
+    padding: 15px 0;
+    width: 100%;
+    overflow: hidden;
+}
+.text-box span {
+    display: inline-block;
+    width: 22%;
+    height: 26px;
+    margin: 3px 1px;
+    text-align: center;
+    line-height: 26px;
+    overflow: hidden;
+    border:1px solid #E1E1E1;
+    border-radius: 13px;
+    font-size: 12px;
+    background: #fff;
+}
+.text-box span.cur {
+    background: #44BEA3;
+    border: 1px solid #44BEA3;
+    color: #fff;
+}
+.button-box {
+    padding:0 15px;
+    overflow: hidden;
+}
+.login-text {
+    width: 100%;
+    overflow: hidden;
+    padding-top: 10px;
+}
+.login-text .left {
+    margin-left: 20px;
+    float: left;
+    font-size: 15px;
+}
+.login-text .right {
+    margin-right: 20px;
+    float: right;
+    font-size: 15px;
+}
+.min-title {
+    height: 50px;
+    line-height: 60px;
+    padding-left: 15px;
+    color: #44BEA3;
+    font-size: 15px;
+}
+.min-title1,
+.min-title2 {
+    width: 100%;
+    overflow: hidden;
+    height: 50px;
+    line-height: 60px;
+    color: #999;
+    text-indent: 15px;
+    font-size: 15px;
+}
+.min-title1 span {
+    float: right;
+    margin-right: 10px;
+    font-size: 16px;
+}
+.min-title2 p.name{
+    float: left;
+    line-height: 60px;
+    color: #999;
+    text-indent: 15px;
+    font-size: 15px;
+}
+.min-title2 p.time {
+    float: right;
+    padding-right: 10px;
+    color: #999;
+    font-size: 14px;
+}
+.min-title2 p.time span {
+    background: #333;
+    display: inline-block;
+    color: #fff;
+    width: 20px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    margin: 0 5px;
+    text-indent:0;
+}
+.min-title2 p.time i {
+    font-style: normal;
+    font-size: 16px;
+    margin-right: 5px;
+}
+.min-title2 p.time b {
+    color: #333;
+    font-weight: 400;
+}
+.min-title span {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #999;
+}
+.person_page_img a {
+    color: #999;
+    height: 16px;
+    line-height: 13px;
+    display: inline-block;
+    margin-right: 30px;
+}
+.person_page_img a.cur {
+    color: #FC9153;
+}
+.person_page_img img {
+    width: 16px;
+    margin-bottom: -2px;
+}
+.person_page_img1 {
+    padding: 20px 0;
+}
+.person_page_img1 img {
+    width: 140px;
+}
+.person_upload_img {
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 0;
+}
+.person_upload_img img {
+    width: 100%;
+}
+
+
+/*status*/
+.statu_style {
+    padding: 15px;
+}
+.statu_box {
+    background: #fff;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.statu_box .icon-box {
+    padding-top: 50px;
+    text-align: center;
+}
+.statu_box .icon-box img {
+    text-align: center;
+    width: 50px;
+}
+.statu_box h2 {
+    font-size: 24px;
+    text-align: center;
+    padding: 10px 0;
+    color: #333;
+}
+.statu_box p.text {
+    padding: 0 20px;
+    text-align: center;
+    line-height: 23px;
+    color: #999;
+}
+.statu_box p.bg_line {
+    background: url("../images/hr_line.png") no-repeat center bottom;
+    background-size: contain;
+    height: 30px;
+    padding: 10px 0 0;
+}
+.statu_box p.button1,
+.statu_box p.button2,
+.statu_box p.button3 {
+    text-align: center;
+    padding: 8px 0 13px;
+}
+.statu_box p.button1 span,
+.statu_box p.button2 span,
+.statu_box p.button3 span {
+    display: inline-block;
+    font-size: 12px;
+    padding-top: 5px;
+}
+.statu_box p.button1 span img,
+.statu_box p.button2 span img,
+.statu_box p.button3 span img {
+    width: 12px;
+    margin-right: 5px;
+    margin-bottom: -2px;
+}
+.statu_box p.button1 a {
+    display: inline-block;
+    font-size: 17px;
+}
+.statu_box p.button2 a {
+    display: inline-block;
+    width: 49%;
+    padding: 3px 0;
+    font-size: 17px;
+}
+.statu_box p.button3 a {
+    display: inline-block;
+    width: 31%;
+    padding: 3px 0;
+    font-size: 17px;
+}
+.statu_box .info {
+    padding: 10px 20px;
+}
+.statu_box .info ul {
+    background: #F3F4F5;
+    padding: 15px;
+}
+.statu_box .info ul li.tit {
+    color: #999;
+    font-size: 15px;
+    padding: 5px 0;
+}
+.statu_box .info ul li.list {
+    line-height: 23px;
+    color: #333;
+}
+.s_color1 {
+    color: #FC9153;
+}
+.s_color2 {
+    color: red;
+}
+.s_color3 {
+
+    color: #44BEA3;
+}
+table textarea {
+    padding: 10px 3px;
+    line-height: 20px;
+}
+.protocol {
+    padding: 10px;
+    font-size: 13px;
+    line-height: 20px;
+    background: #fff;
+}
+.protocol h2 {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #333;
+}
+.protocol p {
+    text-indent: 26px;
+    margin-bottom: 10px;
+}
+.protocol h3 {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 5px;
+}
+.protocol span {
+    color: #FC9153;
+}
