@@ -248,6 +248,8 @@ class Platform_advertiser extends Admin_Controller {
             return $this->response_json(1, '非法操作');
         }
 
+        $update_info['last_operator_id']      = $this->sys_user_info['id'];
+        $update_info['last_operator_name']    = $this->sys_user_info['user_name'];
         $update_info['audit_status']          = $audit_status;
         $update_info['reasons_for_rejection'] = empty($reasons_for_rejection) ? '' : $reasons_for_rejection;
         $sys_log_content                      = '广告主审核驳回,驳回的原因是:' . $update_info['reasons_for_rejection'];
@@ -297,9 +299,11 @@ class Platform_advertiser extends Admin_Controller {
             return $this->response_json(1, '非法操作');
         }
 
-        $update_info['status']          = $account_status;
-        $update_info['freezing_reason'] = empty($freezing_reason) ? '' : $freezing_reason;
-        $sys_log_content                = '广告主账户被冻结,冻结的原因是:' . $update_info['freezing_reason'];
+        $update_info['last_operator_id']   = $this->sys_user_info['id'];
+        $update_info['last_operator_name'] = $this->sys_user_info['user_name'];
+        $update_info['status']             = $account_status;
+        $update_info['freezing_reason']    = empty($freezing_reason) ? '' : $freezing_reason;
+        $sys_log_content                   = '广告主账户被冻结,冻结的原因是:' . $update_info['freezing_reason'];
 
         if ($account_status === "2") {
             $update_info['freezing_reason'] = "";
