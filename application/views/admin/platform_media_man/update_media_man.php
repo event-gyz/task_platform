@@ -68,106 +68,142 @@
             <!-- /.box-body -->
         </div>
 
+
         <div class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">第三方帐号信息</h3>
+                <h3 class="box-title">修改基本信息</h3>
             </div>
             <div class="box-body">
 
                 <div class="row">
+                    <div class="col-xs-12">
 
-                    <div class="col-sm-3 invoice-col">
-                        <b>微信号：</b> <?= $info['wx_code'] ?><br><br>
+                        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px"
+                                 class="demo-ruleForm">
+
+                            <el-form-item label="姓名" prop="name">
+                                <el-input v-model="ruleForm.name"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="性别" prop="resource">
+                                <el-radio-group v-model="ruleForm.audit_status">
+                                    <el-radio label="1">男</el-radio>
+                                    <el-radio label="2">女</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+
+                            <el-form-item label="电话" prop="name">
+                                <el-input v-model="ruleForm.name"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="学校名称" prop="name">
+                                <el-input v-model="ruleForm.name"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="学校类型" prop="region">
+                                <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
+                                    <el-option label="公立学校" value="1"></el-option>
+                                    <el-option label="私立学校 value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+
+                            <el-form-item label="学校地区" prop="region">
+                                <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
+                                    <el-option label="公立学校" value="1"></el-option>
+                                    <el-option label="私立学校 value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+
+                            <el-form-item label="办学层次" prop="region">
+                                <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
+                                    <el-option label="初中" value="1"></el-option>
+                                    <el-option label="高中 value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+
+                            <el-form-item label="支付宝账号" prop="name">
+                                <el-input v-model="ruleForm.name"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="真实姓名" prop="name">
+                                <el-input v-model="ruleForm.name"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="年龄" prop="resource">
+                                <el-radio-group v-model="ruleForm.audit_status">
+                                    <el-radio label="1">18岁以下</el-radio>
+                                    <el-radio label="2">18-30</el-radio>
+                                    <el-radio label="3">31-50</el-radio>
+                                    <el-radio label="3">50岁以上</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+
+                            <el-form-item label="兴趣爱好" prop="type">
+                                <el-checkbox-group v-model="ruleForm.type">
+                                    <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
+                                    <el-checkbox label="地推活动" name="type"></el-checkbox>
+                                    <el-checkbox label="线下主题活动" name="type"></el-checkbox>
+                                    <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+                                </el-checkbox-group>
+                            </el-form-item>
+
+                            <el-form-item label="行业" prop="type">
+                                <el-checkbox-group v-model="ruleForm.type">
+                                    <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
+                                    <el-checkbox label="地推活动" name="type"></el-checkbox>
+                                    <el-checkbox label="线下主题活动" name="type"></el-checkbox>
+                                    <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+                                </el-checkbox-group>
+                            </el-form-item>
+
+
+                            <el-form-item label="微信号" prop="name">
+                                <el-input v-model="ruleForm.name"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="账号类型" prop="region">
+                                <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
+                                    <el-option label="公众号" value="1"></el-option>
+                                    <el-option label="高中 value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+
+                            <el-form-item label="最高粉丝量" prop="name">
+                                <el-input v-model="ruleForm.name"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="微博昵称" prop="name">
+                                <el-input v-model="ruleForm.name"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="账号类型" prop="region">
+                                <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
+                                    <el-option label="企业认证" value="1"></el-option>
+                                    <el-option label="个人认证 value="2"></el-option>
+                                </el-select>
+                            </el-form-item>
+
+                            <el-form-item label="最高粉丝量" prop="name">
+                                <el-input v-model="ruleForm.name"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="微博链接" prop="name">
+                                <el-input v-model="ruleForm.name"></el-input>
+                            </el-form-item>
+
+                            <el-form-item>
+                                <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+                                <el-button @click="resetForm('ruleForm')">重置</el-button>
+                            </el-form-item>
+                        </el-form>
+
                     </div>
-
-                    <div class="col-sm-3 invoice-col">
-                        <b>账号类型：</b> <?= $info['wx_type'] ?><br><br>
-                    </div>
-
-                    <div class="col-sm-3 invoice-col">
-                        <b>最高粉丝量：</b> <?= $info['wx_max_fans'] ?><br><br>
-                    </div>
-
-                </div>
-
-                <div class="row">
-
-                    <div class="col-sm-3 invoice-col">
-                        <b>微博昵称：</b> <?= $info['weibo_nickname'] ?><br><br>
-                    </div>
-
-                    <div class="col-sm-3 invoice-col">
-                        <b>账号类型：</b> <?= $info['weibo_type'] ?><br><br>
-                    </div>
-
-                    <div class="col-sm-3 invoice-col">
-                        <b>最高粉丝量：</b> <?= $info['weibo_max_fans'] ?><br><br>
-                    </div>
-
-                    <div class="col-sm-3 invoice-col">
-                        <b>微博链接：</b> <?= $info['weibo_link'] ?><br><br>
-                    </div>
-
-                </div>
-
-                <div class="row">
-
-                    <div class="col-sm-3 invoice-col">
-                        <b>支付宝账号：</b> <?= $info['zfb_nu'] ?><br><br>
-                    </div>
-
-                    <div class="col-sm-3 invoice-col">
-                        <b>真实姓名：</b> <?= $info['zfb_realname'] ?><br><br>
-                    </div>
-
+                    <!-- /.col -->
                 </div>
 
             </div>
             <!-- /.box-body -->
         </div>
-
-        <!--帐号状态status=1待审核,审核状态audit_status=0待审核或者审核状态audit_status=2驳回时才进行审核-->
-        <?php if (($info['status'] === "1") && in_array($info['audit_status'], [0, 2])): ?>
-
-            <div class="box box-default">
-                <div class="box-header with-border">
-                    <h3 class="box-title">审核操作</h3>
-                </div>
-                <div class="box-body">
-
-                    <div class="row">
-                        <div class="col-xs-12">
-
-                            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-
-                                <el-form-item label="审核结果" prop="audit_status">
-                                    <el-radio-group v-model="ruleForm.audit_status">
-                                        <el-radio label="1">通过</el-radio>
-                                        <el-radio label="2">不通过</el-radio>
-                                    </el-radio-group>
-                                </el-form-item>
-
-                                <el-form-item label="拒绝原因" prop="reasons_for_rejection">
-                                    <el-input placeholder="请填写拒绝的原因" type="textarea"
-                                              v-model="ruleForm.reasons_for_rejection"></el-input>
-                                </el-form-item>
-
-                                <el-form-item>
-                                    <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                                    <el-button @click="goBack('ruleForm')">返回</el-button>
-                                </el-form-item>
-
-                            </el-form>
-
-                        </div>
-                        <!-- /.col -->
-                    </div>
-
-                </div>
-                <!-- /.box-body -->
-            </div>
-
-        <?php endif; ?>
 
     </section>
     <!-- /.content -->
