@@ -8,8 +8,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            个人广告主
-            <small>个人广告主审核详情页</small>
+            自媒体人
+            <small>自媒体人审核详情页</small>
         </h1>
     </section>
 

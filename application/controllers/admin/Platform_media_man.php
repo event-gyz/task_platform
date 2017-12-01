@@ -137,7 +137,13 @@ class Platform_media_man extends Admin_Controller {
             return redirect("{$this->host}/admin/platform_media_man/home");
         }
 
-        return $this->load->view('admin/platform_media_man/update_media_man', array('info' => $info));
+        return $this->load->view('admin/platform_media_man/update_media_man',
+            [
+                'info'                 => $info,
+                'media_audit_status'   => $this->config->item('media_audit_status'),
+                'media_account_status' => $this->config->item('media_account_status'),
+            ]
+        );
     }
 
     // 修改自媒体人信息
