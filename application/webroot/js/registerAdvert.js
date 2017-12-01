@@ -29,7 +29,7 @@ var app = new Vue({
                             _this.time = 90;
                             var timer = setInterval(function(){_this.time--;if(_this.time<1){clearInterval(timer)}},1000);
                         }else{
-                            util.tips()
+                            util.tips(res.msg)
                         }
                     },
                     error:function(){
@@ -76,7 +76,7 @@ var app = new Vue({
                 },
                 success: function(res) {
                     if(res.errorno > 0){
-                        location.href='/index.html';
+                        location.href='/advertiser/index/saveInfo';
                     }else{
                         util.tips(res.msg)
                     }

@@ -8,12 +8,13 @@ var app = new Vue({
         name:'',
         phone:'',
         idCard:'',
-        frontCard:'11',
+        frontCard:'11111',
         backCard:'22',
         card:'33'
     },
     mounted:function(){
         this.$nextTick(function(){
+            this.phone = window.location.search.substr(1).split('=')[1];
             wx.config({
                 debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: 'aaa', // 必填，企业号的唯一标识，此处填写企业号corpid
@@ -63,20 +64,20 @@ var app = new Vue({
                 util.tips('身份证号格式错误！');
                 return;
             }
-            if(!this.frontCard){
-                util.tips('请上传身份证正面照片！');
-                return;
-            }
-            if(!this.backCard){
-                util.tips('请上传身份证背面照片！');
-                return;
-            }
-            if(!this.card){
-                util.tips('请上传手持身份证照片！');
-                return;
-            }
+            // if(!this.frontCard){
+            //     util.tips('请上传身份证正面照片！');
+            //     return;
+            // }
+            // if(!this.backCard){
+            //     util.tips('请上传身份证背面照片！');
+            //     return;
+            // }
+            // if(!this.card){
+            //     util.tips('请上传手持身份证照片！');
+            //     return;
+            // }
             $.ajax({
-                url: "xxx",
+                url: "/advertiser/index/saveInfo",
                 dataType: 'json',
                 type:"post",
                 data:{
@@ -86,11 +87,11 @@ var app = new Vue({
                     idCard:this.idCard,
                     frontCard:this.frontCard,
                     backCard:this.backCard,
-                    card:this.card
+                    handheld_id_card_pic:this.card
                 },
                 success: function(res) {
                     if(res.errorno > 0){
-
+                        location.href='/advertiser/index/home';
                     }else{
                         util.tips(res.msg)
                     }

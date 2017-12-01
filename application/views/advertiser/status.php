@@ -4,15 +4,15 @@
         <title>项目名称</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <link rel="stylesheet" href="../assets/css/common.css" />
-        <link rel="stylesheet" href="../assets/css/statu.css" />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/statu.css" />
     </head>
     <body>
         <div class="main">
             <div class="statu_style">
                 <!--审核中-->
                 <div class="statu_box">
-                    <p class="icon-box"><img src="../assets/images/status/dd.png"></p>
+                    <p class="icon-box"><img src="/images/status/dd.png"></p>
                     <h2>审核中</h2>
                     <p class="text">您的账号还在审核中，我们将在<span class="warn">***</span>个工作日内完成审核，请请耐心等待。</p>
                     <p class="bg_line"></p>
@@ -21,7 +21,7 @@
                 <!--审核中-end-->
                 <!--审核未通过-->
                 <div class="statu_box">
-                    <p class="icon-box"><img src="../assets/images/status/sb.png"></p>
+                    <p class="icon-box"><img src="/images/status/sb.png"></p>
                     <h2>审核未通过</h2>
                     <p class="text">抱歉，您的账号审核未通过，请修改后重新提交</p>
                     <div class="info">
@@ -42,7 +42,7 @@
                 <!--审核中未通过-end-->
                 <!--被冻结-->
                 <div class="statu_box">
-                    <p class="icon-box"><img src="../assets/images/status/dj.png"></p>
+                    <p class="icon-box"><img src="/images/status/dj.png"></p>
                     <h2>被冻结</h2>
                     <p class="text">抱歉，您的账号已被冻结，请联系管理员解决，电话：<br><br><b style="font-size: 22px;color: #333;">400-678-9012</b></p>
                     <div class="info">
@@ -61,7 +61,7 @@
                 <!--被冻结-end-->
                 <!--未上传资质信息-->
                 <div class="statu_box">
-                    <p class="icon-box"><img src="../assets/images/status/wsc.png"></p>
+                    <p class="icon-box"><img src="/images/status/wsc.png"></p>
                     <h2>未上传资质信息</h2>
                     <p class="text">您还未上传资质信息，请尽快上传，审核通过后即可使用网站的各项功能。</p>
                     <p class="bg_line"></p>
@@ -73,7 +73,7 @@
                 <!--未上传资质信息-end-->
                 <!--注册成功-->
                 <div class="statu_box">
-                    <p class="icon-box"><img src="../assets/images/status/cg.png"></p>
+                    <p class="icon-box"><img src="/images/status/cg.png"></p>
                     <h2>注册成功</h2>
                     <p class="text">恭喜您，注册成功，我们将在<span class="warn">***</span>个工作日内完成审核，请请耐心等待。</p>
                     <p class="bg_line"></p>
@@ -82,7 +82,7 @@
                 <!--注册成功-end-->
                 <!--设置新密码成功-->
                 <div class="statu_box">
-                    <p class="icon-box"><img src="../assets/images/status/cg.png"></p>
+                    <p class="icon-box"><img src="/images/status/cg.png"></p>
                     <h2>设置成功</h2>
                     <p class="text">恭喜，密码已成功设置，请用新密码登录</p>
                     <p class="bg_line"></p>
@@ -94,7 +94,7 @@
                 <!--设置新密码成功-end-->
                 <!--广告主保存成功-->
                 <div class="statu_box">
-                    <p class="icon-box"><img src="../assets/images/status/bc.png"></p>
+                    <p class="icon-box"><img src="/images/status/bc.png"></p>
                     <h2>保存成功</h2>
                     <p class="text">任务保存成功，您可对该任务进行修改，关闭等操作</p>
                     <p class="bg_line"></p>
@@ -107,7 +107,7 @@
                 <!--广告主保存成功-end-->
                 <!--任务发布成功-->
                 <div class="statu_box">
-                    <p class="icon-box"><img src="../assets/images/status/cg.png"></p>
+                    <p class="icon-box"><img src="/images/status/cg.png"></p>
                     <h2>任务发布成功</h2>
                     <p class="text">任务发布成功，我们将在<span class="warn">***</span>个工作日内完成审核，请随时关注审核结果，请在审核后及时付款。</p>
                     <p class="bg_line"></p>
@@ -120,7 +120,7 @@
                 <!--任务发布成功-end-->
             </div>
         </div>
-        <script type="text/javascript" src="../assets/js/third/jquery.js"></script>
-        <script type="text/javascript" src="../assets/js/util.js"></script>
+        <script type="text/javascript" src="/js/third/jquery.js"></script>
+        <script type="text/javascript" src="/js/util.js"></script>
     </body>
 </html>

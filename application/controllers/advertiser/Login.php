@@ -30,7 +30,7 @@ class Login extends CI_Controller {
             $this->load->view('advertiser/login');
         } else {
 
-            if(!isset($_POST ['username']) || empty($_POST ['username'])){
+            if(!isset($_POST ['userName']) || empty($_POST ['userName'])){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '用户名不能为空';
                 echo json_encode($this->_return);exit;
@@ -42,7 +42,7 @@ class Login extends CI_Controller {
             }
             $password = Wap::generate_wap_user_password($_POST ['password']);
             $data = array (
-                'advertiser_login_name' => trim($_POST['username']),
+                'advertiser_login_name' => trim($_POST['userName']),
                 'advertiser_password' => $password
             );
 
@@ -99,7 +99,7 @@ class Login extends CI_Controller {
         if (empty($_POST)) {
             $this->load->view('advertiser/register');
         } else {
-            if(!isset($_POST ['username']) || empty($_POST ['username'])){
+            if(!isset($_POST ['userName']) || empty($_POST ['userName'])){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '用户名不能为空';
                 echo json_encode($this->_return);exit;
@@ -109,7 +109,7 @@ class Login extends CI_Controller {
                 $this->_return['msg'] = '密码不能为空';
                 echo json_encode($this->_return);exit;
             }
-            if($_POST ['password'] != $_POST ['re_password']){
+            if($_POST ['password'] != $_POST ['againPassword']){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '两次密码不一致';
                 echo json_encode($this->_return);exit;
@@ -127,13 +127,13 @@ class Login extends CI_Controller {
                 echo json_encode($this->_return);exit;
             }
 
-            if(!isset($_POST ['code']) || empty($_POST ['code'])){
+            if(!isset($_POST ['verification']) || empty($_POST ['verification'])){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '验证码不能为空';
                 echo json_encode($this->_return);exit;
             }
 
-            $re = $this->__verifyCode($_POST ['phone'], $_POST ['code'],$this->_model);
+            $re = $this->__verifyCode($_POST ['phone'], $_POST ['verification'],$this->_model);
             if($re['errorno'] < 0){
                 $this->_return = array_merge($this->_return,$re);
                 echo json_encode($this->_return);exit;
@@ -141,7 +141,7 @@ class Login extends CI_Controller {
 
             $password = Wap::generate_wap_user_password($_POST ['password']);
             $data = array (
-                'advertiser_login_name' => trim($_POST['username']),
+                'advertiser_login_name' => trim($_POST['userName']),
                 'advertiser_password' => $password,
                 'advertiser_phone' => trim($_POST['phone'])
             );

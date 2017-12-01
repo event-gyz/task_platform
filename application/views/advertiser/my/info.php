@@ -4,10 +4,10 @@
         <title>项目名称</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <link rel="stylesheet" href="../../assets/css/common.css" />
-        <link rel="stylesheet" href="../../assets/css/swiper-3.4.2.min.css" />
-        <link rel="stylesheet" href="../../assets/css/index_advert.css" />
-        <link rel="stylesheet" href="../../assets/css/login.css" />
+        <link rel="stylesheet" href="..//css/common.css" />
+        <link rel="stylesheet" href="..//css/swiper-3.4.2.min.css" />
+        <link rel="stylesheet" href="..//css/index_advert.css" />
+        <link rel="stylesheet" href="..//css/login.css" />
         <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_xnfkadft2e7y14i.css">
     </head>
     <body>
@@ -21,7 +21,7 @@
                 <!--待审核-end-->
                 <!--驳回-->
                 <div class="statu_box">
-                    <p class="icon-box"><img src="../../assets/images/status/sb.png"></p>
+                    <p class="icon-box"><img src="..//images/status/sb.png"></p>
                     <h2>任务被驳回</h2>
                     <p class="text">抱歉，此条任务被驳回，请根据审核意见修改后重新提交审核。</p>
                     <div class="info">
@@ -35,7 +35,7 @@
                     <p class="bg_line"></p>
                     <p class="button1">
                         <a href="#">立即修改</a><br>
-                        <span><img src="../../assets/images/status/ts.png">剩余时间：**小时**分</span>
+                        <span><img src="..//images/status/ts.png">剩余时间：**小时**分</span>
                     </p>
                 </div>
                 <div class="min-title1">任务基础信息<span class="warn">● 驳回</span></div>
@@ -48,7 +48,7 @@
                 <!--待财务确认收款-end-->
                 <!--执行中-->
                 <div class="statu_box">
-                    <p class="icon-box"><img src="../../assets/images/status/dts.png"></p>
+                    <p class="icon-box"><img src="..//images/status/dts.png"></p>
                     <p class="text"><span class="s_color1">235</span>个媒体人已领取任务，离期望账号数量还差<span class="s_color1">165</span>个，您可以新建一个任务来达到推广效果</p>
                     <p class="bg_line"></p>
                     <p class="button1">
@@ -93,10 +93,10 @@
                             <th align="left" valign="top" class="border_bottom"><br>任务图片</th>
                             <td class="border_bottom">
                                 <ul class="generalize_img_box">
-                                    <li><img src="../../assets/images/img.png"></li>
-                                    <li><img src="../../assets/images/img.png"></li>
-                                    <li><img src="../../assets/images/img.png"></li>
-                                    <li><img src="../../assets/images/img.png"></li>
+                                    <li><img src="..//images/img.png"></li>
+                                    <li><img src="..//images/img.png"></li>
+                                    <li><img src="..//images/img.png"></li>
+                                    <li><img src="..//images/img.png"></li>
                                 </ul>
                             </td>
                         </tr>
@@ -193,9 +193,9 @@
                 <!--待财务确认收款-end-->
             </div>
         </div>
-        <script type="text/javascript" src="../../assets/js/third/jquery.js"></script>
-        <script type="text/javascript" src="../../assets/js/third/swiper-3.3.1.jquery.min.js"></script>
-        <script type="text/javascript" src="../../assets/js/index_media.js"></script>
+        <script type="text/javascript" src="..//js/third/jquery.js"></script>
+        <script type="text/javascript" src="..//js/third/swiper-3.3.1.jquery.min.js"></script>
+        <script type="text/javascript" src="..//js/index_media.js"></script>
     </body>
 </html>
 

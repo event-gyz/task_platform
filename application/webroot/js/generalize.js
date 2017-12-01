@@ -269,7 +269,7 @@ var app = new Vue({
                 }
             }
             $.ajax({
-                url: "xxx",
+                url: "/advertiser/index/saveTask",
                 dataType: 'json',
                 type:"post",
                 data:{
@@ -281,8 +281,8 @@ var app = new Vue({
                     taskDes:this.taskDes,//任务描述
                     taskPrice:this.taskPrice,//任务单价
                     numAsk:this.numAsk,//账号要求（1=有要求，0=无要求）
-                    startTime:this.startTime,//任务开始时间
-                    endTime:this.endTime,//任务结束时间
+                    startTime:this.startTime+' 00:00:00',//任务开始时间
+                    endTime:this.endTime+' 23:59:59',//任务结束时间
                     platform:this.platform,//发布平台
                     number:this.number,//账号数量
                     total:this.total,//任务总价

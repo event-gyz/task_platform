@@ -4,6 +4,7 @@
 var app = new Vue({
     el:'#app',
     data:{
+        noPhone:'',
         type:'company',
         companyName:'',
         companyAdress:'',
@@ -13,6 +14,7 @@ var app = new Vue({
     },
     mounted:function(){
         this.$nextTick(function(){
+            this.noPhone = window.location.search.substr(1).split('=')[1];
             wx.config({
                 debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: 'aaa', // 必填，企业号的唯一标识，此处填写企业号corpid
@@ -62,26 +64,29 @@ var app = new Vue({
             }else if(!util.regexp.mobile.test(this.phone)){
                 util.tips('手机号格式错误！');
                 return;
-            }
-            if(!this.companyImg){
-                util.tips('请上传营业执照！');
+            }else if(this.phone == this.noPhone){
+                util.tips('联系人手机号不能和您的手机号一致！');
                 return;
             }
+            // if(!this.companyImg){
+            //     util.tips('请上传营业执照！');
+            //     return;
+            // }
             $.ajax({
-                url: "xxx",
+                url: "/advertiser/index/saveInfo",
                 dataType: 'json',
                 type:"post",
                 data:{
                     type:'company',
                     companyName:this.companyName,
                     companyAdress:this.companyAdress,
-                    name:this.name,
-                    phone:this.phone,
-                    companyImg:this.companyImg
+                    content_name:this.name,
+                    content_phone:this.phone,
+                    business_license_pic:this.companyImg
                 },
                 success: function(res) {
                     if(res.errorno > 0){
-
+                        location.href='/advertiser/index/home';
                     }else{
                         util.tips(res.msg)
                     }

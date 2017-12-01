@@ -67,108 +67,114 @@ class Index extends CI_Controller {
     }
 
 
+//    public function home() {
+//        $this->load->view('advertiser/company');
+//    }
     public function home() {
-//        $where  = ['offset' => 0, 'limit' => 1];
-//        $result = $this->__get_advertiser_model()->get_advertiser_list_by_condition($where);
-//        $this->load->view('advertiser/index');
+        $this->load->view('advertiser/index');
+    }
+
+    public function company(){
+        $this->load->view('advertiser/company');
+    }
+
+    public function person(){
+        $this->load->view('advertiser/person');
     }
 
     // 保存广告主基础信息
     public function saveInfo() {
-        if (empty($_POST)) {
-            $this->load->view('advertiser/baseInfo');
-        } else {
-            if(!isset($_POST ['type']) || empty($_POST ['type'])){
+        if(!isset($_POST ['type']) || empty($_POST ['type'])){
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '请选择类型';
+            echo json_encode($this->_return);exit;
+        }
+        //个人
+        if($_POST ['type'] == 'person'){
+            if(!isset($_POST ['name']) || empty($_POST ['name'])){
                 $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '请选择类型';
+                $this->_return['msg'] = '请填写姓名';
                 echo json_encode($this->_return);exit;
             }
-            //个人
-            if($_POST ['type'] == 1){
-                if(!isset($_POST ['name']) || empty($_POST ['name'])){
-                    $this->_return['errorno'] = '-1';
-                    $this->_return['msg'] = '请填写姓名';
-                    echo json_encode($this->_return);exit;
-                }
-                if(!isset($_POST ['id_card']) || empty($_POST ['id_card'])){
-                    $this->_return['errorno'] = '-1';
-                    $this->_return['msg'] = '请填写身份证号';
-                    echo json_encode($this->_return);exit;
-                }
-
-                if(!isset($_POST ['id_card_positive_pic']) || empty($_POST ['id_card_positive_pic'])){
-                    $this->_return['errorno'] = '-1';
-                    $this->_return['msg'] = '请上传身份证正面照片';
-                    echo json_encode($this->_return);exit;
-                }
-
-                if(!isset($_POST ['id_card_back_pic']) || empty($_POST ['id_card_back_pic'])){
-                    $this->_return['errorno'] = '-1';
-                    $this->_return['msg'] = '请上传身份证反面照片';
-                    echo json_encode($this->_return);exit;
-                }
-
-                if(!isset($_POST ['handheld_id_card_pic']) || empty($_POST ['handheld_id_card_pic'])){
-                    $this->_return['errorno'] = '-1';
-                    $this->_return['msg'] = '请上传手持身份证照片';
-                    echo json_encode($this->_return);exit;
-                }
-                $data = array (
-                    'name' => trim($_POST['name']),
-                    'id_card' => $_POST['id_card'],
-                    'id_card_positive_pic' => $_POST['id_card_positive_pic'],
-                    'id_card_back_pic' => (int)$_POST['id_card_back_pic'],
-                    'handheld_id_card_pic' => $_POST['handheld_id_card_pic'],
-                );
-            //企业
-            }else{
-                if(!isset($_POST ['company_name']) || empty($_POST ['company_name'])){
-                    $this->_return['errorno'] = '-1';
-                    $this->_return['msg'] = '请填写公司名称';
-                    echo json_encode($this->_return);exit;
-                }
-                if(!isset($_POST ['company_address']) || empty($_POST ['company_address'])){
-                    $this->_return['errorno'] = '-1';
-                    $this->_return['msg'] = '请填写公司地址';
-                    echo json_encode($this->_return);exit;
-                }
-                //todo 跟现有的广告主电话不能重复
-                if(!isset($_POST ['content_name']) || empty($_POST ['content_name'])){
-                    $this->_return['errorno'] = '-1';
-                    $this->_return['msg'] = '请填写联系人姓名';
-                    echo json_encode($this->_return);exit;
-                }
-                if(!isset($_POST ['content_phone']) || empty($_POST ['content_phone'])){
-                    $this->_return['errorno'] = '-1';
-                    $this->_return['msg'] = '请填写联系人电话';
-                    echo json_encode($this->_return);exit;
-                }
-                if(!isset($_POST ['business_license_pic']) || empty($_POST ['business_license_pic'])){
-                    $this->_return['errorno'] = '-1';
-                    $this->_return['msg'] = '请上传营业执照';
-                    echo json_encode($this->_return);exit;
-                }
-                $data = array (
-                    'company_name' => trim($_POST['company_name']),
-                    'company_address' => $_POST['company_address'],
-                    'content_name' => $_POST['content_name'],
-                    'content_phone' => (int)$_POST['content_phone'],
-                    'business_license_pic' => $_POST['business_license_pic'],
-                );
-            }
-            //进入后台审核列表
-            $data['status'] = 1;
-
-            //通过session获取用户信息
-            $userInfo = $this->__get_user_session();
-            $re = $this->__get_advertiser_model()->updateInfo($userInfo['advertiser_id'],$data);
-            if ($re) {
-                $this->_return['errorno'] = '1';
-                $this->_return['msg'] = '保存成功';
-                echo json_encode($this->_return);
-                exit;
+            if(!isset($_POST ['idCard']) || empty($_POST ['id_card'])){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '请填写身份证号';
+                echo json_encode($this->_return);exit;
             }
 
+            if(!isset($_POST ['frontCard']) || empty($_POST ['frontCard'])){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '请上传身份证正面照片';
+                echo json_encode($this->_return);exit;
+            }
+
+            if(!isset($_POST ['backCard']) || empty($_POST ['backCard'])){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '请上传身份证反面照片';
+                echo json_encode($this->_return);exit;
+            }
+
+            if(!isset($_POST ['handheld_id_card_pic']) || empty($_POST ['handheld_id_card_pic'])){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '请上传手持身份证照片';
+                echo json_encode($this->_return);exit;
+            }
+            $data = array (
+                'name' => trim($_POST['name']),
+                'id_card' => $_POST['idCard'],
+                'advertiser_type' => 1,
+                'id_card_positive_pic' => $_POST['frontCard'],
+                'id_card_back_pic' => (int)$_POST['backCard'],
+                'handheld_id_card_pic' => $_POST['handheld_id_card_pic'],
+            );
+        //企业
+        }else{
+            if(!isset($_POST ['companyName']) || empty($_POST ['companyName'])){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '请填写公司名称';
+                echo json_encode($this->_return);exit;
+            }
+            if(!isset($_POST ['companyAdress']) || empty($_POST ['companyAdress'])){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '请填写公司地址';
+                echo json_encode($this->_return);exit;
+            }
+            //todo 跟现有的广告主电话不能重复
+            if(!isset($_POST ['content_name']) || empty($_POST ['content_name'])){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '请填写联系人姓名';
+                echo json_encode($this->_return);exit;
+            }
+            if(!isset($_POST ['content_phone']) || empty($_POST ['content_phone'])){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '请填写联系人电话';
+                echo json_encode($this->_return);exit;
+            }
+            if(!isset($_POST ['business_license_pic']) || empty($_POST ['business_license_pic'])){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '请上传营业执照';
+                echo json_encode($this->_return);exit;
+            }
+            $data = array (
+                'advertiser_type' => 2,
+                'company_name' => trim($_POST['companyName']),
+                'company_address' => $_POST['companyAdress'],
+                'content_name' => $_POST['content_name'],
+                'content_phone' => (int)$_POST['content_phone'],
+                'business_license_pic' => $_POST['business_license_pic'],
+            );
+        }
+        //进入后台审核列表
+        $data['status'] = 1;
+
+        //通过session获取用户信息
+        $userInfo = $this->__get_user_session();
+        $re = $this->__get_advertiser_model()->updateInfo($userInfo['advertiser_id'],$data);
+        if ($re) {
+            $this->_return['errorno'] = '1';
+            $this->_return['msg'] = '保存成功';
+            echo json_encode($this->_return);
+            exit;
         }
     }
 
@@ -177,12 +183,12 @@ class Index extends CI_Controller {
     /**
      * 开始推广
      */
-    public function extension(){
-
+    public function taskView(){
+        $this->load->view('advertiser/generalize');
     }
 
     /**
-     * 开始推广
+     * 获取任务详情
      */
     public function getTaskInfo(){
 //        $_POST['task_id'] = 1;
@@ -213,8 +219,10 @@ class Index extends CI_Controller {
 
     // 保存任务/修改任务 接口
     public function saveTask(){
+        echo '<pre>';
+        print_r($_POST);exit;
         $task_id = $_POST['task_id'];
-        $task_type = $_POST['task_type'];
+        $task_type = $_POST['taskType'];
         $title = $_POST['title'];
         $link = $_POST['link'];
         $pics = $_POST['pics'];
@@ -222,8 +230,10 @@ class Index extends CI_Controller {
         $price = $_POST['price'];
         $media_man_number = $_POST['media_man_number'];
         $total_price = $_POST['price']*$_POST['media_man_number'];
+        $media_man_require = $_POST['media_man_require'];
         $require_age = $_POST['require_age'];
         $require_local = $_POST['require_local'];
+        $require_hobby = $_POST['require_hobby'];
         $start_time = $_POST['start_time'];
         $end_time = $_POST['end_time'];
         $publishing_platform = $_POST['publishing_platform'];
@@ -238,8 +248,10 @@ class Index extends CI_Controller {
         $data['price'] = $price;
         $data['media_man_number'] = $media_man_number;
         $data['total_price'] = $total_price;
+        $data['media_man_require'] = $media_man_require;
         $data['require_age'] = $require_age;
         $data['require_local'] = $require_local;
+        $data['require_hobby'] = $require_hobby;
         $data['start_time'] = $start_time;
         $data['end_time'] = $end_time;
         $data['publishing_platform'] = $publishing_platform;
