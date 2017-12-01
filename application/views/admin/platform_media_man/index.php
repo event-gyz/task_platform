@@ -219,6 +219,10 @@
                                     <th><?= $value['last_operator_name'] ?></th>
                                     <th><?= $value['update_time'] ?></th>
                                     <th>
+                                        <a href="/admin/platform_media_man/to_update_media_man?id=<?= $value['media_man_id'] ?>"
+                                           class="btn btn-primary btn-sm">
+                                            修改
+                                        </a>
                                         <a href="/admin/platform_media_man/media_man_detail?id=<?= $value['media_man_id'] ?>"
                                            class="btn btn-success btn-sm">
                                             详情

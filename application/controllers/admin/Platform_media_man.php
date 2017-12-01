@@ -122,6 +122,29 @@ class Platform_media_man extends Admin_Controller {
         );
     }
 
+    // 跳转到修改自媒体人页
+    public function to_update_media_man() {
+
+        $id = $this->input->get('id', true);
+
+        if (empty($id)) {
+            return redirect("{$this->host}/admin/platform_media_man/home");
+        }
+
+        $info = $this->__get_platform_media_man_model()->selectById($id);
+
+        if (empty($info)) {
+            return redirect("{$this->host}/admin/platform_media_man/home");
+        }
+
+        return $this->load->view('admin/platform_media_man/update_media_man', array('info' => $info));
+    }
+
+    // 修改自媒体人信息
+    public function do_update_media_man() {
+
+    }
+
     // 自媒体人的审核
     public function update_media_audit_status() {
         $req_json = file_get_contents("php://input");
