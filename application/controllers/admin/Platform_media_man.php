@@ -109,7 +109,7 @@ class Platform_media_man extends Admin_Controller {
             return redirect("{$this->host}/admin/platform_media_man/home");
         }
 
-        $where    = ['operate_data_id' => $id, 'sys_log_type' => "2,5", "offset" => 0, "limit" => 200];
+        $where    = ['operate_data_id' => $id, 'sys_log_type' => "3,6", "offset" => 0, "limit" => 200];
         $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
 
         return $this->load->view('admin/platform_media_man/media_man_detail',
@@ -122,7 +122,7 @@ class Platform_media_man extends Admin_Controller {
         );
     }
 
-    // 媒体人的审核
+    // 自媒体人的审核
     public function update_media_audit_status() {
         $req_json = file_get_contents("php://input");
         $req_data = json_decode($req_json, true);
@@ -171,7 +171,7 @@ class Platform_media_man extends Admin_Controller {
         return $this->response_json(1, '非法操作');
     }
 
-    // 媒体人的账户状态变更
+    // 自媒体人的账户状态变更
     public function update_media_account_status() {
         $req_json = file_get_contents("php://input");
         $req_data = json_decode($req_json, true);
