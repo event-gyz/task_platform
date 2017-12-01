@@ -132,18 +132,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Call of Duty</td>
-                                <td>455-981-221</td>
-                                <td>El snort testosterone trophy driving gloves handsome</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Need for Speed IV</td>
-                                <td>247-925-726</td>
-                                <td>Wes Anderson umami biodiesel</td>
-                            </tr>
+
+                            <?php foreach ($log_list as $value): ?>
+                                <tr>
+                                    <td><?= $value['id'] ?></td>
+                                    <td><?= $value['sys_user_name'] ?></td>
+                                    <td><?= $value['create_time'] ?></td>
+                                    <td><?= $value['sys_log_content'] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+
                             </tbody>
                         </table>
                     </div>

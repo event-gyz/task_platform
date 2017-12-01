@@ -60,7 +60,7 @@
 
                                                 <?php foreach ($adv_audit_status as $key => $value): ?>
                                                     <option value="<?= $key ?>"
-                                                        <?= $key === $form_data['audit_status'] ? 'selected' : ''; ?>
+                                                        <?= "$key" === $form_data['audit_status'] ? 'selected' : ''; ?>
                                                     >
                                                         <?= $value ?>
                                                     </option>
@@ -116,7 +116,7 @@
 
                                                 <?php foreach ($adv_account_status as $key => $value): ?>
                                                     <option value="<?= $key ?>"
-                                                        <?= $key === $form_data['status'] ? 'selected' : ''; ?>
+                                                        <?= "$key" === $form_data['status'] ? 'selected' : ''; ?>
                                                     >
                                                         <?= $value ?>
                                                     </option>
@@ -231,17 +231,6 @@
             monthNames : ['一月', '二月', '三月', '四月', '五月', '六月',
                 '七月', '八月', '九月', '十月', '十一月', '十二月'],
         }
-    });
-
-    $('.del-department').click(function () {
-        var del_url = $(this).attr('del-url');
-
-        layer.confirm(
-            '确定删除此部门？',
-            {btn: ['确定', '取消']},
-            function () {
-                window.location.href = del_url;
-            });
     });
 
 </script>

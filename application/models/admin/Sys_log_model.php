@@ -21,8 +21,12 @@ class Sys_log_model extends MY_Model {
             $sql .= sprintf(" AND sl.sys_user_id = %d", $where['sys_user_id']);
         }
 
+        if (isset($where['operate_data_id']) && $where['operate_data_id']) {
+            $sql .= sprintf(" AND sl.operate_data_id = %d", $where['operate_data_id']);
+        }
+
         if (isset($where['sys_log_type']) && $where['sys_log_type']) {
-            $sql .= sprintf(" AND sl.sys_log_type = %d", $where['sys_log_type']);
+            $sql .= sprintf(" AND sl.sys_log_type IN (%s)", $where['sys_log_type']);
         }
 
         if (isset($where['start_time']) && $where['start_time']) {
