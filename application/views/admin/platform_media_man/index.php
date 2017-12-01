@@ -202,7 +202,7 @@
                                             <?= $value['audit_status'] === "1" ? "bg-green" : "" ?>
                                             <?= $value['audit_status'] === "2" ? "bg-red" : "" ?>
                                         ">
-                                            <?= $media_account_status[$value['audit_status']] ?>
+                                            <?= $media_audit_status[$value['audit_status']] ?>
                                         </small>
                                     </th>
                                     <th><?= $value['create_time'] ?></th>
