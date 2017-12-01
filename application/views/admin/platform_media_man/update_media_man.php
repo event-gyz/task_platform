@@ -118,7 +118,7 @@
                                     </el-select>
                                 </el-col>
 
-                                <el-col class="line" :span="2">&nbsp;</el-col>
+                                <el-col :span="2">&nbsp;</el-col>
 
                                 <el-col :span="4">
                                     <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
