@@ -76,10 +76,10 @@
             <div class="box-body">
 
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-6">
 
                         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px"
-                                 class="demo-ruleForm">
+                                 class="demo-ruleForm" size="medium">
 
                             <el-form-item label="姓名" prop="name">
                                 <el-input v-model="ruleForm.name"></el-input>
@@ -103,21 +103,50 @@
                             <el-form-item label="学校类型" prop="region">
                                 <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
                                     <el-option label="公立学校" value="1"></el-option>
-                                    <el-option label="私立学校 value="2"></el-option>
+                                    <el-option label="私立学校 value=" 2
+                                    "></el-option>
                                 </el-select>
                             </el-form-item>
 
                             <el-form-item label="学校地区" prop="region">
-                                <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
-                                    <el-option label="公立学校" value="1"></el-option>
-                                    <el-option label="私立学校 value="2"></el-option>
-                                </el-select>
+
+                                <el-col :span="4">
+                                    <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
+                                        <el-option label="公立学校" value="1"></el-option>
+                                        <el-option label="私立学校 value=" 2
+                                        "></el-option>
+                                    </el-select>
+                                </el-col>
+
+                                <el-col class="line" :span="2">&nbsp;</el-col>
+
+                                <el-col :span="4">
+                                    <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
+                                        <el-option label="公立学校" value="1"></el-option>
+                                        <el-option label="私立学校 value=" 2
+                                        "></el-option>
+                                    </el-select>
+                                </el-col>
+
+                                <el-col class="line" :span="2">&nbsp;</el-col>
+
+                                <el-col :span="4">
+                                    <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
+                                        <el-option label="公立学校" value="1"></el-option>
+                                        <el-option label="私立学校 value=" 2
+                                        "></el-option>
+                                    </el-select>
+                                </el-col>
+
+
                             </el-form-item>
+
 
                             <el-form-item label="办学层次" prop="region">
                                 <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
                                     <el-option label="初中" value="1"></el-option>
-                                    <el-option label="高中 value="2"></el-option>
+                                    <el-option label="高中 value=" 2
+                                    "></el-option>
                                 </el-select>
                             </el-form-item>
 
@@ -156,19 +185,20 @@
                                 </el-checkbox-group>
                             </el-form-item>
 
-
                             <el-form-item label="微信号" prop="name">
                                 <el-input v-model="ruleForm.name"></el-input>
                             </el-form-item>
 
+
                             <el-form-item label="账号类型" prop="region">
                                 <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
                                     <el-option label="公众号" value="1"></el-option>
-                                    <el-option label="高中 value="2"></el-option>
+                                    <el-option label="高中 value=" 2
+                                    "></el-option>
                                 </el-select>
                             </el-form-item>
 
-                            <el-form-item label="最高粉丝量" prop="name">
+                            <el-form-item label="最高粉丝量" prop="name" :span="12">
                                 <el-input v-model="ruleForm.name"></el-input>
                             </el-form-item>
 
@@ -179,7 +209,8 @@
                             <el-form-item label="账号类型" prop="region">
                                 <el-select v-model="ruleForm.region" placeholder="请选择学习类型">
                                     <el-option label="企业认证" value="1"></el-option>
-                                    <el-option label="个人认证 value="2"></el-option>
+                                    <el-option label="个人认证 value=" 2
+                                    "></el-option>
                                 </el-select>
                             </el-form-item>
 
