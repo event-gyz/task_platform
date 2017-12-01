@@ -193,7 +193,7 @@
                                     <th><?= $value['media_man_id'] ?></th>
                                     <th><?= $value['media_man_login_name'] ?></th>
                                     <th><?= $value['media_man_name'] ?></th>
-                                    <th><?= $value['sex'] ?></th>
+                                    <th><?= $value['sex'] === "1" ? "男" : "女" ?></th>
                                     <th><?= $value['media_man_phone'] ?></th>
                                     <th><?= $value['school_name'] ?></th>
                                     <th>

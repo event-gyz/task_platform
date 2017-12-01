@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>性别：</b> <?= $info['sex'] ?><br><br>
+                        <b>性别：</b> <?= $info['sex'] === "1" ? "男" : "女" ?><br><br>
                     </div>
 
                 </div>
