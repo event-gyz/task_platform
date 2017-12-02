@@ -222,24 +222,28 @@ class Index extends CI_Controller {
         echo '<pre>';
         print_r($_POST);exit;
         $task_id = $_POST['task_id'];
-        $task_type = $_POST['taskType'];
+        $task_name = $_POST['taskName'];
+        $task_type = $_POST['taskType'];//todo id
         $title = $_POST['title'];
-        $link = $_POST['link'];
-        $pics = $_POST['pics'];
-        $task_describe = $_POST['task_describe'];
-        $price = $_POST['price'];
-        $media_man_number = $_POST['media_man_number'];
-        $total_price = $_POST['price']*$_POST['media_man_number'];
-        $media_man_require = $_POST['media_man_require'];
-        $require_age = $_POST['require_age'];
-        $require_local = $_POST['require_local'];
-        $require_hobby = $_POST['require_hobby'];
-        $start_time = $_POST['start_time'];
-        $end_time = $_POST['end_time'];
-        $publishing_platform = $_POST['publishing_platform'];
-        $completion_criteria = $_POST['completion_criteria'];
+        $link = $_POST['taskUrl'];
+        $pics = json_encode($_POST['taskImg']);
+        $task_describe = $_POST['taskDes'];
+        $price = $_POST['taskPrice'];
+        $media_man_number = $_POST['number'];
+        $total_price = $_POST['taskPrice']*$_POST['number'];
+        $media_man_require = $_POST['numAsk'];
+        $require_sex = $_POST['sex'];
+        $require_age = $_POST['age'];//todo id 1，2
+        $require_local = $_POST['city'];
+        $require_hobby = $_POST['liking'];
+        $require_industry = $_POST['require_industry'];
+        $start_time = strtotime($_POST['startTime']);
+        $end_time = strtotime($_POST['endTime']);
+        $publishing_platform = $_POST['platform'];//todo 1,2
+        $completion_criteria = $_POST['endStandard'];
         $audit_status = $_POST['audit_status'];
 
+        $data['task_name'] = $task_name;
         $data['task_type'] = $task_type;
         $data['title'] = $title;
         $data['link'] = $link;
@@ -249,8 +253,10 @@ class Index extends CI_Controller {
         $data['media_man_number'] = $media_man_number;
         $data['total_price'] = $total_price;
         $data['media_man_require'] = $media_man_require;
+        $data['require_sex'] = $require_sex;
         $data['require_age'] = $require_age;
         $data['require_local'] = $require_local;
+        $data['require_industry'] = $require_industry;
         $data['require_hobby'] = $require_hobby;
         $data['start_time'] = $start_time;
         $data['end_time'] = $end_time;

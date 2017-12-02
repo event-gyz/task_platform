@@ -11,7 +11,7 @@ class Index extends CI_Controller {
         ) );
         $this->load->library('session');
         $this->load->helper('Wap');
-//        $this->checkUserLogin();
+        $this->checkUserLogin();
 
     }
     // 返回规范
@@ -130,6 +130,9 @@ class Index extends CI_Controller {
         }
     }
 
+    public function savePromotedInfoView(){
+        $this->load->view('media/account');
+    }
     // 保存自媒体人账户信息
     public function savePromotedInfo() {
         if (empty($_POST)) {
