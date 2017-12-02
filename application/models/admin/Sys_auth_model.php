@@ -75,7 +75,7 @@ class Sys_auth_model extends MY_Model {
     // 查询level = 0 或者 1 的权限列表
     public function select_level0_level1_auth_list() {
         $this->db->from("`{$this->getTableName()}` AS sa");
-        $this->db->where(array('level = 0 OR level = 1'));
+        $this->db->where('level = 0 OR level = 1');
         $this->db->order_by('sort', 'DESC');
         $this->db->order_by('id', 'DESC');
         $query = $this->db->get();

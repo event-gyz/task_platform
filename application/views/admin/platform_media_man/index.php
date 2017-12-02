@@ -193,7 +193,7 @@
                                     <th><?= $value['media_man_id'] ?></th>
                                     <th><?= $value['media_man_login_name'] ?></th>
                                     <th><?= $value['media_man_name'] ?></th>
-                                    <th><?= $value['sex'] ?></th>
+                                    <th><?= $value['sex'] === "1" ? "男" : "女" ?></th>
                                     <th><?= $value['media_man_phone'] ?></th>
                                     <th><?= $value['school_name'] ?></th>
                                     <th>
@@ -202,7 +202,7 @@
                                             <?= $value['audit_status'] === "1" ? "bg-green" : "" ?>
                                             <?= $value['audit_status'] === "2" ? "bg-red" : "" ?>
                                         ">
-                                            <?= $media_account_status[$value['audit_status']] ?>
+                                            <?= $media_audit_status[$value['audit_status']] ?>
                                         </small>
                                     </th>
                                     <th><?= $value['create_time'] ?></th>
@@ -219,6 +219,10 @@
                                     <th><?= $value['last_operator_name'] ?></th>
                                     <th><?= $value['update_time'] ?></th>
                                     <th>
+                                        <a href="/admin/platform_media_man/to_update_media_man?id=<?= $value['media_man_id'] ?>"
+                                           class="btn btn-primary btn-sm">
+                                            修改
+                                        </a>
                                         <a href="/admin/platform_media_man/media_man_detail?id=<?= $value['media_man_id'] ?>"
                                            class="btn btn-success btn-sm">
                                             详情
