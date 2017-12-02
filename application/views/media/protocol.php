@@ -4,7 +4,7 @@
         <title>协议</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <link rel="stylesheet" href="../assets/css/common.css" />
+        <link rel="stylesheet" href="/css/common.css" />
     </head>
     <body>
         <div class="main">

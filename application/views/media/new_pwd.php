@@ -4,8 +4,8 @@
     <title>媒体人-新密码</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="../assets/css/common.css" />
-    <link rel="stylesheet" href="../assets/css/login.css" />
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/login.css" />
 </head>
 <body>
 <div class="main" id="app">
@@ -27,9 +27,9 @@
         <p class="button-box"><input type="button" @click="save" value="确认" class="common_button"></p>
     </div>
 </div>
-<script type="text/javascript" src="../assets/js/third/jquery.js"></script>
-<script type="text/javascript" src="../assets/js/util.js"></script>
-<script type="text/javascript" src="../assets/js/third/vue.js"></script>
-<script type="text/javascript" src="../assets/js/new_pwd_media.js"></script>
+<script type="text/javascript" src="/js/third/jquery.js"></script>
+<script type="text/javascript" src="/js/util.js"></script>
+<script type="text/javascript" src="/js/third/vue.js"></script>
+<script type="text/javascript" src="/js/new_pwd_media.js"></script>
 </body>
 </html>

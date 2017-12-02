@@ -4,13 +4,13 @@
         <title>项目名称</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <link rel="stylesheet" href="../assets/css/common.css" />
+        <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
         <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     </head>
     <body>
         <div class="main" id="app">
-            <div class="login-title"><img src="../assets/images/title_bg.png"><span>基本信息</span></div>
+            <div class="login-title"><img src="/images/title_bg.png"><span>基本信息</span></div>
             <div class="login-style" style="padding-top: 0;">
                 <div class="input-box" style="margin: 0">
                     <table>
@@ -112,11 +112,11 @@
                 <p class="button-box"><input type="button" @click="save" value="下一步" class="common_button1"></p>
             </div>
         </div>
-        <script type="text/javascript" src="../assets/js/third/zepto.min.js"></script>
-        <script type="text/javascript" src="../assets/js/third/vue.js"></script>
-        <script type="text/javascript" src="../assets/js/util.js"></script>
+        <script type="text/javascript" src="/js/third/zepto.min.js"></script>
+        <script type="text/javascript" src="/js/third/vue.js"></script>
+        <script type="text/javascript" src="/js/util.js"></script>
         <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
         <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/city-picker.min.js"></script>
-        <script type="text/javascript" src="../assets/js/base.js"></script>
+        <script type="text/javascript" src="/js/base.js"></script>
     </body>
 </html>

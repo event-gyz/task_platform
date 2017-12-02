@@ -4,7 +4,7 @@
     <title>媒体人注册</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="../assets/css/common.css" />
+    <link rel="stylesheet" href="/css/common.css" />
 </head>
 <body>
 <div class="main" id="app">
@@ -40,9 +40,9 @@
         <p class="login-text" style="text-align: center;font-size: 12px;">点击下一步，集表示已阅读并同意<a href="./protocol.html">《网站用户协议》</a></p>
     </div>
 </div>
-<script type="text/javascript" src="../assets/js/third/jquery.js"></script>
-<script type="text/javascript" src="../assets/js/third/vue.js"></script>
-<script type="text/javascript" src="../assets/js/util.js"></script>
-<script type="text/javascript" src="../assets/js/register_media.js"></script>
+<script type="text/javascript" src="/js/third/jquery.js"></script>
+<script type="text/javascript" src="/js/third/vue.js"></script>
+<script type="text/javascript" src="/js/util.js"></script>
+<script type="text/javascript" src="/js/register_media.js"></script>
 </body>
 </html>

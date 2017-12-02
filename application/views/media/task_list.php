@@ -4,8 +4,8 @@
         <title>项目名称</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <link rel="stylesheet" href="../assets/css/common.css" />
-        <link rel="stylesheet" href="../assets/css/index_media.css" />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/index_media.css" />
         <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_ujqqb18j5hruow29.css">
 
         <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
@@ -90,7 +90,7 @@
                 </li>
                 <!--list-end-->
             </ul>
-            <p class="no_task"><img src="../assets/images/zwnr.png"><br>暂无分配的任务</p>
+            <p class="no_task"><img src="/images/zwnr.png"><br>暂无分配的任务</p>
             <!--滚动加载-->
             <div class="weui-loadmore">
                 <i class="weui-loading"></i>
@@ -105,11 +105,11 @@
             <p><a href="./my/index.html"><i class="iconfont">&#xe600;</i><br>我的</a></p>
         </div>
         <!--nav-end-->
-        <script type="text/javascript" src="../assets/js/third/zepto.min.js"></script>
-        <script type="text/javascript" src="../assets/js/third/vue.js"></script>
+        <script type="text/javascript" src="/js/third/zepto.min.js"></script>
+        <script type="text/javascript" src="/js/third/vue.js"></script>
 
         <script src="http://cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
-        <script type="text/javascript" src="../assets/js/util.js"></script>
-        <script type="text/javascript" src="../assets/js/task_list.js"></script>
+        <script type="text/javascript" src="/js/util.js"></script>
+        <script type="text/javascript" src="/js/task_list.js"></script>
     </body>
 </html>

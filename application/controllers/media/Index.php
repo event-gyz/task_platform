@@ -11,7 +11,7 @@ class Index extends CI_Controller {
         ) );
         $this->load->library('session');
         $this->load->helper('Wap');
-        $this->checkUserLogin();
+//        $this->checkUserLogin();
 
     }
     // 返回规范
@@ -66,6 +66,9 @@ class Index extends CI_Controller {
         $this->load->view('media/index');
     }
 
+    public function saveBaseInfoView(){
+        $this->load->view('media/base');
+    }
     // 保存自媒体人基础信息
     public function saveBaseInfo() {
         if (empty($_POST)) {
@@ -108,7 +111,7 @@ class Index extends CI_Controller {
                 'school_area' => (int)$_POST['school_area'],
                 'school_level' => (int)$_POST['school_level'],
                 'age' => (int)($_POST['age']),
-                'local' => json_encode($_POST['local']),
+                'industry' => json_encode($_POST['industry']),
                 'hobby' => json_encode($_POST['hobby']),
             );
 

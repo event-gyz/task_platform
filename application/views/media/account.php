@@ -4,13 +4,13 @@
         <title>项目名称</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <link rel="stylesheet" href="../assets/css/common.css" />
+        <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
         <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     </head>
     <body>
         <div class="main" id="app">
-            <div class="login-title"><img src="../assets/images/title_bg.png"><span>账号信息</span></div>
+            <div class="login-title"><img src="/images/title_bg.png"><span>账号信息</span></div>
             <div class="login-style" style="padding-top: 0;">
                 <div class="min-title">推广账号信息<span>请至少绑定一个推广账号，否则将无法领取任务</span></div>
                 <div class="input-box" style="margin-bottom: 20px">
@@ -62,10 +62,10 @@
                 <p class="button-box"><input type="button" @click="save" value="确认提交" class="common_button"></p>
             </div>
         </div>
-        <script type="text/javascript" src="../assets/js/third/zepto.min.js"></script>
-        <script type="text/javascript" src="../assets/js/third/vue.js"></script>
-        <script type="text/javascript" src="../assets/js/util.js"></script>
+        <script type="text/javascript" src="/js/third/zepto.min.js"></script>
+        <script type="text/javascript" src="/js/third/vue.js"></script>
+        <script type="text/javascript" src="/js/util.js"></script>
         <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
-        <script type="text/javascript" src="../assets/js/account.js"></script>
+        <script type="text/javascript" src="/js/account.js"></script>
     </body>
 </html>
