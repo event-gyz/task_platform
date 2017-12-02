@@ -250,6 +250,7 @@
                 wx_type_list     : JSON.parse('<?= json_encode($wx_type_list) ?>'),
                 weibo_type_list  : JSON.parse('<?= json_encode($weibo_type_list) ?>'),
                 ruleForm         : {
+                    media_man_id   : '<?= $info['media_man_id']?>',
                     media_man_name : '<?= $info['media_man_name']?>',
                     sex            : '<?= $info['sex']?>',
                     media_man_phone: '<?= $info['media_man_phone']?>',
@@ -348,8 +349,7 @@
                         return false;
                     }
 
-                    // this.do_update_media_man();
-
+                    this.do_update_media_man();
                 });
             },
             goBack             : function (formName) {
@@ -357,16 +357,9 @@
             },
             do_update_media_man: async function () {
                 try {
-                    this.loading = true;
+                    // this.loading = true;
                     var url      = '/admin/platform_media_man/do_update_media_man';
-                    var response = await axios.post(
-                        url,
-                        {
-                            "id"                   : this.media_man_id,
-                            "audit_status"         : this.ruleForm.audit_status,
-                            "reasons_for_rejection": this.ruleForm.reasons_for_rejection,
-                        },
-                    );
+                    var response = await axios.post(url, this.ruleForm);
                     this.loading = false;
                     var resData  = response.data;
 

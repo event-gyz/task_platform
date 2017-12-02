@@ -155,7 +155,35 @@ class Platform_media_man extends Admin_Controller {
 
     // 修改自媒体人信息
     public function do_update_media_man() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
 
+        $id = $req_data['media_man_id'];
+
+        if (empty($id)) {
+            return $this->response_json(1, 'id不能为空');
+        }
+
+        $info = $this->__get_platform_media_man_model()->selectById($id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应的信息');
+        }
+
+        $update_info['last_operator_id']   = $this->sys_user_info['id'];
+        $update_info['last_operator_name'] = $this->sys_user_info['user_name'];
+        $sys_log_content                   = '修改了媒体人信息';
+
+        $result = $this->__get_platform_media_man_model()->updateInfo($id, $update_info);
+
+        if ($result === 1) {
+
+            $this->add_sys_log(10, $sys_log_content, $id, json_encode($info), json_encode($update_info));
+
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(1, '非法操作');
     }
 
     // 自媒体人的审核
