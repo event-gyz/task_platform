@@ -185,7 +185,7 @@ class Platform_media_man extends Admin_Controller {
             return $this->response_json(0, '操作成功');
         }
 
-        return $this->response_json(1, '非法操作');
+        return $this->response_json(0, '操作成功');
     }
 
     // 自媒体人的审核
