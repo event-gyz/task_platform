@@ -142,6 +142,13 @@ class Platform_media_man extends Admin_Controller {
                 'info'                 => $info,
                 'media_audit_status'   => $this->config->item('media_audit_status'),
                 'media_account_status' => $this->config->item('media_account_status'),
+                'school_type_list'     => $this->config->item('school_type'),
+                'school_level_list'    => $this->config->item('school_level'),
+                'age_list'             => $this->config->item('age'),
+                'hobby_list'           => $this->config->item('hobby'),
+                'industry_list'        => $this->config->item('industry'),
+                'wx_type_list'         => $this->config->item('wx_type'),
+                'weibo_type_list'      => $this->config->item('weibo_type'),
             ]
         );
     }
