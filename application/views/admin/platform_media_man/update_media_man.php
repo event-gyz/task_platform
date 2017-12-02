@@ -273,41 +273,92 @@
                     weibo_link     : '<?= $info['weibo_link']?>',
                 },
                 rules            : {
-                    audit_status         : [
-                        {required: true, message: '请选审核结果', trigger: 'change'}
+                    media_man_name : [
+                        {required: true, message: '请填写姓名', trigger: 'blur'}
                     ],
-                    reasons_for_rejection: [
-                        {required: false, message: '请填写拒绝的原因', trigger: 'blur'}
-                    ]
+                    sex            : [
+                        {required: true, message: '请选择性别', trigger: 'change'}
+                    ],
+                    media_man_phone: [
+                        {required: true, message: '请填写电话', trigger: 'blur'}
+                    ],
+                    school_name    : [
+                        {required: true, message: '请填写学校名称', trigger: 'blur'}
+                    ],
+                    school_type    : [
+                        {required: true, message: '请选择学校类型', trigger: 'change'}
+                    ],
+                    school_province: [
+                        {required: true, message: '请选择学校所在省', trigger: 'change'}
+                    ],
+                    school_city    : [
+                        {required: true, message: '请选择学校所在城市', trigger: 'change'}
+                    ],
+                    school_area    : [
+                        {required: true, message: '请选择学校所在区', trigger: 'change'}
+                    ],
+                    school_level   : [
+                        {required: true, message: '请选择学校办学层次', trigger: 'change'}
+                    ],
+                    zfb_nu         : [
+                        {required: true, message: '请填写支付宝帐号', trigger: 'blur'}
+                    ],
+                    zfb_realname   : [
+                        {required: true, message: '请填写支付宝真实姓名', trigger: 'blur'}
+                    ],
+                    age            : [
+                        {required: true, message: '请选择年龄', trigger: 'change'}
+                    ],
+                    hobby          : [
+                        {type: 'array', required: true, message: '请至少选择一个爱好', trigger: 'change'}
+                    ],
+                    industry       : [
+                        {type: 'array', required: true, message: '请至少选择一个行业', trigger: 'change'}
+                    ],
+                    wx_code        : [
+                        {required: true, message: '请填写微信号', trigger: 'blur'}
+                    ],
+                    wx_type        : [
+                        {required: true, message: '请选择微信帐号类型', trigger: 'change'}
+                    ],
+                    wx_max_fans    : [
+                        {required: true, message: '请填写微信最高粉丝量', trigger: 'blur'}
+                    ],
+                    weibo_nickname : [
+                        {required: true, message: '请填写微博昵称', trigger: 'blur'}
+                    ],
+                    weibo_type     : [
+                        {required: true, message: '请选择微博帐号类型', trigger: 'change'}
+                    ],
+                    weibo_max_fans : [
+                        {required: true, message: '请填写微博最高粉丝量', trigger: 'blur'}
+                    ],
+                    weibo_link     : [
+                        {required: true, message: '请填写微博链接', trigger: 'blur'}
+                    ],
                 }
             };
         },
         methods: {
-            submitForm : function (formName) {
+            submitForm         : function (formName) {
                 this.$refs[formName].validate((valid) => {
 
                     if (!valid) {
-                        this.$message.error('请选审核结果');
+                        this.$message.error('请按照错误提示完善您提交的信息');
                         return false;
                     }
 
-                    if (this.ruleForm.audit_status === "2") {
-                        if (this.ruleForm.reasons_for_rejection === "") {
-                            this.$message.error('请填写拒绝的原因');
-                            return false;
-                        }
-                    }
-
-                    this.media_audit();
+                    // this.do_update_media_man();
+                    
                 });
             },
-            goBack     : function (formName) {
+            goBack             : function (formName) {
                 window.location.href = '/admin/platform_media_man/home';
             },
-            media_audit: async function () {
+            do_update_media_man: async function () {
                 try {
                     this.loading = true;
-                    var url      = '/admin/platform_media_man/update_media_audit_status';
+                    var url      = '/admin/platform_media_man/do_update_media_man';
                     var response = await axios.post(
                         url,
                         {
