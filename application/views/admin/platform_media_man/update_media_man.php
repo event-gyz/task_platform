@@ -176,7 +176,7 @@
                                 <el-input v-model="ruleForm.wx_code"></el-input>
                             </el-form-item>
 
-                            <el-form-item label="微信账号类型" prop="wx_type">
+                            <el-form-item label="微信类型" prop="wx_type">
                                 <el-select v-model="ruleForm.wx_type" placeholder="请选择微信账号类型">
                                     <el-option
                                             v-for="(item, key) in wx_type_list"
@@ -194,7 +194,7 @@
                                 <el-input v-model="ruleForm.weibo_nickname"></el-input>
                             </el-form-item>
 
-                            <el-form-item label="微博账号类型" prop="weibo_type">
+                            <el-form-item label="微博类型" prop="weibo_type">
                                 <el-select v-model="ruleForm.weibo_type" placeholder="请选择微博账号类型">
                                     <el-option
                                             v-for="(item, key) in weibo_type_list"
@@ -349,7 +349,7 @@
                     }
 
                     // this.do_update_media_man();
-                    
+
                 });
             },
             goBack             : function (formName) {
