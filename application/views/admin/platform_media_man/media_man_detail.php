@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>学校类型：</b> <?= $info['school_type'] ?><br><br>
+                        <b>学校类型：</b> <?= $school_type_list[$info['school_type']] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
@@ -69,19 +69,27 @@
                 <div class="row">
 
                     <div class="col-sm-3 invoice-col">
-                        <b>办学层次：</b> <?= $info['school_level'] ?><br><br>
+                        <b>办学层次：</b> <?= $school_level_list[$info['school_level']] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>年龄：</b> <?= $info['age'] ?><br><br>
+                        <b>年龄：</b> <?= $age_list[$info['age']] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>行业：</b> <?= $info['industry'] ?><br><br>
+                        <b>行业：</b>
+                        <?php foreach (explode(',', $info['industry']) as $value): ?>
+                            <?= $industry_list[$value] ?>
+                        <?php endforeach; ?>
+                        <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>兴趣爱好：</b> <?= $info['hobby'] ?><br><br>
+                        <b>兴趣爱好：</b>
+                        <?php foreach (explode(',', $info['hobby']) as $value): ?>
+                            <?= $hobby_list[$value] ?>
+                        <?php endforeach; ?>
+                        <br><br>
                     </div>
 
                 </div>
@@ -151,7 +159,7 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>账号类型：</b> <?= $info['wx_type'] ?><br><br>
+                        <b>账号类型：</b> <?= $wx_type_list[$info['wx_type']] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
@@ -167,7 +175,7 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>账号类型：</b> <?= $info['weibo_type'] ?><br><br>
+                        <b>账号类型：</b> <?= $weibo_type_list[$info['weibo_type']] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
@@ -175,7 +183,7 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>微博链接：</b> <?= $info['weibo_link'] ?><br><br>
+                        <b>微博链接：</b> <a target="_blank" href="<?= $info['weibo_link'] ?>"><?= $info['weibo_link'] ?></a><br><br>
                     </div>
 
                 </div>

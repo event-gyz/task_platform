@@ -109,7 +109,7 @@ class Platform_media_man extends Admin_Controller {
             return redirect("{$this->host}/admin/platform_media_man/home");
         }
 
-        $where    = ['operate_data_id' => $id, 'sys_log_type' => "3,6", "offset" => 0, "limit" => 200];
+        $where    = ['operate_data_id' => $id, 'sys_log_type' => "3,6,10", "offset" => 0, "limit" => 200];
         $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
 
         return $this->load->view('admin/platform_media_man/media_man_detail',
@@ -118,6 +118,13 @@ class Platform_media_man extends Admin_Controller {
                 'log_list'             => $log_list['list'],
                 'media_audit_status'   => $this->config->item('media_audit_status'),
                 'media_account_status' => $this->config->item('media_account_status'),
+                'school_type_list'     => $this->config->item('school_type'),
+                'school_level_list'    => $this->config->item('school_level'),
+                'age_list'             => $this->config->item('age'),
+                'hobby_list'           => $this->config->item('hobby'),
+                'industry_list'        => $this->config->item('industry'),
+                'wx_type_list'         => $this->config->item('wx_type'),
+                'weibo_type_list'      => $this->config->item('weibo_type'),
             ]
         );
     }
