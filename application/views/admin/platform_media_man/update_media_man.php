@@ -357,7 +357,7 @@
             },
             do_update_media_man: async function () {
                 try {
-                    // this.loading = true;
+                    this.loading = true;
                     var url      = '/admin/platform_media_man/do_update_media_man';
                     var response = await axios.post(url, this.ruleForm);
                     this.loading = false;

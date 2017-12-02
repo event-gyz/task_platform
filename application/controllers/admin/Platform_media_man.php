@@ -170,15 +170,17 @@ class Platform_media_man extends Admin_Controller {
             return $this->response_json(1, '查找不到对应的信息');
         }
 
-        $update_info['last_operator_id']   = $this->sys_user_info['id'];
-        $update_info['last_operator_name'] = $this->sys_user_info['user_name'];
-        $sys_log_content                   = '修改了媒体人信息';
+        $req_data['hobby']              = implode(',', $req_data['hobby']);
+        $req_data['industry']           = implode(',', $req_data['industry']);
+        $req_data['last_operator_id']   = $this->sys_user_info['id'];
+        $req_data['last_operator_name'] = $this->sys_user_info['user_name'];
+        $sys_log_content                = '修改了媒体人信息';
 
-        $result = $this->__get_platform_media_man_model()->updateInfo($id, $update_info);
+        $result = $this->__get_platform_media_man_model()->updateInfo($id, $req_data);
 
         if ($result === 1) {
 
-            $this->add_sys_log(10, $sys_log_content, $id, json_encode($info), json_encode($update_info));
+            $this->add_sys_log(10, $sys_log_content, $id, json_encode($info), json_encode($req_data));
 
             return $this->response_json(0, '操作成功');
         }
