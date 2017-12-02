@@ -77,7 +77,7 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>行业：</b> <?= $info['local'] ?><br><br>
+                        <b>行业：</b> <?= $info['industry'] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
