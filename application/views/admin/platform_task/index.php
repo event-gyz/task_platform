@@ -33,27 +33,35 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="media_man_name" class="col-sm-3 control-label">姓名</label>
+                                        <label for="task_name" class="col-sm-3 control-label">任务名称</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
-                                                   placeholder="输入姓名来搜索..." name="media_man_name"
-                                                   value="<?= $form_data['media_man_name'] ?>"
+                                                   placeholder="输入任务名称来搜索..." name="task_name"
+                                                   value="<?= $form_data['task_name'] ?>"
                                             >
                                         </div>
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="school_name" class="col-sm-4 control-label">学校名称</label>
+                                        <label for="audit_status" class="col-sm-3 control-label">发布平台</label>
                                         <div class="col-sm-7">
-                                            <input type="text" class="form-control"
-                                                   placeholder="输入学校名称来搜索..." name="school_name"
-                                                   value="<?= $form_data['school_name'] ?>"
-                                            >
+                                            <select class="form-control" name="audit_status">
+                                                <option value="">全部</option>
+
+                                                <?php foreach ($media_audit_status as $key => $value): ?>
+                                                    <option value="<?= $key ?>"
+                                                        <?= "$key" === $form_data['audit_status'] ? 'selected' : ''; ?>
+                                                    >
+                                                        <?= $value ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="audit_status" class="col-sm-3 control-label">审核状态</label>
+                                        <label for="audit_status" class="col-sm-3 control-label">任务类型</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="audit_status">
                                                 <option value="">全部</option>
@@ -72,7 +80,7 @@
 
                                     <div class="form-group col-xs-3">
                                         <label class="col-sm-3 control-label">注册时间</label>
-                                        <div class="input-group">
+                                        <div class="input-group col-sm-7">
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
@@ -89,45 +97,14 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="sex" class="col-sm-3 control-label">性别</label>
+                                        <label for="audit_status" class="col-sm-3 control-label">任务状态</label>
                                         <div class="col-sm-7">
-
-                                            <select class="form-control" name="sex">
-                                                <option value="">全部</option>
-                                                <option value="1"
-                                                    <?= "1" === $form_data['sex'] ? 'selected' : ''; ?>
-                                                >
-                                                    男
-                                                </option>
-                                                <option value="2"
-                                                    <?= "2" === $form_data['sex'] ? 'selected' : ''; ?>
-                                                >
-                                                    女
-                                                </option>
-                                            </select>
-
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-xs-3">
-                                        <label for="media_man_phone" class="col-sm-4 control-label">电话</label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control"
-                                                   placeholder="输入电话来搜索..." name="media_man_phone"
-                                                   value="<?= $form_data['media_man_phone'] ?>"
-                                            >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-xs-3">
-                                        <label for="status" class="col-sm-3 control-label">账号状态</label>
-                                        <div class="col-sm-7">
-                                            <select class="form-control" name="status">
+                                            <select class="form-control" name="audit_status">
                                                 <option value="">全部</option>
 
-                                                <?php foreach ($media_account_status as $key => $value): ?>
+                                                <?php foreach ($media_audit_status as $key => $value): ?>
                                                     <option value="<?= $key ?>"
-                                                        <?= "$key" === $form_data['status'] ? 'selected' : ''; ?>
+                                                        <?= "$key" === $form_data['audit_status'] ? 'selected' : ''; ?>
                                                     >
                                                         <?= $value ?>
                                                     </option>
@@ -136,20 +113,6 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                    <div class="form-group col-xs-3">
-                                        <label for="tag" class="col-sm-3 control-label">标签</label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control"
-                                                   placeholder="输入标签来搜索..." name="tag"
-                                                   value="<?= $form_data['tag'] ?>"
-                                            >
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row">
 
                                     <div class="form-group col-xs-3">
                                         <label for="sex" class="col-sm-3 control-label"></label>
@@ -176,7 +139,7 @@
                             <tr>
                                 <th>用户ID</th>
                                 <th>用户名</th>
-                                <th>姓名</th>
+                                <th>任务名称</th>
                                 <th>性别</th>
                                 <th>电话</th>
                                 <th>学校名称</th>
@@ -192,7 +155,7 @@
                                 <tr>
                                     <th><?= $value['media_man_id'] ?></th>
                                     <th><?= $value['media_man_login_name'] ?></th>
-                                    <th><?= $value['media_man_name'] ?></th>
+                                    <th><?= $value['task_name'] ?></th>
                                     <th><?= $value['sex'] === "1" ? "男" : "女" ?></th>
                                     <th><?= $value['media_man_phone'] ?></th>
                                     <th><?= $value['school_name'] ?></th>
