@@ -78,17 +78,21 @@
 
                     <div class="col-sm-3 invoice-col">
                         <b>行业：</b>
-                        <?php foreach (explode(',', $info['industry']) as $value): ?>
-                            <?= $industry_list[$value] ?>
-                        <?php endforeach; ?>
+                        <?php if (!empty($info['industry'])): ?>
+                            <?php foreach (explode(',', $info['industry']) as $value): ?>
+                                <?= $industry_list[$value] ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                         <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
                         <b>兴趣爱好：</b>
-                        <?php foreach (explode(',', $info['hobby']) as $value): ?>
-                            <?= $hobby_list[$value] ?>
-                        <?php endforeach; ?>
+                        <?php if (!empty($info['hobby'])): ?>
+                            <?php foreach (explode(',', $info['hobby']) as $value): ?>
+                                <?= $hobby_list[$value] ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                         <br><br>
                     </div>
 
