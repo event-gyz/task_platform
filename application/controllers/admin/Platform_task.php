@@ -24,9 +24,12 @@ class Platform_task extends Admin_Controller {
 
         return $this->load->view('admin/platform_task/index',
             [
-                'form_data' => $form_data,
-                'list'      => $data['list'],
-                'page_link' => $page_link,
+                'form_data'                => $form_data,
+                'list'                     => $data['list'],
+                'page_link'                => $page_link,
+                'publishing_platform_list' => $this->config->item('publishing_platform'),
+                'task_type_list'           => $this->config->item('task_type'),
+                'task_status_list'         => $this->config->item('task_status'),
             ]
         );
     }

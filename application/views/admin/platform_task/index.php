@@ -48,9 +48,9 @@
                                             <select class="form-control" name="audit_status">
                                                 <option value="">全部</option>
 
-                                                <?php foreach ($media_audit_status as $key => $value): ?>
+                                                <?php foreach ($publishing_platform_list as $key => $value): ?>
                                                     <option value="<?= $key ?>"
-                                                        <?= "$key" === $form_data['audit_status'] ? 'selected' : ''; ?>
+                                                        <?= "$key" === $form_data['publishing_platform'] ? 'selected' : ''; ?>
                                                     >
                                                         <?= $value ?>
                                                     </option>
@@ -66,9 +66,9 @@
                                             <select class="form-control" name="audit_status">
                                                 <option value="">全部</option>
 
-                                                <?php foreach ($media_audit_status as $key => $value): ?>
+                                                <?php foreach ($task_type_list as $key => $value): ?>
                                                     <option value="<?= $key ?>"
-                                                        <?= "$key" === $form_data['audit_status'] ? 'selected' : ''; ?>
+                                                        <?= "$key" === $form_data['task_type'] ? 'selected' : ''; ?>
                                                     >
                                                         <?= $value ?>
                                                     </option>
@@ -102,7 +102,7 @@
                                             <select class="form-control" name="audit_status">
                                                 <option value="">全部</option>
 
-                                                <?php foreach ($media_audit_status as $key => $value): ?>
+                                                <?php foreach ($task_status_list as $key => $value): ?>
                                                     <option value="<?= $key ?>"
                                                         <?= "$key" === $form_data['audit_status'] ? 'selected' : ''; ?>
                                                     >
