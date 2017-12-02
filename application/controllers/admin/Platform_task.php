@@ -93,6 +93,21 @@ class Platform_task extends Admin_Controller {
         ];
     }
 
+    // 任务详情
+    public function task_detail() {
+
+    }
+
+    // 任务审核
+    public function update_task_audit_status() {
+
+    }
+
+    // 任务的发布状态
+    public function update_task_release_status() {
+
+    }
+
     /**
      * @return Platform_task_model
      */
