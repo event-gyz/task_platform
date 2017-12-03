@@ -295,7 +295,7 @@ var app = new Vue({
                 },
                 success: function(res) {
                     if(res.errorno > 0){
-
+                        location.href='/advertiser/index/taskSubmitSuccessView?task_id='+res.data;
                     }else{
                         util.tips(res.msg)
                     }

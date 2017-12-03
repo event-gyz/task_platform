@@ -263,5 +263,11 @@ class Platform_task_map_model extends MY_Model{
         return $this->getRow($_sql);
     }
 
+    public function getRoweceiveTaskCount($task_id){
+        $sqlCount = "select count(task_map_id) as c from `{$this->table}` where task_id=$task_id and receive_status=1";
+        $total    = $this->getCount($sqlCount);
+        return $total;
+    }
+
 }
 

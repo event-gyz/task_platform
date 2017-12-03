@@ -86,10 +86,10 @@
                                     <th class="border_bottom" align="left">年龄</th>
                                     <td class="border_bottom">
                                         <p class="text-box">
-                                            <span @click="setAge('18岁以下')" :class="{cur:age.indexOf('18岁以下')!=-1}">18岁以下</span>
-                                            <span @click="setAge('18-30岁')" :class="{cur:age.indexOf('18-30岁')!=-1}">18-30岁</span>
-                                            <span @click="setAge('31-50岁')" :class="{cur:age.indexOf('31-50岁')!=-1}">31-50岁</span>
-                                            <span @click="setAge('50岁以上')" :class="{cur:age.indexOf('50岁以上')!=-1}">50岁以上</span>
+                                            <span @click="setAge('1')" :class="{cur:age.indexOf('1')!=-1}">18岁以下</span>
+                                            <span @click="setAge('2')" :class="{cur:age.indexOf('2')!=-1}">18-30岁</span>
+                                            <span @click="setAge('3')" :class="{cur:age.indexOf('3')!=-1}">31-50岁</span>
+                                            <span @click="setAge('4')" :class="{cur:age.indexOf('4')!=-1}">50岁以上</span>
                                         </p>
                                     </td>
                                 </tr>
@@ -97,14 +97,14 @@
                                     <th class="border_bottom" align="left">兴趣<br>爱好</th>
                                     <td class="border_bottom">
                                         <p class="text-box">
-                                            <span @click="setLiking('美食')" :class="{cur:liking.indexOf('美食')!=-1}">美食</span>
-                                            <span @click="setLiking('旅游')" :class="{cur:liking.indexOf('旅游')!=-1}">旅游</span>
-                                            <span @click="setLiking('健身')" :class="{cur:liking.indexOf('健身')!=-1}">健身</span>
-                                            <span @click="setLiking('减肥')" :class="{cur:liking.indexOf('减肥')!=-1}">减肥</span>
-                                            <span @click="setLiking('理财')" :class="{cur:liking.indexOf('理财')!=-1}">理财</span>
-                                            <span @click="setLiking('美妆')" :class="{cur:liking.indexOf('美妆')!=-1}">美妆</span>
-                                            <span @click="setLiking('宠物')" :class="{cur:liking.indexOf('宠物')!=-1}">宠物</span>
-                                            <span @click="setLiking('购物')" :class="{cur:liking.indexOf('购物')!=-1}">购物</span>
+                                            <span @click="setLiking('1')" :class="{cur:liking.indexOf('1')!=-1}">美食</span>
+                                            <span @click="setLiking('2')" :class="{cur:liking.indexOf('2')!=-1}">旅游</span>
+                                            <span @click="setLiking('3')" :class="{cur:liking.indexOf('3')!=-1}">健身</span>
+                                            <span @click="setLiking('4')" :class="{cur:liking.indexOf('4')!=-1}">减肥</span>
+                                            <span @click="setLiking('5')" :class="{cur:liking.indexOf('5')!=-1}">理财</span>
+                                            <span @click="setLiking('6')" :class="{cur:liking.indexOf('6')!=-1}">美妆</span>
+                                            <span @click="setLiking('7')" :class="{cur:liking.indexOf('7')!=-1}">宠物</span>
+                                            <span @click="setLiking('8')" :class="{cur:liking.indexOf('8')!=-1}">购物</span>
                                         </p>
                                     </td>
                                 </tr>
@@ -112,13 +112,13 @@
                                     <th class="border_bottom" align="left">行业</th>
                                     <td class="border_bottom">
                                         <p class="text-box">
-                                            <span @click="setIndustry('学生')" :class="{cur:industry.indexOf('学生')!=-1}">学生</span>
-                                            <span @click="setIndustry('互联网')" :class="{cur:industry.indexOf('互联网')!=-1}">互联网</span>
-                                            <span @click="setIndustry('传媒/营销')" :class="{cur:industry.indexOf('传媒/营销')!=-1}">传媒/营销</span>
-                                            <span @click="setIndustry('金融/财经')" :class="{cur:industry.indexOf('金融/财经')!=-1}">金融/财经</span>
-                                            <span @click="setIndustry('电商/微商')" :class="{cur:industry.indexOf('电商/微商')!=-1}">电商/微商</span>
-                                            <span @click="setIndustry('文娱')" :class="{cur:industry.indexOf('文娱')!=-1}">文娱</span>
-                                            <span @click="setIndustry('母婴')" :class="{cur:industry.indexOf('母婴')!=-1}">母婴</span>
+                                            <span @click="setIndustry('1')" :class="{cur:industry.indexOf('1')!=-1}">学生</span>
+                                            <span @click="setIndustry('2')" :class="{cur:industry.indexOf('2')!=-1}">互联网</span>
+                                            <span @click="setIndustry('3')" :class="{cur:industry.indexOf('3')!=-1}">传媒/营销</span>
+                                            <span @click="setIndustry('4')" :class="{cur:industry.indexOf('4')!=-1}">金融/财经</span>
+                                            <span @click="setIndustry('5')" :class="{cur:industry.indexOf('5')!=-1}">电商/微商</span>
+                                            <span @click="setIndustry('6')" :class="{cur:industry.indexOf('6')!=-1}">文娱</span>
+                                            <span @click="setIndustry('7')" :class="{cur:industry.indexOf('7')!=-1}">母婴</span>
                                         </p>
                                     </td>
                                 </tr>
@@ -126,10 +126,10 @@
                                     <th align="left">地域</th>
                                     <td>
                                         <p class="text-box">
-                                            <span @click="setCity('北京')" :class="{cur:city.indexOf('北京')!=-1}">北京</span>
-                                            <span @click="setCity('上海')" :class="{cur:city.indexOf('上海')!=-1}">上海</span>
-                                            <span @click="setCity('广州')" :class="{cur:city.indexOf('广州')!=-1}">广州</span>
-                                            <span @click="setCity('深圳')" :class="{cur:city.indexOf('深圳')!=-1}">深圳</span>
+                                            <span @click="setCity('1')" :class="{cur:city.indexOf('1')!=-1}">北京</span>
+                                            <span @click="setCity('2')" :class="{cur:city.indexOf('2')!=-1}">上海</span>
+                                            <span @click="setCity('3')" :class="{cur:city.indexOf('3')!=-1}">广州</span>
+                                            <span @click="setCity('4')" :class="{cur:city.indexOf('4')!=-1}">深圳</span>
                                         </p>
                                     </td>
                                 </tr>
@@ -166,8 +166,8 @@
                     <th align="left">完成标准</th>
                     <td>
                         <p class="index_advert_icon">
-                            <span :class="{cur:endStandard.indexOf('图片')!=-1}" @click="setEndStandard('图片')"><img v-show="endStandard.indexOf('图片')!=-1" src="/images/icon7.png"><img v-show="endStandard.indexOf('图片')==-1" src="/images/icon8.png">&nbsp;图片</span>
-                            <span :class="{cur:endStandard.indexOf('链接')!=-1}" @click="setEndStandard('链接')"><img v-show="endStandard.indexOf('链接')!=-1" src="/images/icon7.png"><img v-show="endStandard.indexOf('链接')==-1" src="/images/icon8.png">&nbsp;链接</span>
+                            <span :class="{cur:endStandard.indexOf('1')!=-1}" @click="setEndStandard('1')"><img v-show="endStandard.indexOf('1')!=-1" src="/images/icon7.png"><img v-show="endStandard.indexOf('1')==-1" src="/images/icon8.png">&nbsp;图片</span>
+                            <span :class="{cur:endStandard.indexOf('2')!=-1}" @click="setEndStandard('2')"><img v-show="endStandard.indexOf('2')!=-1" src="/images/icon7.png"><img v-show="endStandard.indexOf('2')==-1" src="/images/icon8.png">&nbsp;链接</span>
                         </p>
                     </td>
                 </tr>

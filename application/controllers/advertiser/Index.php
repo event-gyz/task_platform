@@ -190,9 +190,9 @@ class Index extends CI_Controller {
     /**
      * 获取任务详情
      */
-    public function getTaskInfo(){
-//        $_POST['task_id'] = 1;
-        $task_id = $_POST['task_id'];
+    public function taskInfoApi(){
+        $_GET['task_id'] = 1;
+        $task_id = $_GET['task_id'];
 
         if(empty($task_id)){
             $this->_return['errorno'] = -1;
@@ -200,7 +200,7 @@ class Index extends CI_Controller {
             echo json_encode($this->_return);exit;
         }
 
-        $this->__checkTaskWhetherBelongUser($task_id,$this->_update);
+        $this->__checkTaskWhetherBelongUser($task_id,TRUE);
 
         $where['task_id'] = $task_id;
         $result = $this->__get_task_model()->selectByCondition($where);
@@ -217,14 +217,24 @@ class Index extends CI_Controller {
         }
     }
 
+    //测试用
+    public function statusView(){
+        $this->load->view('advertiser/status');
+    }
+    /**
+     * 任务提交审核成功页面
+     */
+    public function taskSubmitSuccessView(){
+        $data['task_id'] = $_GET['task_id'];
+        $this->load->view('advertiser/taskSubmitSuccess',$data);
+    }
+
     // 保存任务/修改任务 接口
     public function saveTask(){
-        echo '<pre>';
-        print_r($_POST);exit;
-        $task_id = $_POST['task_id'];
+//        $task_id = $_POST['task_id'];
         $task_name = $_POST['taskName'];
         $task_type = $_POST['taskType'];//todo id
-        $title = $_POST['title'];
+        $title = $_POST['taskTitle'];
         $link = $_POST['taskUrl'];
         $pics = json_encode($_POST['taskImg']);
         $task_describe = $_POST['taskDes'];
@@ -233,15 +243,16 @@ class Index extends CI_Controller {
         $total_price = $_POST['taskPrice']*$_POST['number'];
         $media_man_require = $_POST['numAsk'];
         $require_sex = $_POST['sex'];
-        $require_age = $_POST['age'];//todo id 1，2
-        $require_local = $_POST['city'];
-        $require_hobby = $_POST['liking'];
-        $require_industry = $_POST['require_industry'];
+        $require_age = implode(',',$_POST['age']);
+        $require_local = implode(',',$_POST['city']);
+        $require_hobby = implode(',',$_POST['liking']);
+        $require_industry = implode(',',$_POST['industry']);
         $start_time = strtotime($_POST['startTime']);
         $end_time = strtotime($_POST['endTime']);
-        $publishing_platform = $_POST['platform'];//todo 1,2
-        $completion_criteria = $_POST['endStandard'];
-        $audit_status = $_POST['audit_status'];
+        $publishing_platform = implode(',',$_POST['platform']);
+        $completion_criteria = implode(',',$_POST['endStandard']);
+//        $audit_status = $_POST['audit_status'];
+        $audit_status = 1;//todo 审核状态
 
         $data['task_name'] = $task_name;
         $data['task_type'] = $task_type;
@@ -283,6 +294,7 @@ class Index extends CI_Controller {
         }else{
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '操作成功';
+            $this->_return['data'] = $re;
             echo json_encode($this->_return);exit;
         }
 
@@ -411,25 +423,26 @@ class Index extends CI_Controller {
     /**
      *  我的列表 （我的任务详情）
      */
-    public function myTaskDetail(){
+    public function taskInfo(){
         $user_info = $this->__get_user_session();
         $where['advertiser_user_id'] = $user_info['advertiser_id'];
-        if(!isset($_POST['task_id']) || empty($_POST['task_id'])){
+        if(!isset($_GET['task_id']) || empty($_GET['task_id'])){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '参数错误';
             echo json_encode($this->_return);exit;
         }
-        $where['task_id'] = $_POST['task_id'];
+        $task_id = (int)$_GET['task_id'];
+        $where['task_id'] = $task_id;
         $result = $this->__get_task_model()->getAdvertiserTaskDetailByCondition($where);
-        if(empty($result)){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '没有任务';
-            echo json_encode($this->_return);exit;
+        if(($result['audit_status'] == 2) || ($result['audit_status'] == 5)){
+            $result['allot_time'] = $this->__timediff($result['start_time']);
+        }else{
+            $result['allot_time'] = 0;
         }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
+        $result['total_person'] = $this->__get_task_map_model()->getRoweceiveTaskCount($task_id);
+        $this->load->view('advertiser/my/info',$result);
+//        echo '<pre>';print_r($result);exit;
+
     }
 
     /**
@@ -470,15 +483,14 @@ class Index extends CI_Controller {
         $where['task_id'] = $task_id;
         $result = $this->__get_task_model()->selectByCondition($where);
 
-        if( $handle == $this->_update ){
+        if( $handle === $this->_update ){
             if($result['release_status'] != 0 || ($result['audit_status'] != 2 && $result['audit_status'] != 2 && $result['audit_status'] != 0)){
                 $this->_return['errorno'] = -1;
                 $this->_return['msg'] = '当前任务不可以进行修改';
                 echo json_encode($this->_return);exit;
             }
         }
-
-        if( $handle == $this->_submitAudit ){
+        if( $handle === $this->_submitAudit ){
             if($result['audit_status'] != 0){
                 $this->_return['errorno'] = -1;
                 $this->_return['msg'] = '当前任务不可以提交审核';
@@ -486,7 +498,7 @@ class Index extends CI_Controller {
             }
         }
 
-        if( $handle == $this->_endTask ){
+        if( $handle === $this->_endTask ){
             if($result['start_time'] - time() < 43200){
                 $this->_return['errorno'] = -1;
                 //todo 文案补全
@@ -495,7 +507,7 @@ class Index extends CI_Controller {
             }
         }
 
-        if( $handle == $this->_payTask ){
+        if( $handle === $this->_payTask ){
             if($result['audit_status'] != 3){
                 $this->_return['errorno'] = -1;
                 $this->_return['msg'] = '任务审核通过才可以付款';
@@ -519,12 +531,22 @@ class Index extends CI_Controller {
      * @return bool|string
      */
     private function __timediff($allot_time){
-        $result = Wap::timediff($allot_time+7200);
+        $result = Wap::timediff($allot_time);
         if(!is_array($result) || $result<0){
-            //任务已经超时，修改任务状态
+            //任务已经超时，修改任务状态为关闭
             return false;
         }
-        return '剩余'.$result['hours'].'小时'.$result['min'].'分';
+        $str = '剩余';
+        if(!empty($result['day'])){
+            $str .=$result['day'].'天';
+        }
+        if(!empty($result['hours'])){
+            $str .=$result['hours'].'小时';
+        }
+        if(!empty($result['min'])){
+            $str .=$result['min'].'分';
+        }
+        return $str;
 
     }
 

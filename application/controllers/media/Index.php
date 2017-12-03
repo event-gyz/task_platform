@@ -520,7 +520,17 @@ class Index extends CI_Controller {
             //任务已经超时，修改任务状态
             return false;
         }
-        return '剩余'.$result['hours'].'小时'.$result['min'].'分';
+        $str = '剩余';
+        if(!empty($result['day'])){
+            $str .=$result['day'].'天';
+        }
+        if(!empty($result['hours'])){
+            $str .=$result['hours'].'小时';
+        }
+        if(!empty($result['min'])){
+            $str .=$result['min'].'分';
+        }
+        return $str;
 
     }
 

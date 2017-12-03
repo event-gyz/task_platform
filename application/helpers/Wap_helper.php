@@ -25,8 +25,16 @@ class Wap {
         if($remain < 0 ){
             return $remain;
         }
-//        return '剩余'.floor(($remain/3600)).'小时'.floor($remain/60).'分';
-        return ['hours'=>floor(($remain/3600)),'min'=>floor($remain/60)];
+        $day = floor($remain/86400);
+        if($day>0){
+            $remain -= $day*86400;
+        }
+        $hours = floor($remain/3600);
+        if($hours>0){
+            $remain -= $hours*3600;
+        };
+        $min = floor($remain/60);
+        return ['day'=>$day,'hours'=>$hours,'min'=>$min];
     }
 
 }
