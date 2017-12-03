@@ -109,7 +109,7 @@ class Platform_media_man extends Admin_Controller {
             return redirect("{$this->host}/admin/platform_media_man/home");
         }
 
-        $where    = ['operate_data_id' => $id, 'sys_log_type' => "3,6", "offset" => 0, "limit" => 200];
+        $where    = ['operate_data_id' => $id, 'sys_log_type' => "3,6,10", "offset" => 0, "limit" => 200];
         $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
 
         return $this->load->view('admin/platform_media_man/media_man_detail',
@@ -118,6 +118,13 @@ class Platform_media_man extends Admin_Controller {
                 'log_list'             => $log_list['list'],
                 'media_audit_status'   => $this->config->item('media_audit_status'),
                 'media_account_status' => $this->config->item('media_account_status'),
+                'school_type_list'     => $this->config->item('school_type'),
+                'school_level_list'    => $this->config->item('school_level'),
+                'age_list'             => $this->config->item('age'),
+                'hobby_list'           => $this->config->item('hobby'),
+                'industry_list'        => $this->config->item('industry'),
+                'wx_type_list'         => $this->config->item('wx_type'),
+                'weibo_type_list'      => $this->config->item('weibo_type'),
             ]
         );
     }
@@ -142,13 +149,50 @@ class Platform_media_man extends Admin_Controller {
                 'info'                 => $info,
                 'media_audit_status'   => $this->config->item('media_audit_status'),
                 'media_account_status' => $this->config->item('media_account_status'),
+                'school_type_list'     => $this->config->item('school_type'),
+                'school_level_list'    => $this->config->item('school_level'),
+                'age_list'             => $this->config->item('age'),
+                'hobby_list'           => $this->config->item('hobby'),
+                'industry_list'        => $this->config->item('industry'),
+                'wx_type_list'         => $this->config->item('wx_type'),
+                'weibo_type_list'      => $this->config->item('weibo_type'),
             ]
         );
     }
 
     // 修改自媒体人信息
     public function do_update_media_man() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
 
+        $id = $req_data['media_man_id'];
+
+        if (empty($id)) {
+            return $this->response_json(1, 'id不能为空');
+        }
+
+        $info = $this->__get_platform_media_man_model()->selectById($id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应的信息');
+        }
+
+        $req_data['hobby']              = implode(',', $req_data['hobby']);
+        $req_data['industry']           = implode(',', $req_data['industry']);
+        $req_data['last_operator_id']   = $this->sys_user_info['id'];
+        $req_data['last_operator_name'] = $this->sys_user_info['user_name'];
+        $sys_log_content                = '修改了媒体人信息';
+
+        $result = $this->__get_platform_media_man_model()->updateInfo($id, $req_data);
+
+        if ($result === 1) {
+
+            $this->add_sys_log(10, $sys_log_content, $id, json_encode($info), json_encode($req_data));
+
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(0, '操作成功');
     }
 
     // 自媒体人的审核

@@ -101,8 +101,11 @@
 
                             <el-form-item label="学校类型" prop="school_type">
                                 <el-select v-model="ruleForm.school_type" placeholder="请选择学校类型">
-                                    <el-option label="公立学校" value="1"></el-option>
-                                    <el-option label="私立学校" value="2"></el-option>
+                                    <el-option
+                                            v-for="(item, key) in school_type_list"
+                                            :label="item"
+                                            :value="key">
+                                    </el-option>
                                 </el-select>
                             </el-form-item>
 
@@ -129,8 +132,11 @@
 
                             <el-form-item label="办学层次" prop="school_level">
                                 <el-select v-model="ruleForm.school_level" placeholder="请选择办学层次">
-                                    <el-option label="初中" value="1"></el-option>
-                                    <el-option label="高中" value="2"></el-option>
+                                    <el-option
+                                            v-for="(item, key) in school_level_list"
+                                            :label="item"
+                                            :value="key">
+                                    </el-option>
                                 </el-select>
                             </el-form-item>
 
@@ -144,28 +150,25 @@
 
                             <el-form-item label="年龄" prop="age">
                                 <el-radio-group v-model="ruleForm.age">
-                                    <el-radio label="1">18岁以下</el-radio>
-                                    <el-radio label="2">18-30</el-radio>
-                                    <el-radio label="3">31-50</el-radio>
-                                    <el-radio label="3">50岁以上</el-radio>
+                                    <el-radio v-for="(item, key) in age_list" :label="key">
+                                        {{ item }}
+                                    </el-radio>
                                 </el-radio-group>
                             </el-form-item>
 
                             <el-form-item label="兴趣爱好" prop="hobby">
                                 <el-checkbox-group v-model="ruleForm.hobby">
-                                    <el-checkbox label="美食/餐厅线上活动" name="hobby"></el-checkbox>
-                                    <el-checkbox label="地推活动" name="hobby"></el-checkbox>
-                                    <el-checkbox label="线下主题活动" name="hobby"></el-checkbox>
-                                    <el-checkbox label="单纯品牌曝光" name="hobby"></el-checkbox>
+                                    <el-checkbox v-for="(item, key) in hobby_list" :label="key">
+                                        {{item}}
+                                    </el-checkbox>
                                 </el-checkbox-group>
                             </el-form-item>
 
                             <el-form-item label="行业" prop="industry">
                                 <el-checkbox-group v-model="ruleForm.industry">
-                                    <el-checkbox label="美食/餐厅线上活动" name="industry"></el-checkbox>
-                                    <el-checkbox label="地推活动" name="industry"></el-checkbox>
-                                    <el-checkbox label="线下主题活动" name="industry"></el-checkbox>
-                                    <el-checkbox label="单纯品牌曝光" name="industry"></el-checkbox>
+                                    <el-checkbox v-for="(item, key) in industry_list" :label="key">
+                                        {{item}}
+                                    </el-checkbox>
                                 </el-checkbox-group>
                             </el-form-item>
 
@@ -173,10 +176,13 @@
                                 <el-input v-model="ruleForm.wx_code"></el-input>
                             </el-form-item>
 
-                            <el-form-item label="微信账号类型" prop="wx_type">
+                            <el-form-item label="微信类型" prop="wx_type">
                                 <el-select v-model="ruleForm.wx_type" placeholder="请选择微信账号类型">
-                                    <el-option label="公众号" value="1"></el-option>
-                                    <el-option label="高中" value="2"></el-option>
+                                    <el-option
+                                            v-for="(item, key) in wx_type_list"
+                                            :label="item"
+                                            :value="key">
+                                    </el-option>
                                 </el-select>
                             </el-form-item>
 
@@ -185,13 +191,16 @@
                             </el-form-item>
 
                             <el-form-item label="微博昵称" prop="weibo_nickname">
-                                    <el-input v-model="ruleForm.weibo_nickname"></el-input>
+                                <el-input v-model="ruleForm.weibo_nickname"></el-input>
                             </el-form-item>
 
-                            <el-form-item label="微博账号类型" prop="weibo_type">
+                            <el-form-item label="微博类型" prop="weibo_type">
                                 <el-select v-model="ruleForm.weibo_type" placeholder="请选择微博账号类型">
-                                    <el-option label="企业认证" value="1"></el-option>
-                                    <el-option label="个人认证" value="2"></el-option>
+                                    <el-option
+                                            v-for="(item, key) in weibo_type_list"
+                                            :label="item"
+                                            :value="key">
+                                    </el-option>
                                 </el-select>
                             </el-form-item>
 
@@ -205,7 +214,7 @@
 
                             <el-form-item>
                                 <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-                                <el-button @click="resetForm('ruleForm')">重置</el-button>
+                                <el-button @click="goBack('ruleForm')">返回</el-button>
                             </el-form-item>
 
                         </el-form>
@@ -231,9 +240,17 @@
     var Main = {
         data   : function () {
             return {
-                loading     : false,// 是否显示加载
-                media_man_id: '<?= $info['media_man_id']?>',
-                ruleForm    : {
+                loading          : false,// 是否显示加载
+                media_man_id     : '<?= $info['media_man_id']?>',
+                school_type_list : JSON.parse('<?= json_encode($school_type_list) ?>'),
+                school_level_list: JSON.parse('<?= json_encode($school_level_list) ?>'),
+                age_list         : JSON.parse('<?= json_encode($age_list) ?>'),
+                hobby_list       : JSON.parse('<?= json_encode($hobby_list) ?>'),
+                industry_list    : JSON.parse('<?= json_encode($industry_list) ?>'),
+                wx_type_list     : JSON.parse('<?= json_encode($wx_type_list) ?>'),
+                weibo_type_list  : JSON.parse('<?= json_encode($weibo_type_list) ?>'),
+                ruleForm         : {
+                    media_man_id   : '<?= $info['media_man_id']?>',
                     media_man_name : '<?= $info['media_man_name']?>',
                     sex            : '<?= $info['sex']?>',
                     media_man_phone: '<?= $info['media_man_phone']?>',
@@ -246,8 +263,8 @@
                     zfb_nu         : '<?= $info['zfb_nu']?>',
                     zfb_realname   : '<?= $info['zfb_realname']?>',
                     age            : '<?= $info['age']?>',
-                    hobby          : '<?= $info['hobby']?>',
-                    industry          : '<?= $info['industry']?>',
+                    hobby          : JSON.parse('<?= json_encode(explode(',', $info['hobby'])) ?>'),
+                    industry       : JSON.parse('<?= json_encode(explode(',', $info['industry'])) ?>'),
                     wx_code        : '<?= $info['wx_code']?>',
                     wx_type        : '<?= $info['wx_type']?>',
                     wx_max_fans    : '<?= $info['wx_max_fans']?>',
@@ -256,50 +273,93 @@
                     weibo_max_fans : '<?= $info['weibo_max_fans']?>',
                     weibo_link     : '<?= $info['weibo_link']?>',
                 },
-                rules       : {
-                    audit_status         : [
-                        {required: true, message: '请选审核结果', trigger: 'change'}
+                rules            : {
+                    media_man_name : [
+                        {required: true, message: '请填写姓名', trigger: 'blur'}
                     ],
-                    reasons_for_rejection: [
-                        {required: false, message: '请填写拒绝的原因', trigger: 'blur'}
-                    ]
+                    sex            : [
+                        {required: true, message: '请选择性别', trigger: 'change'}
+                    ],
+                    media_man_phone: [
+                        {required: true, message: '请填写电话', trigger: 'blur'}
+                    ],
+                    school_name    : [
+                        {required: true, message: '请填写学校名称', trigger: 'blur'}
+                    ],
+                    school_type    : [
+                        {required: true, message: '请选择学校类型', trigger: 'change'}
+                    ],
+                    school_province: [
+                        {required: true, message: '请选择学校所在省', trigger: 'change'}
+                    ],
+                    school_city    : [
+                        {required: true, message: '请选择学校所在城市', trigger: 'change'}
+                    ],
+                    school_area    : [
+                        {required: true, message: '请选择学校所在区', trigger: 'change'}
+                    ],
+                    school_level   : [
+                        {required: true, message: '请选择学校办学层次', trigger: 'change'}
+                    ],
+                    zfb_nu         : [
+                        {required: true, message: '请填写支付宝帐号', trigger: 'blur'}
+                    ],
+                    zfb_realname   : [
+                        {required: true, message: '请填写支付宝真实姓名', trigger: 'blur'}
+                    ],
+                    age            : [
+                        {required: true, message: '请选择年龄', trigger: 'change'}
+                    ],
+                    hobby          : [
+                        {type: 'array', required: true, message: '请至少选择一个爱好', trigger: 'change'}
+                    ],
+                    industry       : [
+                        {type: 'array', required: true, message: '请至少选择一个行业', trigger: 'change'}
+                    ],
+                    wx_code        : [
+                        {required: true, message: '请填写微信号', trigger: 'blur'}
+                    ],
+                    wx_type        : [
+                        {required: true, message: '请选择微信帐号类型', trigger: 'change'}
+                    ],
+                    wx_max_fans    : [
+                        {required: true, message: '请填写微信最高粉丝量', trigger: 'blur'}
+                    ],
+                    weibo_nickname : [
+                        {required: true, message: '请填写微博昵称', trigger: 'blur'}
+                    ],
+                    weibo_type     : [
+                        {required: true, message: '请选择微博帐号类型', trigger: 'change'}
+                    ],
+                    weibo_max_fans : [
+                        {required: true, message: '请填写微博最高粉丝量', trigger: 'blur'}
+                    ],
+                    weibo_link     : [
+                        {required: true, message: '请填写微博链接', trigger: 'blur'}
+                    ],
                 }
             };
         },
         methods: {
-            submitForm : function (formName) {
+            submitForm         : function (formName) {
                 this.$refs[formName].validate((valid) => {
 
                     if (!valid) {
-                        this.$message.error('请选审核结果');
+                        this.$message.error('请按照错误提示完善您提交的信息');
                         return false;
                     }
 
-                    if (this.ruleForm.audit_status === "2") {
-                        if (this.ruleForm.reasons_for_rejection === "") {
-                            this.$message.error('请填写拒绝的原因');
-                            return false;
-                        }
-                    }
-
-                    this.media_audit();
+                    this.do_update_media_man();
                 });
             },
-            goBack     : function (formName) {
+            goBack             : function (formName) {
                 window.location.href = '/admin/platform_media_man/home';
             },
-            media_audit: async function () {
+            do_update_media_man: async function () {
                 try {
                     this.loading = true;
-                    var url      = '/admin/platform_media_man/update_media_audit_status';
-                    var response = await axios.post(
-                        url,
-                        {
-                            "id"                   : this.media_man_id,
-                            "audit_status"         : this.ruleForm.audit_status,
-                            "reasons_for_rejection": this.ruleForm.reasons_for_rejection,
-                        },
-                    );
+                    var url      = '/admin/platform_media_man/do_update_media_man';
+                    var response = await axios.post(url, this.ruleForm);
                     this.loading = false;
                     var resData  = response.data;
 
