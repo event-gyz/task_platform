@@ -319,7 +319,21 @@
                 <div class="row">
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务图片：</b> <?= $info['pics'] ?><br><br>
+                        <b>任务图片：</b>
+                        <?php
+                        $pic_arr = [];
+                        if (!empty($info['pics'])) {
+                            $pic_arr = json_decode($info['pics']);
+                        }
+                        ?>
+                        <?php foreach ($pic_arr as $key0 => $pic): ?>
+                            <a href="<?= $pic ?>" target="_blank">
+                                <img src="<?= $pic ?>"
+                                     alt="<?= $info['title'] . $key0 ?>"
+                                     class="img-thumbnail">
+                            </a>
+                        <?php endforeach; ?>
+                        <br><br>
                     </div>
 
                 </div>
