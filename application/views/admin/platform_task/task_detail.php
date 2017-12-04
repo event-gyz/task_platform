@@ -219,11 +219,11 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务类型：</b> <?= $info['task_type'] ?><br><br>
+                        <b>任务类型：</b> <?= $task_type_list[$info['task_type']] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>发布平台：</b> <?= $info['publishing_platform'] ?><br><br>
+                        <b>发布平台：</b> <?= $publishing_platform_list[$info['publishing_platform']] ?><br><br>
                     </div>
 
                 </div>
@@ -239,12 +239,28 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务时间：</b> <?= $info['start_time'] ?> - <?= $info['end_time'] ?><br><br>
+                        <b>任务时间：</b>
+                        <?= date('Y-m-d H:i:s', $info['start_time']) ?>
+                        -
+                        <?= date('Y-m-d H:i:s', $info['end_time']) ?>
+                        <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
                         <b>任务状态：</b>
-                        任务状态
+
+                        <?php if (($info['audit_status'] === "1")): ?>
+                            待审核
+                        <?php elseif (($info['pay_status'] === "0") && ($info['audit_status'] === "3")): ?>
+                            待广告主付款
+                        <?php elseif (($info['pay_status'] === "1") && ($info['audit_status'] === "3") && ($info['finance_status'] === "0")): ?>
+                            待财务确认
+                        <?php elseif (($info['pay_status'] === "1") && ($info['audit_status'] === "3") && ($info['finance_status'] === "1")): ?>
+                            财务已确认
+                        <?php else: ?>
+                            未知
+                        <?php endif; ?>
+
                         <br><br>
                     </div>
 
@@ -253,7 +269,7 @@
                 <div class="row">
 
                     <div class="col-sm-3 invoice-col">
-                        <b>审核状态：</b> <?= $info['audit_status'] ?> <br><br>
+                        <b>审核状态：</b> <?= $task_audit_status[$info['audit_status']] ?> <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
@@ -265,7 +281,9 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务链接：</b> <?= $info['link'] ?><br><br>
+                        <b>任务链接：</b>
+                        <a href="<?= $info['link'] ?>" target="_blank"><?= $info['link'] ?></a>
+                        <br><br>
                     </div>
 
                 </div>
@@ -285,7 +303,7 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>完成标准：</b> <?= $info['completion_criteria'] ?><br><br>
+                        <b>完成标准：</b> <?= $task_completion_criteria[$info['completion_criteria']] ?><br><br>
                     </div>
 
                 </div>
@@ -301,57 +319,30 @@
                 <div class="row">
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务图片：</b> <?= $info['pics'] ?><br><br>
+                        <b>任务图片：</b>
+                        <?php
+                        $pic_arr = [];
+                        if (!empty($info['pics'])) {
+                            $pic_arr = json_decode($info['pics']);
+                        }
+                        ?>
+                        <?php foreach ($pic_arr as $key0 => $pic): ?>
+                            <a href="<?= $pic ?>" target="_blank">
+                                <img src="<?= $pic ?>"
+                                     alt="<?= $info['title'] . $key0 ?>"
+                                     class="img-thumbnail">
+                            </a>
+                        <?php endforeach; ?>
+                        <br><br>
                     </div>
 
                 </div>
 
             </div>
-            <!-- /.box-body -->
         </div>
 
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">操作日志</h3>
-            </div>
-            <div class="box-body">
-
-                <!-- Table row -->
-                <div class="row">
-                    <div class="col-xs-12 table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>序号</th>
-                                <th>用户名</th>
-                                <th>操作时间</th>
-                                <th>操作事项</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            <?php foreach ($log_list as $value): ?>
-                                <tr>
-                                    <td><?= $value['id'] ?></td>
-                                    <td><?= $value['sys_user_name'] ?></td>
-                                    <td><?= $value['create_time'] ?></td>
-                                    <td><?= $value['sys_log_content'] ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.col -->
-                </div>
-                <!-- /.row -->
-
-            </div>
-            <!-- /.box-body -->
-        </div>
-
-        <!--帐号状态status=1待审核,审核状态audit_status=0待审核或者审核状态audit_status=2驳回时才进行审核-->
-        <?php if (($info['status'] === "1") && in_array($info['audit_status'], [0, 2])): ?>
+        <!--审核状态audit_status=1待审核或者审核状态audit_status=2驳回时才进行审核-->
+        <?php if (in_array($info['audit_status'], [1, 2])): ?>
 
             <div class="box box-default">
                 <div class="box-header with-border">
@@ -404,15 +395,16 @@
 <script>
 
     var Main = {
+
         data   : function () {
             return {
-                loading      : false,// 是否显示加载
-                advertiser_id: <?= $info['advertiser_id']?>,
-                ruleForm     : {
+                loading : false,// 是否显示加载
+                task_id : '<?= $info['task_id']?>',
+                ruleForm: {
                     audit_status         : '',
                     reasons_for_rejection: ''
                 },
-                rules        : {
+                rules   : {
                     audit_status         : [
                         {required: true, message: '请选审核结果', trigger: 'change'}
                     ],
@@ -423,7 +415,7 @@
             };
         },
         methods: {
-            submitForm: function (formName) {
+            submitForm              : function (formName) {
                 this.$refs[formName].validate((valid) => {
 
                     if (!valid) {
@@ -438,20 +430,20 @@
                         }
                     }
 
-                    this.adv_audit();
+                    this.update_task_audit_status();
                 });
             },
-            goBack    : function (formName) {
-                window.location.href = '/admin/platform_advertiser/company_adv_home';
+            goBack                  : function (formName) {
+                window.location.href = '/admin/platform_task/home';
             },
-            adv_audit : async function () {
+            update_task_audit_status: async function () {
                 try {
                     this.loading = true;
-                    var url      = '/admin/platform_advertiser/update_adv_audit_status';
+                    var url      = '/admin/platform_task/update_task_audit_status';
                     var response = await axios.post(
                         url,
                         {
-                            "id"                   : this.advertiser_id,
+                            "id"                   : this.task_id,
                             "audit_status"         : this.ruleForm.audit_status,
                             "reasons_for_rejection": this.ruleForm.reasons_for_rejection,
                         },
@@ -488,6 +480,7 @@
                 }
             },
         }
+
     };
     var Ctor = Vue.extend(Main);
     new Ctor().$mount('#app')
