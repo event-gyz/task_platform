@@ -211,19 +211,19 @@
                 <div class="row">
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务ID：</b> <?= $info['advertiser_id'] ?><br><br>
+                        <b>任务ID：</b> <?= $info['task_id'] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务名称：</b> <?= $info['advertiser_login_name'] ?><br><br>
+                        <b>任务名称：</b> <?= $info['task_name'] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务类型：</b> <?= $info['company_name'] ?><br><br>
+                        <b>任务类型：</b> <?= $info['task_type'] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>发布平台：</b> <?= $info['company_address'] ?><br><br>
+                        <b>发布平台：</b> <?= $info['publishing_platform'] ?><br><br>
                     </div>
 
                 </div>
@@ -231,15 +231,15 @@
                 <div class="row">
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务标题：</b> <?= $info['content_name'] ?><br><br>
+                        <b>任务标题：</b> <?= $info['title'] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>提交时间：</b> <?= $info['content_phone'] ?><br><br>
+                        <b>提交时间：</b> <?= $info['submit_audit_time'] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务时间：</b> <?= $info['create_time'] ?><br><br>
+                        <b>任务时间：</b> <?= $info['start_time'] ?> - <?= $info['end_time'] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
@@ -253,43 +253,19 @@
                 <div class="row">
 
                     <div class="col-sm-3 invoice-col">
-                        <b>审核状态：</b> 审核状态<br><br>
+                        <b>审核状态：</b> <?= $info['audit_status'] ?> <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>期望账号数量：</b> <?= $info['content_phone'] ?><br><br>
+                        <b>期望账号数量：</b> <?= $info['media_man_number'] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>系统匹配数量：</b> <?= $info['create_time'] ?><br><br>
+                        <b>系统匹配数量：</b> <?= $info['actual_media_man_number'] ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务链接：</b>
-                        任务链接
-                        <br><br>
-                    </div>
-
-                </div>
-
-                <div class="row">
-
-                    <div class="col-sm-3 invoice-col">
-                        <b>任务单价：</b> 任务单价<br><br>
-                    </div>
-
-                    <div class="col-sm-3 invoice-col">
-                        <b>账号要求：</b> <?= $info['content_phone'] ?><br><br>
-                    </div>
-
-                    <div class="col-sm-3 invoice-col">
-                        <b>任务总价：</b> <?= $info['create_time'] ?><br><br>
-                    </div>
-
-                    <div class="col-sm-3 invoice-col">
-                        <b>完成标准：</b>
-                        完成标准
-                        <br><br>
+                        <b>任务链接：</b> <?= $info['link'] ?><br><br>
                     </div>
 
                 </div>
@@ -297,7 +273,19 @@
                 <div class="row">
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务描述：</b> 任务描述<br><br>
+                        <b>任务单价：</b> <?= $info['price'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>账号要求：</b> <?= $info['media_man_require'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务总价：</b> <?= $info['total_price'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>完成标准：</b> <?= $info['completion_criteria'] ?><br><br>
                     </div>
 
                 </div>
@@ -305,7 +293,15 @@
                 <div class="row">
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务图片：</b> <?= $info['content_phone'] ?><br><br>
+                        <b>任务描述：</b> <?= $info['task_describe'] ?><br><br>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务图片：</b> <?= $info['pics'] ?><br><br>
                     </div>
 
                 </div>
