@@ -162,21 +162,15 @@
                                     </th>
                                     <th><?= $value['title'] ?></th>
                                     <th>
-                                        <?php
-                                        switch ($form_data['task_status']):
-                                            case 1:
-                                                $task_status_list[$form_data['task_status']];
-                                                break;
-                                            case 2:
-                                                $task_status_list[$form_data['task_status']];
-                                                break;
-                                            case 3:
-                                                $task_status_list[$form_data['task_status']];
-                                                break;
-                                            default:
-                                                echo "未知";
-                                        endswitch;
-                                        ?>
+                                        <?php if (($value['pay_status'] === "1") && ($value['audit_status'] === "3") && ($value['finance_status'] === "0")): ?>
+                                            待财务确认
+                                        <?php elseif (($value['pay_status'] === "0") && ($value['audit_status'] === "3")): ?>
+                                            待广告主付款
+                                        <?php elseif (($value['audit_status'] === "1")): ?>
+                                            待审核
+                                        <?php else: ?>
+                                            未知
+                                        <?php endif; ?>
                                     </th>
                                     <th><?= $value['submit_audit_time'] ?></th>
                                     <th><?= $value['advertiser_user_id'] ?></th>
