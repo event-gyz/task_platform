@@ -342,6 +342,34 @@ table textarea:focus {
     margin-right: 10px;
     font-size: 16px;
 }
+.min-title1 .switch {
+    float: right;
+    position: relative;
+    margin: 10px 10px;
+    height: 26px;
+    overflow: hidden;
+    width: 43px;
+    border-radius: 15px;
+    z-index: 1;
+}
+.min-title1 .switch p {
+    background: url("../images/status/switch.png") no-repeat;
+    top: 0;
+    height: 26px;
+    width: 60px;
+    position: absolute;
+    border-radius: 15px;
+    overflow: hidden;
+    left: -16px;
+    background-size: cover;
+    -webkit-transition: all 0.2s;
+}
+.min-title1 .switch p.left {
+    left: -16px;
+}
+.min-title1 .switch p.right {
+    left: 0;
+}
 .min-title2 p.name{
     float: left;
     line-height: 60px;
