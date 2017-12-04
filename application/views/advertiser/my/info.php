@@ -66,10 +66,11 @@
                 <?php }?>
 
                 <?php if($release_status == 1){?>
-                    <!--执行中-->
-                    <div class="min-title1"><span style="float:right">查看领取进度</span></div>
-                    <span></span>
-                    <!--执行中-end-->
+                <!--执行中-->
+                <div class="min-title1">查看领取进度
+                    <div class="switch" id="exec_ing_button"><p class="left"><p></div>
+                </div>
+                <!--执行中-end-->
                 <?php }?>
 
                 <?php if($release_status == 2){?>
@@ -100,7 +101,7 @@
                 <!--执行中-->
 <!--                todo 上面直接显示一个查看领取人数  点击后加载出这一段提示-->
                 <?php if(($media_man_number > $total_person)){?>
-                <div class="statu_box">
+                <div class="statu_box" style="display:none;" id="exec_ing_con">
                     <p class="icon-box"><img src="/images/status/dts.png"></p>
                     <p class="text"><span class="s_color1"><?=$total_person?></span>个媒体人已领取任务，离期望账号数量还差<span class="s_color1"><?=$media_man_number-$total_person?></span>个，您可以新建一个任务来达到推广效果</p>
                     <p class="bg_line"></p>
@@ -283,8 +284,7 @@
             </div>
         </div>
         <script type="text/javascript" src="/js/third/jquery.js"></script>
-        <script type="text/javascript" src="/js/third/swiper-3.3.1.jquery.min.js"></script>
-        <script type="text/javascript" src="/js/indexMedia.js"></script>
+        <script type="text/javascript" src="/js/infoAdvert.js"></script>
     </body>
     <?php
     function __handleNuToName($str,$configArr){
