@@ -13,7 +13,7 @@ var app = new Vue({
             var _this = this;
             if(this.userName && this.password){
                 $.ajax({
-                    url: "xxx",
+                    url: "/advertiser/login/login",
                     dataType: 'json',
                     type:"post",
                     data:{
@@ -22,7 +22,7 @@ var app = new Vue({
                     },
                     success: function(res) {
                         if(res.errorno > 0){
-
+                            location.href='/advertiser/index/home';
                         }else{
                             util.tips(res.msg)
                         }

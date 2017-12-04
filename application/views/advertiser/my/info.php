@@ -14,16 +14,16 @@
         <div class="main" style="margin-bottom: 0">
             <div class="index_advert">
                 <!--待提交-->
-                <?php if($audit_status == 0){?>
+                <?php if(($audit_status == 0) && ($release_status == 0)){?>
                 <div class="min-title1">任务基础信息<span class="warn">● 待提交</span></div>
                 <!--待提交-end-->
-                <?php }elseif($audit_status == 1){?>
+                <?php }elseif(($audit_status == 1) && ($release_status == 0)){?>
                 <!--待审核-->
                 <div class="min-title1">任务基础信息<span class="warn">● 待审核</span></div>
                 <!--待审核-end-->
                 <?php }?>
 
-                <?php if(($audit_status == 2) || ($audit_status == 5)){?>
+                <?php if(($audit_status == 2) && ($release_status == 0)){?>
                 <!--驳回-->
                 <div class="statu_box">
                     <p class="icon-box"><img src="/images/status/sb.png"></p>
@@ -47,16 +47,53 @@
                 <!--驳回-end-->
                 <?php }?>
 
-                <?php if(($audit_status == 3) && ($pay_status == 0)){?>
+                <?php if(($audit_status == 3) && ($release_status == 0) && ($pay_status == 0)){?>
                 <!--待付款-->
                 <div class="min-title1">任务基础信息<span class="warn">● 待付款</span></div>
                 <!--待付款-end-->
                 <?php }?>
 
-                <?php if(($audit_status == 3) && ($finance_status != 1)){?>
+                <?php if(($audit_status == 3) && ($release_status == 0) && ($pay_status == 1) && ($finance_status != 1)){?>
                 <!--待财务确认收款-->
                 <div class="min-title1">任务基础信息<span class="warn">● 待财务确认收款</span></div>
                 <!--待财务确认收款-end-->
+                <?php }?>
+
+                <?php if(($audit_status == 3) && ($release_status == 0) && ($pay_status == 1) && ($finance_status == 1)){?>
+                <!--待发布-->
+                <div class="min-title1">任务基础信息<span class="warn">● 待发布</span></div>
+                <!--待发布-end-->
+                <?php }?>
+
+                <?php if($release_status == 1){?>
+                    <!--执行中-->
+                    <div class="min-title1"><span style="float:right">查看领取进度</span></div>
+                    <span></span>
+                    <!--执行中-end-->
+                <?php }?>
+
+                <?php if($release_status == 2){?>
+                    <!--已完成-->
+                    <div class="min-title1">任务基础信息<span class="warn">● 已完成</span></div>
+                    <!--已完成-end-->
+                <?php }?>
+
+                <?php if($release_status == 7){?>
+                    <!--已结束-->
+                    <div class="min-title1">任务基础信息<span class="warn">● 已结束</span></div>
+                    <!--已结束-end-->
+                <?php }?>
+
+                <?php if($release_status == 8){?>
+                    <!--已结束-->
+                    <div class="min-title1">任务基础信息<span class="warn">● 手工作废</span></div>
+                    <!--已结束-end-->
+                <?php }?>
+
+                <?php if($release_status == 9){?>
+                    <!--已结束-->
+                    <div class="min-title1">任务基础信息<span class="warn">● 已关闭</span></div>
+                    <!--已结束-end-->
                 <?php }?>
 
                 <?php if(($audit_status ==3) && ($release_status==1)){?>
@@ -121,7 +158,7 @@
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">任务类型</th>
-                            <td class="border_bottom" align="right"><?=$task_type?></td>
+                            <td class="border_bottom" align="right"><?= $this->config->item('task_type')[$task_type] ?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">任务标题</th>
@@ -186,16 +223,16 @@
                         <? }else{ ?>
                         <tr>
                             <th align="left" class="border_bottom" >账号要求</th>
-                            <td class="border_bottom" align="right">自定义要求</td>
+                            <td class="border_bottom" align="right">无要求</td>
                         </tr>
                         <? } ?>
                         <tr>
                             <th align="left" class="border_bottom">任务时间</th>
-                            <td class="border_bottom" align="right"><?= date('Y-m-d',$start_time)?> － <?= date('Y-m-d',$end_time)?></td>
+                            <td class="border_bottom" align="right"><?= !empty($start_time)?date('Y.m.d', $start_time):'暂无' ?>－<?= !empty($end_time)?date('Y.m.d', $end_time):'暂无' ?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">发布平台</th>
-                            <td class="border_bottom" align="right"><?=$publishing_platform?></td>
+                            <td class="border_bottom" align="right"><?= $publishing_platform ?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">账号数量</th>
@@ -249,5 +286,21 @@
         <script type="text/javascript" src="/js/third/swiper-3.3.1.jquery.min.js"></script>
         <script type="text/javascript" src="/js/indexMedia.js"></script>
     </body>
+    <?php
+    function __handleNuToName($str,$configArr){
+        if(empty($str)){
+            return '';
+        }
+        $arr = explode(',',$str);
+        $nStr = '';
+        if(!empty($arr)){
+            foreach($arr as $value){
+                $nStr .= $configArr[$value].',';
+            }
+        }
+        $nStr = rtrim($nStr,',');
+        return $nStr;
+    }
+    ?>
 </html>
 
