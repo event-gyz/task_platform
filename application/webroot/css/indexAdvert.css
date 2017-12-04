@@ -225,7 +225,7 @@ table tr.no_bg div.bg {
 
 /*my*/
 .my .my_head {
-    background: url("../images/advert_bg.png") no-repeat center 0;
+    background: url("../images/advertBg.png") no-repeat center 0;
     height: 140px;
     overflow: hidden;
     background-size: cover;
