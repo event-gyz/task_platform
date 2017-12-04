@@ -11,7 +11,6 @@ class Platform_task_model extends MY_Model {
         parent::__construct();
     }
 
-
     public function get_task_list_by_condition($where, $fields = "pt.*, T2.finance_status") {
 
         $sql = "SELECT [*] FROM `{$this->table}` AS pt LEFT JOIN `platform_task_payment` AS ptp on pt.task_id = ptp.task_id where 1=1 ";
@@ -92,7 +91,6 @@ class Platform_task_model extends MY_Model {
         $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
         return $data;
     }
-
 
     public function updateInfo($task_id, $info) {
         $where = array('task_id' => $task_id);
@@ -181,4 +179,3 @@ class Platform_task_model extends MY_Model {
     }
 
 }
-
