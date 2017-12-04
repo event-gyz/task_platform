@@ -300,6 +300,10 @@
                         <b>任务描述：</b> 任务描述<br><br>
                     </div>
 
+                </div>
+
+                <div class="row">
+
                     <div class="col-sm-3 invoice-col">
                         <b>任务图片：</b> <?= $info['content_phone'] ?><br><br>
                     </div>
