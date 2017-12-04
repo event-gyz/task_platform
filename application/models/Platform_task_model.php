@@ -88,8 +88,39 @@ class Platform_task_model extends MY_Model {
 
         $_list = $this->getList($_sql);
 
-        $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
+        $data = ['sql' => $_sql, 'total' => $total, 'list' => $this->__deal_list($_list)];
         return $data;
+    }
+
+    // 处理列表数据,任务提交人
+    private function __deal_list($list) {
+        $advertiser_user_id_arr   = array_column($list, 'advertiser_user_id');
+        $advertiser_user_name_arr = $this->__get_advertiser_user_name_arr($advertiser_user_id_arr);
+
+        $result = [];
+        foreach ($list as $value) {
+
+            $value['advertiser_user_name'] = '';
+            foreach ($advertiser_user_name_arr as $value1) {
+
+                if ($value['advertiser_user_id'] === $value1['advertiser_id']) {
+                    $value['advertiser_user_name'] = $value1['advertiser_name'];
+                    break;
+                }
+
+            }
+
+            $result[] = $value;
+
+        }
+
+        return $result;
+    }
+
+    private function __get_advertiser_user_name_arr($id_arr) {
+        $id_str = implode(',', array_unique($id_arr));
+        $sql    = "SELECT pa.advertiser_name , pa.advertiser_id FROM `platform_advertiser` AS pa WHERE advertiser_id IN ( {$id_str} )";
+        return $this->getList($sql);
     }
 
     public function updateInfo($task_id, $info) {

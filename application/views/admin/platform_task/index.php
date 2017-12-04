@@ -175,7 +175,7 @@
                                         <?php endif; ?>
                                     </th>
                                     <th><?= $value['submit_audit_time'] ?></th>
-                                    <th><?= $value['advertiser_user_id'] ?></th>
+                                    <th><?= $value['advertiser_user_name'] ?></th>
                                     <th><?= $value['media_man_number'] ?></th>
                                     <th><?= $value['actual_media_man_number'] ?></th>
                                     <th>
