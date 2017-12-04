@@ -20,30 +20,30 @@
                 </div>
                 <!--head-end-->
                 <table class="my_index_table">
-                    <tr>
-                        <th align="center" width="35px;">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/zl.png"></th>
+                    <tr onclick="window.location.href='./data_person.html'">
+                        <th align="center" width="35px">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/zl.png"></th>
                         <td class="border_bottom">我的资料</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="./data_person.html"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr>
+                    <tr onclick="window.location.href='/advertiser/index/myMessage'">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/xx.png"></th>
                         <td class="border_bottom">我的消息</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/advertiser/index/myMessage"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr>
+                    <tr onclick="window.location.href='/advertiser/index/myTaskList'">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/rw.png"></th>
                         <td class="border_bottom">我的任务</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/advertiser/index/myTaskList"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr>
+                    <tr onclick="window.location.href='../new_pwd.html'">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/mm.png"></th>
                         <td class="border_bottom">修改密码</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="../new_pwd.html"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr>
+                    <tr onclick="window.location.href=''">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/kf.png"></th>
                         <td>联系客服</td>
-                        <td align="right" width="30px;"><a class="a_box" href="#"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
                 </table>
                 <p class="logout"><a href="#">退出登录</a></p>

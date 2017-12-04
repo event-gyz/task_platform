@@ -13,7 +13,9 @@ var app = new Vue({
         //发送验证码
         getVerCode:function(){
             var _this = this;
-            if(util.regexp.mobile.test(_this.phone)){
+            if(_this.phone.length<1){
+                util.tips('请输入手机号码！');
+            }else if(util.regexp.mobile.test(_this.phone)){
                 $.ajax({
                     url: "/advertiser/login/sendCode",
                     dataType: 'json',
@@ -23,11 +25,11 @@ var app = new Vue({
                         password: this.password
                     },
                     success: function(res) {
-                        if(res.errorno >0){
+                        if(res.errorno >=0){
                             _this.time = 90;
                             var timer = setInterval(function(){_this.time--;if(_this.time<1){clearInterval(timer)}},1000);
                         }else{
-                            util.tips()
+                            util.tips(res.msg)
                         }
                     },
                     error:function(){
@@ -57,7 +59,7 @@ var app = new Vue({
                     verification:this.verification
                 },
                 success: function(res) {
-                    if(res.errorno > 0){
+                    if(res.errorno >= 0){
                         location.href='/new_pwd.html';
                     }else{
                         util.tips(res.msg)

@@ -174,8 +174,8 @@
             </table>
         </div>
         <div class="index_button_box">
-            <p><input type="button" @click="save(1)" value="保存" class="common_button2"></p>
-            <p><input type="button" @click="save(2)" value="确认提交" class="common_button"></p>
+            <p v-if="!audit_status"><input type="button" @click="save(0)" value="保存" class="common_button2"></p>
+            <p><input type="button" @click="save(1)" value="确认提交" class="common_button"></p>
         </div>
     </div>
 </div>

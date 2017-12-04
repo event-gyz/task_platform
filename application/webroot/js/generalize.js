@@ -4,6 +4,7 @@
 var app = new Vue({
     el:'#app',
     data:{
+        audit_status:0,
         taskName:'',//任务名称
         taskType:'',//任务类型
         taskTitle:'',//任务标题
@@ -69,20 +70,21 @@ var app = new Vue({
                     type:"post",
                     data:{task_id:task_id},
                     success: function(res) {
-                        if(res.errorno > 0){
+                        if(res.errorno >= 0){
                             var data = res.data;
                             var task_type = [];
                             data.task_type.split(',').forEach(function(item){
                                 if(item == 1){
-                                    task_type.push('线下执行');
+                                    task_type = '线下执行';
                                 }else if(item == 2){
-                                    task_type.push('线上传播');
+                                    task_type = '线上传播';
                                 }else if(item == 3){
-                                    task_type.push('调查收集');
+                                    task_type = '调查收集';
                                 }else if(item == 4){
-                                    task_type.push('其他');
+                                    task_type = '其他';
                                 }
                             });
+                            _this.audit_status = data.audit_status;
                             _this.taskName= data.task_name;//任务名称
                             _this.taskType= task_type;//任务类型
                             _this.taskTitle= data.title;//任务标题
@@ -226,7 +228,19 @@ var app = new Vue({
         setSex: function(n){
             this.sex = n;
         },
-        save: function(n){//n==1是保存，n==2是提交
+        //转换
+        strByNum: function(str){
+            if(str == '线下执行'){
+                return 1;
+            }else if(str == '线上传播'){
+                return 2;
+            }else if(str == '调查收集'){
+                return 3;
+            }else if(str == '其他'){
+                return 4;
+            }
+        },
+        save: function(n){//n==0是保存，n==1是提交
             var _this = this;
             if(n==2){
                 if(!this.taskName){
@@ -305,9 +319,10 @@ var app = new Vue({
                 dataType: 'json',
                 type:"post",
                 data:{
+                    audit_status:n,//0是保存，1是提交
                     task_id: this.task_id,
                     taskName:this.taskName,//任务名称
-                    taskType:this.taskType,//任务类型
+                    taskType:this.strByNum(this.taskType),//任务类型
                     taskTitle:this.taskTitle,//任务标题
                     taskUrl:this.taskUrl,//任务链接
                     taskImg:this.taskImg,//任务图片
@@ -327,7 +342,7 @@ var app = new Vue({
                     city:this.city//地域
                 },
                 success: function(res) {
-                    if(res.errorno > 0){
+                    if(res.errorno >= 0){
                         location.href='/advertiser/index/taskSubmitSuccessView?task_id='+res.data;
                     }else{
                         util.tips(res.msg)
