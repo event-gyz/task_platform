@@ -298,10 +298,11 @@ class Index extends CI_Controller {
         $user_info = $this->__get_user_session();
         $media_man_id = $user_info['media_man_id'];
         $result = $this->__get_media_man_model()->selectById($media_man_id);
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
+        $this->load->view('media/my/data',$result);
+//        $this->_return['errorno'] = 1;
+//        $this->_return['msg'] = '成功';
+//        $this->_return['data'] = $result;
+//        echo json_encode($this->_return);exit;
     }
 
     /**

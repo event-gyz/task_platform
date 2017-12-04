@@ -4,7 +4,7 @@
         <title>媒体人-我的资料</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <link rel="stylesheet" href="..//css/common.css" />
+        <link rel="stylesheet" href="/css/common.css" />
     </head>
     <body>
         <div class="main" style="margin-bottom: 0">
@@ -14,23 +14,23 @@
                     <table>
                         <tr>
                             <th align="left" class="border_bottom" width="100px;">姓名</th>
-                            <td class="border_bottom" align="right">猪八戒</td>
+                            <td class="border_bottom" align="right"><?=$media_man_name?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom" >电话</th>
-                            <td class="border_bottom" align="right">18888888888</td>
+                            <td class="border_bottom" align="right"><?=$media_man_phone?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">学校名称</th>
-                            <td class="border_bottom" align="right">天蓬理工大学</td>
+                            <td class="border_bottom" align="right"><?=$school_name?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">学校地区</th>
-                            <td class="border_bottom" align="right">高老庄</td>
+                            <td class="border_bottom" align="right"><?=$school_province,',',$school_city,',',$school_area?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom" >办学层次</th>
-                            <td class="border_bottom" align="right">神仙</td>
+                            <td class="border_bottom" align="right"><?=$school_level?></td>
                         </tr>
                         <tr>
                             <th align="left">朋友眼中的我</th>

@@ -23,7 +23,7 @@
                     <tr>
                         <th align="center" width="35px;">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/zl.png"></th>
                         <td class="border_bottom">我的资料</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="./data.html"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/getMediaManInfo"><i class="iconfont">&#xe610;</i></a></td>
                     </tr>
                     <tr>
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/xx.png"></th>

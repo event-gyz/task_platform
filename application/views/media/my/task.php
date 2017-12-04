@@ -4,8 +4,8 @@
         <title>项目名称</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-        <link rel="stylesheet" href="..//css/common.css" />
-        <link rel="stylesheet" href="..//css/indexMedia.css" />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/indexMedia.css" />
     </head>
     <body>
         <div class="main" style="margin: 0;">
@@ -163,7 +163,7 @@
                 <!--已关闭-end-->
             </ul>
         </div>
-        <script type="text/javascript" src="..//js/third/jquery.js"></script>
-        <script type="text/javascript" src="..//js/util.js"></script>
+        <script type="text/javascript" src="/js/third/jquery.js"></script>
+        <script type="text/javascript" src="/js/util.js"></script>
     </body>
 </html>
