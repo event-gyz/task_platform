@@ -105,7 +105,31 @@ class Platform_task extends Admin_Controller {
 
     // 任务详情
     public function task_detail() {
+        $id = $this->input->get('id', true);
 
+        if (empty($id)) {
+            return redirect("{$this->host}/admin/platform_task/home");
+        }
+
+        $info = $this->__get_platform_task_model()->selectById($id);
+
+        if (empty($info)) {
+            return redirect("{$this->host}/admin/platform_task/home");
+        }
+
+        $advertiser_info = [];
+        if (!empty($info['advertiser_user_id'])) {
+            $advertiser_info = $this->__get_platform_advertiser_model()->selectById($info['advertiser_user_id']);
+        }
+
+        return $this->load->view('admin/platform_task/task_detail',
+            [
+                'info'               => $info,
+                'advertiser_info'    => $advertiser_info,
+                'adv_audit_status'   => $this->config->item('adv_audit_status'),
+                'adv_account_status' => $this->config->item('adv_account_status'),
+            ]
+        );
     }
 
     // 任务审核
@@ -124,6 +148,14 @@ class Platform_task extends Admin_Controller {
     private function __get_platform_task_model() {
         $this->load->model('Platform_task_model');
         return $this->Platform_task_model;
+    }
+
+    /**
+     * @return Platform_advertiser_model
+     */
+    private function __get_platform_advertiser_model() {
+        $this->load->model('Platform_advertiser_model');
+        return $this->Platform_advertiser_model;
     }
 
 }
