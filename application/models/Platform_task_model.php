@@ -43,6 +43,11 @@ class Platform_task_model extends MY_Model {
             $sql .= sprintf(" AND pt.audit_status = %d", $where['audit_status']);
         }
 
+        // 广告主付费状态
+        if (isset($where['pay_status']) && $where['pay_status']) {
+            $sql .= sprintf(" AND pt.pay_status = %d", $where['pay_status']);
+        }
+
         // 根据发布平台
         if (isset($where['publishing_platform']) && $where['publishing_platform']) {
             $sql .= sprintf(" AND pt.publishing_platform = '%s'", $where['publishing_platform']);
