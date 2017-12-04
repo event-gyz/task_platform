@@ -70,7 +70,7 @@ var app = new Vue({
                     type:"post",
                     data:{task_id:task_id},
                     success: function(res) {
-                        if(res.errorno > 0){
+                        if(res.errorno >= 0){
                             var data = res.data;
                             var task_type = [];
                             data.task_type.split(',').forEach(function(item){
@@ -342,7 +342,7 @@ var app = new Vue({
                     city:this.city//地域
                 },
                 success: function(res) {
-                    if(res.errorno > 0){
+                    if(res.errorno >= 0){
                         location.href='/advertiser/index/taskSubmitSuccessView?task_id='+res.data;
                     }else{
                         util.tips(res.msg)
