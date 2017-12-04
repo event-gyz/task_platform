@@ -14,7 +14,7 @@ class Platform_task_model extends MY_Model {
 
     public function get_task_list_by_condition($where, $fields = "pt.*") {
 
-        $sql = "SELECT [*] FROM `{$this->table}` AS pt where 1=1 ";
+        $sql = "SELECT [*] FROM `{$this->table}` AS pt LEFT JOIN `platform_task_payment` AS ptp on pt.task_id = ptp.task_id where 1=1 ";
 
         // 拼接查询条件
 
@@ -34,17 +34,17 @@ class Platform_task_model extends MY_Model {
         }
 
         // 根据任务发布状态
-        if (isset($where['release_status']) && $where['release_status']) {
+        if (isset($where['release_status']) && $where['release_status'] !== '') {
             $sql .= sprintf(" AND pt.release_status = %d", $where['release_status']);
         }
 
         // 根据任务审核状态
-        if (isset($where['audit_status']) && $where['audit_status']) {
+        if (isset($where['audit_status']) && $where['audit_status'] !== '') {
             $sql .= sprintf(" AND pt.audit_status = %d", $where['audit_status']);
         }
 
         // 广告主付费状态
-        if (isset($where['pay_status']) && $where['pay_status']) {
+        if (isset($where['pay_status']) && $where['pay_status'] !== '') {
             $sql .= sprintf(" AND pt.pay_status = %d", $where['pay_status']);
         }
 
@@ -61,6 +61,11 @@ class Platform_task_model extends MY_Model {
         // 根据任务提交结束时间
         if (isset($where['end_time']) && $where['end_time']) {
             // $sql .= sprintf(" AND pt.submit_audit_time <= '%s'", $where['end_time']);
+        }
+
+        // 根据财务确认状态
+        if (isset($where['finance_status']) && $where['finance_status'] !== '') {
+            $sql .= sprintf(" AND ptp.finance_status = %d", $where['finance_status']);
         }
 
         // 总数
