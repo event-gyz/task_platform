@@ -158,6 +158,9 @@ class Login extends CI_Controller {
         }
     }
 
+    public function updatePwdView(){
+        $this->load->view('advertiser/forget');
+    }
     //找回密码
     public function updatePwd(){
         $pwd = $_POST['password'];

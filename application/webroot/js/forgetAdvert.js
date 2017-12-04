@@ -15,11 +15,11 @@ var app = new Vue({
             var _this = this;
             if(util.regexp.mobile.test(_this.phone)){
                 $.ajax({
-                    url: "xxx",
+                    url: "/advertiser/login/sendCode",
                     dataType: 'json',
                     type:"post",
                     data:{
-                        userName: this.userName,
+                        phone: this.phone,
                         password: this.password
                     },
                     success: function(res) {

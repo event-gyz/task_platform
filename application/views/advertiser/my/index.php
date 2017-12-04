@@ -28,7 +28,7 @@
                     <tr>
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/xx.png"></th>
                         <td class="border_bottom">我的消息</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="./message.html"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/advertiser/index/myMessage"><i class="iconfont">&#xe610;</i></a></td>
                     </tr>
                     <tr>
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/rw.png"></th>

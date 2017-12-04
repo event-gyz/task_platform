@@ -314,6 +314,7 @@ class Index extends CI_Controller {
         echo json_encode($this->_return);exit;
     }
 
+
     /**
      * 我的列表 （我的消息）
      */
@@ -323,15 +324,16 @@ class Index extends CI_Controller {
         $where['user_type'] = 1;
         $where['message_status'] = '0';
         $result = $this->__get_user_message_model()->get_user_message_list_by_condition($where);
-        if(empty($result['total'])){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '没有新的消息';
-            echo json_encode($this->_return);exit;
-        }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
+        $this->load->view('advertiser/my/message',$result);
+//        if(empty($result['total'])){
+//            $this->_return['errorno'] = -1;
+//            $this->_return['msg'] = '没有新的消息';
+//            echo json_encode($this->_return);exit;
+//        }
+//        $this->_return['errorno'] = 1;
+//        $this->_return['msg'] = '成功';
+//        $this->_return['data'] = $result;
+//        echo json_encode($this->_return);exit;
     }
     /**
      * 我的列表 （我的消息-删除消息）
