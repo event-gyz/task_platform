@@ -12,7 +12,7 @@ class Platform_task_model extends MY_Model {
     }
 
 
-    public function get_task_list_by_condition($where, $fields = "pt.*") {
+    public function get_task_list_by_condition($where, $fields = "pt.*, T2.finance_status") {
 
         $sql = "SELECT [*] FROM `{$this->table}` AS pt LEFT JOIN `platform_task_payment` AS ptp on pt.task_id = ptp.task_id where 1=1 ";
 
@@ -82,7 +82,7 @@ class Platform_task_model extends MY_Model {
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
         $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
-        $get_id_sql = str_replace('[*]', 'pt.task_id', $sql);
+        $get_id_sql = str_replace('[*]', 'pt.task_id, ptp.finance_status', $sql);
         $final_sql  = sprintf("SELECT [*] FROM `%s` AS pt, ( %s ) AS T2 WHERE pt.task_id = T2.task_id", $this->table, $get_id_sql);
         $final_sql  .= ' ORDER BY pt.task_id DESC';
         $_sql       = str_replace('[*]', $fields, $final_sql);
