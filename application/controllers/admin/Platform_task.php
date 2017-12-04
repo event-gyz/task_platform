@@ -65,6 +65,7 @@ class Platform_task extends Admin_Controller {
             // '1' => '待审核',---> audit_status = 1
             // '2' => '待广告主付款',---> pay_status = 0 && audit_status = 3
             // '3' => '待财务确认',---> pay_status = 1 && audit_status = 3 && platform_task_payment.finance_status = 0
+            // '4' => '财务已确认',---> pay_status = 1 && audit_status = 3 && platform_task_payment.finance_status = 1
 
             switch ($task_status) {
                 case 1:
@@ -78,6 +79,11 @@ class Platform_task extends Admin_Controller {
                     $where['pay_status']     = 1;
                     $where['audit_status']   = 3;
                     $where['finance_status'] = 0;
+                    break;
+                case 4:
+                    $where['pay_status']     = 1;
+                    $where['audit_status']   = 3;
+                    $where['finance_status'] = 1;
                     break;
                 default:
             }

@@ -162,12 +162,14 @@
                                     </th>
                                     <th><?= $value['title'] ?></th>
                                     <th>
-                                        <?php if (($value['pay_status'] === "1") && ($value['audit_status'] === "3") && ($value['finance_status'] === "0")): ?>
-                                            待财务确认
+                                        <?php if (($value['audit_status'] === "1")): ?>
+                                            待审核
                                         <?php elseif (($value['pay_status'] === "0") && ($value['audit_status'] === "3")): ?>
                                             待广告主付款
-                                        <?php elseif (($value['audit_status'] === "1")): ?>
-                                            待审核
+                                        <?php elseif (($value['pay_status'] === "1") && ($value['audit_status'] === "3") && ($value['finance_status'] === "0")): ?>
+                                            待财务确认
+                                        <?php elseif (($value['pay_status'] === "1") && ($value['audit_status'] === "3") && ($value['finance_status'] === "1")): ?>
+                                            财务已确认
                                         <?php else: ?>
                                             未知
                                         <?php endif; ?>
