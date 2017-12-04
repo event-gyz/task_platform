@@ -381,6 +381,7 @@
 <script>
 
     var Main = {
+
         data   : function () {
             return {
                 loading : false,// 是否显示加载
@@ -465,6 +466,7 @@
                 }
             },
         }
+
     };
     var Ctor = Vue.extend(Main);
     new Ctor().$mount('#app')
