@@ -50,12 +50,12 @@ class Platform_task_model extends MY_Model {
 
         // 根据任务提交开始时间
         if (isset($where['start_time']) && $where['start_time']) {
-            $sql .= sprintf(" AND pt.submit_audit_time >= '%s'", $where['start_time']);
+            // $sql .= sprintf(" AND pt.submit_audit_time >= '%s'", $where['start_time']);
         }
 
         // 根据任务提交结束时间
         if (isset($where['end_time']) && $where['end_time']) {
-            $sql .= sprintf(" AND pt.submit_audit_time <= '%s'", $where['end_time']);
+            // $sql .= sprintf(" AND pt.submit_audit_time <= '%s'", $where['end_time']);
         }
 
         // 总数
