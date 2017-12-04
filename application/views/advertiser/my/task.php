@@ -115,7 +115,7 @@
                                 <table class="task_table" style="width: 100%">
                                     <tr>
                                         <!-- todo 修改-->
-                                        <td class="border"><a class="a_box" href="/advertiser/index/taskInfo?task_id=<?=$value['task_id']?>">修改</a></td>
+                                        <td class="border"><a class="a_box" href="/advertiser/index/taskView?task_id=<?=$value['task_id']?>">修改</a></td>
                                         <!-- todo 结束-->
                                         <td><a class="a_box warn" href="/advertiser/index/taskInfo?task_id=<?=$value['task_id']?>">结束</a></td>
                                     </tr>

@@ -180,12 +180,7 @@ class Index extends CI_Controller {
 
 
 
-    /**
-     * 开始推广
-     */
-    public function taskView(){
-        $this->load->view('advertiser/generalize');
-    }
+
 
     /**
      * 获取任务详情
@@ -227,9 +222,16 @@ class Index extends CI_Controller {
         $this->load->view('advertiser/taskSubmitSuccess',$data);
     }
 
+    /**
+     * 开始推广
+     */
+    public function taskView(){
+        $this->load->view('advertiser/generalize');
+    }
+
     // 保存任务/修改任务 接口
     public function saveTask(){
-//        $task_id = $_POST['task_id'];
+        $task_id = $_POST['task_id'];
         $task_name = $_POST['taskName'];
         $task_type = $_POST['taskType'];//todo id
         $title = $_POST['taskTitle'];
@@ -249,8 +251,7 @@ class Index extends CI_Controller {
         $end_time = strtotime($_POST['endTime']);
         $publishing_platform = implode(',',$_POST['platform']);
         $completion_criteria = implode(',',$_POST['endStandard']);
-//        $audit_status = $_POST['audit_status'];
-        $audit_status = 1;//todo 审核状态
+        $audit_status = $_POST['audit_status'];
 
         $data['task_name'] = $task_name;
         $data['task_type'] = $task_type;
@@ -281,7 +282,6 @@ class Index extends CI_Controller {
         //修改
         }else{
             $this->__checkTaskWhetherBelongUser($task_id,$this->_update);
-
             $re = $this->__get_task_model()->updateInfo($task_id,$data);
         }
 
