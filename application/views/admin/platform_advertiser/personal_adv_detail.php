@@ -229,7 +229,7 @@
         data   : function () {
             return {
                 loading      : false,// 是否显示加载
-                advertiser_id: <?= $info['advertiser_id']?>,
+                advertiser_id: '<?= $info['advertiser_id']?>',
                 ruleForm     : {
                     audit_status         : '',
                     reasons_for_rejection: ''
