@@ -170,7 +170,7 @@ class Platform_task_model extends MY_Model {
         if ($total === '0') {
             return ['total' => $total, 'list' => []];
         }
-
+        $sql  .= ' ORDER BY pt.task_id DESC';
         $offset = !empty($page) ? $page : 0;
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
         $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
@@ -201,7 +201,6 @@ class Platform_task_model extends MY_Model {
         if (isset($where['task_id']) && $where['task_id']) {
             $sql .= sprintf(" AND pt.task_id = %d", $where['task_id']);
         }
-
 
         $_sql = str_replace('[*]', $fields, $sql);
 

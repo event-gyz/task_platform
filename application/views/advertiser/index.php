@@ -127,7 +127,7 @@
         <div class="nav">
             <p class="cur"><a href="/advertiser/index/home"><i class="iconfont">&#xe661;</i><br>首页</a></p>
             <p><a href="/advertiser/index/taskView"><i class="iconfont">&#xe621;</i><br>开始推广</a></p>
-            <p><a href="./my/index.html"><i class="iconfont">&#xe600;</i><br>我的</a></p>
+            <p><a href="/advertiser/index/my"><i class="iconfont">&#xe600;</i><br>我的</a></p>
         </div>
         <!--nav-end-->
         <script type="text/javascript" src="/js/third/jquery.js"></script>
