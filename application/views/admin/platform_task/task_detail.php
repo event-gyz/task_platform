@@ -3,6 +3,8 @@
 
 <?php include VIEWPATH . '/admin/common/head.php'; ?>
 
+<link href="https://cdn.bootcss.com/viewerjs/0.10.0/viewer.min.css" rel="stylesheet">
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper" v-loading.body="loading" element-loading-text="拼命加载中">
     <!-- Content Header (Page header) -->
@@ -319,21 +321,26 @@
                 <div class="row">
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务图片：</b>
-                        <?php
-                        $pic_arr = [];
-                        if (!empty($info['pics'])) {
-                            $pic_arr = json_decode($info['pics']);
-                        }
-                        ?>
-                        <?php foreach ($pic_arr as $key0 => $pic): ?>
-                            <a href="<?= $pic ?>" target="_blank">
-                                <img src="<?= $pic ?>"
-                                     alt="<?= $info['title'] . $key0 ?>"
-                                     class="img-thumbnail">
-                            </a>
-                        <?php endforeach; ?>
-                        <br><br>
+                        <span>任务图片：</span>
+                    </div>
+
+                    <div class="col-sm-9">
+                        <ul id="task_images">
+                            <?php
+                            $pic_arr = [];
+                            if (!empty($info['pics'])) {
+                                $pic_arr = json_decode($info['pics']);
+                            }
+                            ?>
+                            <?php foreach ($pic_arr as $key0 => $pic): ?>
+                                <li style="list-style: none;float:left;display:inline;width:150px;">
+                                    <img data-original="<?= $pic ?>" src="<?= $pic ?>"
+                                         alt="<?= $info['title'] . $key0 ?>"
+                                         class="img-thumbnail"
+                                    >
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
                     </div>
 
                 </div>
@@ -391,6 +398,8 @@
 <!-- /.content-wrapper -->
 
 <?php include VIEWPATH . '/admin/common/foot.php' ?>
+
+<script src="https://cdn.bootcss.com/viewerjs/0.10.0/viewer.min.js"></script>
 
 <script>
 
@@ -483,7 +492,9 @@
 
     };
     var Ctor = Vue.extend(Main);
-    new Ctor().$mount('#app')
+    new Ctor().$mount('#app');
+
+    new Viewer(document.getElementById('task_images'), {url: 'data-original'});
 
 </script>
 
