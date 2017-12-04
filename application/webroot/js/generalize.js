@@ -8,7 +8,7 @@ var app = new Vue({
         taskType:'',//任务类型
         taskTitle:'',//任务标题
         taskUrl:'',//任务链接
-        taskImg:[1],//任务图片
+        taskImg:[],//任务图片
         taskDes:'',//任务描述
         taskPrice:'',//任务单价
         numAsk:0,//账号要求（1=有要求，0=无要求）
@@ -71,24 +71,36 @@ var app = new Vue({
                     success: function(res) {
                         if(res.errorno > 0){
                             var data = res.data;
+                            var task_type = [];
+                            data.task_type.split(',').forEach(function(item){
+                                if(item == 1){
+                                    task_type.push('线下执行');
+                                }else if(item == 2){
+                                    task_type.push('线上传播');
+                                }else if(item == 3){
+                                    task_type.push('调查收集');
+                                }else if(item == 4){
+                                    task_type.push('其他');
+                                }
+                            });
                             _this.taskName= data.task_name;//任务名称
-                            _this.taskType= data.task_type;//任务类型
+                            _this.taskType= task_type;//任务类型
                             _this.taskTitle= data.title;//任务标题
                             _this.taskUrl= data.link;//任务链接
-                            _this.taskImg= data.pics;//任务图片
+                            _this.taskImg= JSON.parse(data.pics);//任务图片
                             _this.taskDes= data.task_describe;//任务描述
                             _this.taskPrice= data.price;//任务单价
                             _this.numAsk= data.media_man_require;//账号要求（1=有要求，0=无要求）
-                            _this.startTime= data.start_time;//任务开始时间
-                            _this.endTime= data.end_time;//任务结束时间
-                            _this.platform= data.publishing_platform;//发布平台
+                            _this.startTime= moment(Number(data.start_time)).format('YYYY-MM-DD');//任务开始时间
+                            _this.endTime= moment(Number(data.end_time)).format('YYYY-MM-DD');//任务结束时间
+                            _this.platform= data.publishing_platform.split(',');//发布平台
                             _this.number= data.media_man_number;//账号数量
-                            _this.endStandard= data.require_hobby;//完成标准
+                            _this.endStandard= data.completion_criteria.split(',');//完成标准
                             _this.sex= data.require_sex;//性别(0=不限，1=男，2=女)（账号要求）
-                            _this.age= data.require_age;//年龄（账号要求）
-                            _this.liking= data;//兴趣爱好（账号要求）
-                            _this.industry= data.require_industry;//行业（账号要求）
-                            _this.city= data.require_local;//地域
+                            _this.age= data.require_age.split(',');//年龄（账号要求）
+                            _this.liking= data.require_hobby.split(',');//兴趣爱好（账号要求）
+                            _this.industry= data.require_industry.split(',');//行业（账号要求）
+                            _this.city= data.require_local.split(',');//地域
                             _this.task_id = task_id;//id
                         }else{
                             util.tips(res.msg)
@@ -293,6 +305,7 @@ var app = new Vue({
                 dataType: 'json',
                 type:"post",
                 data:{
+                    task_id: this.task_id,
                     taskName:this.taskName,//任务名称
                     taskType:this.taskType,//任务类型
                     taskTitle:this.taskTitle,//任务标题
