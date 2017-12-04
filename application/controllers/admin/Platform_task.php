@@ -61,8 +61,27 @@ class Platform_task extends Admin_Controller {
         }
 
         if (!empty($task_status)) {
-            // todo 根据不同任务状态拼接不通搜索条件
-            $where['task_status'] = $task_status;
+
+            // '1' => '待审核',---> audit_status = 1
+            // '2' => '待广告主付款',---> pay_status = 0 && audit_status = 3
+            // '3' => '待财务确认',---> pay_status = 1 && audit_status = 3 && platform_task_payment.finance_status = 0
+
+            switch ($task_status) {
+                case 1:
+                    $where['audit_status'] = 1;
+                    break;
+                case 2:
+                    $where['pay_status']   = 0;
+                    $where['audit_status'] = 3;
+                    break;
+                case 3:
+                    $where['pay_status']     = 1;
+                    $where['audit_status']   = 3;
+                    $where['finance_status'] = 0;
+                    break;
+                default:
+            }
+
         }
 
         $page_arr = $this->get_list_limit_and_offset_params();

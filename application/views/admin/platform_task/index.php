@@ -161,7 +161,23 @@
                                         <?php endforeach; ?>
                                     </th>
                                     <th><?= $value['title'] ?></th>
-                                    <th><?= $form_data['task_status'] ?></th>
+                                    <th>
+                                        <?php
+                                        switch ($form_data['task_status']):
+                                            case 1:
+                                                $task_status_list[$form_data['task_status']];
+                                                break;
+                                            case 2:
+                                                $task_status_list[$form_data['task_status']];
+                                                break;
+                                            case 3:
+                                                $task_status_list[$form_data['task_status']];
+                                                break;
+                                            default:
+                                                echo "未知";
+                                        endswitch;
+                                        ?>
+                                    </th>
                                     <th><?= $value['submit_audit_time'] ?></th>
                                     <th><?= $value['advertiser_user_id'] ?></th>
                                     <th><?= $value['media_man_number'] ?></th>
