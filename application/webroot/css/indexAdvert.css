@@ -21,10 +21,11 @@
     width: 100%;
     overflow: hidden;
     padding: 30px 0;
+    text-align: center;
 }
 .index_button_box p {
-    float: left;
-    width: 40%;
+    display: inline-block;
+    width: 38%;
     padding: 0 5%;
 }
 .index_advert_icon {
