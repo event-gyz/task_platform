@@ -35,70 +35,101 @@ class Platform_task extends Admin_Controller {
     }
 
     private function __build_where_list() {
-        $media_man_name  = $this->input->get('media_man_name', true);
-        $school_name     = $this->input->get('school_name', true);
-        $audit_status    = $this->input->get('audit_status', true);
-        $create_time     = $this->input->get('create_time', true);
-        $sex             = $this->input->get('sex', true);
-        $media_man_phone = $this->input->get('media_man_phone', true);
-        $status          = $this->input->get('status', true);
-        $tag             = $this->input->get('tag', true);
+        $task_name           = $this->input->get('task_name', true);
+        $publishing_platform = $this->input->get('publishing_platform', true);
+        $task_type           = $this->input->get('task_type', true);
+        $submit_audit_time   = $this->input->get('submit_audit_time', true);
+        $task_status         = $this->input->get('task_status', true);
 
         $where = [];
-        if (!empty($media_man_name)) {
-            $where['media_man_name'] = $media_man_name;
+        if (!empty($task_name)) {
+            $where['task_name'] = $task_name;
         }
 
-        if (!empty($school_name)) {
-            $where['school_name'] = $school_name;
+        if (!empty($publishing_platform)) {
+            $where['publishing_platform'] = $publishing_platform;
         }
 
-        if ($audit_status !== '' && $audit_status !== null) {
-            $where['audit_status'] = $audit_status;
+        if ($task_type !== '' && $task_type !== null) {
+            $where['task_type'] = $task_type;
         }
 
-        if (!empty($create_time)) {
-            $time_arr            = explode(' - ', $create_time);
+        if (!empty($submit_audit_time)) {
+            $time_arr            = explode(' - ', $submit_audit_time);
             $where['start_time'] = date('Y-m-d H:i:s', strtotime($time_arr[0]));
             $where['end_time']   = date('Y-m-d H:i:s', strtotime($time_arr[1] . "+1 day -1 seconds"));
         }
 
-        if (!empty($sex)) {
-            $where['sex'] = $sex;
+        if (!empty($task_status)) {
+
+            // '1' => '待审核',---> audit_status = 1
+            // '2' => '待广告主付款',---> pay_status = 0 && audit_status = 3
+            // '3' => '待财务确认',---> pay_status = 1 && audit_status = 3 && platform_task_payment.finance_status = 0
+            // '4' => '财务已确认',---> pay_status = 1 && audit_status = 3 && platform_task_payment.finance_status = 1
+
+            switch ($task_status) {
+                case 1:
+                    $where['audit_status'] = 1;
+                    break;
+                case 2:
+                    $where['pay_status']   = 0;
+                    $where['audit_status'] = 3;
+                    break;
+                case 3:
+                    $where['pay_status']     = 1;
+                    $where['audit_status']   = 3;
+                    $where['finance_status'] = 0;
+                    break;
+                case 4:
+                    $where['pay_status']     = 1;
+                    $where['audit_status']   = 3;
+                    $where['finance_status'] = 1;
+                    break;
+                default:
+            }
+
         }
 
-        if (!empty($media_man_phone)) {
-            $where['media_man_phone'] = $media_man_phone;
-        }
-
-        if ($status !== '' && $status !== null) {
-            $where['status'] = $status;
-        }
-
-        if (!empty($tag)) {
-            $where['tag'] = $tag;
-        }
-
-        $page_arr                 = $this->get_list_limit_and_offset_params();
-        $where['advertiser_type'] = 1;
-        $where                    = array_merge($page_arr, $where);
+        $page_arr = $this->get_list_limit_and_offset_params();
+        $where    = array_merge($page_arr, $where);
 
         return [
-            'media_man_name'  => $media_man_name,
-            'school_name'     => $school_name,
-            'audit_status'    => $audit_status,
-            'create_time'     => $create_time,
-            'sex'             => $sex,
-            'media_man_phone' => $media_man_phone,
-            'status'          => $status,
-            'tag'             => $tag,
-            'where'           => $where,
+            'task_name'           => $task_name,
+            'publishing_platform' => $publishing_platform,
+            'task_type'           => $task_type,
+            'submit_audit_time'   => $submit_audit_time,
+            'task_status'         => $task_status,
+            'where'               => $where,
         ];
     }
 
     // 任务详情
     public function task_detail() {
+        $id = $this->input->get('id', true);
 
+        if (empty($id)) {
+            return redirect("{$this->host}/admin/platform_task/home");
+        }
+
+        $info = $this->__get_platform_task_model()->selectById($id);
+
+        if (empty($info)) {
+            return redirect("{$this->host}/admin/platform_task/home");
+        }
+
+        $advertiser_info = [];
+        if (!empty($info['advertiser_user_id'])) {
+            $advertiser_info = $this->__get_platform_advertiser_model()->selectById($info['advertiser_user_id']);
+        }
+
+        return $this->load->view('admin/platform_task/task_detail',
+            [
+                'info'               => $info,
+                'advertiser_info'    => $advertiser_info,
+                'adv_audit_status'   => $this->config->item('adv_audit_status'),
+                'adv_account_status' => $this->config->item('adv_account_status'),
+            ]
+        );
     }
 
     // 任务审核
@@ -117,6 +148,14 @@ class Platform_task extends Admin_Controller {
     private function __get_platform_task_model() {
         $this->load->model('Platform_task_model');
         return $this->Platform_task_model;
+    }
+
+    /**
+     * @return Platform_advertiser_model
+     */
+    private function __get_platform_advertiser_model() {
+        $this->load->model('Platform_advertiser_model');
+        return $this->Platform_advertiser_model;
     }
 
 }

@@ -75,12 +75,12 @@ class Platform_media_man extends Admin_Controller {
         }
 
         if (!empty($tag)) {
+            // todo 根据媒体人标签进行搜索
             $where['tag'] = $tag;
         }
 
-        $page_arr                 = $this->get_list_limit_and_offset_params();
-        $where['advertiser_type'] = 1;
-        $where                    = array_merge($page_arr, $where);
+        $page_arr = $this->get_list_limit_and_offset_params();
+        $where    = array_merge($page_arr, $where);
 
         return [
             'media_man_name'  => $media_man_name,
