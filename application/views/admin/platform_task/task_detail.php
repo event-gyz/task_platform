@@ -204,6 +204,114 @@
 
         <div class="box box-default">
             <div class="box-header with-border">
+                <h3 class="box-title">任务基本信息</h3>
+            </div>
+            <div class="box-body">
+
+                <div class="row">
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务ID：</b> <?= $info['advertiser_id'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务名称：</b> <?= $info['advertiser_login_name'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务类型：</b> <?= $info['company_name'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>发布平台：</b> <?= $info['company_address'] ?><br><br>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务标题：</b> <?= $info['content_name'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>提交时间：</b> <?= $info['content_phone'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务时间：</b> <?= $info['create_time'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务状态：</b>
+                        任务状态
+                        <br><br>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>审核状态：</b> 审核状态<br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>期望账号数量：</b> <?= $info['content_phone'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>系统匹配数量：</b> <?= $info['create_time'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务链接：</b>
+                        任务链接
+                        <br><br>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务单价：</b> 任务单价<br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>账号要求：</b> <?= $info['content_phone'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务总价：</b> <?= $info['create_time'] ?><br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>完成标准：</b>
+                        完成标准
+                        <br><br>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务描述：</b> 任务描述<br><br>
+                    </div>
+
+                    <div class="col-sm-3 invoice-col">
+                        <b>任务图片：</b> <?= $info['content_phone'] ?><br><br>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+
+        <div class="box box-default">
+            <div class="box-header with-border">
                 <h3 class="box-title">操作日志</h3>
             </div>
             <div class="box-body">
