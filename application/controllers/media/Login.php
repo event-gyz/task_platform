@@ -29,7 +29,7 @@ class Login extends CI_Controller {
             $this->load->view('media/login');
         } else {
 
-            if(!isset($_POST ['username']) || empty($_POST ['username'])){
+            if(!isset($_POST ['userName']) || empty($_POST ['userName'])){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '用户名不能为空';
                 echo json_encode($this->_return);exit;
@@ -41,7 +41,7 @@ class Login extends CI_Controller {
             }
             $password = Wap::generate_wap_user_password($_POST ['password']);
             $data = array (
-                'media_man_login_name' => trim($_POST['username']),
+                'media_man_login_name' => trim($_POST['userName']),
                 'media_man_password' => $password
             );
 
@@ -93,6 +93,15 @@ class Login extends CI_Controller {
         }
     }
 
+    public function accountStatus3(){
+        $this->load->view('media/accountStatus3');
+    }
+    public function accountStatus4(){
+        $this->load->view('media/accountStatus4');
+    }
+    public function accountStatus5(){
+        $this->load->view('media/accountStatus5');
+    }
     //注册
     public function register() {
         if (empty($_POST)) {

@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <link rel="stylesheet" href="..//css/common.css" />
-        <link rel="stylesheet" href="..//css/index_media.css" />
+        <link rel="stylesheet" href="..//css/indexMedia.css" />
         <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_xnfkadft2e7y14i.css">
     </head>
     <body>

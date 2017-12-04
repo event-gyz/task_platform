@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="/css/swiper-3.4.2.min.css" />
-        <link rel="stylesheet" href="/css/index_media.css" />
+        <link rel="stylesheet" href="/css/indexMedia.css" />
         <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_ujqqb18j5hruow29.css">
     </head>
     <body>
@@ -31,12 +31,12 @@
         <!--nav-->
         <div class="nav">
             <p class="cur"><a href="./index.html"><i class="iconfont">&#xe661;</i><br>首页</a></p>
-            <p><a href="./task_list.html"><i class="iconfont">&#xe653;</i><br>任务大厅</a></p>
-            <p><a href="./my/index.html"><i class="iconfont">&#xe600;</i><br>我的</a></p>
+            <p><a href="/media/index/getMissionHall"><i class="iconfont">&#xe653;</i><br>任务大厅</a></p>
+            <p><a href="/media/index/my"><i class="iconfont">&#xe600;</i><br>我的</a></p>
         </div>
         <!--nav-end-->
         <script type="text/javascript" src="/js/third/jquery.js"></script>
         <script type="text/javascript" src="/js/third/swiper-3.3.1.jquery.min.js"></script>
-        <script type="text/javascript" src="/js/index_media.js"></script>
+        <script type="text/javascript" src="/js/indexMedia.js"></script>
     </body>
 </html>

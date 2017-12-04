@@ -34,18 +34,20 @@ class Index extends CI_Controller {
 //                $this->_return['errorno'] = '2';
 //                $this->_return['msg'] = '未完善基础信息';
 //                echo json_encode($this->_return);exit;
+                redirect('advertiser/login/login');
             }else if($userInfo['audit_status']==0){
                 //跳到待审核页面
 //                $this->_return['errorno'] = '3';
 //                $this->_return['msg'] = '待审核';
 //                echo json_encode($this->_return);exit;
+                redirect('advertiser/login/accountStatus3');
             }else if($userInfo['audit_status']==2){
                 //跳到驳回页面
 //                $this->_return['errorno'] = '4';
 //                $this->_return['msg'] = '驳回';
 //                //驳回原因
 //                $this->_return['data'] = $userInfo['reasons_for_rejection'];
-                echo json_encode($this->_return);exit;
+                redirect('advertiser/login/accountStatus4');
             }else if($userInfo['status']==9){
                 //跳到冻结页面
 //                $this->_return['errorno'] = '9';
@@ -53,6 +55,7 @@ class Index extends CI_Controller {
 //                //冻结原因
 //                $this->_return['data'] = $userInfo['freezing_reason'];
 //                echo json_encode($this->_return);exit;
+                redirect('advertiser/login/accountStatus5');
             }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
                     return true;
             }
@@ -549,6 +552,7 @@ class Index extends CI_Controller {
     private function __get_user_session(){
         $userSession = $this->session->userdata('user_info');
         if(empty($userSession) || !is_array($userSession)){
+            redirect('/media/login/login');
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '用户信息有误请重新登录';
             //todo 跳到登录页面
