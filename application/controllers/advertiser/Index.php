@@ -282,7 +282,8 @@ class Index extends CI_Controller {
         //修改
         }else{
             $this->__checkTaskWhetherBelongUser($task_id,$this->_update);
-            $re = $this->__get_task_model()->updateInfo($task_id,$data);
+            $this->__get_task_model()->updateInfo($task_id,$data);
+            $re = $task_id;
         }
 
         if(empty($re)){
@@ -435,7 +436,6 @@ class Index extends CI_Controller {
         $task_id = (int)$_GET['task_id'];
         $where['task_id'] = $task_id;
         $result = $this->__get_task_model()->getAdvertiserTaskDetailByCondition($where);
-
         if($result['media_man_require'] == 1){
             $hobbyConfig = $this->config->item('hobby');
             $industryConfig = $this->config->item('industry');

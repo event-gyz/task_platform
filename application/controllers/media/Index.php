@@ -11,7 +11,10 @@ class Index extends CI_Controller {
         ) );
         $this->load->library('session');
         $this->load->helper('Wap');
-        $this->checkUserLogin();
+        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'my')){
+            $this->checkUserLogin();
+        }
+
 
     }
     // 返回规范
@@ -34,20 +37,20 @@ class Index extends CI_Controller {
 //                $this->_return['errorno'] = '2';
 //                $this->_return['msg'] = '未完善基础信息';
 //                echo json_encode($this->_return);exit;
-                redirect('advertiser/login/login');
+                redirect('media/login/login');
             }else if($userInfo['audit_status']==0){
                 //跳到待审核页面
 //                $this->_return['errorno'] = '3';
 //                $this->_return['msg'] = '待审核';
 //                echo json_encode($this->_return);exit;
-                redirect('advertiser/login/accountStatus3');
+                redirect('media/login/accountStatus3');
             }else if($userInfo['audit_status']==2){
                 //跳到驳回页面
 //                $this->_return['errorno'] = '4';
 //                $this->_return['msg'] = '驳回';
 //                //驳回原因
 //                $this->_return['data'] = $userInfo['reasons_for_rejection'];
-                redirect('advertiser/login/accountStatus4');
+                redirect('media/login/accountStatus4');
             }else if($userInfo['status']==9){
                 //跳到冻结页面
 //                $this->_return['errorno'] = '9';
@@ -55,13 +58,18 @@ class Index extends CI_Controller {
 //                //冻结原因
 //                $this->_return['data'] = $userInfo['freezing_reason'];
 //                echo json_encode($this->_return);exit;
-                redirect('advertiser/login/accountStatus5');
+                redirect('media/login/accountStatus5');
             }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
                     return true;
             }
         }
     }
 
+
+    public function my(){
+        $result = [];
+        $this->load->view('media/my/index',$result);
+    }
 
     public function home() {
         $where  = ['offset' => 0, 'limit' => 1];
