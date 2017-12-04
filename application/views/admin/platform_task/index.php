@@ -154,8 +154,12 @@
                                 <tr>
                                     <th><?= $value['task_id'] ?></th>
                                     <th><?= $value['task_name'] ?></th>
-                                    <th><?= $value['task_type'] ?></th>
-                                    <th><?= $value['publishing_platform'] ?></th>
+                                    <th><?= $task_type_list[$value['task_type']] ?></th>
+                                    <th>
+                                        <?php foreach (explode(',', $value['publishing_platform']) as $key2 => $value2): ?>
+                                            <?= $publishing_platform_list[$value2] ?>
+                                        <?php endforeach; ?>
+                                    </th>
                                     <th><?= $value['title'] ?></th>
                                     <th><?= $form_data['task_status'] ?></th>
                                     <th><?= $value['submit_audit_time'] ?></th>
