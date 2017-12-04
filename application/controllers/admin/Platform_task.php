@@ -35,64 +35,46 @@ class Platform_task extends Admin_Controller {
     }
 
     private function __build_where_list() {
-        $media_man_name  = $this->input->get('media_man_name', true);
-        $school_name     = $this->input->get('school_name', true);
-        $audit_status    = $this->input->get('audit_status', true);
-        $create_time     = $this->input->get('create_time', true);
-        $sex             = $this->input->get('sex', true);
-        $media_man_phone = $this->input->get('media_man_phone', true);
-        $status          = $this->input->get('status', true);
-        $tag             = $this->input->get('tag', true);
+        $task_name           = $this->input->get('task_name', true);
+        $publishing_platform = $this->input->get('publishing_platform', true);
+        $task_type           = $this->input->get('task_type', true);
+        $submit_audit_time   = $this->input->get('submit_audit_time', true);
+        $task_status         = $this->input->get('task_status', true);
 
         $where = [];
-        if (!empty($media_man_name)) {
-            $where['media_man_name'] = $media_man_name;
+        if (!empty($task_name)) {
+            $where['task_name'] = $task_name;
         }
 
-        if (!empty($school_name)) {
-            $where['school_name'] = $school_name;
+        if (!empty($publishing_platform)) {
+            $where['publishing_platform'] = $publishing_platform;
         }
 
-        if ($audit_status !== '' && $audit_status !== null) {
-            $where['audit_status'] = $audit_status;
+        if ($task_type !== '' && $task_type !== null) {
+            $where['task_type'] = $task_type;
         }
 
-        if (!empty($create_time)) {
-            $time_arr            = explode(' - ', $create_time);
+        if (!empty($submit_audit_time)) {
+            $time_arr            = explode(' - ', $submit_audit_time);
             $where['start_time'] = date('Y-m-d H:i:s', strtotime($time_arr[0]));
             $where['end_time']   = date('Y-m-d H:i:s', strtotime($time_arr[1] . "+1 day -1 seconds"));
         }
 
-        if (!empty($sex)) {
-            $where['sex'] = $sex;
+        if (!empty($task_status)) {
+            // todo 根据不同任务状态拼接不通搜索条件
+            $where['task_status'] = $task_status;
         }
 
-        if (!empty($media_man_phone)) {
-            $where['media_man_phone'] = $media_man_phone;
-        }
-
-        if ($status !== '' && $status !== null) {
-            $where['status'] = $status;
-        }
-
-        if (!empty($tag)) {
-            $where['tag'] = $tag;
-        }
-
-        $page_arr                 = $this->get_list_limit_and_offset_params();
-        $where['advertiser_type'] = 1;
-        $where                    = array_merge($page_arr, $where);
+        $page_arr = $this->get_list_limit_and_offset_params();
+        $where    = array_merge($page_arr, $where);
 
         return [
-            'media_man_name'  => $media_man_name,
-            'school_name'     => $school_name,
-            'audit_status'    => $audit_status,
-            'create_time'     => $create_time,
-            'sex'             => $sex,
-            'media_man_phone' => $media_man_phone,
-            'status'          => $status,
-            'tag'             => $tag,
-            'where'           => $where,
+            'task_name'           => $task_name,
+            'publishing_platform' => $publishing_platform,
+            'task_type'           => $task_type,
+            'submit_audit_time'   => $submit_audit_time,
+            'task_status'         => $task_status,
+            'where'               => $where,
         ];
     }
 

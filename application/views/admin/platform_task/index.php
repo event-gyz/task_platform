@@ -43,9 +43,9 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="audit_status" class="col-sm-3 control-label">发布平台</label>
+                                        <label for="publishing_platform" class="col-sm-3 control-label">发布平台</label>
                                         <div class="col-sm-7">
-                                            <select class="form-control" name="audit_status">
+                                            <select class="form-control" name="publishing_platform">
                                                 <option value="">全部</option>
 
                                                 <?php foreach ($publishing_platform_list as $key => $value): ?>
@@ -61,9 +61,9 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="audit_status" class="col-sm-3 control-label">任务类型</label>
+                                        <label for="task_type" class="col-sm-3 control-label">任务类型</label>
                                         <div class="col-sm-7">
-                                            <select class="form-control" name="audit_status">
+                                            <select class="form-control" name="task_type">
                                                 <option value="">全部</option>
 
                                                 <?php foreach ($task_type_list as $key => $value): ?>
@@ -79,15 +79,15 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label class="col-sm-3 control-label">注册时间</label>
+                                        <label class="col-sm-3 control-label">提交时间</label>
                                         <div class="input-group col-sm-7">
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" name="create_time"
+                                            <input type="text" name="submit_audit_time"
                                                    class="form-control pull-right"
                                                    id="reservation"
-                                                   value="<?= $form_data['create_time'] ?>"
+                                                   value="<?= $form_data['submit_audit_time'] ?>"
                                             >
                                         </div>
                                     </div>
@@ -97,14 +97,14 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="audit_status" class="col-sm-3 control-label">任务状态</label>
+                                        <label for="task_status" class="col-sm-3 control-label">任务状态</label>
                                         <div class="col-sm-7">
-                                            <select class="form-control" name="audit_status">
+                                            <select class="form-control" name="task_status">
                                                 <option value="">全部</option>
 
                                                 <?php foreach ($task_status_list as $key => $value): ?>
                                                     <option value="<?= $key ?>"
-                                                        <?= "$key" === $form_data['audit_status'] ? 'selected' : ''; ?>
+                                                        <?= "$key" === $form_data['task_status'] ? 'selected' : ''; ?>
                                                     >
                                                         <?= $value ?>
                                                     </option>
@@ -137,56 +137,33 @@
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover">
                             <tr>
-                                <th>用户ID</th>
-                                <th>用户名</th>
+                                <th>任务ID</th>
                                 <th>任务名称</th>
-                                <th>性别</th>
-                                <th>电话</th>
-                                <th>学校名称</th>
-                                <th>审核状态</th>
-                                <th>注册时间</th>
-                                <th>帐号状态</th>
-                                <th>最后操作人</th>
-                                <th>最后操作时间</th>
+                                <th>任务类型</th>
+                                <th>发布平台</th>
+                                <th>任务标题</th>
+                                <th>任务状态</th>
+                                <th>提交时间</th>
+                                <th>提交人</th>
+                                <th>期望帐号数量</th>
+                                <th>系统匹配数量</th>
                                 <th>操作</th>
                             </tr>
 
                             <?php foreach ($list as $value): ?>
                                 <tr>
-                                    <th><?= $value['media_man_id'] ?></th>
-                                    <th><?= $value['media_man_login_name'] ?></th>
+                                    <th><?= $value['task_id'] ?></th>
                                     <th><?= $value['task_name'] ?></th>
-                                    <th><?= $value['sex'] === "1" ? "男" : "女" ?></th>
-                                    <th><?= $value['media_man_phone'] ?></th>
-                                    <th><?= $value['school_name'] ?></th>
+                                    <th><?= $value['task_type'] ?></th>
+                                    <th><?= $value['publishing_platform'] ?></th>
+                                    <th><?= $value['title'] ?></th>
+                                    <th><?= $form_data['task_status'] ?></th>
+                                    <th><?= $value['submit_audit_time'] ?></th>
+                                    <th><?= $value['advertiser_user_id'] ?></th>
+                                    <th><?= $value['media_man_number'] ?></th>
+                                    <th><?= $value['actual_media_man_number'] ?></th>
                                     <th>
-                                        <small class="label
-                                            <?= $value['audit_status'] === "0" ? "bg-yellow" : "" ?>
-                                            <?= $value['audit_status'] === "1" ? "bg-green" : "" ?>
-                                            <?= $value['audit_status'] === "2" ? "bg-red" : "" ?>
-                                        ">
-                                            <?= $media_audit_status[$value['audit_status']] ?>
-                                        </small>
-                                    </th>
-                                    <th><?= $value['create_time'] ?></th>
-                                    <th>
-                                        <small class="label
-                                            <?= $value['status'] === "0" ? "bg-gray" : "" ?>
-                                            <?= $value['status'] === "1" ? "bg-yellow" : "" ?>
-                                            <?= $value['status'] === "2" ? "bg-green" : "" ?>
-                                            <?= $value['status'] === "9" ? "bg-red" : "" ?>
-                                        ">
-                                            <?= $media_account_status[$value['status']] ?>
-                                        </small>
-                                    </th>
-                                    <th><?= $value['last_operator_name'] ?></th>
-                                    <th><?= $value['update_time'] ?></th>
-                                    <th>
-                                        <a href="/admin/platform_media_man/to_update_media_man?id=<?= $value['media_man_id'] ?>"
-                                           class="btn btn-primary btn-sm">
-                                            修改
-                                        </a>
-                                        <a href="/admin/platform_media_man/media_man_detail?id=<?= $value['media_man_id'] ?>"
+                                        <a href="/admin/platform_task/task_detail?id=<?= $value['task_id'] ?>"
                                            class="btn btn-success btn-sm">
                                             详情
                                         </a>
