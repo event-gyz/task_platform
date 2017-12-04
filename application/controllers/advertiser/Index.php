@@ -191,9 +191,7 @@ class Index extends CI_Controller {
      * 获取任务详情
      */
     public function taskInfoApi(){
-        $_GET['task_id'] = 1;
-        $task_id = $_GET['task_id'];
-
+        $task_id = $_POST['task_id'];
         if(empty($task_id)){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '任务ID不能为空';
@@ -365,15 +363,16 @@ class Index extends CI_Controller {
         $user_info = $this->__get_user_session();
         $where['advertiser_user_id'] = $user_info['advertiser_id'];
         $result = $this->__get_task_model()->getAdvertiserTaskListByCondition($where);
-        if(empty($result['total'])){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '没有已领取的任务';
-            echo json_encode($this->_return);exit;
-        }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
+        $this->load->view('advertiser/my/task',$result);
+//        if(empty($result['total'])){
+//            $this->_return['errorno'] = -1;
+//            $this->_return['msg'] = '没有已发布的任务';
+//            echo json_encode($this->_return);exit;
+//        }
+//        $this->_return['errorno'] = 1;
+//        $this->_return['msg'] = '成功';
+//        $this->_return['data'] = $result;
+//        echo json_encode($this->_return);exit;
     }
 
     /**
@@ -434,6 +433,21 @@ class Index extends CI_Controller {
         $task_id = (int)$_GET['task_id'];
         $where['task_id'] = $task_id;
         $result = $this->__get_task_model()->getAdvertiserTaskDetailByCondition($where);
+
+        if($result['media_man_require'] == 1){
+            $hobbyConfig = $this->config->item('hobby');
+            $industryConfig = $this->config->item('industry');
+            $ageConfig = $this->config->item('age');
+
+            $result['require_age'] = $this->__handleNuToName($result['require_age'],$ageConfig);
+            $result['require_industry'] = $this->__handleNuToName($result['require_industry'],$industryConfig);
+            $result['require_hobby'] = $this->__handleNuToName($result['require_hobby'],$hobbyConfig);
+        }
+        $completionCriteriaConfig = $this->config->item('completion_criteria');
+        $publishingPlatformConfig = $this->config->item('publishing_platform');
+        $result['publishing_platform'] = $this->__handleNuToName($result['publishing_platform'],$publishingPlatformConfig);
+        $result['completion_criteria'] = $this->__handleNuToName($result['completion_criteria'],$completionCriteriaConfig);
+
         if(($result['audit_status'] == 2) || ($result['audit_status'] == 5)){
             $result['allot_time'] = $this->__timediff($result['start_time']);
         }else{
@@ -467,6 +481,11 @@ class Index extends CI_Controller {
         }
     }
 
+
+    public function my(){
+        $result = [];
+        $this->load->view('advertiser/my/index',$result);
+    }
     /**
      * 检查该任务是否属于当前用户
      * @param $task_id
@@ -571,7 +590,20 @@ class Index extends CI_Controller {
 
 
 
-
+    private function __handleNuToName($str,$configArr){
+        if(empty($str)){
+            return '';
+        }
+        $arr = explode(',',$str);
+        $nStr = '';
+        if(!empty($arr)){
+            foreach($arr as $value){
+                $nStr .= $configArr[$value].',';
+            }
+        }
+        $nStr = rtrim($nStr,',');
+        return $nStr;
+    }
 
 
     private function __get_user_session(){
@@ -580,7 +612,8 @@ class Index extends CI_Controller {
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '用户信息有误请重新登录';
             //todo 跳到登录页面
-            echo json_encode($this->_return);exit;
+            redirect('advertiser/login/login');
+//            echo json_encode($this->_return);exit;
         }
         return $userSession;
     }
