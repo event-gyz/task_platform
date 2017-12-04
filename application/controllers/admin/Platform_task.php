@@ -124,10 +124,15 @@ class Platform_task extends Admin_Controller {
 
         return $this->load->view('admin/platform_task/task_detail',
             [
-                'info'               => $info,
-                'advertiser_info'    => $advertiser_info,
-                'adv_audit_status'   => $this->config->item('adv_audit_status'),
-                'adv_account_status' => $this->config->item('adv_account_status'),
+                'info'                     => $info,
+                'advertiser_info'          => $advertiser_info,
+                'adv_audit_status'         => $this->config->item('adv_audit_status'),
+                'adv_account_status'       => $this->config->item('adv_account_status'),
+                'publishing_platform_list' => $this->config->item('publishing_platform'),
+                'task_type_list'           => $this->config->item('task_type'),
+                'task_status_list'         => $this->config->item('task_status'),
+                'task_audit_status'        => $this->config->item('task_audit_status'),
+                'task_completion_criteria' => $this->config->item('task_completion_criteria'),
             ]
         );
     }
