@@ -11,7 +11,10 @@ class Index extends CI_Controller {
         ) );
         $this->load->library('session');
         $this->load->helper('Wap');
-        $this->checkUserLogin();
+        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'my')){
+            $this->checkUserLogin();
+        }
+
 
     }
     // 返回规范
@@ -34,20 +37,20 @@ class Index extends CI_Controller {
 //                $this->_return['errorno'] = '2';
 //                $this->_return['msg'] = '未完善基础信息';
 //                echo json_encode($this->_return);exit;
-                redirect('advertiser/login/login');
+                redirect('media/login/login');
             }else if($userInfo['audit_status']==0){
                 //跳到待审核页面
 //                $this->_return['errorno'] = '3';
 //                $this->_return['msg'] = '待审核';
 //                echo json_encode($this->_return);exit;
-                redirect('advertiser/login/accountStatus3');
+                redirect('media/login/accountStatus3');
             }else if($userInfo['audit_status']==2){
                 //跳到驳回页面
 //                $this->_return['errorno'] = '4';
 //                $this->_return['msg'] = '驳回';
 //                //驳回原因
 //                $this->_return['data'] = $userInfo['reasons_for_rejection'];
-                redirect('advertiser/login/accountStatus4');
+                redirect('media/login/accountStatus4');
             }else if($userInfo['status']==9){
                 //跳到冻结页面
 //                $this->_return['errorno'] = '9';
@@ -55,13 +58,18 @@ class Index extends CI_Controller {
 //                //冻结原因
 //                $this->_return['data'] = $userInfo['freezing_reason'];
 //                echo json_encode($this->_return);exit;
-                redirect('advertiser/login/accountStatus5');
+                redirect('media/login/accountStatus5');
             }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
                     return true;
             }
         }
     }
 
+
+    public function my(){
+        $result = [];
+        $this->load->view('media/my/index',$result);
+    }
 
     public function home() {
         $where  = ['offset' => 0, 'limit' => 1];
@@ -171,6 +179,9 @@ class Index extends CI_Controller {
     }
 
 
+    public function getMissionHallView(){
+        $this->load->view('media/task_list');
+    }
     /**
      * 任务大厅
      */
@@ -290,10 +301,25 @@ class Index extends CI_Controller {
         $user_info = $this->__get_user_session();
         $media_man_id = $user_info['media_man_id'];
         $result = $this->__get_media_man_model()->selectById($media_man_id);
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
+        $hobbyConfig = $this->config->item('hobby');
+        $industryConfig = $this->config->item('industry');
+        $ageConfig = $this->config->item('age');
+        $schoolLevelConfig = $this->config->item('school_level');
+        $result['school_province'] = $this->__get_china_model()->select_name_by_id($result['school_province']);
+        $result['school_city'] = $this->__get_china_model()->select_name_by_id($result['school_city']);
+        $result['school_area'] = $this->__get_china_model()->select_name_by_id($result['school_area']);
+        $result['school_level'] = $this->__handleNuToName($result['school_level'],$schoolLevelConfig);
+        $result['industry'] = $this->__handleNuToName($result['industry'],$industryConfig);
+        $result['age'] = $this->__handleNuToName($result['age'],$ageConfig);
+        $result['hobby'] = $this->__handleNuToName($result['hobby'],$hobbyConfig);
+        $result['wx_type'] = $this->config->item('wx_type')[$result['wx_type']];
+        $result['weibo_type'] = $this->config->item('weibo_type')[$result['weibo_type']];
+        $result['characteristic'] = $result['industry'].','.$result['hobby'];
+        $this->load->view('media/my/data',$result);
+//        $this->_return['errorno'] = 1;
+//        $this->_return['msg'] = '成功';
+//        $this->_return['data'] = $result;
+//        echo json_encode($this->_return);exit;
     }
 
     /**
@@ -305,15 +331,16 @@ class Index extends CI_Controller {
         $where['user_type'] = '2';
         $where['message_status'] = '0';
         $result = $this->__get_user_message_model()->get_user_message_list_by_condition($where);
-        if(empty($result['total'])){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '没有新的消息';
-            echo json_encode($this->_return);exit;
-        }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
+        $this->load->view('media/my/message',$result);
+//        if(empty($result['total'])){
+//            $this->_return['errorno'] = -1;
+//            $this->_return['msg'] = '没有新的消息';
+//            echo json_encode($this->_return);exit;
+//        }
+//        $this->_return['errorno'] = 1;
+//        $this->_return['msg'] = '成功';
+//        $this->_return['data'] = $result;
+//        echo json_encode($this->_return);exit;
     }
     /**
      * 我的列表 （我的消息-删除消息）
@@ -344,15 +371,18 @@ class Index extends CI_Controller {
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $result = $this->__get_task_map_model()->get_media_man_task_list_by_condition($where);
-        if(empty($result['total'])){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '没有已领取的任务';
-            echo json_encode($this->_return);exit;
-        }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
+//                echo '<pre>';
+//        print_r($result);exit;
+        $this->load->view('media/my/task',$result);
+//        if(empty($result['total'])){
+//            $this->_return['errorno'] = -1;
+//            $this->_return['msg'] = '没有已领取的任务';
+//            echo json_encode($this->_return);exit;
+//        }
+//        $this->_return['errorno'] = 1;
+//        $this->_return['msg'] = '成功';
+//        $this->_return['data'] = $result;
+//        echo json_encode($this->_return);exit;
     }
 
     /**
@@ -438,26 +468,43 @@ class Index extends CI_Controller {
         echo json_encode($this->_return);exit;
     }
 
+    public function getAreaApi(){
+        $pid = $_POST['pid'];
+        $result = $this->__get_china_model()->select_by_pid($pid);
+        if(empty($result) || !is_array($result)){
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '查询失败';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = '1';
+        $this->_return['msg'] = '查询成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
+    }
+
     /**
      *  我的列表 （我的收入）
      */
     public function myIncomeList(){
-        if(isset($_POST['page']) && !empty($_POST['page'])){
-            $where['offset'] = $_POST['page'];
+        if(isset($_GET['page']) && !empty($_GET['page'])){
+            $where['offset'] = $_GET['page'];
         }
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $where['finance_status'] = 1;
         $result = $this->__get_task_map_model()->get_media_man_task_list_by_condition($where);
-        if(empty($result['total'])){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '暂时还没有收入哦，快去完成任务吧';
-            echo json_encode($this->_return);exit;
-        }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
+//        echo '<pre>';
+//        print_r($result);exit;
+        $this->load->view('/media/my/income',$result);
+//        if(empty($result['total'])){
+//            $this->_return['errorno'] = -1;
+//            $this->_return['msg'] = '暂时还没有收入哦，快去完成任务吧';
+//            echo json_encode($this->_return);exit;
+//        }
+//        $this->_return['errorno'] = 1;
+//        $this->_return['msg'] = '成功';
+//        $this->_return['data'] = $result;
+//        echo json_encode($this->_return);exit;
     }
 
 
@@ -588,14 +635,27 @@ class Index extends CI_Controller {
     }
 
     /**
-     * @return Platform_task_model
+     * @return China_model
      */
-    private function __get_task_model() {
-        $this->load->model('Platform_task_model');
-        return $this->Platform_task_model;
+    private function __get_china_model() {
+        $this->load->model('China_model');
+        return $this->China_model;
     }
 
-
+    private function __handleNuToName($str,$configArr){
+        if(empty($str)){
+            return '';
+        }
+        $arr = explode(',',$str);
+        $nStr = '';
+        if(!empty($arr)){
+            foreach($arr as $value){
+                $nStr .= $configArr[$value].',';
+            }
+        }
+        $nStr = rtrim($nStr,',');
+        return $nStr;
+    }
 
 
 
