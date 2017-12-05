@@ -73,20 +73,25 @@ class Platform_task_map_model extends MY_Model{
         //根据finance_status
         if (isset($where['finance_status']) && $where['finance_status']) {
             $notInComeSql = $sql;
+            $moneyCountSql = $sql;
             $sql .= sprintf(" AND ptr.finance_status = %d", $where['finance_status']);
             $sql .= sprintf(" AND ptm.receive_status = %d", 1);
+
+            $moneyCountSql .= sprintf(" AND ptm.receivables_status = %d", 1);
             //超时
             $notInComeSql .= sprintf(" AND ptm.receive_status = %d", 3);
 
-            $moneyCount = str_replace('[*]', 'sum(pt.platform_price) AS c', $sql);
+            $moneyCount = str_replace('[*]', 'sum(pt.platform_price) AS c', $moneyCountSql);
             $notInComeMoneyCount = str_replace('[*]', 'sum(pt.platform_price) AS c', $notInComeSql);
-
+//            错过
             $data['notInComeMoneyTotal']    = $this->getCount($notInComeMoneyCount);
+//            总收入
             $data['moneyTotal']    = $this->getCount($moneyCount);
         }
 
         // 总数
         $sqlCount = str_replace('[*]', 'count(ptm.task_map_id) AS c', $sql);
+
         $total    = $this->getCount($sqlCount);
 
         if ($total === '0') {
@@ -103,7 +108,8 @@ class Platform_task_map_model extends MY_Model{
 
         $_list = $this->getList($_sql);
 
-        $data = ['total' => $total, 'list' => $_list];
+        $data['total'] = $total;
+        $data['list'] =$_list;
         return $data;
     }
 

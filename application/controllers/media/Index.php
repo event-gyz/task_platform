@@ -301,9 +301,11 @@ class Index extends CI_Controller {
         $hobbyConfig = $this->config->item('hobby');
         $industryConfig = $this->config->item('industry');
         $ageConfig = $this->config->item('age');
+        $schoolLevelConfig = $this->config->item('school_level');
         $result['school_province'] = $this->__get_china_model()->select_name_by_id($result['school_province']);
         $result['school_city'] = $this->__get_china_model()->select_name_by_id($result['school_city']);
         $result['school_area'] = $this->__get_china_model()->select_name_by_id($result['school_area']);
+        $result['school_level'] = $this->__handleNuToName($result['school_level'],$schoolLevelConfig);
         $result['industry'] = $this->__handleNuToName($result['industry'],$industryConfig);
         $result['age'] = $this->__handleNuToName($result['age'],$ageConfig);
         $result['hobby'] = $this->__handleNuToName($result['hobby'],$hobbyConfig);
@@ -485,15 +487,18 @@ class Index extends CI_Controller {
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $where['finance_status'] = 1;
         $result = $this->__get_task_map_model()->get_media_man_task_list_by_condition($where);
-        if(empty($result['total'])){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '暂时还没有收入哦，快去完成任务吧';
-            echo json_encode($this->_return);exit;
-        }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
+//        echo '<pre>';
+//        print_r($result);exit;
+        $this->load->view('/media/my/income',$result);
+//        if(empty($result['total'])){
+//            $this->_return['errorno'] = -1;
+//            $this->_return['msg'] = '暂时还没有收入哦，快去完成任务吧';
+//            echo json_encode($this->_return);exit;
+//        }
+//        $this->_return['errorno'] = 1;
+//        $this->_return['msg'] = '成功';
+//        $this->_return['data'] = $result;
+//        echo json_encode($this->_return);exit;
     }
 
 
