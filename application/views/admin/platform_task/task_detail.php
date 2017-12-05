@@ -393,7 +393,15 @@
                 <?php if (in_array($info['audit_status'], [1])): ?>
                     <button @click="submitForm('ruleForm')" type="button" class="btn btn-success margin-r-5">提交</button>
                 <?php endif; ?>
-                <button type="button" class="btn btn-warning margin-r-5">手工作废</button>
+                <?php
+                // 是否显示手工作废按钮
+                $is_show_cancellation_btn = (in_array($info['audit_status'], [1, 2])) ||
+                    (($info['pay_status'] === "0") && ($info['audit_status'] === "3")) ||
+                    (($info['pay_status'] === "1") && ($info['audit_status'] === "3") && ($info['finance_status'] === "0"));
+                ?>
+                <?php if ($is_show_cancellation_btn): ?>
+                    <button type="button" class="btn btn-warning margin-r-5">手工作废</button>
+                <?php endif; ?>
                 <button @click="goBack('ruleForm')" type="button" class="btn btn-default margin-r-5"> 返回</button>
             </div>
         </div>
@@ -431,7 +439,7 @@
             };
         },
         methods: {
-            submitForm              : function (formName) {
+            submitForm                : function (formName) {
                 this.$refs[formName].validate((valid) => {
 
                     if (!valid) {
@@ -449,10 +457,10 @@
                     this.update_task_audit_status();
                 });
             },
-            goBack                  : function (formName) {
+            goBack                    : function (formName) {
                 window.location.href = '/admin/platform_task/home';
             },
-            update_task_audit_status: async function () {
+            update_task_audit_status  : async function () {
                 try {
                     this.loading = true;
                     var url      = '/admin/platform_task/update_task_audit_status';
@@ -494,6 +502,9 @@
                     }
 
                 }
+            },
+            update_task_release_status: function () {
+
             },
         }
 
