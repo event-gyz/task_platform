@@ -377,30 +377,15 @@ class Index extends CI_Controller {
      *  我的列表 （我的任务）
      */
     public function taskList(){
-        if(isset($_POST['page']) && !empty($_POST['page'])){
-            $where['offset'] = $_POST['page'];
-        }
-        $user_info = $this->__get_user_session();
-        $where['media_man_user_id'] = $user_info['media_man_id'];
-        $result = $this->__get_task_map_model()->get_media_man_task_list_by_condition($where);
-        $this->load->view('media/my/task',$result);
-        if(empty($result['total'])){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '没有已领取的任务';
-            echo json_encode($this->_return);exit;
-        }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
+        $this->load->view('media/my/task');
     }
 
     /**
-     *  我的列表 （我的任务）
+     *  我的列表 （我的任务api）
      */
     public function taskListApi(){
         if(isset($_POST['page']) && !empty($_POST['page'])){
-            $where['offset'] = $_POST['page'];
+            $where['page'] = $_POST['page'];
         }
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
@@ -518,7 +503,7 @@ class Index extends CI_Controller {
      */
     public function incomeList(){
         if(isset($_GET['page']) && !empty($_GET['page'])){
-            $where['offset'] = $_GET['page'];
+            $where['page'] = $_GET['page'];
         }
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
