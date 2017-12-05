@@ -210,7 +210,7 @@ class Index extends CI_Controller {
             echo json_encode($this->_return);exit;
         }else{
             $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '暂无分配的任务';
+            $this->_return['msg'] = '暂无可领取的任务';
             echo json_encode($this->_return);exit;
         }
     }

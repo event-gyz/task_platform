@@ -75,7 +75,7 @@ class Platform_task_map_model extends MY_Model{
             $notInComeSql = $sql;
             $moneyCountSql = $sql;
             $sql .= sprintf(" AND ptr.finance_status = %d", $where['finance_status']);
-//            $sql .= sprintf(" AND ptm.receive_status = %d", 1);
+            $sql .= sprintf(" AND ptm.receive_status = %d", 1);
 
             $moneyCountSql .= sprintf(" AND ptm.receivables_status = %d", 1);
             //超时
@@ -220,7 +220,7 @@ class Platform_task_map_model extends MY_Model{
         $sql .= ' ORDER BY ptm.task_map_id DESC';
 
         $offset = !empty($page) ? $page : 0;
-        $limit  = isset($where['limit']) ? $where['limit'] : 10;
+        $limit  = 10;
         $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
         $_sql = str_replace('[*]', $param, $sql);
