@@ -21,12 +21,16 @@
                             <td class="border_bottom" align="right"><?=$media_man_phone?></td>
                         </tr>
                         <tr>
+                            <th align="left" class="border_bottom" >年龄</th>
+                            <td class="border_bottom" align="right"><?=$age?></td>
+                        </tr>
+                        <tr>
                             <th align="left" class="border_bottom">学校名称</th>
                             <td class="border_bottom" align="right"><?=$school_name?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">学校地区</th>
-                            <td class="border_bottom" align="right"><?=$school_province,',',$school_city,',',$school_area?></td>
+                            <td class="border_bottom" align="right"><?=$school_province,' ',$school_city,' ',$school_area?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom" >办学层次</th>
@@ -34,7 +38,7 @@
                         </tr>
                         <tr>
                             <th align="left">朋友眼中的我</th>
-                            <td align="right">好色、能吃、懒</td>
+                            <td align="right"><?=$characteristic?></td>
                         </tr>
                     </table>
                 </div>
@@ -43,11 +47,11 @@
                     <table>
                         <tr>
                             <th align="left" class="border_bottom" width="90px;">支付宝账号</th>
-                            <td class="border_bottom" align="right">zbj@163.com</td>
+                            <td class="border_bottom" align="right"><?=$zfb_nu?></td>
                         </tr>
                         <tr>
                             <th align="left">真实姓名</th>
-                            <td align="right">猪悟能</td>
+                            <td align="right"><?=$zfb_realname?></td>
                         </tr>
                     </table>
                 </div>
@@ -56,15 +60,15 @@
                     <table>
                         <tr>
                             <th align="left" class="border_bottom" width="90px;">微信号</th>
-                            <td class="border_bottom" align="right">zbj</td>
+                            <td class="border_bottom" align="right"><?=$wx_code?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">账号类型</th>
-                            <td class="border_bottom" align="right">神仙号</td>
+                            <td class="border_bottom" align="right"><?=$wx_type?></td>
                         </tr>
                         <tr>
                             <th align="left">最高粉丝量</th>
-                            <td align="right">99999</td>
+                            <td align="right"><?=$wx_max_fans?></td>
                         </tr>
                     </table>
                 </div>
@@ -72,19 +76,19 @@
                     <table>
                         <tr>
                             <th align="left" class="border_bottom" width="90px;">微博昵称</th>
-                            <td class="border_bottom" align="right">高老庄的娘子</td>
+                            <td class="border_bottom" align="right"><?=$weibo_nickname?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">账号类型</th>
-                            <td class="border_bottom" align="right">天庭认证</td>
+                            <td class="border_bottom" align="right"><?=$weibo_type?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">最高粉丝量</th>
-                            <td class="border_bottom" align="right">9999</td>
+                            <td class="border_bottom" align="right"><?=$weibo_max_fans?></td>
                         </tr>
                         <tr>
                             <th align="left">微博链接</th>
-                            <td align="right">http://weibo.****.com</td>
+                            <td align="right"><?=$weibo_link?></td>
                         </tr>
                     </table>
                 </div>
