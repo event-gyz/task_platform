@@ -149,12 +149,12 @@ var app = new Vue({
                 type:"post",
                 data:{
                     name:this.name,//姓名
-                    sex:this.sex,//性别
+                    sex:this.sexFn(),//性别
                     phone:this.phone,//电话
                     schoolName:this.schoolName,//学校名称
                     schoolType:this.schoolTypeFn(),//学校类型
                     schoolAddress:this.schoolAddressFn(),//学校地址
-                    schoolLevel:this.schoolLevel,//学校层次
+                    schoolLevel:this.schoolLevelFn(),//学校层次
                     age:this.age,//年龄
                     liking:this.liking,//爱好
                     industry:this.industry,//行业
@@ -222,6 +222,24 @@ var app = new Vue({
             });
             var str = s1.id+','+s2.id+','+s3.id;
             return str;
+        },
+        //转换学校层次
+        schoolLevelFn:function(){
+            if(this.schoolLevel == '211/985'){
+                return 1;
+            }else if(this.schoolLevel == '本科'){
+                return 2;
+            }else if(this.schoolLevel == '专科'){
+                return 3;
+            }
+        },
+        //转换性别
+        sexFn:function(){
+            if(this.sex == '男'){
+                return 1;
+            }else if(this.sex == '女'){
+                return 2;
+            }
         }
     }
 });
