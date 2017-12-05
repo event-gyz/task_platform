@@ -75,7 +75,7 @@ class Platform_task_map_model extends MY_Model{
             $notInComeSql = $sql;
             $moneyCountSql = $sql;
             $sql .= sprintf(" AND ptr.finance_status = %d", $where['finance_status']);
-            $sql .= sprintf(" AND ptm.receive_status = %d", 1);
+//            $sql .= sprintf(" AND ptm.receive_status = %d", 1);
 
             $moneyCountSql .= sprintf(" AND ptm.receivables_status = %d", 1);
             //超时
@@ -88,7 +88,7 @@ class Platform_task_map_model extends MY_Model{
 //            总收入
             $data['moneyTotal']    = $this->getCount($moneyCount);
         }
-
+        $sql .= ' and (ptm.receive_status=1 or ptm.receive_status=2)';
         // 总数
         $sqlCount = str_replace('[*]', 'count(ptm.task_map_id) AS c', $sql);
 

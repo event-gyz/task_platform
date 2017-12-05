@@ -33,7 +33,7 @@
                     <tr>
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/rw.png"></th>
                         <td class="border_bottom">我的任务</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/myIncomeList"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/myTaskList"><i class="iconfont">&#xe610;</i></a></td>
                     </tr>
                     <tr>
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/rw.png"></th>

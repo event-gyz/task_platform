@@ -110,6 +110,6 @@
 
         <script src="http://cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
         <script type="text/javascript" src="/js/util.js"></script>
-        <script type="text/javascript" src="/js/task_list.js"></script>
+        <script type="text/javascript" src="/js/taskList.js"></script>
     </body>
 </html>
