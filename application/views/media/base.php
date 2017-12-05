@@ -36,7 +36,7 @@
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom" width="60px;">学校地区</th>
-                            <td class="border_bottom"><input id="schoolAdress" style="text-align: right;" type="text" v-model="schoolAdress" placeholder="请选择>"></td>
+                            <td class="border_bottom"><input id="schoolAddress" style="text-align: right;" type="text" v-model="schoolAddress" placeholder="请选择>"></td>
                         </tr>
                         <tr>
                             <th align="left" width="60px;">学校层次</th>

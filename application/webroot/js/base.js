@@ -4,12 +4,13 @@
 var app = new Vue({
     el:'#app',
     data:{
+        city:[],
         name:'',//姓名
         sex:'',//性别
         phone:'',//电话
         schoolName:'',//学校名称
         schoolType:'',//学校类型
-        schoolAdress:'',//学校地址
+        schoolAddress:'',//学校地址
         schoolLevel:'',//学校层次
         age:'',//年龄
         liking:[],//爱好
@@ -20,6 +21,13 @@ var app = new Vue({
     mounted:function(){
         this.$nextTick(function(){
             var _this = this;
+            $.ajax({
+                url: "/js/third/city.json",
+                dataType: 'json',
+                success: function(res) {
+                    _this.city = res.RECORDS;
+                }
+            });
             $("#sex").picker({
                 title: "请选择性别",
                 cols: [
@@ -56,10 +64,10 @@ var app = new Vue({
                     _this.schoolLevel = values[0];
                 }
             });
-            $("#schoolAdress").cityPicker({
+            $("#schoolAddress").cityPicker({
                 title: "请选择学校地区",
                 onChange:function(p, values, displayValues){
-                    _this.schoolAdress = displayValues.join(' ');
+                    _this.schoolAddress = displayValues.join(' ');
                 }
             });
         });
@@ -107,7 +115,7 @@ var app = new Vue({
                 util.tips('请选择学校类型！');
                 return;
             }
-            if(!this.schoolAdress){
+            if(!this.schoolAddress){
                 util.tips('请选择学校地址！');
                 return;
             }
@@ -144,8 +152,8 @@ var app = new Vue({
                     sex:this.sex,//性别
                     phone:this.phone,//电话
                     schoolName:this.schoolName,//学校名称
-                    schoolType:this.schoolType,//学校类型
-                    schoolAdress:this.schoolAdress,//学校地址
+                    schoolType:this.schoolTypeFn(),//学校类型
+                    schoolAddress:this.schoolAddressFn(),//学校地址
                     schoolLevel:this.schoolLevel,//学校层次
                     age:this.age,//年龄
                     liking:this.liking,//爱好
@@ -164,6 +172,56 @@ var app = new Vue({
                     util.tips('网络异常，请尝试刷新！');
                 }
             })
+        },
+        //学校类型转换
+        schoolTypeFn: function(){
+            if(this.schoolType == '工科'){
+                return 1;
+            }else if(this.schoolType == '医药'){
+                return 2;
+            }else if(this.schoolType == '财经'){
+                return 3;
+            }else if(this.schoolType == '师范'){
+                return 4;
+            }else if(this.schoolType == '综合'){
+                return 5;
+            }else if(this.schoolType == '农业'){
+                return 6;
+            }else if(this.schoolType == '理工'){
+                return 7;
+            }else if(this.schoolType == '化工'){
+                return 8;
+            }else if(this.schoolType == '海洋'){
+                return 9;
+            }else if(this.schoolType == '艺术'){
+                return 10;
+            }else if(this.schoolType == '政法'){
+                return 11;
+            }
+        },
+        //地址转换
+        schoolAddressFn: function(){
+            var arr = this.schoolAddress.split(' ');
+            var s1 = {};
+            var s2 = {};
+            var s3 = {};
+            this.city.forEach(function(item){
+                if(arr[0] == item.name){
+                    s1 = item;
+                }
+            });
+            this.city.forEach(function(item){
+                if(arr[1] == item.name && s1.id == item.pid ){
+                    s2 = item;
+                }
+            });
+            this.city.forEach(function(item){
+                if(arr[2] == item.name && s2.id == item.pid ){
+                    s3 = item;
+                }
+            });
+            var str = s1.id+','+s2.id+','+s3.id;
+            return str;
         }
     }
 });
