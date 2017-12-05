@@ -160,9 +160,7 @@ class Platform_task_map_model extends MY_Model{
     //todo 要写脚本修改状态为忽略
     //todo 自媒体人交付任务的时候将map表的deliver_status改为1
     public function updateMapInfo($where, $info){
-        if(!isset($where['task_map_id']) || empty($where['task_map_id'])){
-            return false;
-        }else if((!isset($where['task_id']) || empty($where['task_id'])) && !isset($where['media_man_user_id']) || empty($where['media_man_user_id'])){
+        if((!isset($where['task_id']) || empty($where['task_id'])) && !isset($where['media_man_user_id']) || empty($where['media_man_user_id'])){
             return false;
         }
         return $this->update($info, $where );
@@ -249,7 +247,7 @@ class Platform_task_map_model extends MY_Model{
         if (isset($where['map_id']) && $where['map_id']) {
             $sql .= sprintf(" AND ptm.task_map_id = %d", $where['map_id']);
         }
-        if (isset($where['receive_status']) && $where['receive_status']) {
+        if (isset($where['receive_status'])) {
             $sql .= sprintf(" AND ptm.receive_status = %d", $where['receive_status']);
         }
         if (isset($where['release_status']) && $where['release_status']) {

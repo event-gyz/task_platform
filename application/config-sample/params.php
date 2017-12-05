@@ -143,3 +143,10 @@ $config['task_completion_criteria'] = [
     '2'   => '链接',
     '1,2' => '图片加链接',
 ];
+
+$config['require_sex'] = [
+    '0'   =>  '不限',
+    '1'   =>  '男',
+    '2'   =>  '女',
+];
+

@@ -203,7 +203,7 @@
                         </tr>
                         <tr>
                             <th class="border_bottom" width="45px;" align="left">性别</th>
-                            <td class="border_bottom" align="right"><?=$require_sex?></td>
+                            <td class="border_bottom" align="right"><?= $this->config->item('require_sex')[$require_sex] ?></td>
                         </tr>
                         <tr>
                             <th class="border_bottom" align="left">年龄</th>

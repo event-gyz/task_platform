@@ -220,7 +220,7 @@ class Index extends CI_Controller {
      * 任务大厅任务详情
      */
     public function getMissionHallTaskDetail(){
-        $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 0;
+        $map_id = (isset($_GET['task_id'])&&!empty($_GET['task_id'])) ? $_GET['task_id'] : 0;
         $user_info = $this->__get_user_session();
         $media_man_id = $user_info['media_man_id'];
 
@@ -231,31 +231,49 @@ class Index extends CI_Controller {
         $where['receive_status'] = 0;
         $where['release_status'] = 1;
         $result = $this->__get_task_map_model()->getUnclaimedTaskDetail($media_man_id,$where);
-        $result['allot_time'] = $this->__timediff(strtotime($result['allot_time']));
-        if(is_array($result) && !empty($result)){
-            $this->_return['errorno'] = 1;
-            $this->_return['msg'] = '成功';
-            $this->_return['data'] = $result;
-            echo json_encode($this->_return);exit;
+        if(empty($result)){
+            $result = ['flag'=>2];
         }else{
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '任务已失效';
-            echo json_encode($this->_return);exit;
+            if($result['media_man_require'] == 1){
+                $hobbyConfig = $this->config->item('hobby');
+                $industryConfig = $this->config->item('industry');
+                $ageConfig = $this->config->item('age');
+
+                $result['require_age'] = $this->__handleNuToName($result['require_age'],$ageConfig);
+                $result['require_industry'] = $this->__handleNuToName($result['require_industry'],$industryConfig);
+                $result['require_hobby'] = $this->__handleNuToName($result['require_hobby'],$hobbyConfig);
+            }
+            $completionCriteriaConfig = $this->config->item('completion_criteria');
+            $publishingPlatformConfig = $this->config->item('publishing_platform');
+            $result['publishing_platform'] = $this->__handleNuToName($result['publishing_platform'],$publishingPlatformConfig);
+            $result['completion_criteria'] = $this->__handleNuToName($result['completion_criteria'],$completionCriteriaConfig);
+            $result['surplus_time'] = $this->__timediff(strtotime($result['allot_time']));
+
         }
+        $this->load->view('/media/task_info',$result);
+//        if(is_array($result) && !empty($result)){
+//            $this->_return['errorno'] = 1;
+//            $this->_return['msg'] = '成功';
+//            $this->_return['data'] = $result;
+//            echo json_encode($this->_return);exit;
+//        }else{
+//            $this->_return['errorno'] = -1;
+//            $this->_return['msg'] = '任务已失效';
+//            echo json_encode($this->_return);exit;
+//        }
     }
 
     /**
      * 任务大厅 接受任务
      */
     public function acceptTask(){
-        $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 1;
         $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 1;
-        $where['task_map_id'] = $map_id;
         $where['task_id'] = $task_id;
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $where['receive_status'] = 0;
         $info ['receive_status'] = 1;
+        //todo 领取之前判断一下任务状态
         $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
         if(!empty($result)){
             $this->_return['errorno'] = 1;
@@ -273,9 +291,7 @@ class Index extends CI_Controller {
      * 任务大厅 拒绝任务
      */
     public function refuseTask(){
-        $map_id = (isset($_POST['map_id'])&&!empty($_POST['map_id'])) ? $_POST['map_id'] : 1;
         $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 1;
-        $where['task_map_id'] = $map_id;
         $where['task_id'] = $task_id;
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
@@ -570,15 +586,15 @@ class Index extends CI_Controller {
             //任务已经超时，修改任务状态
             return false;
         }
-        $str = '剩余';
+        $str = '剩余：';
         if(!empty($result['day'])){
-            $str .=$result['day'].'天';
+            $str .='<span>'.$result['day'].'</span><b>天</b>';
         }
         if(!empty($result['hours'])){
-            $str .=$result['hours'].'小时';
+            $str .='<span>'.$result['hours'].'</span><b>小时</b>';
         }
         if(!empty($result['min'])){
-            $str .=$result['min'].'分';
+            $str .='<span>'.$result['min'].'</span><b>分</b>';
         }
         return $str;
 
