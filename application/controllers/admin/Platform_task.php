@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require dirname(FCPATH) . '/core/Admin_Controller.php';
+require dirname(FCPATH) . '/core/ADMIN_Controller.php';
 
 /**
  * 任务管理
