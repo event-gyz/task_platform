@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require APPPATH.'/core/Admin_Controller.php';
+require dirname(FCPATH) . '/core/ADMIN_Controller.php';
 
 class Sys_user extends Admin_Controller {
 
