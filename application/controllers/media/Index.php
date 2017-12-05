@@ -341,7 +341,7 @@ class Index extends CI_Controller {
     /**
      * 我的列表 （我的消息）
      */
-    public function myMessage(){
+    public function message(){
         $user_info = $this->__get_user_session();
         $where['user_id'] = $user_info['media_man_id'];
         $where['user_type'] = '2';
@@ -380,7 +380,7 @@ class Index extends CI_Controller {
     /**
      *  我的列表 （我的任务）
      */
-    public function myTaskList(){
+    public function taskList(){
         if(isset($_POST['page']) && !empty($_POST['page'])){
             $where['offset'] = $_POST['page'];
         }
@@ -501,7 +501,7 @@ class Index extends CI_Controller {
     /**
      *  我的列表 （我的收入）
      */
-    public function myIncomeList(){
+    public function incomeList(){
         if(isset($_GET['page']) && !empty($_GET['page'])){
             $where['offset'] = $_GET['page'];
         }

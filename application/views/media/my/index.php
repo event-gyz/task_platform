@@ -28,17 +28,17 @@
                     <tr>
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/xx.png"></th>
                         <td class="border_bottom">我的消息</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/myMessage"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/message"><i class="iconfont">&#xe610;</i></a></td>
                     </tr>
                     <tr>
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/rw.png"></th>
                         <td class="border_bottom">我的任务</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/myTaskList"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/taskList"><i class="iconfont">&#xe610;</i></a></td>
                     </tr>
                     <tr>
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/rw.png"></th>
                         <td class="border_bottom">我的收入</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/myIncomeList"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/incomeList"><i class="iconfont">&#xe610;</i></a></td>
                     </tr>
                     <tr>
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/mm.png"></th>
