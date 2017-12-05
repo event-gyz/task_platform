@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>已被冻结</title>
+        <title>账号已被冻结</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <link rel="stylesheet" href="/css/common.css" />
@@ -19,8 +19,8 @@
                 <p class="text">冻结原因：<?=$userSession['reasons_for_rejection']?></p>
                 <p class="bg_line"></p>
                 <p class="button2">
-                    <a style="border-right: 1px solid #E5E5E5;" href="/media/index/saveBaseInfo">立即修改</a>
-                    <a href="/media/index/home">返回首页</a>
+                    <a style="border-right: 1px solid #E5E5E5;" href="/advertiser/index/saveBaseInfo">立即修改</a>
+                    <a href="/advertiser/index/home">返回首页</a>
                 </p>
             </div>
             <!--已被冻结-end-->

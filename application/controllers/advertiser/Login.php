@@ -46,7 +46,7 @@ class Login extends CI_Controller {
                 'advertiser_password' => $password
             );
 
-            $userInfo = $this->__get_advertiser_model()->selectByLoginName($data['advertiser_login_name']);
+            $userInfo = $this->__get_advertiser_model()->selectByUserName($data['advertiser_login_name']);
             if(empty($userInfo)){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '用户不存在';
@@ -94,6 +94,26 @@ class Login extends CI_Controller {
         }
     }
 
+    //跳到提示密码修改成功
+    public function accountStatus1(){
+        $this->load->view('advertiser/accountStatus1');
+    }
+    //跳到提示补全信息页面
+    public function accountStatus2(){
+        $this->load->view('advertiser/accountStatus2');
+    }
+    //跳到待审核页面
+    public function accountStatus3(){
+        $this->load->view('advertiser/accountStatus3');
+    }
+    //跳到驳回页面
+    public function accountStatus4(){
+        $this->load->view('advertiser/accountStatus4');
+    }
+    //跳到冻结页面
+    public function accountStatus5(){
+        $this->load->view('advertiser/accountStatus5');
+    }
     //注册
     public function register() {
         if (empty($_POST)) {
@@ -157,10 +177,14 @@ class Login extends CI_Controller {
             }
         }
     }
-
-    public function updatePwdView(){
+    public function forget(){
         $this->load->view('advertiser/forget');
     }
+
+    public function new_pwd(){
+        $this->load->view('advertiser/new_pwd');
+    }
+
     //找回密码
     public function updatePwd(){
         $pwd = $_POST['password'];
@@ -179,7 +203,7 @@ class Login extends CI_Controller {
         $phone = $this->session->userdata($this->_pwd_phone);
         if(empty($phone)){
             $this->_return['errorno'] = '-1';
-            $this->_return['msg'] = '数据异常';
+            $this->_return['msg'] = '没有验证手机号';
             echo json_encode($this->_return);exit;
         }else{
             $re = $this->__get_advertiser_model()->updateInfoByPhone($phone,['advertiser_password'=>Wap::generate_wap_user_password($pwd)]);
@@ -206,8 +230,6 @@ class Login extends CI_Controller {
      */
     public function sendCode()
     {
-//        $_POST['phone'] = '157100612488';
-//        $_POST['type'] = 'pwd';
         // 判断传递参数是否为空
         if (!isset($_POST['phone']) || empty($_POST['phone'])) {
             $this->_return['errorno'] = '-1';
@@ -215,17 +237,32 @@ class Login extends CI_Controller {
             echo json_encode($this->_return);exit;
         }
 
+        $res = $this->__get_advertiser_model()->selectByPhone($_POST['phone']);
         if (isset($_POST['type']) && ($_POST['type']=='pwd')) {
+            $userSessionInfo = $_SESSION[$this->_user_info];
+            if((!empty($userSessionInfo['advertiser_phone'])) && $userSessionInfo['advertiser_phone']!=$_POST['phone']){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '请使用当前用户注册时所使用的手机号';
+                echo json_encode($this->_return);exit;
+            }
             $model = $this->_pwdmodel;
-            //验证当前手机号是否注册过
-            $res = $this->__get_advertiser_model()->selectByPhone($_POST['phone']);
             if(empty($res)){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '手机号还未注册过';
                 echo json_encode($this->_return);exit;
             }
-
         }else{
+            $userInfo = $this->__get_advertiser_model()->selectByLoginName($_POST['userName']);
+            if(!empty($userInfo)){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '用户名已经存在';
+                echo json_encode($this->_return);exit;
+            }
+            if(!empty($res)){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '手机号已经注册过，请直接登录';
+                echo json_encode($this->_return);exit;
+            }
             $model = $this->_model;
         }
 

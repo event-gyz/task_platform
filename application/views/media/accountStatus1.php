@@ -11,7 +11,7 @@
         <div class="main">
             <div class="statu_style">
 
-                <!--账号审核中-->
+                <!--修改密码成功-->
                 <div class="statu_box">
                     <p class="icon-box"><img src="/images/status/cg.png"></p>
                     <h2>修改密码成功</h2>
@@ -22,7 +22,7 @@
                         <a href="/media/index/home">返回首页</a>
                     </p>
                 </div>
-                <!--账号审核中-end-->
+                <!--修改密码成功-end-->
             </div>
         </div>
         <script type="text/javascript" src="/js/third/jquery.js"></script>

@@ -7,6 +7,8 @@ class Login extends CI_Controller {
     public $_model = 'mm_plat_code';
     public $_pwd_phone = 'mm_pwd_phone';
     public $_pwdmodel = 'mm_plat_pwd_code';
+    public $_user_info = 'user_info';
+
     public function __construct(){
         parent::__construct ();
         $this->load->helper ( array (
@@ -45,7 +47,7 @@ class Login extends CI_Controller {
                 'media_man_password' => $password
             );
 
-            $userInfo = $this->__get_media_man_model()->selectByLoginName($data['media_man_login_name']);
+            $userInfo = $this->__get_media_man_model()->selectByUserName($data['media_man_login_name']);
             if(empty($userInfo)){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '用户不存在';
@@ -56,7 +58,7 @@ class Login extends CI_Controller {
                 $this->_return['msg'] = '密码错误';
                 echo json_encode($this->_return);exit;
             }else{
-                $this->session->set_userdata('user_info',$userInfo);
+                $this->session->set_userdata($this->_user_info,$userInfo);
                 if($userInfo['audit_status']==1 && $userInfo['status']==2) {
                     $this->_return['errorno'] = '1';
                     $this->_return['msg'] = '登录成功';
@@ -167,7 +169,7 @@ class Login extends CI_Controller {
             $re = $this->__get_media_man_model()->insert ($data );
             if($re){
                 $data['media_man_id'] = $re;
-                $this->session->set_userdata('user_info',$data);
+                $this->session->set_userdata($this->_user_info,$data);
                 $this->_return['errorno'] = 1;
                 $this->_return['msg'] = '注册成功';
                 //删除注册时用到的session
@@ -209,7 +211,7 @@ class Login extends CI_Controller {
             $re = $this->__get_media_man_model()->updateInfoByPhone($phone,['media_man_password'=>Wap::generate_wap_user_password($pwd)]);
             if($re){
                 //清除掉当前的登录信息
-                $this->session->unset_userdata('user_info');
+                $this->session->unset_userdata($this->_user_info);
                 $this->session->unset_userdata($this->_pwd_phone);
                 $this->_return['errorno'] = '1';
                 $this->_return['msg'] = '修改成功';
@@ -240,7 +242,7 @@ class Login extends CI_Controller {
         //验证当前手机号是否注册过
         $res = $this->__get_media_man_model()->selectByPhone($_POST['phone']);
         if (isset($_POST['type']) && ($_POST['type']=='pwd')) {
-            $userSessionInfo = $_SESSION['user_info'];
+            $userSessionInfo = $_SESSION[$this->_user_info];
             if((!empty($userSessionInfo['media_man_phone'])) && $userSessionInfo['media_man_phone']!=$_POST['phone']){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '请使用当前用户注册时所使用的手机号';
