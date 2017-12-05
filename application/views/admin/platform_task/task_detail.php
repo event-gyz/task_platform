@@ -253,6 +253,8 @@
 
                         <?php if (($info['audit_status'] === "1")): ?>
                             待审核
+                        <?php elseif (($value['audit_status'] === "2")): ?>
+                            驳回
                         <?php elseif (($info['pay_status'] === "0") && ($info['audit_status'] === "3")): ?>
                             待广告主付款
                         <?php elseif (($info['pay_status'] === "1") && ($info['audit_status'] === "3") && ($info['finance_status'] === "0")): ?>
