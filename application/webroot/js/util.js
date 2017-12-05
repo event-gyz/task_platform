@@ -1,7 +1,7 @@
 /**
  * Created by Zhang on 17/7/17.
  */
-var css = '#tips{background: rgba(0,0,0,0.1);width:100%;height:100%;position:fixed;display:none;left:0;top:0;text-align:center;}#tips span{background:#fff;border-radius: 2px;padding:8px 10px;display: inline-block;line-height:20px;color:#333;margin-top:150px;}';
+var css = '#tips{background: rgba(0,0,0,0.1);width:100%;height:100%;position:fixed;display:none;left:0;top:0;text-align:center;}#tips span{background:#fff;border-radius: 2px;padding:8px 10px;display: inline-block;line-height:20px;color:#333;margin-top:150px;}#global-confirm,#global-alert{background: rgba(0,0,0,0.1);width:100%;height:100%;position:fixed;display:none;left:0;top:0;text-align:center;}#global-confirm .box,#global-alert .box{background:#fff;border-radius: 2px;padding:5px;display: inline-block;color:#333;margin-top:150px;width:70%;}#global-confirm .title,#global-alert .title{border-bottom: 1px solid #eee;padding: 20px 20px;line-height: 25px;text-align: center;}.global-confirm-button{position:relative;height:45px;overflow:hidden;width:100%;}.confirm-cancel{float:right;width:50%;height:45px;text-align:center;font-size:20px;line-height:45px;}.confirm-submit{float:left;width:49.5%;height:45px;line-height:45px;text-align:center;font-size:20px;color: #40CE7D;border-right:1px solid #eee;}.global-alert-button{position:relative;height:45px;overflow:hidden;width:100%;line-height:45px;text-align:center;font-size:20px;color: #40CE7D;}';
 
 $('head').append('<style type="text/css">'+css+'</style>');
 var util = {
@@ -35,4 +35,30 @@ util.tips = function(text){
     }
     $('#tips').show();
     setTimeout(function(){$('#tips').hide();},2000);
+};
+/**
+ * 自定义移动端的confirm
+ */
+util.confirm = function(text,submit,cancel){
+    if($('#global-confirm').length){
+        $('#global-confirm .title').html(text);
+    }else{
+        var html = '<div id="global-confirm"><div class="box"><div class="title">'+text+'</div><div class="global-confirm-button"><p class="confirm-submit">确 定</p><p class="confirm-cancel">取 消</p></div></div></div>';
+        $('body').append(html);
+    }
+    $('#global-confirm').show();
+    $('#global-confirm .confirm-cancel').unbind('click').click(function(){$('#global-confirm').hide();cancel();});
+    $('#global-confirm .confirm-submit').unbind('click').click(function(){$('#global-confirm').hide();submit();});
+};
+
+util.alert = function(text,fn){
+    if($('#global-alert').length){
+        $('#global-alert .title').html(text);
+    }else{
+        var html = '<div id="global-alert"><div class="box"><div class="title">'+text+'</div><div class="global-alert-button">确 定</div></div></div>';
+        $('body').append(html);
+    }
+
+    $('#global-alert').show();
+    $('#global-alert .global-alert-button').unbind('click').click(function(){$('#global-alert').hide();if(fn){fn()}});
 };
