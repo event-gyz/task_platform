@@ -204,11 +204,17 @@ class Index extends CI_Controller {
             $this->_return['msg'] = '成功';
             $this->_return['data'] = $result;
             echo json_encode($this->_return);exit;
-        }else{
-            $this->_return['errorno'] = -1;
+        }
+        if($result['total']>0 && empty($result['list'])){
+            $this->_return['errorno'] = -2;
             $this->_return['msg'] = '没有数据了';
             echo json_encode($this->_return);exit;
+        }else{
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '暂时没有可以领取的任务';
+            echo json_encode($this->_return);exit;
         }
+
     }
 
     //
@@ -390,6 +396,11 @@ class Index extends CI_Controller {
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $result = $this->__get_task_map_model()->get_media_man_task_list_by_condition($where);
+        if(empty($result['total']) && $_POST['page']>0){
+            $this->_return['errorno'] = -2;
+            $this->_return['msg'] = '没有数据了';
+            echo json_encode($this->_return);exit;
+        }
         if(empty($result['total'])){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '没有已领取的任务';
@@ -502,8 +513,8 @@ class Index extends CI_Controller {
      *  我的列表 （我的收入）
      */
     public function incomeList(){
-        if(isset($_GET['page']) && !empty($_GET['page'])){
-            $where['page'] = $_GET['page'];
+        if(isset($_POST['page']) && !empty($_POST['page'])){
+            $where['page'] = $_POST['page'];
         }
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
