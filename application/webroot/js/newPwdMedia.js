@@ -29,7 +29,7 @@ var app = new Vue({
                 },
                 success: function(res) {
                     if(res.errorno > 0){
-                        location.href='/media/index/home';
+                        location.href='/media/login/accountStatus1';
                     }else{
                         util.tips(res.msg)
                     }

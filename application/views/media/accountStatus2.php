@@ -11,7 +11,7 @@
         <div class="main">
             <div class="statu_style">
 
-                <!--注册成功-->
+                <!--未上传资质-->
                 <div class="statu_box">
                     <p class="icon-box"><img src="/images/status/dts.png"></p>
                     <h2>未上传资质信息</h2>
@@ -22,7 +22,7 @@
                         <a href="/media/index/home">返回首页</a>
                     </p>
                 </div>
-                <!--注册成功-end-->
+                <!--未上传资质-end-->
             </div>
         </div>
         <script type="text/javascript" src="/js/third/jquery.js"></script>
