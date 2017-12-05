@@ -376,11 +376,6 @@
                                               v-model="ruleForm.reasons_for_rejection"></el-input>
                                 </el-form-item>
 
-                                <el-form-item>
-                                    <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                                    <el-button @click="goBack('ruleForm')">返回</el-button>
-                                </el-form-item>
-
                             </el-form>
 
                         </div>
@@ -392,6 +387,16 @@
             </div>
 
         <?php endif; ?>
+
+        <div class="row">
+            <div class="col-xs-12 col-xs-offset-4">
+                <?php if (in_array($info['audit_status'], [1])): ?>
+                    <button @click="submitForm('ruleForm')" type="button" class="btn btn-success margin-r-5">提交</button>
+                <?php endif; ?>
+                <button type="button" class="btn btn-warning margin-r-5">手工作废</button>
+                <button @click="goBack('ruleForm')" type="button" class="btn btn-default margin-r-5"> 返回</button>
+            </div>
+        </div>
 
     </section>
     <!-- /.content -->

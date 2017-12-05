@@ -248,8 +248,8 @@
             <!-- /.box-body -->
         </div>
 
-        <!--帐号状态status=1待审核,审核状态audit_status=0待审核或者审核状态audit_status=2驳回时才进行审核-->
-        <?php if (($info['status'] === "1") && in_array($info['audit_status'], [0, 2])): ?>
+        <!--帐号状态status=1待审核,审核状态audit_status=0待审核时才进行审核-->
+        <?php if (($info['status'] === "1") && ($info['audit_status'] === "0")): ?>
 
             <div class="box box-default">
                 <div class="box-header with-border">
@@ -274,11 +274,6 @@
                                               v-model="ruleForm.reasons_for_rejection"></el-input>
                                 </el-form-item>
 
-                                <el-form-item>
-                                    <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                                    <el-button @click="goBack('ruleForm')">返回</el-button>
-                                </el-form-item>
-
                             </el-form>
 
                         </div>
@@ -290,6 +285,15 @@
             </div>
 
         <?php endif; ?>
+
+        <div class="row">
+            <div class="col-xs-12 col-xs-offset-4">
+                <?php if (($info['status'] === "1") && ($info['audit_status'] === "0")): ?>
+                    <button @click="submitForm('ruleForm')" type="button" class="btn btn-success margin-r-5">提交</button>
+                <?php endif; ?>
+                <button @click="goBack('ruleForm')" type="button" class="btn btn-default margin-r-5"> 返回</button>
+            </div>
+        </div>
 
     </section>
     <!-- /.content -->
