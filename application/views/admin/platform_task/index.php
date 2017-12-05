@@ -164,6 +164,8 @@
                                     <th>
                                         <?php if (($value['audit_status'] === "1")): ?>
                                             待审核
+                                        <?php elseif (($value['audit_status'] === "2")): ?>
+                                            驳回
                                         <?php elseif (($value['pay_status'] === "0") && ($value['audit_status'] === "3")): ?>
                                             待广告主付款
                                         <?php elseif (($value['pay_status'] === "1") && ($value['audit_status'] === "3") && ($value['finance_status'] === "0")): ?>

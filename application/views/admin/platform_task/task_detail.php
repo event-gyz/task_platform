@@ -253,6 +253,8 @@
 
                         <?php if (($info['audit_status'] === "1")): ?>
                             待审核
+                        <?php elseif (($value['audit_status'] === "2")): ?>
+                            驳回
                         <?php elseif (($info['pay_status'] === "0") && ($info['audit_status'] === "3")): ?>
                             待广告主付款
                         <?php elseif (($info['pay_status'] === "1") && ($info['audit_status'] === "3") && ($info['finance_status'] === "0")): ?>
@@ -348,8 +350,8 @@
             </div>
         </div>
 
-        <!--审核状态audit_status=1待审核或者审核状态audit_status=2驳回时才进行审核-->
-        <?php if (in_array($info['audit_status'], [1, 2])): ?>
+        <!--审核状态audit_status=1待审核才进行审核-->
+        <?php if (in_array($info['audit_status'], [1])): ?>
 
             <div class="box box-default">
                 <div class="box-header with-border">
@@ -364,7 +366,7 @@
 
                                 <el-form-item label="审核结果" prop="audit_status">
                                     <el-radio-group v-model="ruleForm.audit_status">
-                                        <el-radio label="1">通过</el-radio>
+                                        <el-radio label="3">通过</el-radio>
                                         <el-radio label="2">不通过</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
