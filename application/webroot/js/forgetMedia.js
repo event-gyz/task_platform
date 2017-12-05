@@ -13,7 +13,9 @@ var app = new Vue({
         //发送验证码
         getVerCode:function(){
             var _this = this;
-            if(util.regexp.mobile.test(_this.phone)){
+            if(_this.phone.length<1){
+                util.tips('请输入手机号码！');
+            }else if(util.regexp.mobile.test(_this.phone)){
                 $.ajax({
                     url: "/media/login/sendCode",
                     dataType: 'json',

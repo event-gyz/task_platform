@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Index extends CI_Controller {
 
+    public $_user_info = 'user_info';
+
     public function __construct(){
         parent::__construct ();
         $this->load->helper ( array (
@@ -31,7 +33,7 @@ class Index extends CI_Controller {
         }
         if(($user_info['audit_status'] != 1) || ($user_info['status'] != 2)){
             $userInfo = $this->__get_media_man_model()->selectById($user_info['media_man_id']);
-            $this->session->set_userdata('user_info',$userInfo);
+            $this->session->set_userdata($this->_user_info,$userInfo);
             if($userInfo['status']==0){
                 //跳到完善基础信息页面
 //                redirect('/media/index/saveBaseInfo');
@@ -118,7 +120,7 @@ class Index extends CI_Controller {
             $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
             if ($re) {
 //                $userInfo = array_merge($userInfo,$data);
-//                $this->session->set_userdata('user_info',$userInfo);
+//                $this->session->set_userdata($this->_user_info,$userInfo);
                 $this->_return['errorno'] = '1';
                 $this->_return['msg'] = '保存成功';
                 echo json_encode($this->_return);
@@ -612,7 +614,7 @@ class Index extends CI_Controller {
 
 
     private function __get_user_session(){
-        $userSession = $this->session->userdata('user_info');
+        $userSession = $this->session->userdata($this->_user_info);
         if(empty($userSession) || !is_array($userSession)){
             redirect('/media/login/login');
 //            $this->_return['errorno'] = -1;

@@ -22,7 +22,22 @@ var app = new Vue({
                     },
                     success: function(res) {
                         if(res.errorno > 0){
-                            location.href='/advertiser/index/home';
+                            // 登录成功
+                            if(res.errorno == 1){
+                                location.href='/advertiser/index/home';
+                                // 未完善基础信息
+                            }else if (res.errorno == 2){
+                                location.href='/advertiser/index/saveBaseInfo';
+                                // 待审核
+                            }else if (res.errorno == 3){
+                                location.href='/advertiser/login/accountStatus3';
+                                // 驳回
+                            }else if (res.errorno == 4){
+                                location.href='/advertiser/login/accountStatus4';
+                                // 冻结
+                            }else if (res.errorno == 5){
+                                location.href='/advertiser/login/accountStatus5';
+                            }
                         }else{
                             util.tips(res.msg)
                         }

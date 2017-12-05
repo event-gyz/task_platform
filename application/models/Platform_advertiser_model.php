@@ -143,6 +143,17 @@ class Platform_advertiser_model extends MY_Model {
         return $query->row_array();
     }
 
+    public function selectByUserName($login_name) {
+        $query = $this->db->get_where($this->getTableName(), array('advertiser_login_name' => $login_name));
+        $result = $query->row_array();
+        if($result){
+            return $result;
+        }else{
+            $query = $this->db->get_where($this->getTableName(), array('advertiser_phone' => $login_name));
+            return $query->row_array();
+        }
+    }
+
     public function insert($data) {
 
         $this->db->insert($this->table, $data);

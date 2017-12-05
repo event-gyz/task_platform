@@ -22,7 +22,7 @@ var app = new Vue({
                     type:"post",
                     data:{
                         phone: this.phone,
-                        password: this.password
+                        type:'pwd'
                     },
                     success: function(res) {
                         if(res.errorno >=0){
@@ -51,7 +51,7 @@ var app = new Vue({
                 return;
             }
             $.ajax({
-                url: "xxx",
+                url: "/advertiser/login/verifyCodeApi",
                 dataType: 'json',
                 type:"post",
                 data:{
@@ -60,7 +60,7 @@ var app = new Vue({
                 },
                 success: function(res) {
                     if(res.errorno >= 0){
-                        location.href='/new_pwd.html';
+                        location.href='/advertiser/login/new_pwd';
                     }else{
                         util.tips(res.msg)
                     }

@@ -22,7 +22,8 @@ var app = new Vue({
                     dataType: 'json',
                     type:"post",
                     data:{
-                        phone: this.phone
+                        phone: this.phone,
+                        userName:this.userName
                     },
                     success: function(res) {
                         if(res.errorno >0){
