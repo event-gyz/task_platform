@@ -439,7 +439,7 @@
             };
         },
         methods: {
-            submitForm              : function (formName) {
+            submitForm                : function (formName) {
                 this.$refs[formName].validate((valid) => {
 
                     if (!valid) {
@@ -457,10 +457,10 @@
                     this.update_task_audit_status();
                 });
             },
-            goBack                  : function (formName) {
+            goBack                    : function (formName) {
                 window.location.href = '/admin/platform_task/home';
             },
-            update_task_audit_status: async function () {
+            update_task_audit_status  : async function () {
                 try {
                     this.loading = true;
                     var url      = '/admin/platform_task/update_task_audit_status';
@@ -502,6 +502,9 @@
                     }
 
                 }
+            },
+            update_task_release_status: function () {
+
             },
         }
 
