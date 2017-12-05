@@ -143,7 +143,50 @@ class Platform_task extends Admin_Controller {
 
     // 任务审核
     public function update_task_audit_status() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
 
+        $id                    = $req_data['id'];
+        $audit_status          = $req_data['audit_status'];
+        $reasons_for_rejection = $req_data['reasons_for_rejection'];
+
+        if (empty($id)) {
+            return $this->response_json(1, 'id不能为空');
+        }
+
+        if (empty($audit_status)) {
+            return $this->response_json(1, 'audit_status不能为空');
+        }
+
+        $info = $this->__get_platform_task_model()->selectById($id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应的信息');
+        }
+
+        if (!in_array($audit_status, [2, 3])) {
+            return $this->response_json(1, '非法操作');
+        }
+
+        $update_info['audit_status']          = $audit_status;
+        $update_info['reasons_for_rejection'] = empty($reasons_for_rejection) ? '' : $reasons_for_rejection;
+        $sys_log_content                      = '任务审核驳回,驳回的原因是:' . $update_info['reasons_for_rejection'];
+
+        if ($audit_status === "3") {
+            $update_info['reasons_for_rejection'] = "";
+            $sys_log_content                      = '任务审核通过';
+        }
+
+        $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
+
+        if ($result === 1) {
+
+            $this->add_sys_log(4, $sys_log_content, $id, json_encode($info), json_encode($update_info));
+
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(1, '非法操作');
     }
 
     // 任务的发布状态

@@ -366,7 +366,7 @@
 
                                 <el-form-item label="审核结果" prop="audit_status">
                                     <el-radio-group v-model="ruleForm.audit_status">
-                                        <el-radio label="1">通过</el-radio>
+                                        <el-radio label="3">通过</el-radio>
                                         <el-radio label="2">不通过</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
