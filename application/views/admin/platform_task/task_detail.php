@@ -350,8 +350,8 @@
             </div>
         </div>
 
-        <!--审核状态audit_status=1待审核或者审核状态audit_status=2驳回时才进行审核-->
-        <?php if (in_array($info['audit_status'], [1, 2])): ?>
+        <!--审核状态audit_status=1待审核才进行审核-->
+        <?php if (in_array($info['audit_status'], [1])): ?>
 
             <div class="box box-default">
                 <div class="box-header with-border">
