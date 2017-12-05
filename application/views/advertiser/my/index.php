@@ -25,12 +25,12 @@
                         <td class="border_bottom">我的资料</td>
                         <td align="right" class="border_bottom" width="30px"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr onclick="window.location.href='/advertiser/index/myMessage'">
+                    <tr onclick="window.location.href='/advertiser/index/message'">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/xx.png"></th>
                         <td class="border_bottom">我的消息</td>
                         <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr onclick="window.location.href='/advertiser/index/myTaskList'">
+                    <tr onclick="window.location.href='/advertiser/index/taskList'">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/rw.png"></th>
                         <td class="border_bottom">我的任务</td>
                         <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>

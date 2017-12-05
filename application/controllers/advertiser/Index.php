@@ -17,7 +17,9 @@ class Index extends CI_Controller {
         ) );
         $this->load->library('session');
         $this->load->helper('Wap');
-//        $this->checkUserLogin();
+        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my')){
+            $this->checkUserLogin();
+        }
 
     }
     // 返回规范
@@ -319,7 +321,7 @@ class Index extends CI_Controller {
     /**
      * 我的列表 （我的消息）
      */
-    public function myMessage(){
+    public function message(){
         $user_info = $this->__get_user_session();
         $where['user_id'] = $user_info['advertiser_id'];
         $where['user_type'] = 1;
@@ -359,7 +361,7 @@ class Index extends CI_Controller {
     /**
      *  我的列表 （我的任务）
      */
-    public function myTaskList(){
+    public function taskList(){
         if(isset($_POST['page']) && !empty($_POST['page'])){
             $where['offset'] = $_POST['page'];
         }
