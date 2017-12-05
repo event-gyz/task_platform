@@ -191,7 +191,49 @@ class Platform_task extends Admin_Controller {
 
     // 任务的发布状态
     public function update_task_release_status() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
 
+        $id             = $req_data['id'];
+        $release_status = $req_data['release_status'];
+        $close_reason   = $req_data['close_reason'];
+
+        if (empty($id)) {
+            return $this->response_json(1, 'id不能为空');
+        }
+
+        if (empty($release_status)) {
+            return $this->response_json(1, 'release_status不能为空');
+        }
+
+        $info = $this->__get_platform_task_model()->selectById($id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应的信息');
+        }
+
+        if (!in_array($release_status, [8])) {
+            return $this->response_json(1, '非法操作');
+        }
+
+        $update_info['release_status'] = $release_status;
+        $update_info['close_reason']   = empty($close_reason) ? '' : $close_reason;
+        $sys_log_content               = '任务发布状态被更新';
+
+        if ($release_status === "8") {
+            $sys_log_content = '任务被手工作废';
+        }
+
+        $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
+
+        if ($result === 1) {
+
+            $this->add_sys_log(9, $sys_log_content, $id, json_encode($info), json_encode($update_info));
+
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(1, '非法操作');
     }
 
     /**

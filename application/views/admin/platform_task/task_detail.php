@@ -398,9 +398,12 @@
                 $is_show_cancellation_btn = (in_array($info['audit_status'], [1, 2])) ||
                     (($info['pay_status'] === "0") && ($info['audit_status'] === "3")) ||
                     (($info['pay_status'] === "1") && ($info['audit_status'] === "3") && ($info['finance_status'] === "0"));
+                $is_show_cancellation_btn = (!in_array($info['release_status'], [8])) && $is_show_cancellation_btn;
                 ?>
                 <?php if ($is_show_cancellation_btn): ?>
-                    <button type="button" class="btn btn-warning margin-r-5">手工作废</button>
+                    <button @click="update_task_release_status()" type="button" class="btn btn-warning margin-r-5">
+                        手工作废
+                    </button>
                 <?php endif; ?>
                 <button @click="goBack('ruleForm')" type="button" class="btn btn-default margin-r-5"> 返回</button>
             </div>
@@ -439,7 +442,7 @@
             };
         },
         methods: {
-            submitForm                : function (formName) {
+            submitForm                   : function (formName) {
                 this.$refs[formName].validate((valid) => {
 
                     if (!valid) {
@@ -457,10 +460,10 @@
                     this.update_task_audit_status();
                 });
             },
-            goBack                    : function (formName) {
+            goBack                       : function (formName) {
                 window.location.href = '/admin/platform_task/home';
             },
-            update_task_audit_status  : async function () {
+            update_task_audit_status     : async function () {
                 try {
                     this.loading = true;
                     var url      = '/admin/platform_task/update_task_audit_status';
@@ -503,9 +506,77 @@
 
                 }
             },
-            update_task_release_status: function () {
+            update_task_release_status   : function () {
+
+                var message = "确定要将任务作废吗，作废后任务将关闭无法正常流转。";
+
+                this.$confirm(message, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText : '取消',
+                    type             : 'warning'
+                }).then(async () => {
+
+                    var close_reason = "";
+                    await this.$prompt('请输入手工作废的原因', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText : '取消',
+                        inputValidator   : (value) => { return value !== null; },
+                        inputErrorMessage: '手工作废原因不能为空'
+                    }).then(({value}) => {
+                        close_reason = value;
+                    }).catch(() => {
+                    });
+
+                    await this.do_update_task_release_status(8, close_reason);
+
+                }).catch(() => {
+                });
 
             },
+            do_update_task_release_status: async function (release_status, close_reason) {
+                try {
+
+                    this.loading = true;
+                    var url      = '/admin/platform_advertiser/update_task_release_status';
+                    var response = await axios.post(
+                        url,
+                        {
+                            "id"            : this.task_id,
+                            "release_status": release_status,
+                            "close_reason"  : close_reason,
+                        },
+                    );
+                    this.loading = false;
+                    var resData  = response.data;
+
+                    if (resData.error_no === 0) {
+                        this.$message.success('操作成功,即将刷新页面...');
+                        return window.location.reload();
+                    }
+
+                    return this.$message.error(resData.msg);
+
+                } catch (error) {
+
+                    this.loading = false;
+
+                    if (error instanceof Error) {
+
+                        if (error.response) {
+                            return this.$message.error(error.response.data.responseText);
+                        }
+
+                        if (error.request) {
+                            console.error(error.request);
+                            return this.$message.error('服务器未响应');
+                        }
+
+                        console.error(error);
+
+                    }
+
+                }
+            }
         }
 
     };
