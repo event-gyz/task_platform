@@ -29,7 +29,7 @@
                 </tr>
                 <tr>
                     <th align="left" width="60px;">验证码</th>
-                    <td><input type="text" v-model="verification" placeholder="请输入收到的验证码"></td>
+                    <td><input type="text" v-model="code" placeholder="请输入收到的验证码"></td>
                     <td><a v-show="!time" href="#" @click="getVerCode">获取验证码</a><a style="display: none" v-show="time" href="javascript:;" >{{time}}S后获取</a></td>
                 </tr>
             </table>
@@ -43,6 +43,6 @@
 <script type="text/javascript" src="/js/third/jquery.js"></script>
 <script type="text/javascript" src="/js/third/vue.js"></script>
 <script type="text/javascript" src="/js/util.js"></script>
-<script type="text/javascript" src="/js/register_media.js"></script>
+<script type="text/javascript" src="/js/registerMedia.js"></script>
 </body>
 </html>

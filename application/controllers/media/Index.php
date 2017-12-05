@@ -11,7 +11,7 @@ class Index extends CI_Controller {
         ) );
         $this->load->library('session');
         $this->load->helper('Wap');
-        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'my')){
+        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'saveBaseInfo') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'savePromotedInfoView')){
             $this->checkUserLogin();
         }
 
@@ -26,7 +26,8 @@ class Index extends CI_Controller {
 
     private function checkUserLogin(){
         $user_info = $this->__get_user_session();
-        if(!$user_info['media_man_id']){
+
+        if(empty($user_info['media_man_id'])){
             redirect('/media/login/login');
         }
         if(($user_info['audit_status'] != 1) || ($user_info['status'] != 2)){
@@ -37,7 +38,7 @@ class Index extends CI_Controller {
 //                $this->_return['errorno'] = '2';
 //                $this->_return['msg'] = '未完善基础信息';
 //                echo json_encode($this->_return);exit;
-                redirect('media/login/login');
+                redirect('/media/index/saveBaseInfo');
             }else if($userInfo['audit_status']==0){
                 //跳到待审核页面
 //                $this->_return['errorno'] = '3';
@@ -77,13 +78,10 @@ class Index extends CI_Controller {
         $this->load->view('media/index');
     }
 
-    public function saveBaseInfoView(){
-        $this->load->view('media/base');
-    }
     // 保存自媒体人基础信息
     public function saveBaseInfo() {
         if (empty($_POST)) {
-            $this->load->view('media/baseInfo');
+            $this->load->view('media/base');
         } else {
 
             if(!isset($_POST ['name']) || empty($_POST ['name'])){
@@ -147,7 +145,7 @@ class Index extends CI_Controller {
     // 保存自媒体人账户信息
     public function savePromotedInfo() {
         if (empty($_POST)) {
-            $this->load->view('media/promotedInfo');
+            $this->load->view('media/account');
         } else {
 
             if((!isset($_POST ['wx_code']) || empty($_POST ['wx_code']) || !isset($_POST ['wx_type']) || empty($_POST ['wx_type']) || !isset($_POST ['wx_max_fans']) || empty($_POST ['wx_max_fans'])) || (!isset($_POST ['weibo_nickname']) || empty($_POST ['weibo_nickname']) || !isset($_POST ['weibo_type']) || empty($_POST ['weibo_type']) || !isset($_POST ['weibo_max_fans']) || empty($_POST ['weibo_max_fans']) || !isset($_POST ['weibo_link']) || empty($_POST ['weibo_link']))){
