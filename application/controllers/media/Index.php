@@ -73,7 +73,7 @@ class Index extends CI_Controller {
         if (empty($_POST)) {
             $this->load->view('media/base');
         } else {
-
+            print_r($_POST);exit;
             if(!isset($_POST ['name']) || empty($_POST ['name'])){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '请填写姓名';
@@ -85,13 +85,13 @@ class Index extends CI_Controller {
                 echo json_encode($this->_return);exit;
             }
 
-            if(!isset($_POST ['zfb_nu']) || empty($_POST ['zfb_nu'])){
+            if(!isset($_POST ['zfbNumber']) || empty($_POST ['zfbNumber'])){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '请填写支付宝账号';
                 echo json_encode($this->_return);exit;
             }
 
-            if(!isset($_POST ['zfb_realname']) || empty($_POST ['zfb_realname'])){
+            if(!isset($_POST ['zfbName']) || empty($_POST ['zfbName'])){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '请填写真实姓名';
                 echo json_encode($this->_return);exit;
@@ -99,19 +99,19 @@ class Index extends CI_Controller {
 
 
             $data = array (
-                'media_man_name' => trim($_POST['name']),
+                'media_man_name' => trim($_POST['zfbNumber']),
                 'sex' => (int)($_POST['sex']),
-                'zfb_nu' => trim($_POST['zfb_nu']),
-                'zfb_realname' => trim($_POST['zfb_realname']),
-                'school_name' => trim($_POST['school_name']),
-                'school_type' => (int)$_POST['school_type'],
+                'zfb_nu' => trim($_POST['zfbNumber']),
+                'zfb_realname' => trim($_POST['zfbName']),
+                'school_name' => trim($_POST['schoolName']),
+                'school_type' => (int)$_POST['schoolType'],
                 'school_province' => (int)$_POST['school_province'],
                 'school_city' => (int)$_POST['school_city'],
                 'school_area' => (int)$_POST['school_area'],
-                'school_level' => (int)$_POST['school_level'],
+                'school_level' => (int)$_POST['schoolLevel'],
                 'age' => (int)($_POST['age']),
                 'industry' => json_encode($_POST['industry']),
-                'hobby' => json_encode($_POST['hobby']),
+                'hobby' => json_encode($_POST['liking']),
             );
 
             //通过session获取用户信息
