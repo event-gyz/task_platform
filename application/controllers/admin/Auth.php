@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require '../core/Admin_Controller.php';
+require APPPATH.'/core/Admin_Controller.php';
 
 class Auth extends Admin_Controller {
 

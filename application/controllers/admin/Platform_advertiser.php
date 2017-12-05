@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require '../core/Admin_Controller.php';
+require APPPATH.'/core/Admin_Controller.php';
 
 /**
  * 广告主管理,个人广告主,公司广告主
