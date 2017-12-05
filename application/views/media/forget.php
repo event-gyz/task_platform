@@ -31,6 +31,6 @@
 <script type="text/javascript" src="/js/third/jquery.js"></script>
 <script type="text/javascript" src="/js/util.js"></script>
 <script type="text/javascript" src="/js/third/vue.js"></script>
-<script type="text/javascript" src="/js/forget_media.js"></script>
+<script type="text/javascript" src="/js/forgetMedia.js"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@ class Index extends CI_Controller {
         ) );
         $this->load->library('session');
         $this->load->helper('Wap');
-        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'saveBaseInfo') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'savePromotedInfoView')){
+        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'saveBaseInfo') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'savePromotedInfo')){
             $this->checkUserLogin();
         }
 
@@ -26,7 +26,6 @@ class Index extends CI_Controller {
 
     private function checkUserLogin(){
         $user_info = $this->__get_user_session();
-
         if(empty($user_info['media_man_id'])){
             redirect('/media/login/login');
         }
@@ -35,7 +34,8 @@ class Index extends CI_Controller {
             $this->session->set_userdata('user_info',$userInfo);
             if($userInfo['status']==0){
                 //跳到完善基础信息页面
-                redirect('/media/index/saveBaseInfo');
+//                redirect('/media/index/saveBaseInfo');
+                redirect('/media/login/accountStatus2');
             }else if($userInfo['audit_status']==0){
                 //跳到待审核页面
                 redirect('media/login/accountStatus3');
@@ -73,7 +73,6 @@ class Index extends CI_Controller {
         if (empty($_POST)) {
             $this->load->view('media/base');
         } else {
-            print_r($_POST);exit;
             if(!isset($_POST ['name']) || empty($_POST ['name'])){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '请填写姓名';
@@ -129,9 +128,6 @@ class Index extends CI_Controller {
         }
     }
 
-    public function savePromotedInfoView(){
-        $this->load->view('media/account');
-    }
     // 保存自媒体人账户信息
     public function savePromotedInfo() {
         if (empty($_POST)) {
@@ -619,10 +615,10 @@ class Index extends CI_Controller {
         $userSession = $this->session->userdata('user_info');
         if(empty($userSession) || !is_array($userSession)){
             redirect('/media/login/login');
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '用户信息有误请重新登录';
-            //todo 跳到登录页面
-            echo json_encode($this->_return);exit;
+//            $this->_return['errorno'] = -1;
+//            $this->_return['msg'] = '用户信息有误请重新登录';
+//            //todo 跳到登录页面
+//            echo json_encode($this->_return);exit;
         }
         return $userSession;
     }

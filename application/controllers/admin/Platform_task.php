@@ -126,9 +126,13 @@ class Platform_task extends Admin_Controller {
             $advertiser_info = $this->__get_platform_advertiser_model()->selectById($info['advertiser_user_id']);
         }
 
+        $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,9", "offset" => 0, "limit" => 200];
+        $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
+
         return $this->load->view('admin/platform_task/task_detail',
             [
                 'info'                     => $info,
+                'log_list'                 => $log_list['list'],
                 'advertiser_info'          => $advertiser_info,
                 'adv_audit_status'         => $this->config->item('adv_audit_status'),
                 'adv_account_status'       => $this->config->item('adv_account_status'),

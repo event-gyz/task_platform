@@ -350,6 +350,46 @@
             </div>
         </div>
 
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">操作日志</h3>
+            </div>
+            <div class="box-body">
+
+                <!-- Table row -->
+                <div class="row">
+                    <div class="col-xs-12 table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>用户名</th>
+                                <th>操作时间</th>
+                                <th>操作事项</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <?php foreach ($log_list as $value): ?>
+                                <tr>
+                                    <td><?= $value['id'] ?></td>
+                                    <td><?= $value['sys_user_name'] ?></td>
+                                    <td><?= $value['create_time'] ?></td>
+                                    <td><?= $value['sys_log_content'] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+
         <!--审核状态audit_status=1&&release_status=0待审核才进行审核-->
         <?php if (in_array($info['audit_status'], [1]) && in_array($info['release_status'], [0])): ?>
 
@@ -527,7 +567,7 @@
                     }).catch(() => {
                     });
 
-                    await this.do_update_task_release_status(8, close_reason);
+                    await this.do_update_task_release_status('8', close_reason);
 
                 }).catch(() => {
                 });

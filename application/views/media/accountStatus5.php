@@ -8,20 +8,24 @@
         <link rel="stylesheet" href="/css/statu.css" />
     </head>
     <body>
-        <div class="main">
-            <div class="statu_style">
+    <div class="main">
+        <div class="statu_style">
 
-                <!--注册成功-->
-                <div class="statu_box">
-                    <p class="icon-box"><img src="/images/status/cg.png"></p>
-                    <h2>注册成功</h2>
-                    <p class="text">恭喜您，注册成功，我们将在<span class="warn">***</span>个工作日内完成审核，请请耐心等待。</p>
-                    <p class="bg_line"></p>
-                    <p class="button1"><a href="#">返回首页</a></p>
-                </div>
-                <!--注册成功-end-->
+            <!--审核失败-->
+            <div class="statu_box">
+                <p class="icon-box"><img src="/images/status/sb.png"></p>
+                <?php $userSession = $_SESSION['user_info'];?>
+                <h2>抱歉，您的账号已被冻结，请联系管理员解决，电话：*****。</h2>
+                <p class="text">冻结原因：<?=$userSession['reasons_for_rejection']?></p>
+                <p class="bg_line"></p>
+                <p class="button2">
+                    <a style="border-right: 1px solid #E5E5E5;" href="/media/index/saveBaseInfo">立即修改</a>
+                    <a href="/media/index/home">返回首页</a>
+                </p>
             </div>
+            <!--审核失败-end-->
         </div>
+    </div>
         <script type="text/javascript" src="/js/third/jquery.js"></script>
         <script type="text/javascript" src="/js/util.js"></script>
     </body>
