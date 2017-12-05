@@ -179,6 +179,9 @@ class Index extends CI_Controller {
     }
 
 
+    public function getMissionHallView(){
+        $this->load->view('media/task_list');
+    }
     /**
      * 任务大厅
      */
