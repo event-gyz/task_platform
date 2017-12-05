@@ -185,7 +185,7 @@ class Index extends CI_Controller {
      */
     public function getMissionHall(){
 
-        $page = (isset($_POST['page'])&&!empty($_POST['page'])) ? $_POST['page'] : 0;
+        $page = (isset($_POST['page'])&&!empty($_POST['page'])) ? $_POST['page'] : 1;
         $user_info = $this->__get_user_session();
         $media_man_id = $user_info['media_man_id'];
 
@@ -197,8 +197,6 @@ class Index extends CI_Controller {
             $allot_time = $this->__timediff(strtotime($value['allot_time']));
             if($allot_time){
                 $value['allot_time']  = $allot_time;
-            }else{
-                unset($result['list'][$key]);
             }
         }
         if(is_array($result['list']) && !empty($result['list'])){
@@ -208,7 +206,7 @@ class Index extends CI_Controller {
             echo json_encode($this->_return);exit;
         }else{
             $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '暂无可领取的任务';
+            $this->_return['msg'] = '没有数据了';
             echo json_encode($this->_return);exit;
         }
     }
@@ -385,18 +383,37 @@ class Index extends CI_Controller {
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $result = $this->__get_task_map_model()->get_media_man_task_list_by_condition($where);
-//                echo '<pre>';
-//        print_r($result);exit;
         $this->load->view('media/my/task',$result);
-//        if(empty($result['total'])){
-//            $this->_return['errorno'] = -1;
-//            $this->_return['msg'] = '没有已领取的任务';
-//            echo json_encode($this->_return);exit;
-//        }
-//        $this->_return['errorno'] = 1;
-//        $this->_return['msg'] = '成功';
-//        $this->_return['data'] = $result;
-//        echo json_encode($this->_return);exit;
+        if(empty($result['total'])){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '没有已领取的任务';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
+    }
+
+    /**
+     *  我的列表 （我的任务）
+     */
+    public function taskListApi(){
+        if(isset($_POST['page']) && !empty($_POST['page'])){
+            $where['offset'] = $_POST['page'];
+        }
+        $user_info = $this->__get_user_session();
+        $where['media_man_user_id'] = $user_info['media_man_id'];
+        $result = $this->__get_task_map_model()->get_media_man_task_list_by_condition($where);
+        if(empty($result['total'])){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '没有已领取的任务';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
     }
 
     /**
