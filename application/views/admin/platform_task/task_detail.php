@@ -398,6 +398,7 @@
                 $is_show_cancellation_btn = (in_array($info['audit_status'], [1, 2])) ||
                     (($info['pay_status'] === "0") && ($info['audit_status'] === "3")) ||
                     (($info['pay_status'] === "1") && ($info['audit_status'] === "3") && ($info['finance_status'] === "0"));
+                $is_show_cancellation_btn = (!in_array($info['release_status'], [8])) && $is_show_cancellation_btn;
                 ?>
                 <?php if ($is_show_cancellation_btn): ?>
                     <button type="button" class="btn btn-warning margin-r-5">手工作废</button>
