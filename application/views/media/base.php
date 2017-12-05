@@ -51,10 +51,10 @@
                             <th align="left" class="border_bottom" width="40px;">年龄</th>
                             <td class="border_bottom">
                                 <p class="text-box">
-                                    <span @click="setAge('18岁以下')" :class="{cur:age=='18岁以下'}">18岁以下</span>
-                                    <span @click="setAge('18-30岁')" :class="{cur:age=='18-30岁'}">18-30岁</span>
-                                    <span @click="setAge('31-50岁')" :class="{cur:age=='31-50岁'}">31-50岁</span>
-                                    <span @click="setAge('50岁以上')" :class="{cur:age=='50岁以上'}">50岁以上</span>
+                                    <span @click="setAge('1')" :class="{cur:age=='1'}">18岁以下</span>
+                                    <span @click="setAge('2')" :class="{cur:age=='2'}">18-30岁</span>
+                                    <span @click="setAge('3')" :class="{cur:age=='3'}">31-50岁</span>
+                                    <span @click="setAge('4')" :class="{cur:age=='4'}">50岁以上</span>
                                 </p>
                             </td>
                         </tr>
@@ -62,14 +62,14 @@
                             <th align="left" class="border_bottom" >爱好</th>
                             <td class="border_bottom">
                                 <p class="text-box">
-                                    <span @click="setLiking('美食')" :class="{cur:liking.indexOf('美食')!=-1}">美食</span>
-                                    <span @click="setLiking('旅游')" :class="{cur:liking.indexOf('旅游')!=-1}">旅游</span>
-                                    <span @click="setLiking('健身')" :class="{cur:liking.indexOf('健身')!=-1}">健身</span>
-                                    <span @click="setLiking('减肥')" :class="{cur:liking.indexOf('减肥')!=-1}">减肥</span>
-                                    <span @click="setLiking('理财')" :class="{cur:liking.indexOf('理财')!=-1}">理财</span>
-                                    <span @click="setLiking('美妆')" :class="{cur:liking.indexOf('美妆')!=-1}">美妆</span>
-                                    <span @click="setLiking('宠物')" :class="{cur:liking.indexOf('宠物')!=-1}">宠物</span>
-                                    <span @click="setLiking('购物')" :class="{cur:liking.indexOf('购物')!=-1}">购物</span>
+                                    <span @click="setLiking('1')" :class="{cur:liking.indexOf('1')!=-1}">美食</span>
+                                    <span @click="setLiking('2')" :class="{cur:liking.indexOf('2')!=-1}">旅游</span>
+                                    <span @click="setLiking('3')" :class="{cur:liking.indexOf('3')!=-1}">健身</span>
+                                    <span @click="setLiking('4')" :class="{cur:liking.indexOf('4')!=-1}">减肥</span>
+                                    <span @click="setLiking('5')" :class="{cur:liking.indexOf('5')!=-1}">理财</span>
+                                    <span @click="setLiking('6')" :class="{cur:liking.indexOf('6')!=-1}">美妆</span>
+                                    <span @click="setLiking('7')" :class="{cur:liking.indexOf('7')!=-1}">宠物</span>
+                                    <span @click="setLiking('8')" :class="{cur:liking.indexOf('8')!=-1}">购物</span>
                                 </p>
                             </td>
                         </tr>
@@ -77,13 +77,13 @@
                             <th align="left">行业</th>
                             <td>
                                 <p class="text-box">
-                                    <span @click="setIndustry('学生')" :class="{cur:industry=='学生'}">学生</span>
-                                    <span @click="setIndustry('互联网')" :class="{cur:industry=='互联网'}">互联网</span>
-                                    <span @click="setIndustry('传媒/营销')" :class="{cur:industry=='传媒/营销'}">传媒/营销</span>
-                                    <span @click="setIndustry('金融/财经')" :class="{cur:industry=='金融/财经'}">金融/财经</span>
-                                    <span @click="setIndustry('电商/微商')" :class="{cur:industry=='电商/微商'}">电商/微商</span>
-                                    <span @click="setIndustry('文娱')" :class="{cur:industry=='文娱'}">文娱</span>
-                                    <span @click="setIndustry('母婴')" :class="{cur:industry=='母婴'}">母婴</span>
+                                    <span @click="setIndustry('1')" :class="{cur:industry=='1'}">学生</span>
+                                    <span @click="setIndustry('2')" :class="{cur:industry=='2'}">互联网</span>
+                                    <span @click="setIndustry('3')" :class="{cur:industry=='3'}">传媒/营销</span>
+                                    <span @click="setIndustry('4')" :class="{cur:industry=='4'}">金融/财经</span>
+                                    <span @click="setIndustry('5')" :class="{cur:industry=='5'}">电商/微商</span>
+                                    <span @click="setIndustry('6')" :class="{cur:industry=='6'}">文娱</span>
+                                    <span @click="setIndustry('7')" :class="{cur:industry=='7'}">母婴</span>
                                 </p>
                             </td>
                         </tr>

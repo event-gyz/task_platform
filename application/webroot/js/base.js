@@ -136,7 +136,7 @@ var app = new Vue({
                 return;
             }
             $.ajax({
-                url: "xxx",
+                url: "/media/index/saveBaseInfo",
                 dataType: 'json',
                 type:"post",
                 data:{
