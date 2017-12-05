@@ -350,8 +350,8 @@
             </div>
         </div>
 
-        <!--审核状态audit_status=1待审核才进行审核-->
-        <?php if (in_array($info['audit_status'], [1])): ?>
+        <!--审核状态audit_status=1&&release_status=0待审核才进行审核-->
+        <?php if (in_array($info['audit_status'], [1]) && in_array($info['release_status'], [0])): ?>
 
             <div class="box box-default">
                 <div class="box-header with-border">
@@ -390,7 +390,7 @@
 
         <div class="row">
             <div class="col-xs-12 col-xs-offset-4">
-                <?php if (in_array($info['audit_status'], [1])): ?>
+                <?php if (in_array($info['audit_status'], [1]) && in_array($info['release_status'], [0])): ?>
                     <button @click="submitForm('ruleForm')" type="button" class="btn btn-success margin-r-5">提交</button>
                 <?php endif; ?>
                 <?php
@@ -537,7 +537,7 @@
                 try {
 
                     this.loading = true;
-                    var url      = '/admin/platform_advertiser/update_task_release_status';
+                    var url      = '/admin/platform_task/update_task_release_status';
                     var response = await axios.post(
                         url,
                         {
