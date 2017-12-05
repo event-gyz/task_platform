@@ -20,35 +20,35 @@
                 </div>
                 <!--head-end-->
                 <table class="my_index_table">
-                    <tr>
+                    <tr onclick="window.location.href='/media/index/getMediaManInfo'">
                         <th align="center" width="35px;">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/zl.png"></th>
                         <td class="border_bottom">我的资料</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/getMediaManInfo"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr>
+                    <tr onclick="window.location.href='/media/index/message'">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/xx.png"></th>
                         <td class="border_bottom">我的消息</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/message"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr>
+                    <tr onclick="window.location.href='/media/index/taskList'">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/rw.png"></th>
                         <td class="border_bottom">我的任务</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/taskList"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr>
+                    <tr onclick="window.location.href='/media/index/incomeList'">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/rw.png"></th>
                         <td class="border_bottom">我的收入</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/index/incomeList"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr>
+                    <tr onclick="window.location.href='/media/login/updatePwd'">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/mm.png"></th>
                         <td class="border_bottom">修改密码</td>
-                        <td align="right" class="border_bottom" width="30px;"><a class="a_box" href="/media/login/updatePwd"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr>
+                    <tr onclick="window.location.href='#'">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/kf.png"></th>
                         <td>联系客服</td>
-                        <td align="right" width="30px;"><a class="a_box" href="#"><i class="iconfont">&#xe610;</i></a></td>
+                        <td align="right" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
                 </table>
                 <p class="logout"><a href="/media/login/logout">退出登录</a></p>
