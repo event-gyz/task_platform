@@ -105,7 +105,13 @@ class Platform_media_man_model extends MY_Model {
 
     public function selectByLoginName($login_name) {
         $query = $this->db->get_where($this->getTableName(), array('media_man_login_name' => $login_name));
-        return $query->row_array();
+        $result = $query->row_array();
+        if($result){
+            return $result;
+        }else{
+            $query = $this->db->get_where($this->getTableName(), array('media_man_phone' => $login_name));
+            return $query->row_array();
+        }
     }
 
     public function selectByPhone($phone) {

@@ -27,8 +27,7 @@ var app = new Vue({
                                 location.href='/media/index/home';
                             // 未完善基础信息
                             }else if (res.errorno == 2){
-                                // todo
-                                location.href='/media/login/';
+                                location.href='/media/index/saveBaseInfo';
                             // 待审核
                             }else if (res.errorno == 3){
                                 location.href='/media/login/accountStatus3';

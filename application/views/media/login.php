@@ -26,7 +26,7 @@
                 <p class="button-box"><input type="button" @click="save" value="登录" class="common_button"></p>
                 <p class="login-text">
                     <a class="left" href="/media/login/register">立即注册</a>
-                    <a class="right" href="./forget.html">忘记密码</a>
+                    <a class="right" href="/media/login/forget">忘记密码</a>
                 </p>
             </div>
         </div>

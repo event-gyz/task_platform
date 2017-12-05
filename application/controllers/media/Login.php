@@ -93,12 +93,19 @@ class Login extends CI_Controller {
         }
     }
 
+    //跳到提示补全信息页面
+    public function accountStatus2(){
+        $this->load->view('media/accountStatus2');
+    }
+    //跳到待审核页面
     public function accountStatus3(){
         $this->load->view('media/accountStatus3');
     }
+    //跳到驳回页面
     public function accountStatus4(){
         $this->load->view('media/accountStatus4');
     }
+    //跳到冻结页面
     public function accountStatus5(){
         $this->load->view('media/accountStatus5');
     }
@@ -166,10 +173,18 @@ class Login extends CI_Controller {
         }
     }
 
+    public function forget(){
+        $this->load->view('media/forget');
+    }
+
+    public function new_pwd(){
+        $this->load->view('media/new_pwd');
+    }
+
     //找回密码
     public function updatePwd(){
         $pwd = $_POST['password'];
-        $rel_pwd = $_POST['rel_password'];
+        $rel_pwd = $_POST['againPassword'];
         if(empty($pwd) || empty($rel_pwd)){
             $this->_return['errorno'] = '-1';
             $this->_return['msg'] = '密码不能为空';
@@ -184,7 +199,7 @@ class Login extends CI_Controller {
         $phone = $this->session->userdata($this->_pwd_phone);
         if(empty($phone)){
             $this->_return['errorno'] = '-1';
-            $this->_return['msg'] = '数据异常';
+            $this->_return['msg'] = '没有验证手机号';
             echo json_encode($this->_return);exit;
         }else{
             $re = $this->__get_media_man_model()->updateInfoByPhone($phone,['media_man_password'=>Wap::generate_wap_user_password($pwd)]);
@@ -357,7 +372,7 @@ class Login extends CI_Controller {
     }
 
     /**
-     * 发送验证码是验证手机号
+     * 验证手机号
      * @param $phone
      * @return array|bool
      */

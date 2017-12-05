@@ -17,7 +17,7 @@
                     <h2>注册成功</h2>
                     <p class="text">恭喜您，注册成功，我们将在<span class="warn">***</span>个工作日内完成审核，请请耐心等待。</p>
                     <p class="bg_line"></p>
-                    <p class="button1"><a href="#">返回首页</a></p>
+                    <p class="button1"><a href="/media/index/home">返回首页</a></p>
                 </div>
                 <!--注册成功-end-->
                 <!--设置新密码成功-->
@@ -28,7 +28,7 @@
                     <p class="bg_line"></p>
                     <p class="button2">
                         <a style="border-right: 1px solid #E5E5E5;" href="#">立即登陆</a>
-                        <a href="#">返回首页</a>
+                        <a href="/media/index/home">返回首页</a>
                     </p>
                 </div>
                 <!--设置新密码成功-end-->

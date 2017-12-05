@@ -15,19 +15,19 @@ var app = new Vue({
             var _this = this;
             if(util.regexp.mobile.test(_this.phone)){
                 $.ajax({
-                    url: "xxx",
+                    url: "/media/login/sendCode",
                     dataType: 'json',
                     type:"post",
                     data:{
-                        userName: this.userName,
-                        password: this.password
+                        phone: this.phone,
+                        type:'pwd'
                     },
                     success: function(res) {
-                        if(res.errorno >0){
+                        if(res.errorno >=0){
                             _this.time = 90;
                             var timer = setInterval(function(){_this.time--;if(_this.time<1){clearInterval(timer)}},1000);
                         }else{
-                            util.tips()
+                            util.tips(res.msg)
                         }
                     },
                     error:function(){
@@ -49,16 +49,17 @@ var app = new Vue({
                 return;
             }
             $.ajax({
-                url: "xxx",
+                url: "/media/login/verifyCodeApi",
                 dataType: 'json',
                 type:"post",
                 data:{
                     phone:this.phone,
-                    verification:this.verification
+                    code:this.verification,
+                    type:'pwd'
                 },
                 success: function(res) {
                     if(res.errorno > 0){
-                        location.href='/new_pwd.html';
+                        location.href='/media/login/new_pwd';
                     }else{
                         util.tips(res.msg)
                     }
