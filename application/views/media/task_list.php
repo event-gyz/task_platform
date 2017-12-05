@@ -48,9 +48,9 @@
         </div>
         <!--nav-->
         <div class="nav">
-            <p><a href="./index.html"><i class="iconfont">&#xe661;</i><br>首页</a></p>
-            <p class="cur"><a href="./task_list.html"><i class="iconfont">&#xe653;</i><br>任务大厅</a></p>
-            <p><a href="./my/index.html"><i class="iconfont">&#xe600;</i><br>我的</a></p>
+            <p><a href="/media/index/home"><i class="iconfont">&#xe661;</i><br>首页</a></p>
+            <p class="cur"><a href="/media/index/getMissionHallView"><i class="iconfont">&#xe653;</i><br>任务大厅</a></p>
+            <p><a href="/media/index/my"><i class="iconfont">&#xe600;</i><br>我的</a></p>
         </div>
         <!--nav-end-->
         <script type="text/javascript" src="/js/third/zepto.min.js"></script>

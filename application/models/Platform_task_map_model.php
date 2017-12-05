@@ -58,7 +58,7 @@ class Platform_task_map_model extends MY_Model{
         if(!isset($where['media_man_user_id']) || empty($where['media_man_user_id'])){
             return ['total' => 0, 'list' => []];
         }
-        $param = "pt.*,pmm.*,ptr.platform_pay_money,ptr.platform_pay_way,ptr.finance_status,ptr.pay_time,ptm.task_map_id";
+        $param = "pt.*,pmm.*,ptr.platform_pay_money,ptr.platform_pay_way,ptr.finance_status,ptr.pay_time,ptm.task_map_id,ptm.receive_status,ptm.deliver_status,ptm.deliver_audit_status,ptm.receivables_status";
         $task_table = 'platform_task';
         $task_receivables_table = 'platform_task_receivables';
         $media_man_table = 'platform_media_man';

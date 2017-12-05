@@ -35,22 +35,12 @@ class Index extends CI_Controller {
             $this->session->set_userdata('user_info',$userInfo);
             if($userInfo['status']==0){
                 //跳到完善基础信息页面
-//                $this->_return['errorno'] = '2';
-//                $this->_return['msg'] = '未完善基础信息';
-//                echo json_encode($this->_return);exit;
                 redirect('/media/index/saveBaseInfo');
             }else if($userInfo['audit_status']==0){
                 //跳到待审核页面
-//                $this->_return['errorno'] = '3';
-//                $this->_return['msg'] = '待审核';
-//                echo json_encode($this->_return);exit;
                 redirect('media/login/accountStatus3');
             }else if($userInfo['audit_status']==2){
                 //跳到驳回页面
-//                $this->_return['errorno'] = '4';
-//                $this->_return['msg'] = '驳回';
-//                //驳回原因
-//                $this->_return['data'] = $userInfo['reasons_for_rejection'];
                 redirect('media/login/accountStatus4');
             }else if($userInfo['status']==9){
                 //跳到冻结页面
@@ -392,6 +382,8 @@ class Index extends CI_Controller {
     public function taskListApi(){
         if(isset($_POST['page']) && !empty($_POST['page'])){
             $where['page'] = $_POST['page'];
+        }else {
+            $where['page'] = 1;
         }
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
@@ -415,11 +407,11 @@ class Index extends CI_Controller {
     /**
      *  我的列表 （我的任务详情）
      */
-    public function myTaskDetail(){
+    public function taskDetail(){
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
 //        $_POST['task_map_id'] = 1;
-        if(!isset($_POST['task_map_id']) || empty($_POST['task_map_id'])){
+        if(!isset($_GET['task_id']) || empty($_GET['task_id'])){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '参数错误';
             echo json_encode($this->_return);exit;
