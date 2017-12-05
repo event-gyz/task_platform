@@ -9,7 +9,7 @@ var app = new Vue({
         password:'',
         againPassword:'',
         phone:'',
-        verification:''
+        code:''
     },
     mounted:function(){},
     methods:{
@@ -18,19 +18,19 @@ var app = new Vue({
             var _this = this;
             if(util.regexp.mobile.test(_this.phone)){
                 $.ajax({
-                    url: "xxx",
+                    url: "/media/login/sendCode",
                     dataType: 'json',
                     type:"post",
                     data:{
-                        userName: this.userName,
-                        password: this.password
+                        phone: this.phone,
+                        userName:this.userName
                     },
                     success: function(res) {
                         if(res.errorno >0){
                             _this.time = 90;
                             var timer = setInterval(function(){_this.time--;if(_this.time<1){clearInterval(timer)}},1000);
                         }else{
-                            util.tips()
+                            util.tips(res.msg)
                         }
                     },
                     error:function(){
@@ -60,12 +60,12 @@ var app = new Vue({
                 util.tips('手机号码错误！');
                 return;
             }
-            if(this.verification.length<1){
+            if(this.code.length<1){
                 util.tips('请输入验证码！');
                 return;
             }
             $.ajax({
-                url: "xxx",
+                url: "/media/login/register",
                 dataType: 'json',
                 type:"post",
                 data:{
@@ -73,11 +73,11 @@ var app = new Vue({
                     password:this.password,
                     againPassword:this.againPassword,
                     phone:this.phone,
-                    verification:this.verification
+                    code:this.code
                 },
                 success: function(res) {
                     if(res.errorno > 0){
-                        location.href='/index.html';
+                        location.href='/media/index/saveBaseInfo';
                     }else{
                         util.tips(res.msg)
                     }

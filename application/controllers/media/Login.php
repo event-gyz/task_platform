@@ -107,7 +107,7 @@ class Login extends CI_Controller {
         if (empty($_POST)) {
             $this->load->view('media/register');
         } else {
-            if(!isset($_POST ['username']) || empty($_POST ['username'])){
+            if(!isset($_POST ['userName']) || empty($_POST ['userName'])){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '用户名不能为空';
                 echo json_encode($this->_return);exit;
@@ -117,7 +117,7 @@ class Login extends CI_Controller {
                 $this->_return['msg'] = '密码不能为空';
                 echo json_encode($this->_return);exit;
             }
-            if($_POST ['password'] != $_POST ['re_password']){
+            if($_POST ['password'] != $_POST ['againPassword']){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '两次密码不一致';
                 echo json_encode($this->_return);exit;
@@ -149,7 +149,7 @@ class Login extends CI_Controller {
 
             $password = Wap::generate_wap_user_password($_POST ['password']);
             $data = array (
-                'media_man_login_name' => trim($_POST['username']),
+                'media_man_login_name' => trim($_POST['userName']),
                 'media_man_password' => $password,
                 'media_man_phone' => trim($_POST['phone'])
             );
@@ -220,10 +220,10 @@ class Login extends CI_Controller {
             echo json_encode($this->_return);exit;
         }
 
+        //验证当前手机号是否注册过
+        $res = $this->__get_media_man_model()->selectByPhone($_POST['phone']);
         if (isset($_POST['type']) && ($_POST['type']=='pwd')) {
             $model = $this->_pwdmodel;
-            //验证当前手机号是否注册过
-            $res = $this->__get_media_man_model()->selectByPhone($_POST['phone']);
             if(empty($res)){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '手机号还未注册过';
@@ -231,6 +231,17 @@ class Login extends CI_Controller {
             }
 
         }else{
+            $userInfo = $this->__get_media_man_model()->selectByLoginName($_POST['userName']);
+            if(!empty($userInfo)){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '用户名已经存在';
+                echo json_encode($this->_return);exit;
+            }
+            if(!empty($res)){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '手机号已经注册过，请直接登录';
+                echo json_encode($this->_return);exit;
+            }
             $model = $this->_model;
         }
 
@@ -255,6 +266,7 @@ class Login extends CI_Controller {
         $this->session->set_userdata($model, ['sendTime' => time(), 'code' => $code]);
 
         $this->_return['msg'] = '发送成功';
+        $this->_return['data'] = $code;
         echo json_encode($this->_return);exit;
 
     }
