@@ -111,6 +111,7 @@ class Platform_task_map_model extends MY_Model{
 
         $data['total'] = $total;
         $data['list'] =$_list;
+        $data['page'] =$where['page'];
         return $data;
     }
 
