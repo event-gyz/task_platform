@@ -6,18 +6,19 @@ var app = new Vue({
     data:{
         loading:false,//状态标记
         total:100,
-        page:0,
+        page:1,
         lists:[]
     },
     mounted:function(){
         this.$nextTick(function(){
             var _this = this;
             this.initAjax(1);
-            $(document.body).infinite(10).on("infinite", function() {
-                /*if(_this.loading&&_this.total) return;
-                _this.loading = true;
-                _this.initAjax(1);*/
-                alert(123123)
+            $(document.body).infinite().on("infinite", function() {
+                if(!_this.loading&&_this.total>_this.page*10){
+                    alert(1);
+                    _this.loading = true;
+                    _this.initAjax(_this.page++);
+                }
             });
         });
     },
@@ -37,6 +38,7 @@ var app = new Vue({
                     }else if(res.errorno == -1){
                         _this.lists = [];
                     }
+                    _this.loading = false;
                     $('.my_task').show();
                 },
                 error:function(){
