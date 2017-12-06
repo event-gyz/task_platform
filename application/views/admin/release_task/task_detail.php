@@ -208,12 +208,12 @@
             <!-- /.box-body -->
         </div>
 
-        <!--审核状态audit_status=1&&release_status=0待审核才进行审核-->
-        <?php if (in_array($info['audit_status'], [1]) && in_array($info['release_status'], [0])): ?>
+        <!--release_status=0显示发布表单-->
+        <?php if (in_array($info['release_status'], [0])): ?>
 
             <div class="box box-default">
                 <div class="box-header with-border">
-                    <h3 class="box-title">审核操作</h3>
+                    <h3 class="box-title">发布操作</h3>
                 </div>
                 <div class="box-body">
 
@@ -222,16 +222,8 @@
 
                             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
 
-                                <el-form-item label="审核结果" prop="audit_status">
-                                    <el-radio-group v-model="ruleForm.audit_status">
-                                        <el-radio label="3">通过</el-radio>
-                                        <el-radio label="2">不通过</el-radio>
-                                    </el-radio-group>
-                                </el-form-item>
-
-                                <el-form-item label="拒绝原因" prop="reasons_for_rejection">
-                                    <el-input placeholder="请填写拒绝的原因" type="textarea"
-                                              v-model="ruleForm.reasons_for_rejection"></el-input>
+                                <el-form-item label="发布任务" prop="platform_price">
+                                    <el-input v-model="ruleForm.platform_price" placeholder="请输入任务单价"></el-input>
                                 </el-form-item>
 
                             </el-form>
@@ -248,8 +240,8 @@
 
         <div class="row">
             <div class="col-xs-12 col-xs-offset-4">
-                <?php if (in_array($info['audit_status'], [1]) && in_array($info['release_status'], [0])): ?>
-                    <button @click="submitForm('ruleForm')" type="button" class="btn btn-success margin-r-5">提交</button>
+                <?php if (in_array($info['release_status'], [0])): ?>
+                    <button @click="submitForm('ruleForm')" type="button" class="btn btn-success margin-r-5">发布</button>
                 <?php endif; ?>
                 <?php
                 // 是否显示手工作废按钮
@@ -284,16 +276,12 @@
                 loading : false,// 是否显示加载
                 task_id : '<?= $info['task_id']?>',
                 ruleForm: {
-                    audit_status         : '',
-                    reasons_for_rejection: ''
+                    platform_price: '',
                 },
                 rules   : {
-                    audit_status         : [
-                        {required: true, message: '请选审核结果', trigger: 'change'}
+                    platform_price: [
+                        {required: true, message: '请填写有效的任务单价', trigger: 'blur'}
                     ],
-                    reasons_for_rejection: [
-                        {required: false, message: '请填写拒绝的原因', trigger: 'blur'}
-                    ]
                 }
             };
         },
@@ -302,33 +290,30 @@
                 this.$refs[formName].validate((valid) => {
 
                     if (!valid) {
-                        this.$message.error('请选审核结果');
+                        this.$message.error('请填写有效的任务单价');
                         return false;
                     }
 
-                    if (this.ruleForm.audit_status === "2") {
-                        if (this.ruleForm.reasons_for_rejection === "") {
-                            this.$message.error('请填写拒绝的原因');
-                            return false;
-                        }
+                    if (this.ruleForm.platform_price <= 0) {
+                        this.$message.error('任务单价只能是正数,仅支持小数点后一位');
+                        return false;
                     }
 
-                    this.update_task_audit_status();
+                    this.release_task();
                 });
             },
             goBack                       : function (formName) {
                 window.location.href = '/admin/release_task/home';
             },
-            update_task_audit_status     : async function () {
+            release_task                 : async function () {
                 try {
                     this.loading = true;
-                    var url      = '/admin/platform_task/update_task_audit_status';
+                    var url      = '/admin/release_task/release_task';
                     var response = await axios.post(
                         url,
                         {
-                            "id"                   : this.task_id,
-                            "audit_status"         : this.ruleForm.audit_status,
-                            "reasons_for_rejection": this.ruleForm.reasons_for_rejection,
+                            "id"            : this.task_id,
+                            "platform_price": this.ruleForm.platform_price,
                         },
                     );
                     this.loading = false;

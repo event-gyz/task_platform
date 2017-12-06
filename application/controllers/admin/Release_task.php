@@ -145,6 +145,52 @@ class Release_task extends ADMIN_Controller {
         );
     }
 
+    // 发布任务
+    public function release_task() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
+
+        $id             = $req_data['id'];
+        $platform_price = $req_data['platform_price'];
+
+        if (empty($id)) {
+            return $this->response_json(1, 'id不能为空');
+        }
+
+        if (!is_numeric($platform_price)) {
+            return $this->response_json(1, '请输入有效的价格');
+        }
+
+        if ($platform_price <= 0) {
+            return $this->response_json(1, '任务单价只能是正数');
+        }
+
+        $tmp_num_arr = explode('.', $platform_price);
+        if (isset($tmp_num_arr[1]) && strlen($tmp_num_arr[1]) > 1) {
+            return $this->response_json(1, '仅支持小数点后一位');
+        }
+
+        $info = $this->__get_platform_task_model()->selectById($id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应的信息');
+        }
+
+        $update_info['platform_price'] = $platform_price;
+        $sys_log_content               = '修改任务价格为:' . $platform_price;
+
+        $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
+
+        if ($result === 1) {
+
+            $this->add_sys_log(8, $sys_log_content, $id, json_encode($info), json_encode($update_info));
+
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(1, '非法操作');
+    }
+
     // 手工作废任务
     public function update_task_release_status() {
         $req_json = file_get_contents("php://input");
