@@ -237,7 +237,6 @@ class Login extends CI_Controller {
             echo json_encode($this->_return);exit;
         }
 
-        //验证当前手机号是否注册过
         $res = $this->__get_advertiser_model()->selectByPhone($_POST['phone']);
         if (isset($_POST['type']) && ($_POST['type']=='pwd')) {
             $userSessionInfo = $_SESSION[$this->_user_info];
@@ -288,8 +287,6 @@ class Login extends CI_Controller {
         $this->session->set_userdata($model, ['sendTime' => time(), 'code' => $code]);
 
         $this->_return['msg'] = '发送成功';
-        //todo 发送验证码
-        $this->_return['data'] = $code;
         echo json_encode($this->_return);exit;
 
     }
@@ -379,7 +376,7 @@ class Login extends CI_Controller {
     }
 
     /**
-     * 验证手机号
+     * 发送验证码是验证手机号
      * @param $phone
      * @return array|bool
      */

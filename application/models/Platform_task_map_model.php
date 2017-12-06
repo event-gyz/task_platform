@@ -191,7 +191,7 @@ class Platform_task_map_model extends MY_Model{
             return false;
         }
         $new_time = date('Y-m-d H:i:s',(time()-7200));
-        $where = ['media_man_user_id'=>$media_man_id,'create_time<'=>$new_time,'receive_status'=>'0'];
+        $where = ['media_man_user_id'=>$media_man_id,'create_time<'=>$new_time];
         return $this->update(['receive_status'=>3], $where );
     }
 

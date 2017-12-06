@@ -260,6 +260,7 @@ class Login extends CI_Controller {
                 $this->_return['msg'] = '手机号还未注册过';
                 echo json_encode($this->_return);exit;
             }
+
         }else{
             $userInfo = $this->__get_media_man_model()->selectByLoginName($_POST['userName']);
             if(!empty($userInfo)){
@@ -296,7 +297,6 @@ class Login extends CI_Controller {
         $this->session->set_userdata($model, ['sendTime' => time(), 'code' => $code]);
 
         $this->_return['msg'] = '发送成功';
-        //todo 发送验证码
         $this->_return['data'] = $code;
         echo json_encode($this->_return);exit;
 

@@ -37,6 +37,14 @@ class User_message_model extends MY_Model {
             $sql .= sprintf(" AND um.read_status = %d", $where['read_status']);
         }
 
+        if (isset($where['start_time']) && $where['start_time']) {
+            $sql .= sprintf(" AND um.create_time >= '%s'", $where['start_time']);
+        }
+
+        if (isset($where['end_time']) && $where['end_time']) {
+            $sql .= sprintf(" AND um.create_time <= '%s'", $where['end_time']);
+        }
+
         // 总数
         $sql_count = str_replace('[*]', 'count(*) AS c', $sql);
         $total     = $this->getCount($sql_count);
@@ -58,7 +66,7 @@ class User_message_model extends MY_Model {
 
         $_list = $this->getList($_sql);
 
-        $data = ['total' => $total, 'list' => $_list];
+        $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
         return $data;
     }
 

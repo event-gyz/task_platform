@@ -17,7 +17,7 @@ class Index extends CI_Controller {
         ) );
         $this->load->library('session');
         $this->load->helper('Wap');
-        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my') && !strpos($_SERVER["REQUEST_URI"],'/person') && !strpos($_SERVER["REQUEST_URI"],'/company')){
+        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my')){
             $this->checkUserLogin();
         }
 
@@ -39,16 +39,28 @@ class Index extends CI_Controller {
             $this->session->set_userdata($this->_user_info,$userInfo);
             if($userInfo['status']==0){
                 //跳到完善基础信息页面
-                redirect('/advertiser/login/accountStatus2');
+//                $this->_return['errorno'] = '2';
+//                $this->_return['msg'] = '未完善基础信息';
+//                echo json_encode($this->_return);exit;
             }else if($userInfo['audit_status']==0){
                 //跳到待审核页面
-                redirect('advertiser/login/accountStatus3');
+//                $this->_return['errorno'] = '3';
+//                $this->_return['msg'] = '待审核';
+//                echo json_encode($this->_return);exit;
             }else if($userInfo['audit_status']==2){
                 //跳到驳回页面
-                redirect('advertiser/login/accountStatus4');
+//                $this->_return['errorno'] = '4';
+//                $this->_return['msg'] = '驳回';
+//                //驳回原因
+//                $this->_return['data'] = $userInfo['reasons_for_rejection'];
+//                echo json_encode($this->_return);exit;
             }else if($userInfo['status']==9){
                 //跳到冻结页面
-                redirect('advertiser/login/accountStatus5');
+//                $this->_return['errorno'] = '9';
+//                $this->_return['msg'] = '冻结';
+//                //冻结原因
+//                $this->_return['data'] = $userInfo['freezing_reason'];
+//                echo json_encode($this->_return);exit;
             }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
                     return true;
             }
@@ -57,6 +69,9 @@ class Index extends CI_Controller {
     }
 
 
+//    public function home() {
+//        $this->load->view('advertiser/company');
+//    }
     public function home() {
         $this->load->view('advertiser/index');
     }
@@ -286,24 +301,11 @@ class Index extends CI_Controller {
 
     }
 
-    public function data_person(){
-        $this->load->view('advertiser/my/data_person');
-    }
-    public function data_company(){
-        $this->load->view('advertiser/my/data_company');
-    }
 
-    public function userInfo(){
-        $user_info = $this->__get_user_session();
-        if($user_info['advertiser_type'] == 1){
-            redirect('/advertiser/index/data_person');
-        }else{
-            redirect('/advertiser/index/data_company');
-        }
-    }
+
 
     /**
-     * 我的资料
+     * 我的列表 （我的资料）
      */
     public function getAdvertiserInfo(){
         $user_info = $this->__get_user_session();
@@ -321,28 +323,20 @@ class Index extends CI_Controller {
      */
     public function message(){
         $user_info = $this->__get_user_session();
-        $taskWhere['user_id'] = $user_info['advertiser_id'];
-        $taskWhere['user_type'] = 1;
-        $taskWhere['message_type'] = 2;
-        $taskWhere['message_status'] = '0';
-        $taskResult = $this->__get_user_message_model()->get_user_message_list_by_condition($taskWhere);
-
-        $userWhere['user_id'] = $user_info['advertiser_id'];
-        $userWhere['user_type'] = 1;
-        $userWhere['message_status'] = '0';
-        $taskWhere['message_type'] = 1;
-        $userResult = $this->__get_user_message_model()->get_user_message_list_by_condition($userWhere);
-        $result['taskMessage'] = $taskResult;
-        $result['userMessage'] = $userResult['list'];
-        if(empty($userResult['list']) && ($result['taskMessage']['total'] == 0)){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '没有新的消息';
-            echo json_encode($this->_return);exit;
-        }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
+        $where['user_id'] = $user_info['advertiser_id'];
+        $where['user_type'] = 1;
+        $where['message_status'] = '0';
+        $result = $this->__get_user_message_model()->get_user_message_list_by_condition($where);
+        $this->load->view('advertiser/my/message',$result);
+//        if(empty($result['total'])){
+//            $this->_return['errorno'] = -1;
+//            $this->_return['msg'] = '没有新的消息';
+//            echo json_encode($this->_return);exit;
+//        }
+//        $this->_return['errorno'] = 1;
+//        $this->_return['msg'] = '成功';
+//        $this->_return['data'] = $result;
+//        echo json_encode($this->_return);exit;
     }
     /**
      * 我的列表 （我的消息-删除消息）
