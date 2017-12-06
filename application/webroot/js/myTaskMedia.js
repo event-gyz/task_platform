@@ -38,8 +38,7 @@ var app = new Vue({
                         if(_this.total<=_this.page*10){
                             $('.weui-loadmore').hide();
                         }
-                    }else if(res.errorno == -1){//无任务
-                        _this.lists = [];
+                    }else if(res.errorno<0 ){//无任务
                         $('.weui-loadmore').hide();
                     }
                     _this.loading = false;
