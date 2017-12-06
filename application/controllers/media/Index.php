@@ -103,7 +103,7 @@ class Index extends CI_Controller {
                 'school_level' => (int)$_POST['schoolLevel'],
                 'age' => (int)$_POST['age'],
                 'industry' => (int)$_POST['industry'],
-                'hobby' => json_encode($_POST['liking']),
+                'hobby' => implode(',',$_POST['liking']),
             );
             $schoolAddress = explode(',',$_POST['schoolAddress']);
             $data['school_province'] = $schoolAddress[0];
