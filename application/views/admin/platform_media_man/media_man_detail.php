@@ -77,13 +77,7 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>行业：</b>
-                        <?php if (!empty($info['industry'])): ?>
-                            <?php foreach (explode(',', $info['industry']) as $value): ?>
-                                <?= $industry_list[$value] ?>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                        <br><br>
+                        <b>行业：</b> <?= $industry_list[$info['industry']] ?> <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
