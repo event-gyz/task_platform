@@ -102,13 +102,13 @@ var app = new Vue({
                 dataType: 'json',
                 type:"post",
                 data:{
-                    wx:this.wx,//微信号
-                    wxType:this.wxTransform(this.wxType),//微信号类型
-                    wxNumber:this.wxNumber,//微信最高粉丝量
-                    wb:this.wb,//微博昵称
-                    wbType:this.wbTransform(this.wbType),//微博号类型
-                    wbNumber:this.wbNumber,//微博最高粉丝量
-                    wbUrl:this.wbUrl//微博链接
+                    wx_code:this.wx,//微信号
+                    wx_type:this.wxTransform(this.wxType),//微信号类型
+                    wx_max_fans:this.wxNumber,//微信最高粉丝量
+                    weibo_nickname:this.wb,//微博昵称
+                    weibo_type:this.wbTransform(this.wbType),//微博号类型
+                    weibo_max_fans:this.wbNumber,//微博最高粉丝量
+                    weibo_link:this.wbUrl//微博链接
                 },
                 success: function(res) {
                     if(res.errorno > 0){
