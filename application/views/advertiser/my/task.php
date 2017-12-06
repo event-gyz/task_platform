@@ -15,223 +15,51 @@
             <ul class="my_task" style="display:none;">
                 <li class="task_box" v-for="item in lists">
                     <a href="#">
-                    <div class="top wait">
-                        <p class="name">天猫超市高校藏盒子活动</a></p>
-                        <p class="status">● 待提交</p>
+                    <div class="top wait" :class="task_status_class(item)">
+                        <p class="name">{{item.task_name}}</a></p>
+                        <p class="status">● {{task_status(item)}}</p>
                     </div>
                     <div class="context">
                         <ul>
                             <li>任务编号：<span>{{item.task_id}}</span></li>
                             <li>任务类型：<span>{{typeFn(item.task_type)}}</span></li>
-                            <li>任务单价：<span>¥5</span></li>
-                            <li>任务总价：<span class="warn">¥8888</span></li>
+                            <li>任务单价：<span>¥{{item.price}}</span></li>
+                            <li>任务总价：<span class="warn">¥{{item.total_price}}</span></li>
                             <li>任务时间：<span>{{timeFn(item.start_time,item.end_time)}}</span></li>
                             <li>发布平台：<span>{{platformFn(item.publishing_platform)}}</span></li>
                         </ul>
                     </div>
                     </a>
-                    <table class="task_table" style="width: 100%">
+                    <table v-if="task_status(item) == '待提交'" class="task_table" style="width: 100%"><!--待提交-->
                         <tr>
                             <td class="border"><a class="a_box" href="#">修改</a></td>
                             <td class="border"><a class="a_box pass" href="#">提交</a></td>
                             <td><a class="a_box warn" href="#">结束</a></td>
                         </tr>
                     </table>
-                </li>
-
-
-
-                <!--待提交-->
-                <li class="task_box">
-                    <div class="top wait">
-                        <p class="name"><a href="#">天猫超市高校藏盒子活动</a></p>
-                        <p class="status">● 待提交</p>
-                    </div>
-                    <div class="context">
-                        <ul>
-                            <li>任务编号：<span>2017090908</span></li>
-                            <li>任务类型：<span>线上任务</span></li>
-                            <li>任务单价：<span>¥5</span></li>
-                            <li>任务总价：<span class="warn">¥8888</span></li>
-                            <li>任务时间：<span>2017.11.14 ~2017.11.06</span></li>
-                            <li>发布平台：<span>微博、微信</span></li>
-                        </ul>
-                    </div>
-                    <table class="task_table" style="width: 100%">
-                        <tr>
-                            <td class="border"><a class="a_box" href="#">修改</a></td>
-                            <td class="border"><a class="a_box pass" href="#">提交</a></td>
-                            <td><a class="a_box warn" href="#">结束</a></td>
-                        </tr>
-                    </table>
-                </li>
-                <!--待提交-end-->
-                <!--待审核-->
-                <li class="task_box">
-                    <div class="top wait">
-                        <p class="name">天猫超市高校藏盒子活动</p>
-                        <p class="status">● 待审核</p>
-                    </div>
-                    <div class="context">
-                        <ul>
-                            <li>任务编号：<span>2017090908</span></li>
-                            <li>任务类型：<span>线上任务</span></li>
-                            <li>任务单价：<span>¥5</span></li>
-                            <li>任务总价：<span class="warn">¥8888</span></li>
-                            <li>任务时间：<span>2017.11.14 ~2017.11.06</span></li>
-                            <li>发布平台：<span>微博、微信</span></li>
-                        </ul>
-                    </div>
-                </li>
-                <!--待审核-end-->
-                <!--驳回-->
-                <li class="task_box">
-                    <div class="top wait">
-                        <p class="name">天猫超市高校藏盒子活动</p>
-                        <p class="status">● 驳回</p>
-                    </div>
-                    <div class="context">
-                        <ul>
-                            <li>任务编号：<span>2017090908</span></li>
-                            <li>任务类型：<span>线上任务</span></li>
-                            <li>任务单价：<span>¥5</span></li>
-                            <li>任务总价：<span class="warn">¥8888</span></li>
-                            <li>任务时间：<span>2017.11.14 ~2017.11.06</span></li>
-                            <li>发布平台：<span>微博、微信</span></li>
-                        </ul>
-                    </div>
-                    <table class="task_table" style="width: 100%">
+                    <table v-if="task_status(item) == '驳回'" class="task_table" style="width: 100%"><!--驳回-->
                         <tr>
                             <td class="border"><a class="a_box" href="#">修改</a></td>
                             <td><a class="a_box warn" href="#">结束</a></td>
                         </tr>
                     </table>
-                </li>
-                <!--驳回-end-->
-                <!--代付款-->
-                <li class="task_box">
-                    <div class="top wait">
-                        <p class="name">天猫超市高校藏盒子活动</p>
-                        <p class="status">● 待付款</p>
-                    </div>
-                    <div class="context">
-                        <ul>
-                            <li>任务编号：<span>2017090908</span></li>
-                            <li>任务类型：<span>线上任务</span></li>
-                            <li>任务单价：<span>¥5</span></li>
-                            <li>任务总价：<span class="warn">¥8888</span></li>
-                            <li>任务时间：<span>2017.11.14 ~2017.11.06</span></li>
-                            <li>发布平台：<span>微博、微信</span></li>
-                        </ul>
-                    </div>
-                    <table class="task_table" style="width: 100%">
+                    <table v-if="task_status(item) == '代付款'" class="task_table" style="width: 100%"><!--代付款-->
                         <tr>
                             <td class="border"><a class="a_box pass" href="#">确认付款</a></td>
                             <td><a class="a_box warn" href="#">结束</a></td>
                         </tr>
                     </table>
-                </li>
-                <!--代付款-end-->
-                <!--代财务确认收款-->
-                <li class="task_box">
-                    <div class="top wait">
-                        <p class="name">天猫超市高校藏盒子活动</p>
-                        <p class="status">● 代财务确认收款</p>
-                    </div>
-                    <div class="context">
-                        <ul>
-                            <li>任务编号：<span>2017090908</span></li>
-                            <li>任务类型：<span>线上任务</span></li>
-                            <li>任务单价：<span>¥5</span></li>
-                            <li>任务总价：<span class="warn">¥8888</span></li>
-                            <li>任务时间：<span>2017.11.14 ~2017.11.06</span></li>
-                            <li>发布平台：<span>微博、微信</span></li>
-                        </ul>
-                    </div>
-                    <table class="task_table" style="width: 100%">
+                    <table v-if="task_status(item) == '代财务确认收款'" class="task_table" style="width: 100%"><!--代财务确认收款-->
+                        <tr>
+                            <td><a class="a_box warn" href="#">结束</a></td>
+                        </tr>
+                    </table>
+                    <table v-if="task_status(item) == '待发布'" class="task_table" style="width: 100%"><!--待发布-->
                         <tr>
                             <td><a class="a_box warn" href="#">结束</a></td>
                         </tr>
                     </table>
                 </li>
-                <!--代财务确认收款-end-->
-                <!--待发布-->
-                <li class="task_box">
-                    <div class="top wait">
-                        <p class="name">天猫超市高校藏盒子活动</p>
-                        <p class="status">● 待发布</p>
-                    </div>
-                    <div class="context">
-                        <ul>
-                            <li>任务编号：<span>2017090908</span></li>
-                            <li>任务类型：<span>线上任务</span></li>
-                            <li>任务单价：<span>¥5</span></li>
-                            <li>任务总价：<span class="warn">¥8888</span></li>
-                            <li>任务时间：<span>2017.11.14 ~2017.11.06</span></li>
-                            <li>发布平台：<span>微博、微信</span></li>
-                        </ul>
-                    </div>
-                    <table class="task_table" style="width: 100%">
-                        <tr>
-                            <td><a class="a_box warn" href="#">结束</a></td>
-                        </tr>
-                    </table>
-                </li>
-                <!--待发布-end-->
-                <!--执行中-->
-                <li class="task_box">
-                    <div class="top proceed">
-                        <p class="name">天猫超市高校藏盒子活动</p>
-                        <p class="status">● 执行中</p>
-                    </div>
-                    <div class="context">
-                        <ul>
-                            <li>任务编号：<span>2017090908</span></li>
-                            <li>任务类型：<span>线上任务</span></li>
-                            <li>任务单价：<span>¥5</span></li>
-                            <li>任务总价：<span class="warn">¥8888</span></li>
-                            <li>任务时间：<span>2017.11.14 ~2017.11.06</span></li>
-                            <li>发布平台：<span>微博、微信</span></li>
-                        </ul>
-                    </div>
-                </li>
-                <!--执行中-end-->
-                <!--已完成-->
-                <li class="task_box">
-                    <div class="top end">
-                        <p class="name">天猫超市高校藏盒子活动</p>
-                        <p class="status">● 已完成</p>
-                    </div>
-                    <div class="context">
-                        <ul>
-                            <li>任务编号：<span>2017090908</span></li>
-                            <li>任务类型：<span>线上任务</span></li>
-                            <li>任务单价：<span>¥5</span></li>
-                            <li>任务总价：<span class="warn">¥8888</span></li>
-                            <li>任务时间：<span>2017.11.14 ~2017.11.06</span></li>
-                            <li>发布平台：<span>微博、微信</span></li>
-                        </ul>
-                    </div>
-                </li>
-                <!--已完成-end-->
-                <!--已关闭-->
-                <li class="task_box">
-                    <div class="top close">
-                        <p class="name">天猫超市高校藏盒子活动</p>
-                        <p class="status">● 已关闭</p>
-                    </div>
-                    <div class="context">
-                        <ul>
-                            <li>任务编号：<span>2017090908</span></li>
-                            <li>任务类型：<span>线上任务</span></li>
-                            <li>任务单价：<span>¥5</span></li>
-                            <li>任务总价：<span class="warn">¥8888</span></li>
-                            <li>任务时间：<span>2017.11.14 ~2017.11.06</span></li>
-                            <li>发布平台：<span>微博、微信</span></li>
-                        </ul>
-                    </div>
-                </li>
-                <!--已关闭-end-->
                 <p class="no_task" style="display:none;"  v-show="!lists.length"><img src="/images/zwnr.png"><br>暂无分配的任务</p>
             </ul>
             <!--滚动加载-->
