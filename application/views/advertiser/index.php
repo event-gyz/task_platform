@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>项目名称</title>
+        <title>广告主首页</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <link rel="stylesheet" href="/css/common.css" />
@@ -16,7 +16,6 @@
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide"><img src="/images/banner1.png"></div>
-                        <div class="swiper-slide"><img src="/images/banner.png"></div>
                     </div>
                 </div>
                 <!--banner-end-->

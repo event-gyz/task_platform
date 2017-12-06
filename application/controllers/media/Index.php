@@ -527,6 +527,7 @@ class Index extends CI_Controller {
 //        echo json_encode($this->_return);exit;
     }
 
+    //确认收款按钮
     public function receivables(){
         $task_id = $_POST['task_id'];
         if(empty($task_id)){
@@ -539,9 +540,11 @@ class Index extends CI_Controller {
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $info['receivables_status'] = '1';
         $result = $this->__get_task_map_model()->updateMapInfo($where, $info);
+        $data = $this->__get_task_map_model()->getMediaManTaskDetailByCondition($where);
         if(!empty($result)){
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '确认成功';
+            $this->_return['data'] = $data;
             echo json_encode($this->_return);exit;
         }else{
             $this->_return['errorno'] = -1;
