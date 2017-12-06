@@ -13,6 +13,7 @@ var app = new Vue({
             this.initAjax();
             var loading = false;  //状态标记
             $(document.body).infinite().on("infinite", function() {
+                alert(123);
                 if(loading) return;
                 loading = true;
                 setTimeout(function() {
