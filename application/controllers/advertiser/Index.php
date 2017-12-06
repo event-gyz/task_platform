@@ -28,23 +28,23 @@ class Index extends CI_Controller {
     private function checkUserLogin(){
         $user_info = $this->__get_user_session();
         if(!$user_info['advertiser_id']){
-            redirect('/advertiser/login/login');
+            redirect(wap::get_server_address_and_port().'/advertiser/login/login');
         }
         if(($user_info['audit_status'] != 1) || ($user_info['status'] != 2)){
             $userInfo = $this->__get_advertiser_model()->selectById($user_info['advertiser_id']);
             $this->session->set_userdata($this->_user_info,$userInfo);
             if($userInfo['status']==0){
                 //跳到完善基础信息页面
-                redirect('/advertiser/login/accountStatus2');
+                redirect(wap::get_server_address_and_port().'/advertiser/login/accountStatus2');
             }else if($userInfo['audit_status']==0){
                 //跳到待审核页面
-                redirect('advertiser/login/accountStatus3');
+                redirect(wap::get_server_address_and_port().'advertiser/login/accountStatus3');
             }else if($userInfo['audit_status']==2){
                 //跳到驳回页面
-                redirect('advertiser/login/accountStatus4');
+                redirect(wap::get_server_address_and_port().'advertiser/login/accountStatus4');
             }else if($userInfo['status']==9){
                 //跳到冻结页面
-                redirect('advertiser/login/accountStatus5');
+                redirect(wap::get_server_address_and_port().'advertiser/login/accountStatus5');
             }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
                 return true;
             }
@@ -295,9 +295,9 @@ class Index extends CI_Controller {
     public function userInfo(){
         $user_info = $this->__get_user_session();
         if($user_info['advertiser_type'] == 1){
-            redirect('/advertiser/index/data_person');
+            redirect(wap::get_server_address_and_port().'/advertiser/index/data_person');
         }else{
-            redirect('/advertiser/index/data_company');
+            redirect(wap::get_server_address_and_port().'/advertiser/index/data_company');
         }
     }
 
@@ -644,7 +644,7 @@ class Index extends CI_Controller {
         if(empty($userSession) || !is_array($userSession)){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '用户信息有误请重新登录';
-            redirect('advertiser/login/login');
+            redirect(wap::get_server_address_and_port().'/advertiser/login/login');
         }
         return $userSession;
     }
