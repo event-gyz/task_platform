@@ -171,15 +171,18 @@ class Platform_task_model extends MY_Model {
             return ['total' => $total, 'list' => []];
         }
         $sql  .= ' ORDER BY pt.task_id DESC';
-        $offset = !empty($page) ? $page : 0;
-        $limit  = isset($where['limit']) ? $where['limit'] : 10;
+        $limit  = 10;
+        $offset = !empty($where['page']) ? (($where['page']-1)*$limit) : 0;
+
         $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
         $_sql = str_replace('[*]', $fields, $sql);
 
         $_list = $this->getList($_sql);
 
-        $data = ['total' => $total, 'list' => $_list];
+        $data['total'] = $total;
+        $data['list'] =$_list;
+        $data['page'] =$where['page'];
         return $data;
     }
 

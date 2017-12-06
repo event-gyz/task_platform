@@ -372,22 +372,36 @@ class Index extends CI_Controller {
      *  我的列表 （我的任务）
      */
     public function taskList(){
+        $this->load->view('advertiser/my/task');
+    }
+
+    /**
+     *  我的列表 （我的任务）
+     */
+    public function taskListApi(){
         if(isset($_POST['page']) && !empty($_POST['page'])){
-            $where['offset'] = $_POST['page'];
+            $where['page'] = $_POST['page'];
+        }else {
+            $where['page'] = 1;
         }
         $user_info = $this->__get_user_session();
         $where['advertiser_user_id'] = $user_info['advertiser_id'];
         $result = $this->__get_task_model()->getAdvertiserTaskListByCondition($where);
-        $this->load->view('advertiser/my/task',$result);
-//        if(empty($result['total'])){
-//            $this->_return['errorno'] = -1;
-//            $this->_return['msg'] = '没有已发布的任务';
-//            echo json_encode($this->_return);exit;
-//        }
-//        $this->_return['errorno'] = 1;
-//        $this->_return['msg'] = '成功';
-//        $this->_return['data'] = $result;
-//        echo json_encode($this->_return);exit;
+//        $this->load->view('advertiser/my/task',$result);
+        if(empty($result['total']) && $_POST['page']>0){
+            $this->_return['errorno'] = -2;
+            $this->_return['msg'] = '没有数据了';
+            echo json_encode($this->_return);exit;
+        }
+        if(empty($result['total'])){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '没有已领取的任务';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
     }
 
     /**
