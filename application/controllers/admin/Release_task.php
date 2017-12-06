@@ -71,10 +71,16 @@ class Release_task extends ADMIN_Controller {
                     $where['release_status'] = 0;
                     break;
                 case 2:
-                    // todo 在任务发布后，结束时间到达前，状态均为执行中
+                    // 在任务发布后，结束时间到达前(即搜索当前时间小于platform_task.end_time的记录)，状态均为执行中
+                    $where['release_status'] = 1;
+                    $where['task_status']    = 'execute';
+                    $where['cur_time_stamp'] = time();
                     break;
                 case 3:
-                    // todo 当任务结束时间到达后，则状态变更为待确认完成
+                    // 当任务结束时间到达后，(即搜索当前时间大于platform_task.end_time的记录)，则状态变更为待确认完成
+                    $where['release_status'] = 1;
+                    $where['task_status']    = 'to_be_confirm';
+                    $where['cur_time_stamp'] = time();
                     break;
                 default:
             }

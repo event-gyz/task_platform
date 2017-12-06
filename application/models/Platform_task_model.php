@@ -67,6 +67,21 @@ class Platform_task_model extends MY_Model {
             $sql .= sprintf(" AND ptp.finance_status = %d", $where['finance_status']);
         }
 
+        // 根据任务结束时间搜索
+        if (isset($where['task_status']) && $where['cur_time_stamp']) {
+
+            if ($where['task_status'] === 'execute') {
+                // 执行中的任务
+                $sql .= sprintf(" AND pt.end_time > %d", $where['cur_time_stamp']);
+            }
+
+            if ($where['task_status'] === 'to_be_confirm') {
+                // 待确认完成的任务
+                $sql .= sprintf(" AND pt.end_time <= %d", $where['cur_time_stamp']);
+            }
+
+        }
+
         // 总数
         $sqlCount = str_replace('[*]', 'count(pt.task_id) AS c', $sql);
         $total    = $this->getCount($sqlCount);
@@ -170,19 +185,19 @@ class Platform_task_model extends MY_Model {
         if ($total === '0') {
             return ['total' => $total, 'list' => []];
         }
-        $sql  .= ' ORDER BY pt.task_id DESC';
+        $sql    .= ' ORDER BY pt.task_id DESC';
         $limit  = 10;
-        $offset = !empty($where['page']) ? (($where['page']-1)*$limit) : 0;
+        $offset = !empty($where['page']) ? (($where['page'] - 1) * $limit) : 0;
 
-        $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
+        $sql .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
         $_sql = str_replace('[*]', $fields, $sql);
 
         $_list = $this->getList($_sql);
 
         $data['total'] = $total;
-        $data['list'] =$_list;
-        $data['page'] =$where['page'];
+        $data['list']  = $_list;
+        $data['page']  = $where['page'];
         return $data;
     }
 
