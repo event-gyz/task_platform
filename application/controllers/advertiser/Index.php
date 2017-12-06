@@ -321,20 +321,28 @@ class Index extends CI_Controller {
      */
     public function message(){
         $user_info = $this->__get_user_session();
-        $where['user_id'] = $user_info['advertiser_id'];
-        $where['user_type'] = 1;
-        $where['message_status'] = '0';
-        $result = $this->__get_user_message_model()->get_user_message_list_by_condition($where);
-        $this->load->view('advertiser/my/message',$result);
-//        if(empty($result['total'])){
-//            $this->_return['errorno'] = -1;
-//            $this->_return['msg'] = '没有新的消息';
-//            echo json_encode($this->_return);exit;
-//        }
-//        $this->_return['errorno'] = 1;
-//        $this->_return['msg'] = '成功';
-//        $this->_return['data'] = $result;
-//        echo json_encode($this->_return);exit;
+        $taskWhere['user_id'] = $user_info['advertiser_id'];
+        $taskWhere['user_type'] = 1;
+        $taskWhere['message_type'] = 2;
+        $taskWhere['message_status'] = '0';
+        $taskResult = $this->__get_user_message_model()->get_user_message_list_by_condition($taskWhere);
+
+        $userWhere['user_id'] = $user_info['advertiser_id'];
+        $userWhere['user_type'] = 1;
+        $userWhere['message_status'] = '0';
+        $taskWhere['message_type'] = 1;
+        $userResult = $this->__get_user_message_model()->get_user_message_list_by_condition($userWhere);
+        $result['taskMessage'] = $taskResult;
+        $result['userMessage'] = $userResult['list'];
+        if(empty($userResult['list']) && ($result['taskMessage']['total'] == 0)){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '没有新的消息';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
     }
     /**
      * 我的列表 （我的消息-删除消息）

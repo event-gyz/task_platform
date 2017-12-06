@@ -36,7 +36,6 @@ class Index extends CI_Controller {
             $this->session->set_userdata($this->_user_info,$userInfo);
             if($userInfo['status']==0){
                 //跳到完善基础信息页面
-//                redirect('/media/index/saveBaseInfo');
                 redirect('/media/login/accountStatus2');
             }else if($userInfo['audit_status']==0){
                 //跳到待审核页面
@@ -95,15 +94,15 @@ class Index extends CI_Controller {
 
 
             $data = array (
-                'media_man_name' => trim($_POST['zfbNumber']),
+                'media_man_name' => trim($_POST['name']),
                 'sex' => (int)($_POST['sex']),
                 'zfb_nu' => trim($_POST['zfbNumber']),
                 'zfb_realname' => trim($_POST['zfbName']),
                 'school_name' => trim($_POST['schoolName']),
                 'school_type' => (int)$_POST['schoolType'],
                 'school_level' => (int)$_POST['schoolLevel'],
-                'age' => (int)($_POST['age']),
-                'industry' => json_encode($_POST['industry']),
+                'age' => (int)$_POST['age'],
+                'industry' => (int)$_POST['industry'],
                 'hobby' => json_encode($_POST['liking']),
             );
             $schoolAddress = explode(',',$_POST['schoolAddress']);
@@ -328,20 +327,28 @@ class Index extends CI_Controller {
      */
     public function message(){
         $user_info = $this->__get_user_session();
-        $where['user_id'] = $user_info['media_man_id'];
-        $where['user_type'] = '2';
-        $where['message_status'] = '0';
-        $result = $this->__get_user_message_model()->get_user_message_list_by_condition($where);
-        $this->load->view('media/my/message',$result);
-//        if(empty($result['total'])){
-//            $this->_return['errorno'] = -1;
-//            $this->_return['msg'] = '没有新的消息';
-//            echo json_encode($this->_return);exit;
-//        }
-//        $this->_return['errorno'] = 1;
-//        $this->_return['msg'] = '成功';
-//        $this->_return['data'] = $result;
-//        echo json_encode($this->_return);exit;
+        $taskWhere['user_id'] = $user_info['media_man_id'];
+        $taskWhere['user_type'] = 2;
+        $taskWhere['message_type'] = 2;
+        $taskWhere['message_status'] = '0';
+        $taskResult = $this->__get_user_message_model()->get_user_message_list_by_condition($taskWhere);
+
+        $userWhere['user_id'] = $user_info['media_man_id'];
+        $userWhere['user_type'] = 1;
+        $taskWhere['message_type'] = 1;
+        $userWhere['message_status'] = '0';
+        $userResult = $this->__get_user_message_model()->get_user_message_list_by_condition($userWhere);
+        $result['taskMessage'] = $taskResult;
+        $result['userMessage'] = $userResult['list'];
+        if(empty($userResult['list']) && ($result['taskMessage']['total'] == 0)){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '没有新的消息';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $result;
+        echo json_encode($this->_return);exit;
     }
     /**
      * 我的列表 （我的消息-删除消息）
