@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require '../core/Admin_Controller.php';
+require '../core/ADMIN_Controller.php';
 
-class Sys_department extends Admin_Controller {
+class Sys_department extends ADMIN_Controller {
 
     public function __construct() {
         parent::__construct();

@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require '../core/Admin_Controller.php';
+require '../core/ADMIN_Controller.php';
 
 /**
  * 广告主管理,个人广告主,公司广告主
  * Class Platform_advertiser
  */
-class Platform_advertiser extends Admin_Controller {
+class Platform_advertiser extends ADMIN_Controller {
 
     public function __construct() {
         parent::__construct();

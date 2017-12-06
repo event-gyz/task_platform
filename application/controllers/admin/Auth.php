@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require '../core/Admin_Controller.php';
+require '../core/ADMIN_Controller.php';
 
-class Auth extends Admin_Controller {
+class Auth extends ADMIN_Controller {
 
     public function __construct() {
         parent::__construct();

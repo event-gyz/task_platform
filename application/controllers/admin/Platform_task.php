@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require '../core/Admin_Controller.php';
+require '../core/ADMIN_Controller.php';
 
 /**
  * 任务管理
  * Class Platform_task
  */
-class Platform_task extends Admin_Controller {
+class Platform_task extends ADMIN_Controller {
 
     public function __construct() {
         parent::__construct();
