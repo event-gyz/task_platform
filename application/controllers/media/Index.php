@@ -111,8 +111,8 @@ class Index extends CI_Controller {
                 'school_area' => (int)$_POST['school_area'],
                 'school_level' => (int)$_POST['schoolLevel'],
                 'age' => (int)($_POST['age']),
-                'industry' => json_encode($_POST['industry']),
-                'hobby' => json_encode($_POST['liking']),
+                'industry' => (int)$_POST['industry'],
+                'hobby' => implode(',',$_POST['liking']),
             );
 
             //通过session获取用户信息
