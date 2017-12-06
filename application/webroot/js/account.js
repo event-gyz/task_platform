@@ -76,7 +76,7 @@ var app = new Vue({
                 return;
             }
             $.ajax({
-                url: "xxx",
+                url: "/media/index/savePromotedInfo",
                 dataType: 'json',
                 type:"post",
                 data:{
