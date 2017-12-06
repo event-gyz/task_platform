@@ -102,7 +102,7 @@
                                             <select class="form-control" name="task_status">
                                                 <option value="">全部</option>
 
-                                                <?php foreach ($task_status_list as $key => $value): ?>
+                                                <?php foreach ($release_task_status as $key => $value): ?>
                                                     <option value="<?= $key ?>"
                                                         <?= "$key" === $form_data['task_status'] ? 'selected' : ''; ?>
                                                     >

@@ -29,7 +29,7 @@ class Release_task extends ADMIN_Controller {
                 'page_link'                => $page_link,
                 'publishing_platform_list' => $this->config->item('publishing_platform'),
                 'task_type_list'           => $this->config->item('task_type'),
-                'task_status_list'         => $this->config->item('task_status'),
+                'release_task_status'      => $this->config->item('release_task_status'),
             ]
         );
     }
@@ -62,37 +62,29 @@ class Release_task extends ADMIN_Controller {
 
         if (!empty($task_status)) {
 
-            // '1' => '待审核',---> audit_status = 1
-            // '2' => '待广告主付款',---> pay_status = 0 && audit_status = 3
-            // '3' => '待财务确认',---> pay_status = 1 && audit_status = 3 && platform_task_payment.finance_status = 0
-            // '4' => '财务已确认',---> pay_status = 1 && audit_status = 3 && platform_task_payment.finance_status = 1
-            // '5' => '驳回',---> audit_status = 2
+            // '1' => '待发布',---> release_status = 0
+            // '2' => '执行中',---> release_status = 1
+            // '3' => '待确认完成',---> release_status = 1
 
             switch ($task_status) {
                 case 1:
-                    $where['audit_status'] = 1;
+                    $where['release_status'] = 0;
                     break;
                 case 2:
-                    $where['pay_status']   = 0;
-                    $where['audit_status'] = 3;
+                    // todo 在任务发布后，结束时间到达前，状态均为执行中
                     break;
                 case 3:
-                    $where['pay_status']     = 1;
-                    $where['audit_status']   = 3;
-                    $where['finance_status'] = 0;
-                    break;
-                case 4:
-                    $where['pay_status']     = 1;
-                    $where['audit_status']   = 3;
-                    $where['finance_status'] = 1;
-                    break;
-                case 5:
-                    $where['audit_status'] = 2;
+                    // todo 当任务结束时间到达后，则状态变更为待确认完成
                     break;
                 default:
             }
 
         }
+
+        // 财务已确认收款
+        $where['pay_status']     = 1;
+        $where['audit_status']   = 3;
+        $where['finance_status'] = 1;
 
         $page_arr = $this->get_list_limit_and_offset_params();
         $where    = array_merge($page_arr, $where);
