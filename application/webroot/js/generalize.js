@@ -9,7 +9,7 @@ var app = new Vue({
         taskType:'',//任务类型
         taskTitle:'',//任务标题
         taskUrl:'',//任务链接
-        taskImg:[],//任务图片
+        taskImg:[1],//任务图片
         taskDes:'',//任务描述
         taskPrice:'',//任务单价
         numAsk:0,//账号要求（1=有要求，0=无要求）
@@ -242,7 +242,7 @@ var app = new Vue({
         },
         save: function(n){//n==0是保存，n==1是提交
             var _this = this;
-            if(n==2){
+            if(n==1){
                 if(!this.taskName){
                     util.tips('请输入任务名称！');
                     return;
