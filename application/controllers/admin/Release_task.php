@@ -177,6 +177,7 @@ class Release_task extends ADMIN_Controller {
         }
 
         $update_info['platform_price'] = $platform_price;
+        $update_info['release_status'] = 1;// 设定任务发布状态为已发布
         $sys_log_content               = '修改任务价格为:' . $platform_price;
 
         $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
