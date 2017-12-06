@@ -261,7 +261,7 @@
                         手工作废
                     </button>
                 <?php endif; ?>
-                <button @click="goBack('ruleForm')" type="button" class="btn btn-default margin-r-5"> 返回</button>
+                <button @click="goBack('ruleForm')" type="button" class="btn btn-default margin-r-5">返回</button>
             </div>
         </div>
 
@@ -393,7 +393,7 @@
                 try {
 
                     this.loading = true;
-                    var url      = '/admin/platform_task/update_task_release_status';
+                    var url      = '/admin/release_task/update_task_release_status';
                     var response = await axios.post(
                         url,
                         {
