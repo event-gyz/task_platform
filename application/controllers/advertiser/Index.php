@@ -16,7 +16,7 @@ class Index extends CI_Controller {
             'url'
         ) );
         $this->load->library('session');
-        $this->load->helper('wap');
+        $this->load->helper('Wap');
         if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my')){
             $this->checkUserLogin();
         }

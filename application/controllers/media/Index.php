@@ -12,7 +12,7 @@ class Index extends CI_Controller {
             'url'
         ) );
         $this->load->library('session');
-        $this->load->helper('wap');
+        $this->load->helper('Wap');
         if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'saveBaseInfo') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'savePromotedInfo')){
             $this->checkUserLogin();
         }
@@ -106,15 +106,15 @@ class Index extends CI_Controller {
                 'zfb_realname' => trim($_POST['zfbName']),
                 'school_name' => trim($_POST['schoolName']),
                 'school_type' => (int)$_POST['schoolType'],
+                'school_province' => (int)$_POST['school_province'],
+                'school_city' => (int)$_POST['school_city'],
+                'school_area' => (int)$_POST['school_area'],
                 'school_level' => (int)$_POST['schoolLevel'],
                 'age' => (int)($_POST['age']),
-                'industry' => json_encode($_POST['industry']),
-                'hobby' => json_encode($_POST['liking']),
+                'industry' => (int)$_POST['industry'],
+                'hobby' => implode(',',$_POST['liking']),
             );
-            $schoolAddress = explode(',',$_POST['schoolAddress']);
-            $data['school_province'] = $schoolAddress[0];
-            $data['school_city'] = $schoolAddress[1];
-            $data['school_area'] = $schoolAddress[2];
+
             //通过session获取用户信息
             $userInfo = $this->__get_user_session();
             $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
