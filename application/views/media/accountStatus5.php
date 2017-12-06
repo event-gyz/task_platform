@@ -16,7 +16,7 @@
                 <p class="icon-box"><img src="/images/status/sb.png"></p>
                 <?php $userSession = $_SESSION['user_info'];?>
                 <h2>抱歉，您的账号已被冻结，请联系管理员解决，电话：*****。</h2>
-                <p class="text">冻结原因：<?=$userSession['reasons_for_rejection']?></p>
+                <p class="text">冻结原因：<?=!empty($userSession)?$userSession['freezing_reason']:''?></p>
                 <p class="bg_line"></p>
                 <p class="button2">
                     <a style="border-right: 1px solid #E5E5E5;" href="/media/index/saveBaseInfo">立即修改</a>

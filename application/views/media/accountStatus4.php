@@ -16,7 +16,7 @@
                     <p class="icon-box"><img src="/images/status/sb.png"></p>
                     <?php $userSession = $_SESSION['user_info'];?>
                     <h2>抱歉，您的账号审核未通过，请修改后重新提交。</h2>
-                    <p class="text">审核意见：<?=$userSession['reasons_for_rejection']?></p>
+                    <p class="text">审核意见：<?=!empty($userSession)?$userSession['reasons_for_rejection']:''?></p>
                     <p class="bg_line"></p>
                     <p class="button2">
                         <a style="border-right: 1px solid #E5E5E5;" href="/media/index/saveBaseInfo">立即修改</a>

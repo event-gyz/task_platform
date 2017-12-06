@@ -11,11 +11,15 @@
 <body>
 <div class="main">
     <div class="my">
+        <?php $userSession =  isset($_SESSION['ad_user_info'])?$_SESSION['ad_user_info']:[];?>
         <!--head-->
         <div class="my_head">
             <ul>
                 <li class="img"><Img src="/images/wx.png"></li>
-                <li class="text">孙悟空</li>
+                <?php if(isset($userSession['advertiser_id']) && !empty($userSession['advertiser_id'])){?>
+                    <li class="text"><?=(!empty($userSession['advertiser_name'])?$userSession['advertiser_name']:'未设置')?></li>
+                <?php } ?>
+                <li class="text">未登录</li>
             </ul>
         </div>
         <!--head-end-->
@@ -35,7 +39,7 @@
                 <td class="border_bottom">我的任务</td>
                 <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
             </tr>
-            <tr onclick="window.location.href='/advertiser/login/new_pwd'">
+            <tr onclick="window.location.href='/advertiser/login/forget'">
                 <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/mm.png"></th>
                 <td class="border_bottom">修改密码</td>
                 <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
@@ -46,7 +50,9 @@
                 <td align="right" width="30px;"><i class="iconfont">&#xe610;</i></td>
             </tr>
         </table>
-        <p class="logout"><a href="#">退出登录</a></p>
+        <?php if(isset($userSession['advertiser_id']) && !empty($userSession['advertiser_id'])){?>
+            <p class="logout"><a href="/advertiser/login/logout">退出登录</a></p>
+        <?php } ?>
     </div>
 </div>
 <!--nav-->

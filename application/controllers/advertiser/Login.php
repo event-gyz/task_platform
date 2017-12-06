@@ -114,6 +114,10 @@ class Login extends CI_Controller {
     public function accountStatus5(){
         $this->load->view('advertiser/accountStatus5');
     }
+    //跳到注册成功页面
+    public function accountStatus6(){
+        $this->load->view('advertiser/accountStatus6');
+    }
     //注册
     public function register() {
         if (empty($_POST)) {

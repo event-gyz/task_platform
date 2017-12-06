@@ -7,10 +7,6 @@ class Index extends CI_Controller {
 
     public function __construct(){
         parent::__construct ();
-        $this->load->helper ( array (
-            'form',
-            'url'
-        ) );
         $this->load->library('session');
         $this->load->helper('Wap');
         if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'saveBaseInfo') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'savePromotedInfo')){
@@ -441,16 +437,13 @@ class Index extends CI_Controller {
     /**
      *  我的列表  （交付任务页面）
      */
-    public function deliveryTaskView(){
+    public function giveTask(){
         $task_id = $_GET['task_id'];
         $user_info = $this->__get_user_session();
-        if(!$user_info['media_man_id']){
-            redirect('/media/login/login');
-        }
         $where ['media_man_user_id'] = $user_info['media_man_id'];
         $where ['task_id'] = $task_id;
         $info = $this->__get_task_map_model()->getMediaManTaskDetailByCondition($where);
-        $this->load->view('media/delivery_task',$info);
+        $this->load->view('media/my/give_task',$info);
     }
 
     /**
@@ -534,56 +527,28 @@ class Index extends CI_Controller {
 //        echo json_encode($this->_return);exit;
     }
 
-
-//    /**
-//     * 检查该任务是否属于当前用户
-//     * @param $map_id
-//     * @param $handle
-//     * @return bool
-//     */
-//    public function __checkTaskWhetherBelongUser($map_id,$handle){
-//        $userInfo = $this->__get_user_session();
-//        if(empty($task_id)){
-//            $this->_return['errorno'] = -1;
-//            $this->_return['msg'] = '任务ID不能为空';
-//            echo json_encode($this->_return);exit;
-//        }
-//        $where['task_id'] = $task_id;
-//        $result = $this->__get_task_model()->selectByCondition($where);
-//
-//        if( $handle == $this->_update ){
-//            if($result['release_status'] != 0 || ($result['audit_status'] != 2 && $result['audit_status'] != 2 && $result['audit_status'] != 0)){
-//                $this->_return['errorno'] = -1;
-//                $this->_return['msg'] = '当前任务不可以进行修改';
-//                echo json_encode($this->_return);exit;
-//            }
-//        }
-//
-//        if( $handle == $this->_submitAudit ){
-//            if($result['audit_status'] != 0){
-//                $this->_return['errorno'] = -1;
-//                $this->_return['msg'] = '当前任务不可以提交审核';
-//                echo json_encode($this->_return);exit;
-//            }
-//        }
-//
-//        if( $handle == $this->_endTask ){
-//            if($result['start_time'] - time() < 43200){
-//                $this->_return['errorno'] = -1;
-//                //todo 文案补全
-//                $this->_return['msg'] = '距离任务开始小于12小时不可结束任务，如需结束任务请联系';
-//                echo json_encode($this->_return);exit;
-//            }
-//        }
-//
-//        if($result['advertiser_user_id'] != $userInfo['advertiser_id']){
-//            $this->_return['errorno'] = -1;
-//            $this->_return['msg'] = '该任务不属于你，不可以进行操作';
-//            echo json_encode($this->_return);exit;
-//        }else{
-//            return true;
-//        }
-//    }
+    public function receivables(){
+        $task_id = $_POST['task_id'];
+        if(empty($task_id)){
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '参数错误';
+            echo json_encode($this->_return);exit;
+        }
+        $where['task_id'] = $task_id;
+        $user_info = $this->__get_user_session();
+        $where['media_man_user_id'] = $user_info['media_man_id'];
+        $info['receivables_status'] = '1';
+        $result = $this->__get_task_map_model()->updateMapInfo($where, $info);
+        if(!empty($result)){
+            $this->_return['errorno'] = 1;
+            $this->_return['msg'] = '确认成功';
+            echo json_encode($this->_return);exit;
+        }else{
+            $this->_return['errorno'] = -1;
+            $this->_return['msg'] = '确认失败';
+            echo json_encode($this->_return);exit;
+        }
+    }
 
 
     /**
@@ -627,10 +592,6 @@ class Index extends CI_Controller {
         $userSession = $this->session->userdata($this->_user_info);
         if(empty($userSession) || !is_array($userSession)){
             redirect('/media/login/login');
-//            $this->_return['errorno'] = -1;
-//            $this->_return['msg'] = '用户信息有误请重新登录';
-//            //todo 跳到登录页面
-//            echo json_encode($this->_return);exit;
         }
         return $userSession;
     }
