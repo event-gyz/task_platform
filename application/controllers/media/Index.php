@@ -64,6 +64,9 @@ class Index extends CI_Controller {
         $this->load->view('media/index');
     }
 
+    public function joinButton(){
+        redirect('/media/index/getMissionHallView');
+    }
     // 保存自媒体人基础信息
     public function saveBaseInfo() {
         if (empty($_POST)) {
