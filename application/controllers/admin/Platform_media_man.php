@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require '../core/Admin_Controller.php';
+require '../core/ADMIN_Controller.php';
 
 /**
  * 自媒体人管理
  * Class Platform_media_man
  */
-class Platform_media_man extends Admin_Controller {
+class Platform_media_man extends ADMIN_Controller {
 
     public function __construct() {
         parent::__construct();
