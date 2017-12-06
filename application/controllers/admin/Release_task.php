@@ -119,7 +119,7 @@ class Release_task extends ADMIN_Controller {
             return redirect("{$this->host}/admin/release_task/home");
         }
 
-        $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,8,9", "offset" => 0, "limit" => 200];
+        $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,8,9,11", "offset" => 0, "limit" => 200];
         $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
 
         $where1    = ['operate_data_id' => $id, 'user_log_type' => "3,4,5,6,7,9", "offset" => 0, "limit" => 200];
@@ -143,6 +143,38 @@ class Release_task extends ADMIN_Controller {
                 'task_completion_criteria' => $this->config->item('task_completion_criteria'),
             ]
         );
+    }
+
+    // 确认完成
+    public function confirm_finish() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
+
+        $id = $req_data['id'];
+
+        if (empty($id)) {
+            return $this->response_json(1, 'id不能为空');
+        }
+
+        $info = $this->__get_platform_task_model()->selectById($id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应的信息');
+        }
+
+        $update_info['release_status'] = 2;// 设定任务发布状态为已完成
+        $sys_log_content               = '任务设置为已完成';
+
+        $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
+
+        if ($result === 1) {
+
+            $this->add_sys_log(11, $sys_log_content, $id, json_encode($info), json_encode($update_info));
+
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(1, '非法操作');
     }
 
     // 发布任务

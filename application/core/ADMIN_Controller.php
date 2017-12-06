@@ -171,7 +171,10 @@ class ADMIN_Controller extends CI_Controller {
     /**
      * 添加系统操作日志
      *
-     * @param int    $sys_log_type    系统日志类型,1登录,2审核广告主,3审核自媒体人,4审核任务,5冻结广告主,6冻结自媒体人,7确认广告主付款,8修改任务价格,9手工作废,10修改自媒体人信息
+     * @param int    $sys_log_type    系统日志类型,
+     *                                1登录,2审核广告主,3审核自媒体人,4审核任务,
+     *                                5冻结广告主,6冻结自媒体人,7确认广告主付款,8修改任务价格,
+     *                                9手工作废,10修改自媒体人信息,11任务设置为已完成
      * @param string $sys_log_content 日志内容
      * @param int    $operate_data_id 所操作的数据id
      * @param string $old_data        原数据

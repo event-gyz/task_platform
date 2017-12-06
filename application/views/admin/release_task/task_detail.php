@@ -247,10 +247,17 @@
                 // 是否显示手工作废按钮
                 $is_show_cancellation_btn = (($info['release_status'] === "0")) ||
                     (($info['release_status'] === "1") && ($info['end_time'] > time()));
+                // 是否显示确认完成按钮
+                $is_show_confirm_btn = ($info['release_status'] === "1") && ($info['end_time'] <= time());
                 ?>
                 <?php if ($is_show_cancellation_btn): ?>
                     <button @click="update_task_release_status()" type="button" class="btn btn-warning margin-r-5">
                         手工作废
+                    </button>
+                <?php endif; ?>
+                <?php if ($is_show_confirm_btn): ?>
+                    <button @click="confirm_finish()" type="button" class="btn btn-primary margin-r-5">
+                        确认完成
                     </button>
                 <?php endif; ?>
                 <button @click="goBack('ruleForm')" type="button" class="btn btn-default margin-r-5">返回</button>
@@ -417,7 +424,48 @@
                     }
 
                 }
-            }
+            },
+            confirm_finish               : async function () {
+                try {
+                    this.loading = true;
+                    var url      = '/admin/release_task/confirm_finish';
+                    var response = await axios.post(
+                        url,
+                        {
+                            "id": this.task_id,
+                        },
+                    );
+                    this.loading = false;
+                    var resData  = response.data;
+
+                    if (resData.error_no === 0) {
+                        this.$message.success('操作成功,即将刷新页面...');
+                        return window.location.reload();
+                    }
+
+                    return this.$message.error(resData.msg);
+                }
+                catch (error) {
+
+                    this.loading = false;
+
+                    if (error instanceof Error) {
+
+                        if (error.response) {
+                            return this.$message.error(error.response.data.responseText);
+                        }
+
+                        if (error.request) {
+                            console.error(error.request);
+                            return this.$message.error('服务器未响应');
+                        }
+
+                        console.error(error);
+
+                    }
+
+                }
+            },
         }
 
     };
