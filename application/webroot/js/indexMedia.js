@@ -1,5 +1,5 @@
 var swiper = new Swiper('.swiper-container', {
-    /*pagination : '.swiper-pagination',
+    pagination : '.swiper-pagination',
     loop : true,
-    autoplay: 5000*/
+    autoplay: 5000
 });
