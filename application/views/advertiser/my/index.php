@@ -20,7 +20,7 @@
                 </div>
                 <!--head-end-->
                 <table class="my_index_table">
-                    <tr onclick="window.location.href='./data_person.html'">
+                    <tr onclick="window.location.href='/advertiser/index/userInfo'">
                         <th align="center" width="35px">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/zl.png"></th>
                         <td class="border_bottom">我的资料</td>
                         <td align="right" class="border_bottom" width="30px"><i class="iconfont">&#xe610;</i></td>
@@ -35,7 +35,7 @@
                         <td class="border_bottom">我的任务</td>
                         <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr onclick="window.location.href='../new_pwd.html'">
+                    <tr onclick="window.location.href='/advertiser/login/new_pwd'">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/mm.png"></th>
                         <td class="border_bottom">修改密码</td>
                         <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>

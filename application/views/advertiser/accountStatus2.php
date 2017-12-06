@@ -18,7 +18,7 @@
                     <p class="text">您还未上传资质信息，请尽快上传，审核通过后即可使用网站的各项功能。</p>
                     <p class="bg_line"></p>
                     <p class="button2">
-                        <a style="border-right: 1px solid #E5E5E5;" href="/advertiser/index/saveBaseInfo">立即上传</a>
+                        <a style="border-right: 1px solid #E5E5E5;" href="/advertiser/index/person">立即上传</a>
                         <a href="/advertiser/index/home">返回首页</a>
                     </p>
                 </div>

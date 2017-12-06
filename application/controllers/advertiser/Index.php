@@ -16,8 +16,8 @@ class Index extends CI_Controller {
             'url'
         ) );
         $this->load->library('session');
-        $this->load->helper('wap');
-        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my')){
+        $this->load->helper('Wap');
+        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my') && !strpos($_SERVER["REQUEST_URI"],'/person') && !strpos($_SERVER["REQUEST_URI"],'/company')){
             $this->checkUserLogin();
         }
 
@@ -39,28 +39,16 @@ class Index extends CI_Controller {
             $this->session->set_userdata($this->_user_info,$userInfo);
             if($userInfo['status']==0){
                 //跳到完善基础信息页面
-//                $this->_return['errorno'] = '2';
-//                $this->_return['msg'] = '未完善基础信息';
-//                echo json_encode($this->_return);exit;
+                redirect('/advertiser/login/accountStatus2');
             }else if($userInfo['audit_status']==0){
                 //跳到待审核页面
-//                $this->_return['errorno'] = '3';
-//                $this->_return['msg'] = '待审核';
-//                echo json_encode($this->_return);exit;
+                redirect('advertiser/login/accountStatus3');
             }else if($userInfo['audit_status']==2){
                 //跳到驳回页面
-//                $this->_return['errorno'] = '4';
-//                $this->_return['msg'] = '驳回';
-//                //驳回原因
-//                $this->_return['data'] = $userInfo['reasons_for_rejection'];
-//                echo json_encode($this->_return);exit;
+                redirect('advertiser/login/accountStatus4');
             }else if($userInfo['status']==9){
                 //跳到冻结页面
-//                $this->_return['errorno'] = '9';
-//                $this->_return['msg'] = '冻结';
-//                //冻结原因
-//                $this->_return['data'] = $userInfo['freezing_reason'];
-//                echo json_encode($this->_return);exit;
+                redirect('advertiser/login/accountStatus5');
             }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
                     return true;
             }
@@ -69,9 +57,6 @@ class Index extends CI_Controller {
     }
 
 
-//    public function home() {
-//        $this->load->view('advertiser/company');
-//    }
     public function home() {
         $this->load->view('advertiser/index');
     }
@@ -301,11 +286,24 @@ class Index extends CI_Controller {
 
     }
 
+    public function data_person(){
+        $this->load->view('advertiser/my/data_person');
+    }
+    public function data_company(){
+        $this->load->view('advertiser/my/data_company');
+    }
 
-
+    public function userInfo(){
+        $user_info = $this->__get_user_session();
+        if($user_info['advertiser_type'] == 1){
+            redirect('/advertiser/index/data_person');
+        }else{
+            redirect('/advertiser/index/data_company');
+        }
+    }
 
     /**
-     * 我的列表 （我的资料）
+     * 我的资料
      */
     public function getAdvertiserInfo(){
         $user_info = $this->__get_user_session();

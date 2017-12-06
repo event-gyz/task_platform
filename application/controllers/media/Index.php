@@ -12,7 +12,7 @@ class Index extends CI_Controller {
             'url'
         ) );
         $this->load->library('session');
-        $this->load->helper('wap');
+        $this->load->helper('Wap');
         if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'saveBaseInfo') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'savePromotedInfo')){
             $this->checkUserLogin();
         }
@@ -46,11 +46,6 @@ class Index extends CI_Controller {
                 redirect('media/login/accountStatus4');
             }else if($userInfo['status']==9){
                 //跳到冻结页面
-//                $this->_return['errorno'] = '9';
-//                $this->_return['msg'] = '冻结';
-//                //冻结原因
-//                $this->_return['data'] = $userInfo['freezing_reason'];
-//                echo json_encode($this->_return);exit;
                 redirect('media/login/accountStatus5');
             }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
                     return true;
