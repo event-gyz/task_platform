@@ -163,15 +163,15 @@
                                     <th><?= $value['title'] ?></th>
                                     <th>
                                         <?php if (($value['release_status'] === "0")): ?>
-                                            <small class="label bg-red">
+                                            <small class="label bg-yellow">
                                                 待发布
                                             </small>
                                         <?php elseif (($value['release_status'] === "1") && ($value['end_time'] > time())): ?>
-                                            <small class="label bg-yellow">
+                                            <small class="label bg-green">
                                                 执行中
                                             </small>
                                         <?php elseif (($value['release_status'] === "1") && ($value['end_time'] <= time())): ?>
-                                            <small class="label bg-green">
+                                            <small class="label bg-orange">
                                                 待确认完成
                                             </small>
                                         <?php else: ?>
