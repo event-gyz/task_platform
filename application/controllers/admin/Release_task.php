@@ -105,20 +105,52 @@ class Release_task extends ADMIN_Controller {
         ];
     }
 
+    // 任务详情
+    public function task_detail() {
+        $id = $this->input->get('id', true);
+
+        if (empty($id)) {
+            return redirect("{$this->host}/admin/release_task/home");
+        }
+
+        $info = $this->__get_platform_task_model()->selectById($id);
+
+        if (empty($info)) {
+            return redirect("{$this->host}/admin/release_task/home");
+        }
+
+        $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,9", "offset" => 0, "limit" => 200];
+        $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
+
+        $where1    = ['operate_data_id' => $id, 'user_log_type' => "3,4,5,6,7,9", "offset" => 0, "limit" => 200];
+        $log_list1 = $this->__get_user_log_model()->get_user_log_list_by_condition($where1);
+
+        $log_list2 = array_merge($log_list['list'], $log_list1['list']);
+        uasort($log_list2, function ($value1, $value2) {
+            if (strtotime($value1['create_time']) == strtotime($value2['create_time'])) {
+                return 0;
+            }
+            return (strtotime($value1['create_time']) < strtotime($value2['create_time'])) ? 1 : -1;
+        });
+
+        return $this->load->view('admin/release_task/task_detail',
+            [
+                'info'                     => $info,
+                'log_list'                 => $log_list2,
+                'publishing_platform_list' => $this->config->item('publishing_platform'),
+                'task_type_list'           => $this->config->item('task_type'),
+                'task_audit_status'        => $this->config->item('task_audit_status'),
+                'task_completion_criteria' => $this->config->item('task_completion_criteria'),
+            ]
+        );
+    }
+
     /**
      * @return Platform_task_model
      */
     private function __get_platform_task_model() {
         $this->load->model('Platform_task_model');
         return $this->Platform_task_model;
-    }
-
-    /**
-     * @return Platform_advertiser_model
-     */
-    private function __get_platform_advertiser_model() {
-        $this->load->model('Platform_advertiser_model');
-        return $this->Platform_advertiser_model;
     }
 
     /**
