@@ -6,6 +6,10 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="/css/indexMedia.css" />
+
+
+        <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+        <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     </head>
     <body>
         <div class="main" id="app" style="margin: 0;">
@@ -177,13 +181,14 @@
                 <!--list-end-->
                 <p class="no_task" style="display:none;"  v-show="!lists.length"><img src="/images/zwnr.png"><br>暂无分配的任务</p>
             </ul>
-            <!--滚动加载-->
-            <div class="weui-loadmore">
-                <i class="weui-loading"></i>
-                <span class="weui-loadmore__tips">正在加载</span>
-            </div>
-            <!--滚动加载-end-->
+
         </div>
+        <!--滚动加载-->
+                    <div class="weui-loadmore">
+                        <i class="weui-loading"></i>
+                        <span class="weui-loadmore__tips">正在加载</span>
+                    </div>
+                    <!--滚动加载-end-->
         <script type="text/javascript" src="/js/third/jquery.js"></script>
         <script type="text/javascript" src="/js/util.js"></script>
         <script type="text/javascript" src="/js/third/moment.min.js"></script>
