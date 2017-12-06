@@ -576,6 +576,13 @@ class Index extends CI_Controller {
         }
     }
 
+    public function userInfoApi(){
+        $data = $this->__get_user_session();
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $data;
+        echo json_encode($this->_return);
+    }
 
     /**
      * 获取剩余时间
