@@ -165,11 +165,11 @@
                             </el-form-item>
 
                             <el-form-item label="行业" prop="industry">
-                                <el-checkbox-group v-model="ruleForm.industry">
-                                    <el-checkbox v-for="(item, key) in industry_list" :label="key">
-                                        {{item}}
-                                    </el-checkbox>
-                                </el-checkbox-group>
+                                <el-radio-group v-model="ruleForm.industry">
+                                    <el-radio v-for="(item, key) in industry_list" :label="key">
+                                        {{ item }}
+                                    </el-radio>
+                                </el-radio-group>
                             </el-form-item>
 
                             <el-form-item label="微信号" prop="wx_code">
@@ -264,7 +264,7 @@
                     zfb_realname   : '<?= $info['zfb_realname']?>',
                     age            : '<?= $info['age']?>',
                     hobby          : JSON.parse('<?= json_encode(explode(',', $info['hobby'])) ?>'),
-                    industry       : JSON.parse('<?= json_encode(explode(',', $info['industry'])) ?>'),
+                    industry       : '<?= $info['industry']?>',
                     wx_code        : '<?= $info['wx_code']?>',
                     wx_type        : '<?= $info['wx_type']?>',
                     wx_max_fans    : '<?= $info['wx_max_fans']?>',
@@ -314,7 +314,7 @@
                         {type: 'array', required: true, message: '请至少选择一个爱好', trigger: 'change'}
                     ],
                     industry       : [
-                        {type: 'array', required: true, message: '请至少选择一个行业', trigger: 'change'}
+                        {required: true, message: '请选择行业', trigger: 'change'}
                     ],
                     wx_code        : [
                         {required: true, message: '请填写微信号', trigger: 'blur'}
