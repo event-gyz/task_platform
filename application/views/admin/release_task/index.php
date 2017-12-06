@@ -9,8 +9,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            任务审核列表
-            <small>管理任务的审核</small>
+            任务发布列表
+            <small>管理任务的发布</small>
         </h1>
     </section>
 
@@ -185,7 +185,7 @@
                                     <th><?= $value['media_man_number'] ?></th>
                                     <th><?= $value['actual_media_man_number'] ?></th>
                                     <th>
-                                        <a href="/admin/platform_task/task_detail?id=<?= $value['task_id'] ?>"
+                                        <a href="/admin/release_task/task_detail?id=<?= $value['task_id'] ?>"
                                            class="btn btn-success btn-sm">
                                             详情
                                         </a>
