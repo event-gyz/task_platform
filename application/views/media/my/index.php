@@ -9,13 +9,17 @@
         <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_vo1nszstgavh1tt9.css">
     </head>
     <body>
+    <?php $userSession = isset($_SESSION['user_info'])?$_SESSION['user_info']:[];?>
         <div class="main">
             <div class="my">
                 <!--head-->
                 <div class="my_head">
                     <ul>
                         <li class="img"><Img src="/images/wb.png"></li>
-                        <li class="text">猪八戒</li>
+                        <?php if(isset($userSession['media_man_id']) && !empty($userSession['media_man_id'])){?>
+                            <li class="text"><?=(!empty($userSession['media_man_name'])?$userSession['media_man_name']:'未设置')?></li>
+                        <?php } ?>
+                        <li class="text">未登录</li>
                     </ul>
                 </div>
                 <!--head-end-->
@@ -51,7 +55,10 @@
                         <td align="right" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
                 </table>
+
+                <?php if(isset($userSession['media_man_id']) && !empty($userSession['media_man_id'])){?>
                 <p class="logout"><a href="/media/login/logout">退出登录</a></p>
+                <?php } ?>
             </div>
         </div>
         <!--nav-->
