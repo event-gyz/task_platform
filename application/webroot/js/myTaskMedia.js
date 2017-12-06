@@ -4,33 +4,31 @@
 var app = new Vue({
     el:'#app',
     data:{
-        total:0,
-        page:1,
+        loading:false,//状态标记
+        total:100,
+        page:0,
         lists:[]
     },
     mounted:function(){
         this.$nextTick(function(){
-            this.initAjax();
-            var loading = false;  //状态标记
-            $(document.body).infinite().on("infinite", function() {
-                alert(123);
-                if(loading) return;
-                loading = true;
-                setTimeout(function() {
-
-                    loading = false;
-                }, 1500);   //模拟延迟
+            var _this = this;
+            this.initAjax(1);
+            $(document.body).infinite(10).on("infinite", function() {
+                /*if(_this.loading&&_this.total) return;
+                _this.loading = true;
+                _this.initAjax(1);*/
+                alert(123123)
             });
         });
     },
     methods:{
-        initAjax:function(){
+        initAjax:function(n){
             var _this = this;
             $.ajax({
                 url: "/media/index/taskListApi",
                 dataType: 'json',
                 type:"post",
-                data:{page:1},
+                data:{page:n},
                 success: function(res) {
                     if(res.errorno >= 0){
                         //开始初始化赋值
