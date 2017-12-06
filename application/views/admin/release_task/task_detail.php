@@ -317,7 +317,7 @@
                 });
             },
             goBack                       : function (formName) {
-                window.location.href = '/admin/platform_task/home';
+                window.location.href = '/admin/release_task/home';
             },
             update_task_audit_status     : async function () {
                 try {
