@@ -110,10 +110,10 @@ class Index extends CI_Controller {
             $data['school_area'] = $schoolAddress[2];
             //通过session获取用户信息
             $userInfo = $this->__get_user_session();
+
             $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
             if ($re) {
-//                $userInfo = array_merge($userInfo,$data);
-//                $this->session->set_userdata($this->_user_info,$userInfo);
+                $this->__saveLog($userInfo['media_man_id'],11,'保存自媒体人基础信息',$userInfo,$data);
                 $this->_return['errorno'] = '1';
                 $this->_return['msg'] = '保存成功';
                 echo json_encode($this->_return);
@@ -149,6 +149,7 @@ class Index extends CI_Controller {
             $userInfo = $this->__get_user_session();
             $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
             if ($re) {
+                $this->__saveLog($userInfo['media_man_id'],11,'保存自媒体人账户信息',$userInfo,$data);
                 $this->_return['errorno'] = '1';
                 $this->_return['msg'] = '保存成功';
                 echo json_encode($this->_return);
@@ -252,13 +253,14 @@ class Index extends CI_Controller {
     public function acceptTask(){
         $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 1;
         $where['task_id'] = $task_id;
-        $user_info = $this->__get_user_session();
-        $where['media_man_user_id'] = $user_info['media_man_id'];
+        $userInfo = $this->__get_user_session();
+        $where['media_man_user_id'] = $userInfo['media_man_id'];
         $where['receive_status'] = 0;
         $info ['receive_status'] = 1;
         //todo 领取之前判断一下任务状态
         $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
         if(!empty($result)){
+            $this->__saveLog($task_id,6,'接受任务','','');
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '领取成功';
             echo json_encode($this->_return);exit;
@@ -276,12 +278,13 @@ class Index extends CI_Controller {
     public function refuseTask(){
         $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 1;
         $where['task_id'] = $task_id;
-        $user_info = $this->__get_user_session();
-        $where['media_man_user_id'] = $user_info['media_man_id'];
+        $userInfo = $this->__get_user_session();
+        $where['media_man_user_id'] = $userInfo['media_man_id'];
         $where['receive_status'] = 0;
         $info ['receive_status'] = 2;
         $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
         if(!empty($result)){
+            $this->__saveLog($task_id,7,'拒绝任务','','');
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '拒绝成功';
             echo json_encode($this->_return);exit;
@@ -483,6 +486,7 @@ class Index extends CI_Controller {
             $this->_return['msg'] = '交付失败';
             echo json_encode($this->_return);exit;
         }
+        $this->__saveLog($_POST['task_id'],9,'交付任务','',$info);
         $this->_return['errorno'] = '1';
         $this->_return['msg'] = '交付成功';
         echo json_encode($this->_return);exit;
@@ -529,7 +533,7 @@ class Index extends CI_Controller {
 
     //确认收款按钮
     public function receivables(){
-        $task_id = $_POST['task_id'];
+        $task_id = (int)$_POST['task_id'];
         if(empty($task_id)){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '参数错误';
@@ -542,6 +546,7 @@ class Index extends CI_Controller {
         $result = $this->__get_task_map_model()->updateMapInfo($where, $info);
         $data = $this->__get_task_map_model()->getMediaManTaskDetailByCondition($where);
         if(!empty($result)){
+            $this->__saveLog($task_id,12,'确认收款','','');
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '确认成功';
             $this->_return['data'] = $data;
@@ -649,8 +654,28 @@ class Index extends CI_Controller {
     }
 
 
+    private function __saveLog($operate_data_id,$user_log_type,$user_log_content,$old_data,$new_data){
+        $user_info = $this->__get_user_session();
+        $data = [
+            'user_id'     => $user_info['media_man_id'],
+            'user_name'   => (empty($user_info['media_man_name']))?$user_info['media_man_name']:'',
+            'operate_data_id' => $operate_data_id,
+            'user_type'    => 2,
+            'user_log_type' => $user_log_type,
+            'user_log_content' => $user_log_content,
+            'old_data'        => $old_data,
+            'new_data'        => $new_data,
+        ];
+        $this->__get_log_model()->insert($data);
+    }
 
-
+    /**
+     * @return User_log_model
+     */
+    private function __get_log_model() {
+        $this->load->model('User_log_model');
+        return $this->User_log_model;
+    }
 
 
 }

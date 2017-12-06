@@ -154,6 +154,7 @@ class Index extends CI_Controller {
         $userInfo = $this->__get_user_session();
         $re = $this->__get_advertiser_model()->updateInfo($userInfo['advertiser_id'],$data);
         if ($re) {
+            $this->__saveLog($userInfo['advertiser_id'],11,'保存广告主基础信息','',$data);
             $this->_return['errorno'] = '1';
             $this->_return['msg'] = '保存成功';
             echo json_encode($this->_return);
@@ -262,10 +263,12 @@ class Index extends CI_Controller {
             $userInfo = $this->__get_user_session();
             $data['advertiser_user_id'] = $userInfo['advertiser_id'];
             $re = $this->__get_task_model()->insert($data);
+            $this->__saveLog($re,3,'提交任务','',$data);
             //修改
         }else{
             $this->__checkTaskWhetherBelongUser($task_id,$this->_update);
             $this->__get_task_model()->updateInfo($task_id,$data);
+            $this->__saveLog($task_id,4,'修改任务','',$data);
             $re = $task_id;
         }
 
@@ -411,6 +414,7 @@ class Index extends CI_Controller {
 
         $result = $this->__get_task_model()->updateInfo($task_id,$info);
         if(!empty($result)){
+            $this->__saveLog($task_id,3,'提交审核','','');
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '提交成功';
             $this->_return['data'] = $data;
@@ -434,6 +438,7 @@ class Index extends CI_Controller {
 
         $result = $this->__get_task_model()->updateInfo($task_id,$info);
         if(!empty($result)){
+            $this->__saveLog($task_id,10,'结束任务','','');
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '操作成功';
             $this->_return['data'] = $data;
@@ -497,6 +502,7 @@ class Index extends CI_Controller {
 
         $result = $this->__get_task_model()->updateInfo($task_id,$info);
         if(!empty($result)){
+            $this->__saveLog($task_id,13,'确认付款','','');
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '操作成功';
             $this->_return['data'] = $data;
@@ -638,9 +644,7 @@ class Index extends CI_Controller {
         if(empty($userSession) || !is_array($userSession)){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '用户信息有误请重新登录';
-            //todo 跳到登录页面
             redirect('advertiser/login/login');
-//            echo json_encode($this->_return);exit;
         }
         return $userSession;
     }
@@ -680,10 +684,28 @@ class Index extends CI_Controller {
     }
 
 
+    private function __saveLog($operate_data_id,$user_log_type,$user_log_content,$old_data,$new_data){
+        $user_info = $this->__get_user_session();
+        $data = [
+            'user_id'     => $user_info['advertiser_id'],
+            'user_name'   => $user_info['advertiser_name'],
+            'operate_data_id' => $operate_data_id,
+            'user_type'    => 1,
+            'user_log_type' => $user_log_type,
+            'user_log_content'        => $user_log_content,
+            'old_data'        => $old_data,
+            'new_data'        => $new_data,
+        ];
+        $this->__get_log_model()->insert($data);
+    }
 
-
-
-
+    /**
+     * @return User_log_model
+     */
+    private function __get_log_model() {
+        $this->load->model('User_log_model');
+        return $this->User_log_model;
+    }
 
 
 }
