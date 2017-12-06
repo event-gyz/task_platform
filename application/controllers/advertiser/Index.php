@@ -11,10 +11,6 @@ class Index extends CI_Controller {
     public $_payTask = 'payTask';
     public function __construct(){
         parent::__construct ();
-        $this->load->helper ( array (
-            'form',
-            'url'
-        ) );
         $this->load->library('session');
         $this->load->helper('Wap');
         if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my') && !strpos($_SERVER["REQUEST_URI"],'/person') && !strpos($_SERVER["REQUEST_URI"],'/company')){
