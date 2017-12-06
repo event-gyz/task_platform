@@ -44,6 +44,7 @@
                     </table>
                 </li>
                 <!--执行中-end-->
+
                 <!--未完成-->
                 <li class="task_box">
                     <div class="top wait">
@@ -177,7 +178,7 @@
                 <p class="no_task" style="display:none;"  v-show="!lists.length"><img src="/images/zwnr.png"><br>暂无分配的任务</p>
             </ul>
             <!--滚动加载-->
-            <div class="weui-loadmore" style="display:none;">
+            <div class="weui-loadmore">
                 <i class="weui-loading"></i>
                 <span class="weui-loadmore__tips">正在加载</span>
             </div>
