@@ -203,7 +203,7 @@ class Platform_task extends ADMIN_Controller {
         return $this->response_json(1, '非法操作');
     }
 
-    // 任务的发布状态
+    // 手工作废任务
     public function update_task_release_status() {
         $req_json = file_get_contents("php://input");
         $req_data = json_decode($req_json, true);

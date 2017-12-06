@@ -253,7 +253,7 @@
 
                         <?php if (($info['audit_status'] === "1")): ?>
                             待审核
-                        <?php elseif (($value['audit_status'] === "2")): ?>
+                        <?php elseif (($info['audit_status'] === "2")): ?>
                             驳回
                         <?php elseif (($info['pay_status'] === "0") && ($info['audit_status'] === "3")): ?>
                             待广告主付款
@@ -308,11 +308,11 @@
 
                     <div class="col-sm-3 invoice-col">
                         <b>完成标准：</b> <?= $task_completion_criteria[$info['completion_criteria']] ?><br><br>
-                    </div>
-
                 </div>
 
-                <div class="row">
+            </div>
+
+            <div class="row">
 
                     <div class="col-sm-3 invoice-col">
                         <b>任务描述：</b> <?= $info['task_describe'] ?><br><br>

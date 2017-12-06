@@ -84,57 +84,86 @@ var app = new Vue({
         //当前状态
         task_status: function(obj){
             function time(){return parseInt(moment().valueOf()/1000);}
-            if(obj.release_status == 9){
-                return '已关闭';
+            if(obj.release_status == 2){
+                return '已完成';
             }else if(obj.release_status==7){
                 return '已结束';
-            }else if(obj.release_status==1 && obj.receive_status==1 && (obj.time>obj.start_time)){
-                return '未开始';
-            }else if(obj.release_status==1 && obj.receive_status==1 && (time()>obj.start_time)&&time()<obj.end_time&&obj.deliver_status!=1){
+            }else if(obj.release_status==8){
+                return '手工作废';
+            }else if(obj.release_status==9){
+                return '已关闭';
+            }else if((obj.audit_status == 0) && (obj.release_status == 0)){
+                return '待提交';
+            }else if((obj.audit_status == 1) && (boj.release_status == 0)){
+                return '待审核';
+            }else if((obj.audit_status == 2) && (obj.release_status == 0)){
+                return '驳回';
+            }else if((obj.audit_status == 3) && (obj.release_status == 0) && (obj.pay_status == 0)){
+                return '待付款';
+            }else if((obj.audit_status == 3) && (obj.release_status == 0) && (obj.pay_status == 1) && (obj.finance_status != 1)){
+                return '待财务确认收款';
+            }else if((obj.audit_status == 3) && (obj.release_status == 0) && (obj.pay_status == 1) && (obj.finance_status == 1)){
+                return '待发布';
+            }else if(obj.release_status == 1 && (time()>obj.start_time)){
+                return '待开始';
+            }else if(obj.release_status == 1 && (time()<obj.start_time) && (time()>obj.end_time)){
                 return '执行中';
-            }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==0){
-                return '交付待审核';
-            }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==2){
-                return '交付审核失败';
-            }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==1 && obj.finance_status!=1){
-                return '待财务确认';
-            }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==1 && obj.finance_status==1 && obj.receivables_status!=1){
-                return '待确认收款';
-            }else if(obj.receive_status==1 && obj.deliver_status==1 && obj.finance_status==1 && obj.receivables_status==1){
-                return '已完成';
-            }else if(obj.receive_status==1 && obj.deliver_audit_status!=1 && (time()>obj.end_time)){
-                return '未完成';
-            }else if(obj.receive_status==2){
-                return '已拒绝';
             }
         },
         //状态class
         task_status_class: function(obj){
             function time(){return parseInt(moment().valueOf()/1000);}
-            if(obj.release_status == 9){
-                return 'close';
-            }else if(obj.release_status==7){
-                return 'close';
-            }else if(obj.release_status==1 && obj.receive_status==1 && (obj.time>obj.start_time)){
-                return 'wait';
-            }else if(obj.release_status==1 && obj.receive_status==1 && (time()>obj.start_time)&&time()<obj.end_time&&obj.deliver_status!=1){
-                return 'proceed';
-            }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==0){
-                return 'wait';
-            }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==2){
-                return 'wait';
-            }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==1 && obj.finance_status!=1){
-                return 'wait';
-            }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==1 && obj.finance_status==1 && obj.receivables_status!=1){
-                return 'wait';
-            }else if(obj.receive_status==1 && obj.deliver_status==1 && obj.finance_status==1 && obj.receivables_status==1){
+            if(obj.release_status == 2){
                 return 'end';
-            }else if(obj.receive_status==1 && obj.deliver_audit_status!=1 && (time()>obj.end_time)){
-                return 'wait';
-            }else if(obj.receive_status==2){
+            }else if(obj.release_status == 1 && (time()<obj.start_time) && (time()>obj.end_time)){
+                return 'proceed';
+            }else if(obj.release_status==9){
                 return 'close';
+            }else{
+                return 'wait';
             }
         }
-
     }
 });
+
+
+
+
+
+/*
+ 已完成
+ $release_status == 2
+
+ 已结束
+ $release_status == 7
+
+ 手工作废
+ $release_status == 8
+
+ 已关闭
+ $release_status == 9
+
+待提交(修改，提交，结束)
+($audit_status == 0) && ($release_status == 0)
+
+待审核
+($audit_status == 1) && ($release_status == 0)
+
+驳回(修改，结束)
+($audit_status == 2) && ($release_status == 0)
+
+待付款(确认付款，结束)
+($audit_status == 3) && ($release_status == 0) && ($pay_status == 0)
+
+待财务确认收款(结束)
+    ($audit_status == 3) && ($release_status == 0) && ($pay_status == 1) && ($finance_status != 1)
+
+待发布(当前时间减$start_time大于12小时，显示结束按钮)
+($audit_status == 3) && ($release_status == 0) && ($pay_status == 1) && ($finance_status == 1)
+
+待开始
+$release_status == 1 && (time()>$start_time)
+
+执行中
+$release_status == 1 && (time()<$start_time) && (time()>$end_time)
+*/
