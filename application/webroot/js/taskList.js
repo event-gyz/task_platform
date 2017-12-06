@@ -22,13 +22,13 @@ var app = new Vue({
         });
     },
     methods:{
-        initAjax:function(){
+        initAjax:function(n){
             var _this = this;
             $.ajax({
                 url: "/media/index/getMissionHall",
                 dataType: 'json',
                 type:"post",
-                data:{page:1},
+                data:{page:n},
                 success: function(res) {
                     if(res.errorno >= 0){
                         //开始初始化赋值
