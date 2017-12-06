@@ -1,7 +1,7 @@
 <?php
 
 
-class Wap {
+class wap {
     protected $CI;
     const SALT = 'plat';
     public function __construct() {
