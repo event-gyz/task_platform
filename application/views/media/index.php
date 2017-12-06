@@ -22,7 +22,7 @@
                 <!--banner-end-->
                 <!--con-->
                 <div class="index-con">
-                    <p><img src="/images/img.png"></p>
+                    <p><img src="/images/img.png?v=1"></p>
                     <p class="button"><a href="/media/index/joinButton" class="common_button">立即加入</a></p>
                 </div>
                 <!--con-end-->
