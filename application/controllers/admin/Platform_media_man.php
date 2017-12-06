@@ -178,7 +178,6 @@ class Platform_media_man extends Admin_Controller {
         }
 
         $req_data['hobby']              = implode(',', $req_data['hobby']);
-        $req_data['industry']           = implode(',', $req_data['industry']);
         $req_data['last_operator_id']   = $this->sys_user_info['id'];
         $req_data['last_operator_name'] = $this->sys_user_info['user_name'];
         $sys_log_content                = '修改了媒体人信息';
