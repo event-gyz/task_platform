@@ -10,7 +10,15 @@
     <body>
         <div class="main" style="padding-top: 10px;">
             <table class="my_msg_table">
-
+                <?php if(empty($taskMessage)){?>
+                    <div class="statu_box">
+                        <p class="icon-box"><img src="/images/status/dts.png"></p>
+                        <p class="text">还没有消息哦</p>
+                        <p class="bg_line"></p>
+                        <p class="button1">
+                        </p>
+                    </div>
+                <?php } ?>
                 <?php if(!empty($taskMessage) && is_array($taskMessage)){
                     foreach($taskMessage as $value){
                     ?>
