@@ -90,7 +90,7 @@ var app = new Vue({
                 },
                 success: function(res) {
                     if(res.errorno > 0){
-
+                        location.href='/media/login/accountStatus6';
                     }else{
                         util.tips(res.msg)
                     }
