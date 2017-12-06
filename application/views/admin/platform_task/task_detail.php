@@ -373,9 +373,9 @@
                             <?php foreach ($log_list as $value): ?>
                                 <tr>
                                     <td><?= $value['id'] ?></td>
-                                    <td><?= $value['sys_user_name'] ?></td>
+                                    <td><?= $value['sys_user_name'] ? $value['sys_user_name'] : $value['user_name'] ?></td>
                                     <td><?= $value['create_time'] ?></td>
-                                    <td><?= $value['sys_log_content'] ?></td>
+                                    <td><?= $value['sys_log_content'] ? $value['sys_log_content'] : $value['user_log_content'] ?></td>
                                 </tr>
                             <?php endforeach; ?>
 

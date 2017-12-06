@@ -129,10 +129,21 @@ class Platform_task extends Admin_Controller {
         $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,9", "offset" => 0, "limit" => 200];
         $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
 
+        $where1    = ['operate_data_id' => $id, 'user_log_type' => "3,4,5,6,7,9", "offset" => 0, "limit" => 200];
+        $log_list1 = $this->__get_user_log_model()->get_user_log_list_by_condition($where1);
+
+        $log_list2 = array_merge($log_list['list'], $log_list1['list']);
+        uasort($log_list2, function ($value1, $value2) {
+            if (strtotime($value1['create_time']) == strtotime($value2['create_time'])) {
+                return 0;
+            }
+            return (strtotime($value1['create_time']) < strtotime($value2['create_time'])) ? 1 : -1;
+        });
+
         return $this->load->view('admin/platform_task/task_detail',
             [
                 'info'                     => $info,
-                'log_list'                 => $log_list['list'],
+                'log_list'                 => $log_list2,
                 'advertiser_info'          => $advertiser_info,
                 'adv_audit_status'         => $this->config->item('adv_audit_status'),
                 'adv_account_status'       => $this->config->item('adv_account_status'),
@@ -254,6 +265,14 @@ class Platform_task extends Admin_Controller {
     private function __get_platform_advertiser_model() {
         $this->load->model('Platform_advertiser_model');
         return $this->Platform_advertiser_model;
+    }
+
+    /**
+     * @return User_log_model
+     */
+    private function __get_user_log_model() {
+        $this->load->model('User_log_model');
+        return $this->User_log_model;
     }
 
 }
