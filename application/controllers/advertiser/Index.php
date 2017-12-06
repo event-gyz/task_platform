@@ -407,12 +407,13 @@ class Index extends CI_Controller {
         $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 0;
         $info ['audit_status'] = 1;
 
-        $this->__checkTaskWhetherBelongUser($task_id,$this->_submitAudit);
+        $data = $this->__checkTaskWhetherBelongUser($task_id,$this->_submitAudit);
 
         $result = $this->__get_task_model()->updateInfo($task_id,$info);
         if(!empty($result)){
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '提交成功';
+            $this->_return['data'] = $data;
             echo json_encode($this->_return);exit;
         }else{
             $this->_return['errorno'] = -1;
@@ -429,12 +430,13 @@ class Index extends CI_Controller {
         $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 0;
         $info ['release_status'] = 7;
 
-        $this->__checkTaskWhetherBelongUser($task_id,$this->_endTask);
+        $data = $this->__checkTaskWhetherBelongUser($task_id,$this->_endTask);
 
         $result = $this->__get_task_model()->updateInfo($task_id,$info);
         if(!empty($result)){
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '操作成功';
+            $this->_return['data'] = $data;
             echo json_encode($this->_return);exit;
         }else{
             $this->_return['errorno'] = -1;
@@ -491,12 +493,13 @@ class Index extends CI_Controller {
 
         $info ['pay_status'] = 1;
 
-        $this->__checkTaskWhetherBelongUser($task_id,$this->_payTask);
+        $data = $this->__checkTaskWhetherBelongUser($task_id,$this->_payTask);
 
         $result = $this->__get_task_model()->updateInfo($task_id,$info);
         if(!empty($result)){
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '操作成功';
+            $this->_return['data'] = $data;
             echo json_encode($this->_return);exit;
         }else{
             $this->_return['errorno'] = -1;
@@ -545,7 +548,7 @@ class Index extends CI_Controller {
             if($result['start_time'] - time() < 43200){
                 $this->_return['errorno'] = -1;
                 //todo 文案补全
-                $this->_return['msg'] = '距离任务开始小于12小时不可结束任务，如需结束任务请联系';
+                $this->_return['msg'] = '距离任务开始小于12小时不可结束任务，如需结束任务请联系客服';
                 echo json_encode($this->_return);exit;
             }
         }
@@ -563,7 +566,7 @@ class Index extends CI_Controller {
             $this->_return['msg'] = '该任务不属于你，不可以进行操作';
             echo json_encode($this->_return);exit;
         }else{
-            return true;
+            return $result;
         }
     }
 
