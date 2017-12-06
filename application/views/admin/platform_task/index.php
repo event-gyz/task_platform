@@ -163,17 +163,29 @@
                                     <th><?= $value['title'] ?></th>
                                     <th>
                                         <?php if (($value['audit_status'] === "1")): ?>
-                                            待审核
+                                            <small class="label bg-yellow">
+                                                待审核
+                                            </small>
                                         <?php elseif (($value['audit_status'] === "2")): ?>
-                                            驳回
+                                            <small class="label bg-red">
+                                                驳回
+                                            </small>
                                         <?php elseif (($value['pay_status'] === "0") && ($value['audit_status'] === "3")): ?>
-                                            待广告主付款
+                                            <small class="label bg-aqua">
+                                                待广告主付款
+                                            </small>
                                         <?php elseif (($value['pay_status'] === "1") && ($value['audit_status'] === "3") && ($value['finance_status'] === "0")): ?>
-                                            待财务确认
+                                            <small class="label bg-orange">
+                                                待财务确认
+                                            </small>
                                         <?php elseif (($value['pay_status'] === "1") && ($value['audit_status'] === "3") && ($value['finance_status'] === "1")): ?>
-                                            财务已确认
+                                            <small class="label bg-green">
+                                                财务已确认
+                                            </small>
                                         <?php else: ?>
-                                            未知
+                                            <small class="label bg-gray">
+                                                未知
+                                            </small>
                                         <?php endif; ?>
                                     </th>
                                     <th><?= $value['submit_audit_time'] ?></th>

@@ -163,13 +163,21 @@
                                     <th><?= $value['title'] ?></th>
                                     <th>
                                         <?php if (($value['release_status'] === "0")): ?>
-                                            待发布
+                                            <small class="label bg-red">
+                                                待发布
+                                            </small>
                                         <?php elseif (($value['release_status'] === "1") && ($value['end_time'] > time())): ?>
-                                            执行中
+                                            <small class="label bg-yellow">
+                                                执行中
+                                            </small>
                                         <?php elseif (($value['release_status'] === "1") && ($value['end_time'] <= time())): ?>
-                                            待确认完成
+                                            <small class="label bg-green">
+                                                待确认完成
+                                            </small>
                                         <?php else: ?>
-                                            未知
+                                            <small class="label bg-gray">
+                                                未知
+                                            </small>
                                         <?php endif; ?>
                                     </th>
                                     <th><?= $value['submit_audit_time'] ?></th>
