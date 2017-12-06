@@ -15,7 +15,7 @@
                 <!--banner-->
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img src="/images/banner1.png"></div>
+                        <div class="swiper-slide"><img src="/images/banner2.png"></div>
                         <div class="swiper-slide"><img src="/images/banner.png"></div>
                     </div>
                 </div>
