@@ -35,8 +35,13 @@ var app = new Vue({
                         //开始初始化赋值
                         _this.lists = _this.lists.concat(res.data.list);
                         _this.total = res.data.total;
-                    }else if(res.errorno == -1){
+                        _this.page = res.data.page;
+                        if(_this.total<=_this.page*10){
+                            $('.weui-loadmore').hide();
+                        }
+                    }else if(res.errorno == -1){//无任务
                         _this.lists = [];
+                        $('.weui-loadmore').hide();
                     }
                     _this.loading = false;
                     $('.my_task').show();
