@@ -147,7 +147,11 @@ class Platform_task_model extends MY_Model {
         if (empty($task_id)) {
             return false;
         }
-        $query = $this->db->get_where($this->getTableName(), array('task_id' => $task_id));
+        $this->db->select('pt.*, ptp.finance_status');
+        $this->db->from("`{$this->getTableName()}` AS pt");
+        $this->db->join(' platform_task_payment AS ptp', 'pt.task_id = ptp.task_id', 'LEFT');
+        $this->db->where(array('pt.task_id' => $task_id,));
+        $query = $this->db->get();
         return $query->row_array();
     }
 
