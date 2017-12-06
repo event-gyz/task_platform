@@ -21,8 +21,12 @@ class User_log_model extends MY_Model {
             $sql .= sprintf(" AND ul.user_id = %d", $where['user_id']);
         }
 
+        if (isset($where['operate_data_id']) && $where['operate_data_id']) {
+            $sql .= sprintf(" AND ul.operate_data_id = %d", $where['operate_data_id']);
+        }
+
         if (isset($where['user_log_type']) && $where['user_log_type']) {
-            $sql .= sprintf(" AND ul.user_log_type = %d", $where['user_log_type']);
+            $sql .= sprintf(" AND ul.user_log_type IN (%s)", $where['user_log_type']);
         }
 
         if (isset($where['user_type']) && $where['user_type']) {
