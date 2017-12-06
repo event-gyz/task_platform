@@ -119,7 +119,7 @@ class Release_task extends ADMIN_Controller {
             return redirect("{$this->host}/admin/release_task/home");
         }
 
-        $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,9", "offset" => 0, "limit" => 200];
+        $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,8,9", "offset" => 0, "limit" => 200];
         $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
 
         $where1    = ['operate_data_id' => $id, 'user_log_type' => "3,4,5,6,7,9", "offset" => 0, "limit" => 200];

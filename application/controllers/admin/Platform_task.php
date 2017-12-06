@@ -126,7 +126,7 @@ class Platform_task extends ADMIN_Controller {
             $advertiser_info = $this->__get_platform_advertiser_model()->selectById($info['advertiser_user_id']);
         }
 
-        $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,9", "offset" => 0, "limit" => 200];
+        $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,8,9", "offset" => 0, "limit" => 200];
         $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
 
         $where1    = ['operate_data_id' => $id, 'user_log_type' => "3,4,5,6,7,9", "offset" => 0, "limit" => 200];
