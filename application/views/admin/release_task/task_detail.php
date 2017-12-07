@@ -170,6 +170,45 @@
 
         <div class="box box-default">
             <div class="box-header with-border">
+                <h3 class="box-title">任务发布情况分布</h3>
+                <button @click="" type="button" class="btn btn-primary btn-xs pull-right">下载全部</button>
+            </div>
+            <div class="box-body">
+
+                <!-- Table row -->
+                <div class="row">
+                    <div class="col-xs-12 table-responsive">
+                        <el-table :data="fmtResTableData" height="300" border>
+                            <el-table-column property="task_map_id" label="序号" width="110"></el-table-column>
+                            <el-table-column property="media_man_user_name" label="用户名" width="150"></el-table-column>
+                            <el-table-column property="status" label="状态" width="150"></el-table-column>
+                            <el-table-column property="create_time" label="发送时间" width="150"></el-table-column>
+                            <el-table-column property="receive_time" label="领取/拒绝时间" width="150"></el-table-column>
+                            <el-table-column property="deliver_time" label="完成时间" width="200"></el-table-column>
+                            <el-table-column property="deliver_link" label="链接" width="200"></el-table-column>
+                            <el-table-column property="deliver_images" label="图片" width="200"></el-table-column>
+                            <el-table-column property="deliver_time" label="操作" width="200"></el-table-column>
+                        </el-table>
+                        <el-pagination
+                                layout="total, sizes, prev, pager, next, jumper"
+                                @size-change="handleSizeChange"
+                                @current-change="handleCurrentChange"
+                                :page-sizes="[10, 15, 20, 25]"
+                                :current-page="pagination.currentPage"
+                                :page-size="pagination.pageSize"
+                                :total="pagination.total">
+                        </el-pagination>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+
+        <div class="box box-default">
+            <div class="box-header with-border">
                 <h3 class="box-title">操作日志</h3>
             </div>
             <div class="box-body">
@@ -287,200 +326,339 @@
 
 <script>
 
-    var Main = {
+    const localComputed = {
+        fmtResTableData: function () {
+            // 处理服务端返回的数据
+            return _.map(this.tableData, function (info) {
 
-        data   : function () {
-            return {
-                loading : false,// 是否显示加载
-                task_id : '<?= $info['task_id']?>',
-                ruleForm: {
-                    platform_price: '',
-                },
-                rules   : {
-                    platform_price: [
-                        {required: true, message: '请填写有效的任务单价', trigger: 'blur'}
-                    ],
+                let status       = '';
+                let receive_time = '';// 领取/拒绝时间
+                let deliver_time = '';// 完成时间
+
+                // 待领取：当系统将任务发送给自媒体人时，状态显示待领取，发送时间显示具体的发送时间。
+                // 已领取：当自媒体人在wap端操作领取时，则状态显示为已领取，领取/拒绝时间显示操作领取的具体时间。
+                // 已拒绝：当自媒体人在wap端操作拒绝时，则状态显示为已拒绝，领取/拒绝时间显示操作拒绝的具体时间。
+                // 待结果确认：当自媒体人在wap端交付了任务时，则状态变更为待结果确认。
+                // 已完成：当自媒体人交付的结果审核通过时，则状态变更为已完成，完成时间显示操作通过的具体时间。
+                // 审核驳回：当自媒体人交付的结果审核不通过时，则状态变更为审核驳回，完成时间显示操作驳回的具体时间，当审核结果二次提交审核后，则状态变更为待审核(待结果确认)。
+
+                if (info.receive_status === "0") {
+                    status = '待领取';
                 }
-            };
+
+                if (info.receive_status === "1") {
+                    status       = '已领取';
+                    receive_time = info.receive_time;
+                }
+
+                if (info.receive_status === "2") {
+                    status       = '已拒绝';
+                    receive_time = info.receive_time;
+                }
+
+                if (
+                    (info.receive_status === "1") &&
+                    (info.deliver_status === "1") &&
+                    (info.deliver_audit_status === "0")
+                ) {
+                    status       = '待结果确认';
+                    receive_time = info.receive_time;
+                }
+
+                if (
+                    (info.receive_status === "1") &&
+                    (info.deliver_status === "1") &&
+                    (info.deliver_audit_status === "1")
+                ) {
+                    status       = '已完成';
+                    receive_time = info.receive_time;
+                    deliver_time = info.update_time;
+                }
+
+                if (
+                    (info.receive_status === "1") &&
+                    (info.deliver_status === "1") &&
+                    (info.deliver_audit_status === "2")
+                ) {
+                    status       = '审核驳回';
+                    receive_time = info.receive_time;
+                    deliver_time = info.update_time;
+                }
+
+                info.status       = status;
+                info.receive_time = receive_time;
+                info.deliver_time = deliver_time;
+
+                return info;
+            });
+        }
+    };
+    const localMethods  = {
+        submitForm                   : function (formName) {
+            this.$refs[formName].validate((valid) => {
+
+                if (!valid) {
+                    this.$message.error('请填写有效的任务单价');
+                    return false;
+                }
+
+                if (this.ruleForm.platform_price <= 0) {
+                    this.$message.error('任务单价只能是正数,仅支持小数点后一位');
+                    return false;
+                }
+
+                this.release_task();
+            });
         },
-        methods: {
-            submitForm                   : function (formName) {
-                this.$refs[formName].validate((valid) => {
+        goBack                       : function (formName) {
+            window.location.href = '/admin/release_task/home';
+        },
+        release_task                 : async function () {
+            try {
+                this.loading = true;
+                var url      = '/admin/release_task/release_task';
+                var response = await axios.post(
+                    url,
+                    {
+                        "id"            : this.task_id,
+                        "platform_price": this.ruleForm.platform_price,
+                    },
+                );
+                this.loading = false;
+                var resData  = response.data;
 
-                    if (!valid) {
-                        this.$message.error('请填写有效的任务单价');
-                        return false;
-                    }
-
-                    if (this.ruleForm.platform_price <= 0) {
-                        this.$message.error('任务单价只能是正数,仅支持小数点后一位');
-                        return false;
-                    }
-
-                    this.release_task();
-                });
-            },
-            goBack                       : function (formName) {
-                window.location.href = '/admin/release_task/home';
-            },
-            release_task                 : async function () {
-                try {
-                    this.loading = true;
-                    var url      = '/admin/release_task/release_task';
-                    var response = await axios.post(
-                        url,
-                        {
-                            "id"            : this.task_id,
-                            "platform_price": this.ruleForm.platform_price,
-                        },
-                    );
-                    this.loading = false;
-                    var resData  = response.data;
-
-                    if (resData.error_no === 0) {
-                        this.$message.success('操作成功,即将刷新页面...');
-                        return window.location.reload();
-                    }
-
-                    return this.$message.error(resData.msg);
+                if (resData.error_no === 0) {
+                    this.$message.success('操作成功,即将刷新页面...');
+                    return window.location.reload();
                 }
-                catch (error) {
 
-                    this.loading = false;
+                return this.$message.error(resData.msg);
+            }
+            catch (error) {
 
-                    if (error instanceof Error) {
+                this.loading = false;
 
-                        if (error.response) {
-                            return this.$message.error(error.response.data.responseText);
-                        }
+                if (error instanceof Error) {
 
-                        if (error.request) {
-                            console.error(error.request);
-                            return this.$message.error('服务器未响应');
-                        }
-
-                        console.error(error);
-
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
                     }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
 
                 }
-            },
-            update_task_release_status   : function () {
 
-                var message = "确定要将任务作废吗，作废后任务将关闭无法正常流转。";
+            }
+        },
+        update_task_release_status   : function () {
 
-                this.$confirm(message, '提示', {
+            var message = "确定要将任务作废吗，作废后任务将关闭无法正常流转。";
+
+            this.$confirm(message, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText : '取消',
+                type             : 'warning'
+            }).then(async () => {
+
+                var close_reason = "";
+                await this.$prompt('请输入手工作废的原因', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText : '取消',
-                    type             : 'warning'
-                }).then(async () => {
-
-                    var close_reason = "";
-                    await this.$prompt('请输入手工作废的原因', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText : '取消',
-                        inputValidator   : (value) => { return value !== null; },
-                        inputErrorMessage: '手工作废原因不能为空'
-                    }).then(({value}) => {
-                        close_reason = value;
-                    }).catch(() => {
-                    });
-
-                    await this.do_update_task_release_status('8', close_reason);
-
+                    inputValidator   : (value) => { return value !== null; },
+                    inputErrorMessage: '手工作废原因不能为空'
+                }).then(({value}) => {
+                    close_reason = value;
                 }).catch(() => {
                 });
 
-            },
-            do_update_task_release_status: async function (release_status, close_reason) {
-                try {
+                await this.do_update_task_release_status('8', close_reason);
 
-                    this.loading = true;
-                    var url      = '/admin/release_task/update_task_release_status';
-                    var response = await axios.post(
-                        url,
-                        {
-                            "id"            : this.task_id,
-                            "release_status": release_status,
-                            "close_reason"  : close_reason,
-                        },
-                    );
-                    this.loading = false;
-                    var resData  = response.data;
+            }).catch(() => {
+            });
 
-                    if (resData.error_no === 0) {
-                        this.$message.success('操作成功,即将刷新页面...');
-                        return window.location.reload();
+        },
+        do_update_task_release_status: async function (release_status, close_reason) {
+            try {
+
+                this.loading = true;
+                var url      = '/admin/release_task/update_task_release_status';
+                var response = await axios.post(
+                    url,
+                    {
+                        "id"            : this.task_id,
+                        "release_status": release_status,
+                        "close_reason"  : close_reason,
+                    },
+                );
+                this.loading = false;
+                var resData  = response.data;
+
+                if (resData.error_no === 0) {
+                    this.$message.success('操作成功,即将刷新页面...');
+                    return window.location.reload();
+                }
+
+                return this.$message.error(resData.msg);
+
+            } catch (error) {
+
+                this.loading = false;
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
                     }
 
-                    return this.$message.error(resData.msg);
-
-                } catch (error) {
-
-                    this.loading = false;
-
-                    if (error instanceof Error) {
-
-                        if (error.response) {
-                            return this.$message.error(error.response.data.responseText);
-                        }
-
-                        if (error.request) {
-                            console.error(error.request);
-                            return this.$message.error('服务器未响应');
-                        }
-
-                        console.error(error);
-
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
                     }
+
+                    console.error(error);
 
                 }
-            },
-            confirm_finish               : async function () {
-                try {
-                    this.loading = true;
-                    var url      = '/admin/release_task/confirm_finish';
-                    var response = await axios.post(
-                        url,
-                        {
-                            "id": this.task_id,
-                        },
-                    );
-                    this.loading = false;
-                    var resData  = response.data;
 
-                    if (resData.error_no === 0) {
-                        this.$message.success('操作成功,即将刷新页面...');
-                        return window.location.reload();
+            }
+        },
+        confirm_finish               : async function () {
+            try {
+                this.loading = true;
+                var url      = '/admin/release_task/confirm_finish';
+                var response = await axios.post(
+                    url,
+                    {
+                        "id": this.task_id,
+                    },
+                );
+                this.loading = false;
+                var resData  = response.data;
+
+                if (resData.error_no === 0) {
+                    this.$message.success('操作成功,即将刷新页面...');
+                    return window.location.reload();
+                }
+
+                return this.$message.error(resData.msg);
+            }
+            catch (error) {
+
+                this.loading = false;
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
                     }
 
-                    return this.$message.error(resData.msg);
-                }
-                catch (error) {
-
-                    this.loading = false;
-
-                    if (error instanceof Error) {
-
-                        if (error.response) {
-                            return this.$message.error(error.response.data.responseText);
-                        }
-
-                        if (error.request) {
-                            console.error(error.request);
-                            return this.$message.error('服务器未响应');
-                        }
-
-                        console.error(error);
-
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
                     }
 
-                }
-            },
-        }
+                    console.error(error);
 
+                }
+
+            }
+        },
+        handleSizeChange             : function (val) {
+            this.pagination.pageSize = val;
+            if (this.pagination.total !== 0) {
+                this.view_self_media_man();
+            }
+        },
+        handleCurrentChange          : function (val) {
+            this.pagination.currentPage = val;
+            if (this.pagination.total !== 0) {
+                this.view_self_media_man();
+            }
+        },
+        view_self_media_man          : async function () {
+
+            try {
+                this.loading   = true;
+                const url      = '/admin/release_task/view_self_media_man';
+                const response = await axios.get(url, {
+                    params: {
+                        "id"   : this.task_id,
+                        "page" : this.pagination.currentPage,
+                        "limit": this.pagination.pageSize,
+                    }
+                });
+                this.loading   = false;
+                const resData  = response.data;
+
+                if (resData.error_no !== 0) {
+                    return this.$message.error(resData.msg)
+                }
+
+                this.tableData          = resData.data.list;
+                this.pagination         = {
+                    currentPage: resData.data.page,// 当前页
+                    total      : resData.data.total,// 总记录数
+                    pageSize   : resData.data.limit,// 每页显示记录数
+                };
+                this.dialogTableVisible = true;
+            } catch (error) {
+                this.loading   = false;
+                this.tableData = [];
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+
+        },
     };
-    var Ctor = Vue.extend(Main);
+
+    const data = function () {
+        return {
+            loading   : false,// 是否显示加载
+            task_id   : '<?= $info['task_id']?>',
+            ruleForm  : {
+                platform_price: '',
+            },
+            rules     : {
+                platform_price: [
+                    {required: true, message: '请填写有效的任务单价', trigger: 'blur'}
+                ],
+            },
+            tableData : [],// 初始化表格数据
+            pagination: {
+                currentPage: 1,// 当前页
+                total      : 0,// 总记录数
+                pageSize   : 10,// 每页显示记录数
+            },
+        };
+    };
+
+    const Main = {
+        data    : data,
+        created : function () {
+            this.view_self_media_man();
+        },
+        methods : localMethods,
+        computed: localComputed,
+    };
+    const Ctor = Vue.extend(Main);
     new Ctor().$mount('#app');
 
     new Viewer(document.getElementById('task_images'), {url: 'data-original'});

@@ -416,13 +416,13 @@
         handleSizeChange             : function (val) {
             this.pagination.pageSize = val;
             if (this.pagination.total !== 0) {
-                this.view_self_media_man(this.task_id)
+                this.view_self_media_man(this.task_id);
             }
         },
         handleCurrentChange          : function (val) {
             this.pagination.currentPage = val;
             if (this.pagination.total !== 0) {
-                this.view_self_media_man(this.task_id)
+                this.view_self_media_man(this.task_id);
             }
         },
         release_task                 : async function (task_id) {
