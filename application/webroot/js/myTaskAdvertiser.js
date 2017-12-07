@@ -14,7 +14,6 @@ var app = new Vue({
             var _this = this;
             this.initAjax(1);
             $(document.body).infinite().on("infinite", function() {
-                _this.page = parseInt(_this.page);
                 if(!_this.loading&&_this.total>_this.page*10){
                     _this.loading = true;
                     _this.initAjax(++_this.page);
@@ -34,8 +33,8 @@ var app = new Vue({
                     if(res.errorno >= 0){
                         //开始初始化赋值
                         _this.lists = _this.lists.concat(res.data.list);
-                        _this.total = res.data.total;
-                        _this.page = res.data.page;
+                        _this.total = parseInt(res.data.total);
+                        _this.page = parseInt(res.data.page);
                         if(_this.total<=_this.page*10){
                             $('.weui-loadmore').hide();
                         }
