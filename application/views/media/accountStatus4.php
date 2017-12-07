@@ -19,7 +19,7 @@
                     <p class="text">审核意见：<?=!empty($userSession)?$userSession['reasons_for_rejection']:''?></p>
                     <p class="bg_line"></p>
                     <p class="button2">
-                        <a style="border-right: 1px solid #E5E5E5;" href="/media/index/saveBaseInfo">立即修改</a>
+                        <a style="border-right: 1px solid #E5E5E5;" href="/media/index/saveBaseInfo?phone=<?=$userSession['media_man_phone']?>&flag=2">立即修改</a>
                         <a href="/media/index/home">返回首页</a>
                     </p>
                 </div>

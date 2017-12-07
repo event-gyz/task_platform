@@ -13,7 +13,7 @@ class Index extends CI_Controller {
         parent::__construct ();
         $this->load->library('session');
         $this->load->helper('Wap');
-        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my') && !strpos($_SERVER["REQUEST_URI"],'/person') && !strpos($_SERVER["REQUEST_URI"],'/company')){
+        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my') && !strpos($_SERVER["REQUEST_URI"],'/person') && !strpos($_SERVER["REQUEST_URI"],'/company') && !strpos($_SERVER["REQUEST_URI"],'userInfoApi')){
             $this->checkUserLogin();
         }
 
@@ -258,6 +258,9 @@ class Index extends CI_Controller {
         $data['completion_criteria'] = $completion_criteria;
         $data['audit_status'] = $audit_status; //审核状态 0、1
 
+        if($audit_status==1){
+            $data['submit_audit_time'] = date('Y-m-d H:i:s',time());
+        }
         //新增
         if(empty($task_id)){
             $userInfo = $this->__get_user_session();

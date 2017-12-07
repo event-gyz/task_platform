@@ -9,7 +9,7 @@ class Index extends CI_Controller {
         parent::__construct ();
         $this->load->library('session');
         $this->load->helper('Wap');
-        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'saveBaseInfo') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'savePromotedInfo')){
+        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'saveBaseInfo') && !strpos($_SERVER["REQUEST_URI"],'my') && !strpos($_SERVER["REQUEST_URI"],'savePromotedInfo') && !strpos($_SERVER["REQUEST_URI"],'userInfoApi')){
             $this->checkUserLogin();
         }
 
@@ -418,23 +418,24 @@ class Index extends CI_Controller {
     public function taskDetail(){
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
-//        $_POST['task_map_id'] = 1;
         if(!isset($_GET['task_id']) || empty($_GET['task_id'])){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '参数错误';
             echo json_encode($this->_return);exit;
         }
-//        $where['task_map_id'] = $_POST['task_map_id'];
+        $where['task_id'] = (int)$_GET['task_id'];
         $result = $this->__get_task_map_model()->getMediaManTaskDetailByCondition($where);
-        if(isset($result['total'])){
-            $this->_return['errorno'] = -1;
-            $this->_return['msg'] = '没有任务';
-            echo json_encode($this->_return);exit;
-        }
-        $this->_return['errorno'] = 1;
-        $this->_return['msg'] = '成功';
-        $this->_return['data'] = $result;
-        echo json_encode($this->_return);exit;
+        $this->load->view('media/my/info',$result);
+//        exit;
+//        if(isset($result['total'])){
+//            $this->_return['errorno'] = -1;
+//            $this->_return['msg'] = '没有任务';
+//            echo json_encode($this->_return);exit;
+//        }
+//        $this->_return['errorno'] = 1;
+//        $this->_return['msg'] = '成功';
+//        $this->_return['data'] = $result;
+//        echo json_encode($this->_return);exit;
     }
 
 
