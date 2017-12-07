@@ -252,7 +252,7 @@
 
         <el-dialog title="查看自媒体人" :visible.sync="dialogTableVisible">
             <el-table :data="fmtResTableData" height="300" border>
-                <el-table-column property="task_map_id" label="序号" width="150"></el-table-column>
+                <el-table-column property="task_map_id" label="序号" width="110"></el-table-column>
                 <el-table-column property="media_man_user_name" label="用户名" width="150"></el-table-column>
                 <el-table-column property="receive_status" label="状态" width="150"></el-table-column>
                 <el-table-column property="create_time" label="发送时间" width="150"></el-table-column>
@@ -311,23 +311,28 @@
         view_self_media_man: async function (task_id) {
 
             try {
-                this.task_id            = (task_id !== 0) ? task_id : this.task_id;
-                this.loading            = true;
-                var url                 = '/admin/release_task/view_self_media_man';
-                var response            = await axios.get(url, {
+                this.task_id   = (task_id !== 0) ? task_id : this.task_id;
+                this.loading   = true;
+                const url      = '/admin/release_task/view_self_media_man';
+                const response = await axios.get(url, {
                     params: {
                         "id"   : this.task_id,
                         "page" : this.pagination.currentPage,
                         "limit": this.pagination.pageSize,
                     }
                 });
-                this.loading            = false;
-                var resData             = response.data;
-                this.tableData          = resData.list;
+                this.loading   = false;
+                const resData  = response.data;
+
+                if (resData.error_no !== 0) {
+                    return this.$message.error(resData.msg)
+                }
+
+                this.tableData          = resData.data.list;
                 this.pagination         = {
-                    currentPage: resData.page,// 当前页
-                    total      : resData.total,// 总记录数
-                    pageSize   : resData.limit,// 每页显示记录数
+                    currentPage: resData.data.page,// 当前页
+                    total      : resData.data.total,// 总记录数
+                    pageSize   : resData.data.limit,// 每页显示记录数
                 };
                 this.dialogTableVisible = true;
             } catch (error) {
