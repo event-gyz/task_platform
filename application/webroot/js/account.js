@@ -44,7 +44,6 @@ var app = new Vue({
                         return '机构认证微博号';
                     }
                 }
-
                 $.ajax({
                     url: "/media/index/userInfoApi",
                     dataType: 'json',
