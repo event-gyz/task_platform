@@ -221,7 +221,8 @@
                                         <?php endif; ?>
 
                                         <?php if ($is_show_cancellation_btn): ?>
-                                            <button @click="" type="button"
+                                            <button @click="update_task_release_status('<?= $value['task_id'] ?>')"
+                                                    type="button"
                                                     class="btn btn-warning btn-xs margin-r-5">
                                                 手工作废
                                             </button>
@@ -363,7 +364,7 @@
         }
     };
     const localMethods  = {
-        view_self_media_man: async function (task_id) {
+        view_self_media_man          : async function (task_id) {
 
             try {
                 this.task_id   = (task_id !== 0) ? task_id : this.task_id;
@@ -412,19 +413,19 @@
             }
 
         },
-        handleSizeChange   : function (val) {
+        handleSizeChange             : function (val) {
             this.pagination.pageSize = val;
             if (this.pagination.total !== 0) {
                 this.view_self_media_man(this.task_id)
             }
         },
-        handleCurrentChange: function (val) {
+        handleCurrentChange          : function (val) {
             this.pagination.currentPage = val;
             if (this.pagination.total !== 0) {
                 this.view_self_media_man(this.task_id)
             }
         },
-        release_task       : async function (task_id) {
+        release_task                 : async function (task_id) {
 
             let platform_price = 0;
             await this.$prompt('请输入任务单价', '提示', {
@@ -440,7 +441,7 @@
             await this.do_release_task(task_id, platform_price);
 
         },
-        do_release_task    : async function (task_id, platform_price) {
+        do_release_task              : async function (task_id, platform_price) {
             try {
                 this.loading = true;
                 var url      = '/admin/release_task/release_task';
@@ -482,7 +483,7 @@
 
             }
         },
-        confirm_finish     : async function (task_id) {
+        confirm_finish               : async function (task_id) {
             try {
                 this.loading   = true;
                 const url      = '/admin/release_task/confirm_finish';
@@ -503,6 +504,77 @@
                 return this.$message.error(resData.msg);
             }
             catch (error) {
+
+                this.loading = false;
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+        },
+        update_task_release_status   : function (task_id) {
+
+            var message = "确定要将任务作废吗，作废后任务将关闭无法正常流转。";
+
+            this.$confirm(message, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText : '取消',
+                type             : 'warning'
+            }).then(async () => {
+
+                var close_reason = "";
+                await this.$prompt('请输入手工作废的原因', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText : '取消',
+                    inputValidator   : (value) => { return value !== null; },
+                    inputErrorMessage: '手工作废原因不能为空'
+                }).then(({value}) => {
+                    close_reason = value;
+                }).catch(() => {
+                });
+
+                await this.do_update_task_release_status(task_id, '8', close_reason);
+
+            }).catch(() => {
+            });
+
+        },
+        do_update_task_release_status: async function (task_id, release_status, close_reason) {
+            try {
+
+                this.loading = true;
+                var url      = '/admin/release_task/update_task_release_status';
+                var response = await axios.post(
+                    url,
+                    {
+                        "id"            : task_id,
+                        "release_status": release_status,
+                        "close_reason"  : close_reason,
+                    },
+                );
+                this.loading = false;
+                var resData  = response.data;
+
+                if (resData.error_no === 0) {
+                    this.$message.success('操作成功,即将刷新页面...');
+                    return window.location.reload();
+                }
+
+                return this.$message.error(resData.msg);
+
+            } catch (error) {
 
                 this.loading = false;
 
