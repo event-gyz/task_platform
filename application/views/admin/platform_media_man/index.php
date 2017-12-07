@@ -190,7 +190,11 @@
 
                             <?php foreach ($list as $value): ?>
                                 <tr>
-                                    <th><?= $value['media_man_id'] ?></th>
+                                    <th>
+                                        <a href="/admin/platform_media_man/media_man_detail?id=<?= $value['media_man_id'] ?>">
+                                            <?= $value['media_man_id'] ?>
+                                        </a>
+                                    </th>
                                     <th><?= $value['media_man_login_name'] ?></th>
                                     <th><?= $value['media_man_name'] ?></th>
                                     <th><?= $value['sex'] === "1" ? "男" : "女" ?></th>

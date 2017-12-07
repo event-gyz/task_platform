@@ -152,7 +152,11 @@
 
                             <?php foreach ($list as $value): ?>
                                 <tr>
-                                    <th><?= $value['task_id'] ?></th>
+                                    <th>
+                                        <a href="/admin/platform_task/task_detail?id=<?= $value['task_id'] ?>">
+                                            <?= $value['task_id'] ?>
+                                        </a>
+                                    </th>
                                     <th><?= $value['task_name'] ?></th>
                                     <th><?= $task_type_list[$value['task_type']] ?></th>
                                     <th>

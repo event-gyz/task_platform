@@ -162,7 +162,11 @@
 
                             <?php foreach ($list as $value): ?>
                                 <tr>
-                                    <th><?= $value['advertiser_id'] ?></th>
+                                    <th>
+                                        <a href="/admin/platform_advertiser/company_adv_detail?id=<?= $value['advertiser_id'] ?>">
+                                            <?= $value['advertiser_id'] ?>
+                                        </a>
+                                    </th>
                                     <th><?= $value['advertiser_login_name'] ?></th>
                                     <th><?= $value['company_name'] ?></th>
                                     <th><?= $value['company_address'] ?></th>
