@@ -263,7 +263,7 @@
                     layout="total, sizes, prev, pager, next, jumper"
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
-                    :page-sizes="[20, 30, 40, 50, 100]"
+                    :page-sizes="[10, 15, 20, 25]"
                     :current-page="pagination.currentPage"
                     :page-size="pagination.pageSize"
                     :total="pagination.total">
@@ -299,7 +299,6 @@
         fmtResTableData: function () {
             // 处理服务端返回的数据
             return _.map(this.tableData, function (info) {
-                // 活动创建时间
 
                 let status       = '';
                 let receive_time = '';// 领取/拒绝时间
