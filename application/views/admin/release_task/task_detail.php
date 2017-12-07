@@ -738,7 +738,7 @@
 
                 if (resData.error_no === 0) {
                     this.$message.success('操作成功,即将刷新页面...');
-                    return window.location.reload();
+                    return this.view_self_media_man();
                 }
 
                 return this.$message.error(resData.msg);

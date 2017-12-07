@@ -119,7 +119,7 @@ class Release_task extends ADMIN_Controller {
             return redirect("{$this->host}/admin/release_task/home");
         }
 
-        $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,8,9,11", "offset" => 0, "limit" => 200];
+        $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,8,9,11,12", "offset" => 0, "limit" => 200];
         $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
 
         $where1    = ['operate_data_id' => $id, 'user_log_type' => "3,4,5,6,7,9", "offset" => 0, "limit" => 200];
@@ -331,13 +331,13 @@ class Release_task extends ADMIN_Controller {
         }
 
         $update_info['deliver_audit_status'] = $deliver_audit_status;
-        $sys_log_content                     = '自媒体人提交的任务结果,被审核通过了';
+        $sys_log_content                     = "自媒体人{$task_map_info['media_man_user_name']}-{$task_map_info['media_man_user_id']}提交的任务交付,被审核通过了";
 
         if ($deliver_audit_status === "2") {
-            $sys_log_content = '自媒体人提交的任务结果,被审核驳回了';
+            $sys_log_content = "自媒体人{$task_map_info['media_man_user_name']}-{$task_map_info['media_man_user_id']}提交的任务交付,被审核驳回了";
         }
 
-        $result = $this->__get_platform_task_map_model()->updateInfo($id, $update_info);
+        $result = $this->__get_platform_task_map_model()->updateInfo($task_map_id, $update_info);
 
         if ($result === 1) {
 
