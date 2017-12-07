@@ -228,7 +228,7 @@
                                         <?php endif; ?>
 
                                         <?php if ($is_show_confirm_btn): ?>
-                                            <button @click="" type="button"
+                                            <button @click="confirm_finish('<?= $value['task_id'] ?>')" type="button"
                                                     class="btn btn-primary btn-xs margin-r-5">
                                                 确认完成
                                             </button>
@@ -453,6 +453,47 @@
                 );
                 this.loading = false;
                 var resData  = response.data;
+
+                if (resData.error_no === 0) {
+                    this.$message.success('操作成功,即将刷新页面...');
+                    return window.location.reload();
+                }
+
+                return this.$message.error(resData.msg);
+            }
+            catch (error) {
+
+                this.loading = false;
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+        },
+        confirm_finish     : async function (task_id) {
+            try {
+                this.loading   = true;
+                const url      = '/admin/release_task/confirm_finish';
+                const response = await axios.post(
+                    url,
+                    {
+                        "id": task_id,
+                    },
+                );
+                this.loading   = false;
+                const resData  = response.data;
 
                 if (resData.error_no === 0) {
                     this.$message.success('操作成功,即将刷新页面...');
