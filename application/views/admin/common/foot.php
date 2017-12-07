@@ -22,6 +22,7 @@
     <script src="https://cdn.bootcss.com/vue/2.5.8/vue.js"></script>
     <script src="https://cdn.bootcss.com/element-ui/2.0.5/index.js"></script>
     <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
 
     <script>
 

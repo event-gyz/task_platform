@@ -224,6 +224,32 @@ class Release_task extends ADMIN_Controller {
         return $this->response_json(1, '非法操作');
     }
 
+    // 根据task_id分页查询自媒体人
+    public function view_self_media_man() {
+        $id     = $this->input->get('id');
+        $_page  = $this->input->get('page');
+        $_limit = $this->input->get('limit');
+
+        if (empty($id)) {
+            return $this->response_json(1, 'id不能为空');
+        }
+
+        $page             = empty($_page) ? 1 : $_page;
+        $limit            = empty($_limit) ? 10 : $_limit;
+        $where['offset']  = ($page - 1) * $limit;
+        $where['limit']   = $limit;
+        $where['task_id'] = $id;
+
+        $data = $this->__get_platform_task_map_model()->get_task_map_list_by_condition($where);
+
+        return $this->response_json(0, '操作成功', [
+            'list'  => $data['list'],
+            'total' => $data['total'],
+            'page'  => $page,
+            'limit' => $limit,
+        ]);
+    }
+
     // 手工作废任务
     public function update_task_release_status() {
         $req_json = file_get_contents("php://input");

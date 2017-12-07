@@ -5,7 +5,7 @@
 <link href="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.min.css" rel="stylesheet">
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div class="content-wrapper" v-loading.body="loading" element-loading-text="拼命加载中">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -189,15 +189,51 @@
                                     <th><?= $value['media_man_number'] ?></th>
                                     <th><?= $value['actual_media_man_number'] ?></th>
                                     <th>
-                                        <a href="/admin/release_task/task_detail?id=<?= $value['task_id'] ?>"
-                                           class="btn btn-success btn-sm">
-                                            详情
-                                        </a>
-                                        <button class="btn btn-primary btn-sm"
-                                                @click="view_self_media_man('<?= $value['task_id'] ?>')"
-                                        >
-                                            查看自媒体人
-                                        </button>
+                                        <?php
+
+                                        // 是否显示发布按钮
+                                        $is_show_release_btn = in_array($value['release_status'], [0]);
+
+                                        // 是否显示查看自媒体人按钮
+                                        $is_show_view_btn = ($value['release_status'] === "1") && ($value['end_time'] > time());
+
+                                        // 是否显示手工作废按钮
+                                        $is_show_cancellation_btn = (($value['release_status'] === "0")) ||
+                                            (($value['release_status'] === "1") && ($value['end_time'] > time()));
+
+                                        // 是否显示确认完成按钮
+                                        $is_show_confirm_btn = ($value['release_status'] === "1") && ($value['end_time'] <= time());
+
+                                        ?>
+
+                                        <?php if ($is_show_release_btn): ?>
+                                            <button @click="" type="button"
+                                                    class="btn btn-success btn-xs margin-r-5">发布
+                                            </button>
+                                        <?php endif; ?>
+
+                                        <?php if ($is_show_view_btn): ?>
+                                            <button class="btn btn-primary btn-xs margin-r-5"
+                                                    @click="view_self_media_man('<?= $value['task_id'] ?>')"
+                                            >
+                                                查看自媒体人
+                                            </button>
+                                        <?php endif; ?>
+
+                                        <?php if ($is_show_cancellation_btn): ?>
+                                            <button @click="" type="button"
+                                                    class="btn btn-warning btn-xs margin-r-5">
+                                                手工作废
+                                            </button>
+                                        <?php endif; ?>
+
+                                        <?php if ($is_show_confirm_btn): ?>
+                                            <button @click="" type="button"
+                                                    class="btn btn-primary btn-xs margin-r-5">
+                                                确认完成
+                                            </button>
+                                        <?php endif; ?>
+
                                     </th>
                                 </tr>
                             <?php endforeach; ?>
@@ -215,18 +251,23 @@
         </div>
 
         <el-dialog title="查看自媒体人" :visible.sync="dialogTableVisible">
-            <el-table :data="gridData" height="300" border>
-                <el-table-column property="date" label="序号" width="150"></el-table-column>
-                <el-table-column property="date" label="用户名" width="150"></el-table-column>
-                <el-table-column property="date" label="状态" width="150"></el-table-column>
-                <el-table-column property="date" label="发送时间" width="150"></el-table-column>
-                <el-table-column property="date" label="领取时间" width="150"></el-table-column>
-                <el-table-column property="name" label="完成时间" width="200"></el-table-column>
+            <el-table :data="fmtResTableData" height="300" border>
+                <el-table-column property="task_map_id" label="序号" width="150"></el-table-column>
+                <el-table-column property="media_man_user_name" label="用户名" width="150"></el-table-column>
+                <el-table-column property="receive_status" label="状态" width="150"></el-table-column>
+                <el-table-column property="create_time" label="发送时间" width="150"></el-table-column>
+                <el-table-column property="receive_time" label="领取时间" width="150"></el-table-column>
+                <el-table-column property="deliver_time" label="完成时间" width="200"></el-table-column>
             </el-table>
-            <el-button-group>
-                <el-button size="small" type="primary" icon="el-icon-arrow-left">上一页</el-button>
-                <el-button size="small" type="primary">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-            </el-button-group>
+            <el-pagination
+                    layout="total, sizes, prev, pager, next, jumper"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :page-sizes="[20, 30, 40, 50, 100]"
+                    :current-page="pagination.currentPage"
+                    :page-size="pagination.pageSize"
+                    :total="pagination.total">
+            </el-pagination>
             <div slot="footer" class="dialog-footer">
                 <el-button type="info" @click="dialogTableVisible = false">关 闭</el-button>
             </div>
@@ -254,38 +295,97 @@
         }
     });
 
-    var Main = {
-        data() {
-            return {
-                gridData          : [{
-                    date   : '2016-05-02',
-                    name   : '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date   : '2016-05-04',
-                    name   : '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date   : '2016-05-01',
-                    name   : '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date   : '2016-05-03',
-                    name   : '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }],
-                dialogTableVisible: false,
-            };
-        },
-        methods:{
-            view_self_media_man:function (task_id) {
-                console.log(task_id);
-                // todo 根据task_id查询platform_task_map
-                this.dialogTableVisible = true;
-            }
+    const localComputed = {
+        fmtResTableData: function () {
+            // 处理服务端返回的数据
+
+            const format = 'YYYY-MM-DD HH:mm:ss';
+            return _.map(this.tableData, function (info) {
+                // 活动创建时间
+                // info.ctime = moment(info.ctime).format(format);
+                return info;
+            });
         }
     };
-    var Ctor = Vue.extend(Main);
+    const localMethods  = {
+        view_self_media_man: async function (task_id) {
+
+            try {
+                this.task_id            = (task_id !== 0) ? task_id : this.task_id;
+                this.loading            = true;
+                var url                 = '/admin/release_task/view_self_media_man';
+                var response            = await axios.get(url, {
+                    params: {
+                        "id"   : this.task_id,
+                        "page" : this.pagination.currentPage,
+                        "limit": this.pagination.pageSize,
+                    }
+                });
+                this.loading            = false;
+                var resData             = response.data;
+                this.tableData          = resData.list;
+                this.pagination         = {
+                    currentPage: resData.page,// 当前页
+                    total      : resData.total,// 总记录数
+                    pageSize   : resData.limit,// 每页显示记录数
+                };
+                this.dialogTableVisible = true;
+            } catch (error) {
+                this.loading   = false;
+                this.tableData = [];
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+
+        },
+        handleSizeChange   : function (val) {
+            this.pagination.pageSize = val;
+            if (this.pagination.total !== 0) {
+                this.view_self_media_man(this.task_id)
+            }
+        },
+        handleCurrentChange: function (val) {
+            this.pagination.currentPage = val;
+            if (this.pagination.total !== 0) {
+                this.view_self_media_man(this.task_id)
+            }
+        },
+    };
+    const data          = function () {
+        return {
+            loading           : false,// 是否显示加载
+            dialogTableVisible: false,// 是否显示dialog
+            tableData         : [],// 初始化表格数据
+            task_id           : 0,
+            pagination        : {
+                currentPage: 1,// 当前页
+                total      : 0,// 总记录数
+                pageSize   : 10,// 每页显示记录数
+            },
+        };
+    };
+
+    const Main = {
+        data    : data,
+        created : function () {},
+        methods : localMethods,
+        computed: localComputed,
+    };
+    const Ctor = Vue.extend(Main);
     new Ctor().$mount('#app');
 
 </script>
