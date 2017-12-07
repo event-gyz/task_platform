@@ -240,26 +240,37 @@
 
         <div class="row">
             <div class="col-xs-12 col-xs-offset-4">
-                <?php if (in_array($info['release_status'], [0])): ?>
-                    <button @click="submitForm('ruleForm')" type="button" class="btn btn-success margin-r-5">发布</button>
-                <?php endif; ?>
+
                 <?php
+
+                // 是否显示发布按钮
+                $is_show_release_btn = in_array($info['release_status'], [0]);
+
                 // 是否显示手工作废按钮
                 $is_show_cancellation_btn = (($info['release_status'] === "0")) ||
                     (($info['release_status'] === "1") && ($info['end_time'] > time()));
+
                 // 是否显示确认完成按钮
                 $is_show_confirm_btn = ($info['release_status'] === "1") && ($info['end_time'] <= time());
+
                 ?>
+
+                <?php if ($is_show_release_btn): ?>
+                    <button @click="submitForm('ruleForm')" type="button" class="btn btn-success margin-r-5">发布</button>
+                <?php endif; ?>
+
                 <?php if ($is_show_cancellation_btn): ?>
                     <button @click="update_task_release_status()" type="button" class="btn btn-warning margin-r-5">
                         手工作废
                     </button>
                 <?php endif; ?>
+
                 <?php if ($is_show_confirm_btn): ?>
                     <button @click="confirm_finish()" type="button" class="btn btn-primary margin-r-5">
                         确认完成
                     </button>
                 <?php endif; ?>
+
                 <button @click="goBack('ruleForm')" type="button" class="btn btn-default margin-r-5">返回</button>
             </div>
         </div>
