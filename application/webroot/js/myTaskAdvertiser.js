@@ -35,8 +35,8 @@ var app = new Vue({
                         _this.lists = _this.lists.concat(res.data.list);
                         _this.total = parseInt(res.data.total);
                         _this.page = parseInt(res.data.page);
-                        alert('total='+_this.total);
-                        alert('page='+_this.page);
+                        alert(res.data.list.length);
+                        alert(_this.lists.length);
                         if(_this.total<=_this.page*10){
                             $('.weui-loadmore').hide();
                         }
