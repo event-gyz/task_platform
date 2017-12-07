@@ -31,7 +31,6 @@ var app = new Vue({
                 data:{page:n},
                 success: function(res) {
                     if(res.errorno >= 0){
-                        alert(n,_this.page);
                         //开始初始化赋值
                         _this.lists = _this.lists.concat(res.data.list);
                         _this.total = res.data.total;
