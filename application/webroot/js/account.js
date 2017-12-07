@@ -15,6 +15,60 @@ var app = new Vue({
     mounted:function(){
         this.$nextTick(function(){
             var _this =this;
+            var params = window.location.search.substr(1).split('&');
+            params.forEach(function(item){
+                var name = item.split('=')[0];
+                var val = item.split('=')[1];
+                if(name == 'flag'){
+                    _this.flag = val;
+                }
+            });
+            if(_this.flag == 2){
+                function wxType(n){
+                    if(n==1){
+                        return '个人账号';
+                    }else if(n==2){
+                        return '企业号';
+                    }else if(n==3){
+                        return '订阅号';
+                    }else if(n==4){
+                        return '服务号';
+                    }
+                }
+                function wbType(n){
+                    if(n==1){
+                        return '普通用户';
+                    }else if(n==2){
+                        return '个人认证微博号';
+                    }else if(n==3){
+                        return '机构认证微博号';
+                    }
+                }
+
+                $.ajax({
+                    url: "/media/index/userInfoApi",
+                    dataType: 'json',
+                    type:"post",
+                    data:{},
+                    success: function(res) {
+                        if(res.errorno > 0){
+                            var data = res.data;
+                            _this.wx=data.wx_code;//微信号
+                            _this.wxType=wxType(data.wx_type);//微信号类型
+                            _this.wxNumber=data.wx_max_fans;//微信最高粉丝量
+                            _this.wb=data.weibo_nickname;//微博昵称
+                            _this.wbType=wbType(data.weibo_type);//微博号类型
+                            _this.wbNumber=data.weibo_max_fans;//微博最高粉丝量
+                            _this.wbUrl=data.weibo_link;//微博链接
+                        }else{
+                            util.tips(res.msg)
+                        }
+                    },
+                    error:function(){
+                        util.tips('网络异常，请尝试刷新！');
+                    }
+                })
+            }
             $("#wx_type").picker({
                 title: "请选择微信账号类型",
                 cols: [
