@@ -258,6 +258,9 @@ class Index extends CI_Controller {
         $data['completion_criteria'] = $completion_criteria;
         $data['audit_status'] = $audit_status; //审核状态 0、1
 
+        if($audit_status==1){
+            $data['submit_audit_time'] = date('Y-m-d H:i:s',time());
+        }
         //新增
         if(empty($task_id)){
             $userInfo = $this->__get_user_session();

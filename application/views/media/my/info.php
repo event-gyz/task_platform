@@ -12,45 +12,64 @@
     <body>
         <div class="main" style="margin-bottom: 0">
             <div class="index_advert">
-                <!--待领取-->
-                <div class="min-title2">
-                    <p class="name">任务基础信息</p>
-                    <p class="time">
-                        <i class="warn">待领取</i>剩余：<span>12</span><b>小时</b><span>12</span><b>分</b>
-                    </p>
+                <?php if($release_status==9){?>
+                <!--已关闭-->
+                <div class="task_status task_status3">
+                    <p class="status">● 已关闭</p>
+                    <p class="time">关闭时间：<?=$close_time?></p>
+                    <p class="time">关闭原因：<?=!empty($close_reason)?$close_reason:''?></p>
                 </div>
-                <!--待领取-end-->
+                <!--已关闭-end-->
+                <?php }else if($release_status==8){?>
+                <!--手工作废-->
+                <div class="task_status task_status3">
+                    <p class="status">● 手工作废</p>
+                    <p class="time">作废时间：<?=$update_time?></p>
+                    <p class="time">作废原因：<?=!empty($cancellation_reason)?$cancellation_reason:''?></p>
+                </div>
+                <!--手工作废-end-->
+                <?php }else if($release_status==7){?>
+                <!--已关闭-->
+                <div class="task_status task_status3">
+                    <p class="status">● 已关闭</p>
+                </div>
+                <!--已关闭-end-->
+                <?php }else if($release_status==1 && $receive_status==1 && (time()>$start_time)){?>
+                <!--未开始-->
+                <div class="task_status task_status1">
+                    <p class="status">● 未开始</p>
+                    <p class="time">领取时间：2017-11-08 18:00:55</p>
+                </div>
+                <!--未开始-end-->
+                <?php }else if($receive_status==1 && $deliver_audit_status!=1 && (time()>$end_time)){?>
                 <!--未完成-->
                 <div class="task_status task_status1">
-                    <p class="status">● 执行中</p>
+                    <p class="status">● 未完成</p>
                     <p class="time">领取时间：2017-11-08 18:00:55</p>
                 </div>
                 <!--未完成-end-->
+                <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==0){?>
                 <!--待结果审核-->
                 <div class="task_status task_status1">
                     <p class="status">● 待结果审核</p>
                     <p class="time">交付时间：2017-11-08 18:00:55</p>
                 </div>
                 <!--待结果审核-end-->
+                <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==1 && $finance_status!=1){?>
                 <!--待财务付款-->
                 <div class="task_status task_status1">
                     <p class="status">● 待财务付款</p>
                     <p class="time">交付时间：2017-11-08 18:00:55</p>
                 </div>
                 <!--待财务付款-end-->
+                <?php }else if($receive_status==1 && $deliver_status==1 && $finance_status==1 && $receivables_status==1){?>
                 <!--已完成-->
                 <div class="task_status task_status2">
                     <p class="status">● 已完成</p>
                     <p class="time">完成时间：2017-11-08 18:00:55</p>
                 </div>
                 <!--已完成-end-->
-                <!--已完成-->
-                <div class="task_status task_status3">
-                    <p class="status">● 已关闭</p>
-                    <p class="time">关闭时间：2017-11-08 18:00:55</p>
-                    <p class="time">关闭原因：这是关闭原因关闭原因关闭原因关闭原因关闭原因</p>
-                </div>
-                <!--已完成-end-->
+                <?php }else if($release_status==8){?>
                 <!--结果审核驳回-->
                 <div class="statu_box">
                     <p class="icon-box"><img src="/images/status/sb.png"></p>
@@ -75,6 +94,7 @@
                     <p class="time">交付时间：2017-11-08 18:00:55</p>
                 </div>
                 <!--结果审核驳回-end-->
+                <?php }else if($release_status==8){?>
                 <!--待确认收款-->
                 <div class="statu_box">
                     <p class="icon-box"><img src="/images/status/dd.png"></p>
@@ -90,6 +110,7 @@
                     <p class="time">交付时间：2017-11-08 18:00:55</p>
                 </div>
                 <!--待确认收款-end-->
+                <?php }?>
                 <div class="input-box" style="margin:0">
                     <table>
                         <tr>
