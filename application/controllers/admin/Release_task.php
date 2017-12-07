@@ -297,6 +297,58 @@ class Release_task extends ADMIN_Controller {
         return $this->response_json(1, '非法操作');
     }
 
+    // 审核自媒体人交付的任务
+    public function update_deliver_audit_status() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
+
+        $id                   = $req_data['id'];
+        $deliver_audit_status = $req_data['deliver_audit_status'];
+        $task_map_id          = $req_data['task_map_id'];
+
+        if (empty($id)) {
+            return $this->response_json(1, 'id不能为空');
+        }
+
+        if (empty($deliver_audit_status)) {
+            return $this->response_json(1, 'deliver_audit_status不能为空');
+        }
+
+        $info = $this->__get_platform_task_model()->selectById($id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应任务的信息');
+        }
+
+        if (!in_array($deliver_audit_status, [1, 2])) {
+            return $this->response_json(1, '非法操作');
+        }
+
+        $task_map_info = $this->__get_platform_task_map_model()->selectById($task_map_id);
+
+        if (empty($task_map_info)) {
+            return $this->response_json(1, '查找不到对应的自媒体人提交的任务交付信息');
+        }
+
+        $update_info['deliver_audit_status'] = $deliver_audit_status;
+        $sys_log_content                     = '自媒体人提交的任务结果,被审核通过了';
+
+        if ($deliver_audit_status === "2") {
+            $sys_log_content = '自媒体人提交的任务结果,被审核驳回了';
+        }
+
+        $result = $this->__get_platform_task_map_model()->updateInfo($id, $update_info);
+
+        if ($result === 1) {
+
+            $this->add_sys_log(12, $sys_log_content, $id, json_encode($task_map_info), json_encode($update_info));
+
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(1, '非法操作');
+    }
+
     /**
      * @return Platform_task_model
      */

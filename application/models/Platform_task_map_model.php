@@ -274,5 +274,11 @@ class Platform_task_map_model extends MY_Model{
         return $total;
     }
 
+    // 根据主键更新map信息
+    public function updateInfo($task_map_id, $info) {
+        $where = array('task_map_id' => $task_map_id);
+        return $this->update($info, $where);
+    }
+
 }
 
