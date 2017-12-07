@@ -16,7 +16,7 @@ var app = new Vue({
             $(document.body).infinite().on("infinite", function() {
                 if(!_this.loading&&_this.total>_this.page*10){
                     _this.loading = true;
-                    _this.initAjax(_this.page++);
+                    _this.initAjax(++_this.page);
                 }
             });
         });
@@ -31,6 +31,7 @@ var app = new Vue({
                 data:{page:n},
                 success: function(res) {
                     if(res.errorno >= 0){
+                        alert(n,_this.page);
                         //开始初始化赋值
                         _this.lists = _this.lists.concat(res.data.list);
                         _this.total = res.data.total;
