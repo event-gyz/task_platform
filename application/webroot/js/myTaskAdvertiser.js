@@ -14,6 +14,7 @@ var app = new Vue({
             var _this = this;
             this.initAjax(1);
             $(document.body).infinite().on("infinite", function() {
+                _this.page = parseInt(_this.page);
                 if(!_this.loading&&_this.total>_this.page*10){
                     _this.loading = true;
                     _this.initAjax(++_this.page);
