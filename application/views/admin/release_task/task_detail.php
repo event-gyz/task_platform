@@ -204,11 +204,6 @@
                                     >
                                         驳回
                                     </el-button>
-                                    <el-button @click="" type="primary" size="mini"
-                                               v-if="is_show_confirm_complete_btn(scope.$index,tableData)"
-                                    >
-                                        确认完成
-                                    </el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -716,18 +711,6 @@
                 (info.deliver_status === "1") &&
                 (info.deliver_audit_status === "0")
             ) {
-                return true;
-            }
-
-            return false;
-        },
-        is_show_confirm_complete_btn        : function (index, rows) {
-            // 是否显示确认完成任务按钮
-
-            let info           = rows[index];
-            let cur_time_stamp = (new Date().getTime()) / 1000;
-
-            if ((info['release_status'] === "1") && (info['end_time'] <= cur_time_stamp)) {
                 return true;
             }
 
