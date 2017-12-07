@@ -207,7 +207,7 @@
                                         ?>
 
                                         <?php if ($is_show_release_btn): ?>
-                                            <button @click="" type="button"
+                                            <button @click="release_task('<?= $value['task_id'] ?>')" type="button"
                                                     class="btn btn-success btn-xs margin-r-5">发布
                                             </button>
                                         <?php endif; ?>
@@ -422,6 +422,64 @@
             this.pagination.currentPage = val;
             if (this.pagination.total !== 0) {
                 this.view_self_media_man(this.task_id)
+            }
+        },
+        release_task       : async function (task_id) {
+
+            let platform_price = 0;
+            await this.$prompt('请输入任务单价', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText : '取消',
+                inputValidator   : (value) => { return (value !== null) && (value > 0); },
+                inputErrorMessage: '任务单价只能是正数,仅支持小数点后一位'
+            }).then(({value}) => {
+                platform_price = value;
+            }).catch(() => {
+            });
+
+            await this.do_release_task(task_id, platform_price);
+
+        },
+        do_release_task    : async function (task_id, platform_price) {
+            try {
+                this.loading = true;
+                var url      = '/admin/release_task/release_task';
+                var response = await axios.post(
+                    url,
+                    {
+                        "id"            : task_id,
+                        "platform_price": platform_price,
+                    },
+                );
+                this.loading = false;
+                var resData  = response.data;
+
+                if (resData.error_no === 0) {
+                    this.$message.success('操作成功,即将刷新页面...');
+                    return window.location.reload();
+                }
+
+                return this.$message.error(resData.msg);
+            }
+            catch (error) {
+
+                this.loading = false;
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
             }
         },
     };
