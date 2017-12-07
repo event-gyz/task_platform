@@ -26,8 +26,106 @@ var app = new Vue({
                 dataType: 'json',
                 success: function(res) {
                     _this.city = res.RECORDS;
+                    setCity();
                 }
             });
+            function setCity(){
+                var params = window.location.search.substr(1).split('&');
+                params.forEach(function(item){
+                    var name = item.split('=')[0];
+                    var val = item.split('=')[1];
+                    if(name == 'flag'){
+                        _this.flag = val;
+                    }
+                });
+                if(_this.flag == 2){
+                    function schoolType(n){
+                        if(n==1){
+                            return '工科';
+                        }else if(n==2){
+                            return '医药';
+                        }else if(n==3){
+                            return '财经';
+                        }else if(n==4){
+                            return '师范';
+                        }else if(n==5){
+                            return '综合';
+                        }else if(n==6){
+                            return '农业';
+                        }else if(n==7){
+                            return '理工';
+                        }else if(n==8){
+                            return '化工';
+                        }else if(n==9){
+                            return '海洋';
+                        }else if(n==10){
+                            return '艺术';
+                        }else if(n==11){
+                            return '政法';
+                        }
+                    }
+                    function schoolLevel(n){
+                        if(n==1){
+                            return '211/985';
+                        }else if(n==2){
+                            return '本科';
+                        }else if(n==3){
+                            return '专科';
+                        }
+                    }
+                    function schoolCity(s,c,q){
+                        var s1 = {};
+                        var s2 = {};
+                        var s3 = {};
+                        _this.city.forEach(function(item){
+                            if(s == item.id){
+                                s1 = item;
+                            }
+                        });
+                        _this.city.forEach(function(item){
+                            if(c == item.id && s1.id == item.pid ){
+                                s2 = item;
+                            }
+                        });
+                        _this.city.forEach(function(item){
+                            if(q == item.id && s2.id == item.pid ){
+                                s3 = item;
+                            }
+                        });
+                        return s1.name+' '+s2.name+' '+s3.name;
+                    }
+                    $.ajax({
+                        url: "/media/index/userInfoApi",
+                        dataType: 'json',
+                        type:"post",
+                        data:{},
+                        success: function(res) {
+                            if(res.errorno > 0){
+                                var data = res.data;
+                                _this.name=data.media_man_name;//姓名
+                                _this.sex=data.sex==1?'男':'女';//性别
+                                _this.phone=data.media_man_phone;//电话
+                                _this.schoolName=data.school_name;//学校名称
+                                _this.schoolType=schoolType(data.school_type);//学校类型
+                                _this.schoolAddress=schoolCity(data.school_province,data.school_city,data.school_area);//学校地址
+                                _this.schoolLevel=schoolLevel(data.school_level);//学校层次
+                                _this.age=data.age;//年龄
+                                _this.liking=data.hobby.split(',');//爱好
+                                _this.industry=data.industry;//行业
+                                _this.zfbNumber=data.zfb_nu;//支付宝账号
+                                _this.zfbName=data.zfb_realname;//支付宝真实姓名
+                            }else{
+                                util.tips(res.msg)
+                            }
+                        },
+                        error:function(){
+                            util.tips('网络异常，请尝试刷新！');
+                        }
+                    })
+                }
+            }
+
+
             $("#sex").picker({
                 title: "请选择性别",
                 cols: [
