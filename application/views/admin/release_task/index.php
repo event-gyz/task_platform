@@ -193,6 +193,11 @@
                                            class="btn btn-success btn-sm">
                                             详情
                                         </a>
+                                        <button class="btn btn-primary btn-sm"
+                                                @click="view_self_media_man('<?= $value['task_id'] ?>')"
+                                        >
+                                            查看自媒体人
+                                        </button>
                                     </th>
                                 </tr>
                             <?php endforeach; ?>
@@ -208,6 +213,24 @@
             </div>
 
         </div>
+
+        <el-dialog title="查看自媒体人" :visible.sync="dialogTableVisible">
+            <el-table :data="gridData" height="300" border>
+                <el-table-column property="date" label="序号" width="150"></el-table-column>
+                <el-table-column property="date" label="用户名" width="150"></el-table-column>
+                <el-table-column property="date" label="状态" width="150"></el-table-column>
+                <el-table-column property="date" label="发送时间" width="150"></el-table-column>
+                <el-table-column property="date" label="领取时间" width="150"></el-table-column>
+                <el-table-column property="name" label="完成时间" width="200"></el-table-column>
+            </el-table>
+            <el-button-group>
+                <el-button size="small" type="primary" icon="el-icon-arrow-left">上一页</el-button>
+                <el-button size="small" type="primary">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+            </el-button-group>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="info" @click="dialogTableVisible = false">关 闭</el-button>
+            </div>
+        </el-dialog>
 
     </section>
     <!-- /.content -->
@@ -230,6 +253,40 @@
                 '七月', '八月', '九月', '十月', '十一月', '十二月'],
         }
     });
+
+    var Main = {
+        data() {
+            return {
+                gridData          : [{
+                    date   : '2016-05-02',
+                    name   : '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date   : '2016-05-04',
+                    name   : '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date   : '2016-05-01',
+                    name   : '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date   : '2016-05-03',
+                    name   : '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }],
+                dialogTableVisible: false,
+            };
+        },
+        methods:{
+            view_self_media_man:function (task_id) {
+                console.log(task_id);
+                // todo 根据task_id查询platform_task_map
+                this.dialogTableVisible = true;
+            }
+        }
+    };
+    var Ctor = Vue.extend(Main);
+    new Ctor().$mount('#app');
 
 </script>
 

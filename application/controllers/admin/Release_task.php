@@ -287,4 +287,12 @@ class Release_task extends ADMIN_Controller {
         return $this->User_log_model;
     }
 
+    /**
+     * @return Platform_task_map_model
+     */
+    private function __get_platform_task_map_model() {
+        $this->load->model('Platform_task_map_model');
+        return $this->Platform_task_map_model;
+    }
+
 }
