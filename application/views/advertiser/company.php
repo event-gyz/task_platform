@@ -15,8 +15,8 @@
                             <th align="left" class="border_bottom" width="90px;">类型</th>
                             <td class="border_bottom" align="center">
                                 <p class="person_page_img">
-                                    <a :href="'/advertiser/index/person?phone='+noPhone"><img src="/images/icon2.png">&nbsp;个人</a>
-                                    <a :href="'/advertiser/index/company?phone='+noPhone" class="cur"><img src="/images/icon1.png">&nbsp;企业</a>
+                                    <a :href="setUrlPerson"><img src="/images/icon2.png">&nbsp;个人</a>
+                                    <a :href="setUrlCompany" class="cur"><img src="/images/icon1.png">&nbsp;企业</a>
                                 </p>
                             </td>
                         </tr>

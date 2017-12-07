@@ -8,13 +8,25 @@ var app = new Vue({
         name:'',
         phone:'',
         idCard:'',
-        frontCard:'11111',
-        backCard:'22',
-        card:'33'
+        frontCard:'',
+        backCard:'',
+        card:''
     },
     mounted:function(){
         this.$nextTick(function(){
-            this.phone = window.location.search.substr(1).split('=')[1];
+            var _this = this;
+            var params = window.location.search.substr(1).split('&');
+            params.forEach(function(item){
+                var name = item.split('=')[0];
+                var val = item.split('=')[1];
+                if(name == 'phone'){
+                    _this.phone = val;
+                }
+                if(name == 'flag'){
+                    _this.flag = val;
+                }
+            });
+
             wx.config({
                 debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: 'aaa', // 必填，企业号的唯一标识，此处填写企业号corpid
@@ -28,7 +40,51 @@ var app = new Vue({
                     'previewImage'
                 ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
+            if(_this.flag == 2){
+                $.ajax({
+                    url: "/advertiser/index/userInfoApi",
+                    dataType: 'json',
+                    type:"post",
+                    data:{},
+                    success: function(res) {
+                        if(res.errorno > 0){
+                            _this.type= 'person';
+                            _this.name= res.data.advertiser_name;
+                            _this.phone= res.data.advertiser_phone;
+                            _this.idCard= res.data.id_card;
+                            _this.frontCard= res.data.id_card_positive_pic;
+                            _this.backCard= res.data.id_card_back_pic;
+                            _this.card= res.data.handheld_id_card_pic;
+                        }else{
+                            util.tips(res.msg)
+                        }
+                    },
+                    error:function(){
+                        util.tips('网络异常，请尝试刷新！');
+                    }
+                })
+            }
         });
+    },
+    computed:{
+        setUrlPerson: function(){
+            if(this.flag){
+                return '/advertiser/index/person?phone='+this.phone+'&flag='+this.flag;
+            }else if(this.phone){
+                return '/advertiser/index/person?phone='+this.phone;
+            }else{
+                return '/advertiser/index/person';
+            }
+        },
+        setUrlCompany: function(){
+            if(this.flag){
+                return '/advertiser/index/company?phone='+this.phone+'&flag='+this.flag;
+            }else if(this.phone){
+                return '/advertiser/index/company?phone='+this.phone;
+            }else{
+                return '/advertiser/index/company';
+            }
+        }
     },
     methods:{
         //上传
