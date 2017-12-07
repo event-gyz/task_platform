@@ -18,8 +18,9 @@
                         <li class="img"><Img src="/images/wb.png"></li>
                         <?php if(isset($userSession['media_man_id']) && !empty($userSession['media_man_id'])){?>
                             <li class="text"><?=(!empty($userSession['media_man_name'])?$userSession['media_man_name']:'未设置')?></li>
-                        <?php } ?>
+                        <?php }else{ ?>
                         <li class="text">未登录</li>
+                        <?}?>
                     </ul>
                 </div>
                 <!--head-end-->

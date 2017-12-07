@@ -18,8 +18,9 @@
                 <li class="img"><Img src="/images/wx.png"></li>
                 <?php if(isset($userSession['advertiser_id']) && !empty($userSession['advertiser_id'])){?>
                     <li class="text"><?=(!empty($userSession['advertiser_name'])?$userSession['advertiser_name']:'未设置')?></li>
-                <?php } ?>
+                <?php }else{ ?>
                 <li class="text">未登录</li>
+                <?}?>
             </ul>
         </div>
         <!--head-end-->

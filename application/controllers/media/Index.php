@@ -395,6 +395,7 @@ class Index extends CI_Controller {
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $result = $this->__get_task_map_model()->get_media_man_task_list_by_condition($where);
+//        echo '<pre>';print_r($result);exit;
         if(empty($result['total']) && $_POST['page']>0){
             $this->_return['errorno'] = -2;
             $this->_return['msg'] = '没有数据了';
@@ -452,33 +453,22 @@ class Index extends CI_Controller {
     /**
      *  我的列表（post交付任务）
      */
-    public function postDeliveryTask() {
+    public function giveTaskApi() {
         if(!isset($_POST ['task_id']) || empty($_POST ['task_id'])){
             $this->_return['errorno'] = '-1';
             $this->_return['msg'] = '任务ID不能为空';
             echo json_encode($this->_return);exit;
         }
-        if(!isset($_POST ['deliver_link'])){
-            $this->_return['errorno'] = '-1';
-            $this->_return['msg'] = '任务结果链接不能为空';
-            echo json_encode($this->_return);exit;
-        }else{
+
+        if(isset($_POST ['deliver_link']) && !empty($_POST ['deliver_link'])){
             $info ['deliver_link'] = $_POST ['deliver_link'];
         }
-        if(!isset($_POST ['deliver_images'])){
-            $this->_return['errorno'] = '-1';
-            $this->_return['msg'] = '任务结果图片不能为空';
-            echo json_encode($this->_return);exit;
-        }else{
-            $info ['deliver_images'] = $_POST ['deliver_images'];
+        if(isset($_POST ['deliver_images']) && !empty($_POST ['deliver_images'])){
+            $info ['deliver_images'] = json_encode($_POST ['deliver_images']);
         }
         $user_info = $this->__get_user_session();
-        if(!$user_info['media_man_id']){
-            redirect(wap::get_server_address_and_port().'/media/login/login');
-        }
-        $where['task_id'] = $_POST['task_id'];
+        $where['task_id'] = (int)$_POST['task_id'];
         $where['media_man_user_id'] = $user_info['media_man_id'];
-        $where['deliver_status'] = 0;
         $info ['deliver_status'] = 1;
         $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
         if(!$result){

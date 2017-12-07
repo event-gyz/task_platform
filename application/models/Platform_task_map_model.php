@@ -108,7 +108,7 @@ class Platform_task_map_model extends MY_Model{
         $_sql = str_replace('[*]', $param, $sql);
 
         $_list = $this->getList($_sql);
-
+//        echo $_sql;
         $data['total'] = $total;
         $data['list'] =$_list;
         $data['page'] =$where['page'];
