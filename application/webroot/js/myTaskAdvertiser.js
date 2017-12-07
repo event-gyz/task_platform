@@ -16,7 +16,7 @@ var app = new Vue({
             $(document.body).infinite().on("infinite", function() {
                 if(!_this.loading&&_this.total>_this.page*10){
                     _this.loading = true;
-                    _this.initAjax(_this.page++);
+                    _this.initAjax(++_this.page);
                 }
             });
         });
@@ -33,8 +33,8 @@ var app = new Vue({
                     if(res.errorno >= 0){
                         //开始初始化赋值
                         _this.lists = _this.lists.concat(res.data.list);
-                        _this.total = res.data.total;
-                        _this.page = res.data.page;
+                        _this.total = parseInt(res.data.total);
+                        _this.page = parseInt(res.data.page);
                         if(_this.total<=_this.page*10){
                             $('.weui-loadmore').hide();
                         }
@@ -94,7 +94,7 @@ var app = new Vue({
                 return '已关闭';
             }else if((obj.audit_status == 0) && (obj.release_status == 0)){
                 return '待提交';
-            }else if((obj.audit_status == 1) && (boj.release_status == 0)){
+            }else if((obj.audit_status == 1) && (obj.release_status == 0)){
                 return '待审核';
             }else if((obj.audit_status == 2) && (obj.release_status == 0)){
                 return '驳回';
