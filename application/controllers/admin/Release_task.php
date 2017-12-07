@@ -244,9 +244,9 @@ class Release_task extends ADMIN_Controller {
 
         return $this->response_json(0, '操作成功', [
             'list'  => $data['list'],
-            'total' => $data['total'],
-            'page'  => $page,
-            'limit' => $limit,
+            'total' => intval($data['total']),
+            'page'  => intval($page),
+            'limit' => intval($limit),
         ]);
     }
 
