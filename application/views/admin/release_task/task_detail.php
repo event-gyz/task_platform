@@ -191,9 +191,18 @@
                                 </template>
                             </el-table-column>
                             <el-table-column property="deliver_images" label="图片" width="200">
+                                <template slot-scope="scope">
+                                    <el-button @click="prepare_images_zip_by_map_id(tableData[scope.$index])"
+                                               type="primary" size="mini"
+                                               v-if="is_show_prepare_images_btn(scope.$index,tableData)"
+                                               :button-id="tableData[scope.$index].task_map_id"
+                                    >
+                                        下载图片
+                                    </el-button>
+                                </template>
                             </el-table-column>
                             <el-table-column label="操作" width="300">
-                                <template scope="scope">
+                                <template slot-scope="scope">
                                     <el-button @click="" type="primary" size="mini"
                                                v-if="is_show_download_complete_result_btn(scope.$index,tableData)"
                                     >
@@ -723,6 +732,18 @@
 
             return false;
         },
+        is_show_prepare_images_btn          : function (index, rows) {
+            // 是否显示下载图片的按钮
+
+            let info = rows[index];
+
+            if (info.deliver_images !== '') {
+                return true;
+            }
+
+            return false;
+
+        },
         update_deliver_audit_status         : async function (index, rows, deliver_audit_status) {
             try {
 
@@ -769,26 +790,117 @@
 
             }
         },
+        prepare_images_zip_by_map_id        : async function (info) {
+            let task_id     = info.task_id;
+            let task_map_id = info.task_map_id;
+
+            // 找到当前点击的按钮并添加加载样式
+            let loading_html = '<i class="el-icon-loading"></i><span>压缩包生成中...</span>';
+            let myselect     = "[button-id='" + task_map_id + "']";
+            $(myselect).addClass('is-loading');
+            $(myselect).html(loading_html);
+
+            try {
+                const url      = '/admin/release_task/prepare_images_zip_by_map_id';
+                const response = await axios.post(url,
+                    {
+                        "task_id"    : task_id,
+                        "task_map_id": task_map_id,
+                    }
+                );
+                const resData  = response.data;
+
+                if (resData.error_no !== 0) {
+                    $(myselect).removeClass('is-loading');
+                    $(myselect).html('下载图片');
+                    return this.$message.error(resData.msg)
+                }
+
+                this.cur_zip_path   = resData.data.file_path;
+                this.cur_btn_select = myselect;
+                this.intervalId     = setInterval(this.is_file_write_completed, 3000);
+
+            } catch (error) {
+                $(myselect).removeClass('is-loading');
+                $(myselect).html('下载图片');
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+
+        },
+        is_file_write_completed             : async function () {
+            try {
+                const url      = '/admin/release_task/is_file_write_completed';
+                const response = await axios.get(url, {
+                    params: {
+                        "file_path": this.cur_zip_path,
+                    }
+                });
+                const resData  = response.data;
+
+                if (resData.error_no === 0) {
+                    let loading_html = '<span>点击下载...</span>';
+                    $(this.cur_btn_select).html(loading_html);
+                    this.$message.success('文件生成完毕,请点击下载');
+                    clearInterval(this.intervalId);
+                }
+            } catch (error) {
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+        }
+
     };
 
     const data = function () {
         return {
-            loading   : false,// 是否显示加载
-            task_id   : '<?= $info['task_id']?>',
-            ruleForm  : {
+            loading       : false,// 是否显示加载
+            task_id       : '<?= $info['task_id']?>',
+            ruleForm      : {
                 platform_price: '',
             },
-            rules     : {
+            rules         : {
                 platform_price: [
                     {required: true, message: '请填写有效的任务单价', trigger: 'blur'}
                 ],
             },
-            tableData : [],// 初始化表格数据
-            pagination: {
+            tableData     : [],// 初始化表格数据
+            pagination    : {
                 currentPage: 1,// 当前页
                 total      : 0,// 总记录数
                 pageSize   : 10,// 每页显示记录数
             },
+            intervalId    : 0,// 当前定时任务的id
+            cur_zip_path  : '',// 当前要打包的zip文件路径
+            cur_btn_select: '',// 当前点击按钮的选择器字符串
         };
     };
 

@@ -349,19 +349,100 @@ class Release_task extends ADMIN_Controller {
         return $this->response_json(1, '非法操作');
     }
 
+    // 检测文件是否写入完毕
     public function is_file_write_completed() {
-        $req_json = file_get_contents("php://input");
-        $req_data = json_decode($req_json, true);
+        $file_path = $this->input->get('file_path');
 
-        $file_path = $req_data['file_path'];
-
-        $result = wap::read_file_complete_flag($file_path);
+        $result = wap::read_file_complete_flag(FCPATH . $file_path);
 
         if ($result) {
             return $this->response_json(0, '文件生成完毕');
         }
 
-        return $this->response_json(1, '文件正在生成种...');
+        return $this->response_json(1, '文件正在生成中...请稍候');
+    }
+
+    // 根据task_map_id来生成图片压缩包
+    public function prepare_images_zip_by_map_id() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
+
+        $task_id     = $req_data['task_id'];
+        $task_map_id = $req_data['task_map_id'];
+
+        if (empty($task_id)) {
+            return $this->response_json(1, 'task_id不能为空');
+        }
+
+        if (empty($task_map_id)) {
+            return $this->response_json(1, 'task_map_id不能为空');
+        }
+
+        $info = $this->__get_platform_task_model()->selectById($task_id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应任务的信息');
+        }
+
+        $task_map_info = $this->__get_platform_task_map_model()->selectById($task_map_id);
+
+        if (empty($task_map_info)) {
+            return $this->response_json(1, '查找不到对应的自媒体人提交的任务交付信息');
+        }
+
+        if (empty($task_map_info['deliver_images'])) {
+            return $this->response_json(1, '对应的自媒体人提交的任务交付信息里不含图片');
+        }
+
+        $image_arr = json_decode($task_map_info['deliver_images'], true);
+        if (empty($image_arr)) {
+            return $this->response_json(1, '对应的自媒体人提交的任务交付信息里不含图片');
+        }
+
+        $sub_file_name = "{$info['task_name']}-{$task_id}-{$task_map_info['media_man_user_name']}-{$task_map_id}";
+        $zip_file_name = "{$sub_file_name}.zip";
+
+        header("Content-type:application/json;;charset=utf-8");
+        $result = array(
+            'error_no' => 0,
+            'msg'      => '操作成功',
+            'data'     => ['file_path' => '/zip/' . $zip_file_name],
+        );
+        echo json_encode($result);
+
+        fastcgi_finish_request();
+        // 异步调用
+        $this->__create_image_zip($task_id, $task_map_id);
+    }
+
+    // 创建图片压缩包
+    private function __create_image_zip($task_id, $task_map_id) {
+        set_time_limit(0);
+
+        $info          = $this->__get_platform_task_model()->selectById($task_id);
+        $task_map_info = $this->__get_platform_task_map_model()->selectById($task_map_id);
+        $image_arr     = json_decode($task_map_info['deliver_images'], true);
+
+        $this->load->library('zip');
+
+        $sub_file_name = "{$info['task_name']}-{$task_id}-{$task_map_info['media_man_user_name']}-{$task_map_id}";
+        $sub_dir_name  = "{$sub_file_name}-images/";
+        $zip_file_name = "{$sub_file_name}.zip";
+        $archive_path  = FCPATH . '/zip/' . $zip_file_name;
+
+        wap::create_folders(dirname($archive_path));
+
+        $data = [];
+        foreach ($image_arr as $image) {
+            $image_file_path       = FCPATH . $image;
+            $image_file_key        = $sub_dir_name . basename($image_file_path);
+            $data[$image_file_key] = file_get_contents($image_file_path);
+        }
+
+        $this->zip->add_data($data);
+        $this->zip->archive($archive_path);
+        wap::write_file_complete_flag($archive_path);
+
     }
 
     /**
