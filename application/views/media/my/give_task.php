@@ -9,14 +9,13 @@
         <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_xnfkadft2e7y14i.css">
     </head>
     <body>
-        <div class="main">
+        <div class="main" id="app">
             <div class="login-style">
                 <div class="input-box">
                     <table>
                         <?php if(in_array('1',explode(',',$completion_criteria))){?>
                         <tr>
                             <th align="left" class="border_bottom" width="90px;">任务结果链接</th>
-                            <td class="border_bottom"><input type="text" name="" placeholder="请输入，以http://或https://开头"></td>
                             <td class="border_bottom"><input type="text" v-model="url" placeholder="请输入，以http://或https://开头"></td>
                         </tr>
                         <?php }?>
