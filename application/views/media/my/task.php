@@ -33,7 +33,7 @@
                     </a>
                     <table v-if="task_status(item) == '执行中'" class="task_table" style="width: 100%"><!--执行中-->
                         <tr>
-                            <td><a class="a_box s_color1" href="./give_task.html">交付任务</a></td>
+                            <td><a class="a_box s_color1" :href="'/media/index/giveTask?task_id='+item.task_id">交付任务</a></td>
                         </tr>
                     </table>
                     <table v-if="task_status(item) == '交付审核失败'" class="task_table" style="width: 100%"><!--交付审核失败-->
