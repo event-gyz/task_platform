@@ -816,10 +816,16 @@
                     return this.$message.error(resData.msg)
                 }
 
-                this.cur_zip_path   = resData.data.file_path;
-                this.cur_btn_select = myselect;
-                this.intervalId     = setInterval(this.is_file_write_completed, 3000);
+                let cur_zip_path = resData.data.file_path;
 
+                let params = {
+                    task_map_id   : task_map_id,
+                    cur_zip_path  : cur_zip_path,
+                    cur_btn_select: myselect,
+                };
+
+                let intervalId = setInterval(this.is_file_write_completed, 3000, params);
+                this.intervalIds.push({'task_map_id': task_map_id, 'intervalId': intervalId});
             } catch (error) {
                 $(myselect).removeClass('is-loading');
                 $(myselect).html('下载图片');
@@ -842,22 +848,26 @@
             }
 
         },
-        is_file_write_completed             : async function () {
+        is_file_write_completed             : async function (params) {
             try {
                 const url      = '/admin/release_task/is_file_write_completed';
                 const response = await axios.get(url, {
                     params: {
-                        "file_path": this.cur_zip_path,
+                        "file_path": params.cur_zip_path,
                     }
                 });
                 const resData  = response.data;
 
                 if (resData.error_no === 0) {
-                    $(this.cur_btn_select).removeClass('is-loading');
-                    let loading_html = `<a href="${this.cur_zip_path}" style="color:white;cursor: pointer;">点击下载</a>`;
-                    $(this.cur_btn_select).html(loading_html);
+                    $(params.cur_btn_select).removeClass('is-loading');
+                    let loading_html = `<a href="${params.cur_zip_path}" style="color:white;cursor:pointer;">点击下载</a>`;
+                    $(params.cur_btn_select).html(loading_html);
                     this.$message.success('文件生成完毕,请点击下载');
-                    clearInterval(this.intervalId);
+
+                    // 移除定时任务
+                    let intervalInfo = _.find(this.intervalIds, {'task_map_id': params.task_map_id});
+                    _.pull(this.intervalIds, intervalInfo);
+                    clearInterval(intervalInfo.intervalId);
                 }
             } catch (error) {
 
@@ -883,25 +893,23 @@
 
     const data = function () {
         return {
-            loading       : false,// 是否显示加载
-            task_id       : '<?= $info['task_id']?>',
-            ruleForm      : {
+            loading    : false,// 是否显示加载
+            task_id    : '<?= $info['task_id']?>',
+            ruleForm   : {
                 platform_price: '',
             },
-            rules         : {
+            rules      : {
                 platform_price: [
                     {required: true, message: '请填写有效的任务单价', trigger: 'blur'}
                 ],
             },
-            tableData     : [],// 初始化表格数据
-            pagination    : {
+            tableData  : [],// 初始化表格数据
+            pagination : {
                 currentPage: 1,// 当前页
                 total      : 0,// 总记录数
                 pageSize   : 10,// 每页显示记录数
             },
-            intervalId    : 0,// 当前定时任务的id
-            cur_zip_path  : '',// 当前要打包的zip文件路径
-            cur_btn_select: '',// 当前点击按钮的选择器字符串
+            intervalIds: [],// 当前定时任务的id数组
         };
     };
 
