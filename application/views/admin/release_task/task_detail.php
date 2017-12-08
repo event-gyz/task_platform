@@ -178,7 +178,7 @@
                 <!-- Table row -->
                 <div class="row">
                     <div class="col-xs-12 table-responsive">
-                        <el-table :data="fmtResTableData" height="300" border>
+                        <el-table :data="fmtResTableData" height="580" border>
                             <el-table-column property="task_map_id" label="序号" width="110"></el-table-column>
                             <el-table-column property="media_man_user_name" label="用户名" width="150"></el-table-column>
                             <el-table-column property="status" label="状态" width="150"></el-table-column>
@@ -187,7 +187,27 @@
                             <el-table-column property="deliver_time" label="完成时间" width="200"></el-table-column>
                             <el-table-column property="deliver_link" label="链接" width="200"></el-table-column>
                             <el-table-column property="deliver_images" label="图片" width="200"></el-table-column>
-                            <el-table-column property="deliver_time" label="操作" width="200"></el-table-column>
+                            <el-table-column label="操作" width="300">
+                                <template scope="scope">
+                                    <el-button @click="" type="primary" size="mini"
+                                               v-if="is_show_download_complete_result_btn(scope.$index,tableData)"
+                                    >
+                                        下载完成结果
+                                    </el-button>
+                                    <el-button @click="update_deliver_audit_status(scope.$index,tableData,'1')"
+                                               type="primary" size="mini"
+                                               v-if="is_show_pass_btn(scope.$index,tableData)"
+                                    >
+                                        通过
+                                    </el-button>
+                                    <el-button @click="update_deliver_audit_status(scope.$index,tableData,'2')"
+                                               type="danger" size="mini"
+                                               v-if="is_show_reject_btn(scope.$index,tableData)"
+                                    >
+                                        驳回
+                                    </el-button>
+                                </template>
+                            </el-table-column>
                         </el-table>
                         <el-pagination
                                 layout="total, sizes, prev, pager, next, jumper"
@@ -394,7 +414,7 @@
         }
     };
     const localMethods  = {
-        submitForm                   : function (formName) {
+        submitForm                          : function (formName) {
             this.$refs[formName].validate((valid) => {
 
                 if (!valid) {
@@ -410,10 +430,10 @@
                 this.release_task();
             });
         },
-        goBack                       : function (formName) {
+        goBack                              : function (formName) {
             window.location.href = '/admin/release_task/home';
         },
-        release_task                 : async function () {
+        release_task                        : async function () {
             try {
                 this.loading = true;
                 var url      = '/admin/release_task/release_task';
@@ -455,7 +475,7 @@
 
             }
         },
-        update_task_release_status   : function () {
+        update_task_release_status          : function () {
 
             var message = "确定要将任务作废吗，作废后任务将关闭无法正常流转。";
 
@@ -482,7 +502,7 @@
             });
 
         },
-        do_update_task_release_status: async function (release_status, close_reason) {
+        do_update_task_release_status       : async function (release_status, close_reason) {
             try {
 
                 this.loading = true;
@@ -526,7 +546,7 @@
 
             }
         },
-        confirm_finish               : async function () {
+        confirm_finish                      : async function () {
             try {
                 this.loading = true;
                 var url      = '/admin/release_task/confirm_finish';
@@ -567,19 +587,19 @@
 
             }
         },
-        handleSizeChange             : function (val) {
+        handleSizeChange                    : function (val) {
             this.pagination.pageSize = val;
             if (this.pagination.total !== 0) {
                 this.view_self_media_man();
             }
         },
-        handleCurrentChange          : function (val) {
+        handleCurrentChange                 : function (val) {
             this.pagination.currentPage = val;
             if (this.pagination.total !== 0) {
                 this.view_self_media_man();
             }
         },
-        view_self_media_man          : async function () {
+        view_self_media_man                 : async function () {
 
             try {
                 this.loading   = true;
@@ -626,6 +646,123 @@
 
             }
 
+        },
+        is_show_download_complete_result_btn: function (index, rows) {
+            // 是否显示下载完成结果按钮
+
+            let info = rows[index];
+
+            // 已交付
+            if (info.deliver_status === "1") {
+                return true;
+            }
+
+            // 待结果确认
+            if (
+                (info.receive_status === "1") &&
+                (info.deliver_status === "1") &&
+                (info.deliver_audit_status === "0")
+            ) {
+                return true;
+            }
+
+            // 审核通过
+            if (
+                (info.receive_status === "1") &&
+                (info.deliver_status === "1") &&
+                (info.deliver_audit_status === "1")
+            ) {
+                return true;
+            }
+
+            // 审核驳回
+            if (
+                (info.receive_status === "1") &&
+                (info.deliver_status === "1") &&
+                (info.deliver_audit_status === "2")
+            ) {
+                return true;
+            }
+
+            return false;
+        },
+        is_show_pass_btn                    : function (index, rows) {
+            // 是否显示通过自媒体人提交的任务的按钮
+
+            let info = rows[index];
+
+            // 待结果确认
+            if (
+                (info.receive_status === "1") &&
+                (info.deliver_status === "1") &&
+                (info.deliver_audit_status === "0")
+            ) {
+                return true;
+            }
+
+            return false;
+        },
+        is_show_reject_btn                  : function (index, rows) {
+            // 是否显示拒绝自媒体人提交的任务的按钮
+
+            let info = rows[index];
+
+            // 待结果确认
+            if (
+                (info.receive_status === "1") &&
+                (info.deliver_status === "1") &&
+                (info.deliver_audit_status === "0")
+            ) {
+                return true;
+            }
+
+            return false;
+        },
+        update_deliver_audit_status         : async function (index, rows, deliver_audit_status) {
+            try {
+
+                let info = rows[index];
+
+                this.loading   = true;
+                const url      = '/admin/release_task/update_deliver_audit_status';
+                const response = await axios.post(
+                    url,
+                    {
+                        "id"                  : info.task_id,
+                        "task_map_id"         : info.task_map_id,
+                        "deliver_audit_status": deliver_audit_status,
+                    },
+                );
+                this.loading   = false;
+                const resData  = response.data;
+
+                if (resData.error_no === 0) {
+                    this.$message.success('操作成功,即将刷新页面...');
+                    return this.view_self_media_man();
+                }
+
+                return this.$message.error(resData.msg);
+
+            } catch (error) {
+
+                this.loading = false;
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
         },
     };
 
