@@ -434,9 +434,15 @@ class Release_task extends ADMIN_Controller {
 
         $data = [];
         foreach ($image_arr as $image) {
-            $image_file_path       = FCPATH . $image;
-            $image_file_key        = $sub_dir_name . basename($image_file_path);
-            $data[$image_file_key] = file_get_contents($image_file_path);
+            $image_file_path = FCPATH . $image;
+            if (is_file($image_file_path)) {
+                $image_file_key        = $sub_dir_name . basename($image_file_path);
+                $data[$image_file_key] = file_get_contents($image_file_path);
+            }
+        }
+
+        if (empty($data)) {
+            $this->zip->add_data($sub_dir_name . 'tmp.txt', '本文件夹中没有任务图片');
         }
 
         $this->zip->add_data($data);
