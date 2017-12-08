@@ -93,8 +93,8 @@ var app = new Vue({
                             _this.taskDes= data.task_describe;//任务描述
                             _this.taskPrice= data.price;//任务单价
                             _this.numAsk= data.media_man_require;//账号要求（1=有要求，0=无要求）
-                            _this.startTime= moment(Number(data.start_time)).format('YYYY-MM-DD');//任务开始时间
-                            _this.endTime= moment(Number(data.end_time)).format('YYYY-MM-DD');//任务结束时间
+                            _this.startTime= moment(Number(data.start_time)*1000).format('YYYY-MM-DD');//任务开始时间
+                            _this.endTime= moment(Number(data.end_time)*1000).format('YYYY-MM-DD');//任务结束时间
                             _this.platform= data.publishing_platform.split(',');//发布平台
                             _this.number= data.media_man_number;//账号数量
                             _this.endStandard= data.completion_criteria.split(',');//完成标准
