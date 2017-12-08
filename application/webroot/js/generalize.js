@@ -155,7 +155,7 @@ var app = new Vue({
             });
         },
         removeImg: function(item){
-            var index= this.taskImg.indexOf(name);
+            var index= this.taskImg.indexOf(item);
             this.taskImg.splice(index,1);
         },
         uploadImg: function(){
