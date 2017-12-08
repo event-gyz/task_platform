@@ -12,64 +12,46 @@
     <body>
         <div class="main" style="margin-bottom: 0">
             <div class="index_advert">
-                <?php if($release_status==9){?>
-                <!--已关闭-->
-                <div class="task_status task_status3">
-                    <p class="status">● 已关闭</p>
-                    <p class="time">关闭时间：<?=$close_time?></p>
-                    <p class="time">关闭原因：<?=!empty($close_reason)?$close_reason:''?></p>
-                </div>
-                <!--已关闭-end-->
-                <?php }else if($release_status==8){?>
-                <!--手工作废-->
-                <div class="task_status task_status3">
-                    <p class="status">● 手工作废</p>
-                    <p class="time">作废时间：<?=$update_time?></p>
-                    <p class="time">作废原因：<?=!empty($cancellation_reason)?$cancellation_reason:''?></p>
-                </div>
-                <!--手工作废-end-->
-                <?php }else if($release_status==7){?>
+                <?php if($release_status==9 || $release_status==8 || $release_status==7){?>
                 <!--已关闭-->
                 <div class="task_status task_status3">
                     <p class="status">● 已关闭</p>
                 </div>
                 <!--已关闭-end-->
-                <?php }else if($release_status==1 && $receive_status==1 && (time()>$start_time)){?>
+
+                <?php }else if($release_status==2){?>
+                <!--已拒绝-->
+                <div class="task_status task_status1">
+                    <p class="status">● 已拒绝</p>
+                    <p class="time">拒绝时间：<?= $receive_time?></p>
+                </div>
+                <!--已拒绝-end-->
+
+                <?php }else if($release_status==1 && $receive_status==1 && (time()<$start_time)){?>
                 <!--未开始-->
                 <div class="task_status task_status1">
                     <p class="status">● 未开始</p>
-                    <p class="time">领取时间：2017-11-08 18:00:55</p>
+                    <p class="time">领取时间：<?= $receive_time?></p>
                 </div>
                 <!--未开始-end-->
-                <?php }else if($receive_status==1 && $deliver_audit_status!=1 && (time()>$end_time)){?>
-                <!--未完成-->
+
+                <?php }else if($release_status==1 && $receive_status==1 && (time()>$start_time) && (time()<$end_time) && $deliver_status!=1){?>
+                <!--执行中-->
                 <div class="task_status task_status1">
-                    <p class="status">● 未完成</p>
-                    <p class="time">领取时间：2017-11-08 18:00:55</p>
+                    <p class="status">● 执行中</p>
+                    <p class="time">领取时间：<?= $receive_time?></p>
                 </div>
-                <!--未完成-end-->
+                <!--执行中-end-->
+
                 <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==0){?>
                 <!--待结果审核-->
                 <div class="task_status task_status1">
                     <p class="status">● 待结果审核</p>
-                    <p class="time">交付时间：2017-11-08 18:00:55</p>
+                    <p class="time">交付时间：<?=$deliver_time?></p>
                 </div>
                 <!--待结果审核-end-->
-                <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==1 && $finance_status!=1){?>
-                <!--待财务付款-->
-                <div class="task_status task_status1">
-                    <p class="status">● 待财务付款</p>
-                    <p class="time">交付时间：2017-11-08 18:00:55</p>
-                </div>
-                <!--待财务付款-end-->
-                <?php }else if($receive_status==1 && $deliver_status==1 && $finance_status==1 && $receivables_status==1){?>
-                <!--已完成-->
-                <div class="task_status task_status2">
-                    <p class="status">● 已完成</p>
-                    <p class="time">完成时间：2017-11-08 18:00:55</p>
-                </div>
-                <!--已完成-end-->
-                <?php }else if($release_status==8){?>
+
+                <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==2){?>
                 <!--结果审核驳回-->
                 <div class="statu_box">
                     <p class="icon-box"><img src="/images/status/sb.png"></p>
@@ -79,22 +61,31 @@
                         <ul>
                             <li class="tit">审核意见：</li>
                             <li class="list">
-                                1.请上传清晰的图片；
+                                <?= !empty($reasons_for_rejection)?$reasons_for_rejection:''?>
                             </li>
                         </ul>
                     </div>
                     <p class="bg_line"></p>
                     <p class="button1">
                         <a href="#">立即修改</a><br>
-                        <span><img src="/images/status/ts.png">剩余时间：**小时**分</span>
+                        <span><img src="/images/status/ts.png"><?=$allot_time?></span>
                     </p>
                 </div>
                 <div class="task_status task_status1">
                     <p class="status">● 结果审核驳回</p>
-                    <p class="time">交付时间：2017-11-08 18:00:55</p>
+                    <p class="time">驳回时间：<?=$update_time?></p>
                 </div>
                 <!--结果审核驳回-end-->
-                <?php }else if($release_status==8){?>
+
+                <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==1 && $finance_status!=1){?>
+                <!--待财务付款-->
+                <div class="task_status task_status1">
+                    <p class="status">● 待财务付款</p>
+                    <p class="time">交付时间：<?=$update_time?></p>
+                </div>
+                <!--待财务付款-end-->
+
+                <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==1 && $finance_status==1 && $receivables_status!=1){?>
                 <!--待确认收款-->
                 <div class="statu_box">
                     <p class="icon-box"><img src="/images/status/dd.png"></p>
@@ -107,50 +98,69 @@
                 </div>
                 <div class="task_status task_status1">
                     <p class="status">● 待确认收款</p>
-                    <p class="time">交付时间：2017-11-08 18:00:55</p>
+                    <p class="time">交付时间：<?=$pay_time?></p>
                 </div>
                 <!--待确认收款-end-->
+
+                <?php }else if($receive_status==1 && $deliver_status==1 && $finance_status==1 && $receivables_status==1){?>
+                <!--已完成-->
+                <div class="task_status task_status2">
+                    <p class="status">● 已完成</p>
+                    <p class="time">完成时间：<?=$update_time?></p>
+                </div>
+                <!--已完成-end-->
+
+                <?php }else if($receive_status==1 && $deliver_audit_status!=1 && (time()>$end_time)){?>
+                <!--未完成-->
+                <div class="task_status task_status1">
+                    <p class="status">● 未完成</p>
+                    <p class="time">领取时间：<?=$receive_time?></p>
+                </div>
+                <!--未完成-end-->
                 <?php }?>
                 <div class="input-box" style="margin:0">
                     <table>
                         <tr>
                             <th align="left" class="border_bottom" width="70px;">创建时间</th>
-                            <td class="border_bottom" align="right">2017-11-08 18:00:55</td>
+                            <td class="border_bottom" align="right"><?=$allocation_time?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom" >任务编号</th>
-                            <td class="border_bottom" align="right">20171112</td>
+                            <td class="border_bottom" align="right"><?=$task_id?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">任务名称</th>
-                            <td class="border_bottom" align="right">任务名称</td>
+                            <td class="border_bottom" align="right"><?=$task_name?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">任务类型</th>
-                            <td class="border_bottom" align="right">线上任务</td>
+                            <td class="border_bottom" align="right"><?= $this->config->item('task_type')[$task_type] ?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">任务标题</th>
-                            <td class="border_bottom" align="right">标题名</td>
+                            <td class="border_bottom" align="right"><?=$title?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">任务链接</th>
-                            <td class="border_bottom" align="right">http://www.canghezi.com</td>
+                            <td class="border_bottom" align="right"><?=$link?></td>
                         </tr>
                         <tr>
                             <th align="left" valign="top" class="border_bottom"><br>任务图片</th>
                             <td class="border_bottom">
                                 <ul class="generalize_img_box">
-                                    <li><img src="/images/img.png"></li>
-                                    <li><img src="/images/img.png"></li>
-                                    <li><img src="/images/img.png"></li>
-                                    <li><img src="/images/img.png"></li>
+                                    <?php if($pics){
+                                        $pics = json_decode($pics,true);
+                                        foreach($pics as $value){
+                                            ?>
+                                            <li><img src="<?=$value?>"></li>
+                                        <? }
+                                    }?>
                                 </ul>
                             </td>
                         </tr>
                         <tr>
                             <th align="left" valign="top"><br>任务描述</th>
-                            <td align="right">任务描述</td>
+                            <td align="right"><?=$task_describe?></td>
                         </tr>
                     </table>
                 </div>
@@ -159,62 +169,31 @@
                     <table>
                         <tr>
                             <th align="left" class="border_bottom" width="90px;">任务单价</th>
-                            <td class="border_bottom warn" align="right">￥5</td>
-                        </tr>
-                        <tr>
-                            <th align="left" class="border_bottom" >账号要求</th>
-                            <td class="border_bottom" align="right">自定义要求</td>
-                        </tr>
-                        <tr>
-                            <th class="border_bottom" width="45px;" align="left">性别</th>
-                            <td class="border_bottom" align="right">不限</td>
-                        </tr>
-                        <tr>
-                            <th class="border_bottom" align="left">年龄</th>
-                            <td class="border_bottom" align="right">18岁以下</td>
-                        </tr>
-                        <tr>
-                            <th class="border_bottom" align="left">兴趣爱好</th>
-                            <td class="border_bottom" align="right">旅游</td>
-                        </tr>
-                        <tr>
-                            <th class="border_bottom" align="left">行业</th>
-                            <td class="border_bottom" align="right">学生</td>
-                        </tr>
-                        <tr>
-                            <th align="left" class="border_bottom">地域</th>
-                            <td class="border_bottom" align="right">北京</td>
+                            <td class="border_bottom warn" align="right">￥<?=$platform_price?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">任务时间</th>
-                            <td class="border_bottom" align="right">2017.11.016 － 2017.11.17</td>
+                            <td class="border_bottom" align="right"><?= !empty($start_time)?date('Y.m.d', $start_time):'暂无' ?>－<?= !empty($end_time)?date('Y.m.d', $end_time):'暂无' ?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">发布平台</th>
-                            <td class="border_bottom" align="right">微信、微博</td>
-                        </tr>
-                        <tr>
-                            <th align="left" class="border_bottom">账号数量</th>
-                            <td class="border_bottom" align="right">2000个</td>
-                        </tr>
-                        <tr>
-                            <th align="left" class="border_bottom">任务总价</th>
-                            <td class="border_bottom warn" align="right">￥65468</td>
+                            <td class="border_bottom" align="right"><?= $publishing_platform ?></td>
                         </tr>
                         <tr>
                             <th align="left">完成标准</th>
-                            <td align="right">图片、链接</td>
+                            <td align="right"><?=$completion_criteria?></td>
                         </tr>
                     </table>
                 </div>
-                <!--待领取-->
+                <?php if($release_status==1 && $receive_status==1 && (time()>$start_time) && (time()<$end_time) && $deliver_status!=1){?>
+                <!--执行中-->
                 <table class="info_table">
                     <tr>
-                        <td><a href="#" class="common_button2">领取</a></td>
-                        <td><a href="#" class="common_button4">拒绝</a></td>
+                        <td><a href="#" class="common_button2">交付任务</a></td>
                     </tr>
                 </table>
-                <!--待领取-end-->
+                <!--执行中-end-->
+                <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==2){?>
                 <!--结果审核驳回-->
                 <table class="info_table">
                     <tr>
@@ -222,6 +201,7 @@
                     </tr>
                 </table>
                 <!--结果审核驳回-end-->
+                <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==1 && $finance_status==1 && $receivables_status!=1){?>
                 <!--待确认收款-->
                 <table class="info_table">
                     <tr>
@@ -229,6 +209,7 @@
                     </tr>
                 </table>
                 <!--待确认收款-end-->
+                <?php }?>
             </div>
         </div>
         <script type="text/javascript" src="/js/third/jquery.js"></script>

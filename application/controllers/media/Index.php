@@ -176,7 +176,7 @@ class Index extends CI_Controller {
         $result = $this->__get_task_map_model()->getMissionHall($media_man_id,$page);
         unset($result['sql']);
         foreach($result['list'] as $key => &$value){
-            $allot_time = $this->__timediff(strtotime($value['allot_time']));
+            $allot_time = $this->__timediff(strtotime($value['allot_time']),7200);
             if($allot_time){
                 $value['allot_time']  = $allot_time;
             }
@@ -227,11 +227,11 @@ class Index extends CI_Controller {
                 $result['require_industry'] = $this->__handleNuToName($result['require_industry'],$industryConfig);
                 $result['require_hobby'] = $this->__handleNuToName($result['require_hobby'],$hobbyConfig);
             }
-            $completionCriteriaConfig = $this->config->item('completion_criteria');
+            $completionCriteriaConfig = $this->config->item('task_completion_criteria');
             $publishingPlatformConfig = $this->config->item('publishing_platform');
             $result['publishing_platform'] = $this->__handleNuToName($result['publishing_platform'],$publishingPlatformConfig);
             $result['completion_criteria'] = $this->__handleNuToName($result['completion_criteria'],$completionCriteriaConfig);
-            $result['surplus_time'] = $this->__timediff(strtotime($result['allot_time']));
+            $result['surplus_time'] = $this->__timediff(strtotime($result['allot_time']),7200);
 
         }
         $this->load->view('/media/task_info',$result);
@@ -425,6 +425,17 @@ class Index extends CI_Controller {
         }
         $where['task_id'] = (int)$_GET['task_id'];
         $result = $this->__get_task_map_model()->getMediaManTaskDetailByCondition($where);
+        //交付任务被驳回需要显示距任务结束还有多久
+        if($result['release_status']==1 && $result['receive_status']==1 && $result['deliver_status']==1 && $result['deliver_audit_status']==2){
+            $result['allot_time'] = $this->__timediff($result['end_time'],0);
+        }
+        $completionCriteriaConfig = $this->config->item('task_completion_criteria');
+        $publishingPlatformConfig = $this->config->item('publishing_platform');
+        $result['publishing_platform'] = $this->__handleNuToName($result['publishing_platform'],$publishingPlatformConfig);
+        $result['completion_criteria'] = $this->__handleNuToName($result['completion_criteria'],$completionCriteriaConfig);
+
+//        echo '<pre>';
+//        print_r($result);exit;
         $this->load->view('media/my/info',$result);
 //        exit;
 //        if(isset($result['total'])){
@@ -563,8 +574,8 @@ class Index extends CI_Controller {
      * @param $allot_time
      * @return bool|string
      */
-    private function __timediff($allot_time){
-        $result = Wap::timediff($allot_time+7200);
+    private function __timediff($allot_time,$time){
+        $result = Wap::timediff($allot_time+$time);
         if(!is_array($result) || $result<0){
             //任务已经超时，修改任务状态
             return false;

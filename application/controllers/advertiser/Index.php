@@ -477,7 +477,7 @@ class Index extends CI_Controller {
             $result['require_industry'] = $this->__handleNuToName($result['require_industry'],$industryConfig);
             $result['require_hobby'] = $this->__handleNuToName($result['require_hobby'],$hobbyConfig);
         }
-        $completionCriteriaConfig = $this->config->item('completion_criteria');
+        $completionCriteriaConfig = $this->config->item('task_completion_criteria');
         $publishingPlatformConfig = $this->config->item('publishing_platform');
         $result['publishing_platform'] = $this->__handleNuToName($result['publishing_platform'],$publishingPlatformConfig);
         $result['completion_criteria'] = $this->__handleNuToName($result['completion_criteria'],$completionCriteriaConfig);

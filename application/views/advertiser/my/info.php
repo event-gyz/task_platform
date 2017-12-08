@@ -249,6 +249,7 @@
                         </tr>
                     </table>
                 </div>
+                <?php if(($audit_status == 0) && ($release_status == 0)){?>
                 <!--待提交-->
                 <table class="info_table">
                     <tr>
@@ -258,6 +259,8 @@
                     </tr>
                 </table>
                 <!--待提交-end-->
+                <? } ?>
+                <?php if(($audit_status == 2) && ($release_status == 0)){?>
                 <!--驳回-->
                 <table class="info_table">
                     <tr>
@@ -266,6 +269,8 @@
                     </tr>
                 </table>
                 <!--驳回-end-->
+                <? } ?>
+                <?php if(($audit_status == 3) && ($release_status == 0) && ($pay_status == 0)){?>
                 <!--待付款-->
                 <table class="info_table">
                     <tr>
@@ -274,6 +279,8 @@
                     </tr>
                 </table>
                 <!--待付款-end-->
+                <? } ?>
+                <?php if(($audit_status == 3) && ($release_status == 0) && ($pay_status == 1) && ($finance_status != 1)){?>
                 <!--待财务确认收款-->
                 <table class="info_table">
                     <tr>
@@ -281,6 +288,7 @@
                     </tr>
                 </table>
                 <!--待财务确认收款-end-->
+                <? } ?>
             </div>
         </div>
         <script type="text/javascript" src="/js/third/jquery.js"></script>

@@ -60,7 +60,7 @@
                         </tr>
                     </table>
                 </li>
-                <p class="no_task" style="display:none;"  v-show="!lists.length"><img src="/images/zwnr.png"><br>暂无分配的任务</p>
+                <p class="no_task" style="display:none;"  v-show="!lists.length"><img src="/images/zwnr.png"><br>暂无任务</p>
             </ul>
             <!--滚动加载-->
             <div class="weui-loadmore">
