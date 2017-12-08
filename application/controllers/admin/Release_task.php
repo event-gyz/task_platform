@@ -442,7 +442,7 @@ class Release_task extends ADMIN_Controller {
         }
 
         if (empty($data)) {
-            $this->zip->add_data($sub_dir_name . 'tmp.txt', '本文件夹中没有任务图片');
+            $this->zip->add_data($sub_dir_name . '.tmp', '本文件夹中没有任务图片,如果你看到这个文件,那你可能查看了隐藏文件,哈哈');
         }
 
         $this->zip->add_data($data);
