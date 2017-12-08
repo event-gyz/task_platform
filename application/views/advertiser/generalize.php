@@ -63,7 +63,7 @@
                     <th align="left" class="border_bottom" >账号要求</th>
                     <td class="border_bottom" align="center">
                         <p class="index_advert_icon">
-                            <span @click="numAsk = 0" :class="{cur:!numAsk}"><img v-if="!numAsk" src="/images/icon1.png"><img v-else src="/images/icon2.png">&nbsp;无要求</span>
+                            <span @click="numAsk = 2" :class="{cur:!numAsk}"><img v-if="!numAsk" src="/images/icon1.png"><img v-else src="/images/icon2.png">&nbsp;无要求</span>
                             <span @click="numAsk = 1" :class="{cur:numAsk}"><img v-if="!numAsk" src="/images/icon2.png"><img v-else src="/images/icon1.png">&nbsp;自定义要求</span>
                         </p>
                     </td>
