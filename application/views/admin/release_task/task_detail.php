@@ -192,7 +192,7 @@
                             </el-table-column>
                             <el-table-column property="deliver_images" label="图片" width="200">
                                 <template slot-scope="scope">
-                                    <el-button @click="prepare_images_zip_by_map_id(tableData[scope.$index])"
+                                    <el-button @click.once="prepare_images_zip_by_map_id(tableData[scope.$index])"
                                                type="primary" size="mini"
                                                v-if="is_show_prepare_images_btn(scope.$index,tableData)"
                                                :button-id="tableData[scope.$index].task_map_id"
@@ -853,7 +853,8 @@
                 const resData  = response.data;
 
                 if (resData.error_no === 0) {
-                    let loading_html = '<span>点击下载...</span>';
+                    $(this.cur_btn_select).removeClass('is-loading');
+                    let loading_html = `<a href="${this.cur_zip_path}" style="color:white;cursor: pointer;">点击下载</a>`;
                     $(this.cur_btn_select).html(loading_html);
                     this.$message.success('文件生成完毕,请点击下载');
                     clearInterval(this.intervalId);
