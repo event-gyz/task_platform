@@ -12,7 +12,7 @@ var app = new Vue({
         taskImg:[1],//任务图片
         taskDes:'',//任务描述
         taskPrice:'',//任务单价
-        numAsk:0,//账号要求（1=有要求，0=无要求）
+        numAsk:2,//账号要求（1=有要求，2=无要求）
         startTime:'',//任务开始时间
         endTime:'',//任务结束时间
         platform:[],//发布平台
@@ -92,7 +92,7 @@ var app = new Vue({
                             _this.taskImg= JSON.parse(data.pics);//任务图片
                             _this.taskDes= data.task_describe;//任务描述
                             _this.taskPrice= data.price;//任务单价
-                            _this.numAsk= data.media_man_require;//账号要求（1=有要求，0=无要求）
+                            _this.numAsk= data.media_man_require;//账号要求（1=有要求，2=无要求）
                             _this.startTime= moment(Number(data.start_time)).format('YYYY-MM-DD');//任务开始时间
                             _this.endTime= moment(Number(data.end_time)).format('YYYY-MM-DD');//任务结束时间
                             _this.platform= data.publishing_platform.split(',');//发布平台
@@ -328,7 +328,7 @@ var app = new Vue({
                     taskImg:this.taskImg,//任务图片
                     taskDes:this.taskDes,//任务描述
                     taskPrice:this.taskPrice,//任务单价
-                    numAsk:this.numAsk,//账号要求（1=有要求，0=无要求）
+                    numAsk:this.numAsk,//账号要求（1=有要求，2=无要求）
                     startTime:this.startTime+' 00:00:00',//任务开始时间
                     endTime:this.endTime+' 23:59:59',//任务结束时间
                     platform:this.platform,//发布平台
@@ -343,7 +343,12 @@ var app = new Vue({
                 },
                 success: function(res) {
                     if(res.errorno >= 0){
-                        location.href='/advertiser/index/taskSubmitSuccessView?task_id='+res.data;
+                        if(n==1){
+                            location.href='/advertiser/index/taskSubmitSuccessView?task_id='+res.data;
+                        }else {
+                            location.href='/advertiser/index/taskSaveSuccessView?task_id='+res.data;
+                        }
+
                     }else{
                         util.tips(res.msg)
                     }
