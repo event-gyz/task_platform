@@ -13,7 +13,7 @@ class ADMIN_Controller extends CI_Controller {
         parent::__construct();
 
         $this->load->library('session');
-        $this->load->helper(array('url'));
+        $this->load->helper(array('url', 'wap'));
 
         $this->__check_login();
         $this->__init();

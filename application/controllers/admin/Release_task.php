@@ -349,6 +349,21 @@ class Release_task extends ADMIN_Controller {
         return $this->response_json(1, '非法操作');
     }
 
+    public function is_file_write_completed() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
+
+        $file_path = $req_data['file_path'];
+
+        $result = wap::read_file_complete_flag($file_path);
+
+        if ($result) {
+            return $this->response_json(0, '文件生成完毕');
+        }
+
+        return $this->response_json(1, '文件正在生成种...');
+    }
+
     /**
      * @return Platform_task_model
      */

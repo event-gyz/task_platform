@@ -33,3 +33,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/tests/
 /tests/results/
 desktop.ini
+application/webroot/zip
+application/webroot/upload
