@@ -482,6 +482,7 @@ class Index extends CI_Controller {
         $where['task_id'] = (int)$_POST['task_id'];
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $info ['deliver_status'] = 1;
+        $info ['deliver_audit_status'] = 0;
         $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
         if(!$result){
             $this->_return['errorno'] = '-1';
@@ -673,8 +674,8 @@ class Index extends CI_Controller {
             'user_type'    => 2,
             'user_log_type' => $user_log_type,
             'user_log_content' => $user_log_content,
-            'old_data'        => $old_data,
-            'new_data'        => $new_data,
+            'old_data'        => json_encode($old_data),
+            'new_data'        => json_encode($new_data),
         ];
         $this->__get_log_model()->insert($data);
     }

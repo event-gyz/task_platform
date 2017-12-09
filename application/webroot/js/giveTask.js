@@ -82,7 +82,9 @@ var app = new Vue({
                 },
                 success: function(res) {
                     if(res.errorno > 0){
-                        console.log(res);
+                        util.tips(res.msg);
+                        //提示停留2秒然后跳转
+                        location.href='/media/index/taskDetail?task_id='+this.task_id;
                     }else{
                         util.tips(res.msg)
                     }

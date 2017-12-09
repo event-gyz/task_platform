@@ -93,7 +93,7 @@
                     <p class="text">财务人员已经将此任务的收入打入您的支付宝账户，请确认已收到款项。</p>
                     <p class="bg_line"></p>
                     <p class="button1">
-                        <a href="#">确认收款</a><br>
+                        <a href="#" class="confirmReceivables">确认收款</a><br>
                     </p>
                 </div>
                 <div class="task_status task_status1">
@@ -189,15 +189,15 @@
                 <!--执行中-->
                 <table class="info_table">
                     <tr>
-                        <td><a href="#" class="common_button2">交付任务</a></td>
+                        <td><a href="/media/index/giveTask?task_id=<?=$task_id?>" class="common_button2">交付任务</a></td>
                     </tr>
                 </table>
                 <!--执行中-end-->
-                <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==2){?>
+                <?php }else if($release_status==1 && $receive_status==1 &&(time()>$start_time) && (time()<$end_time)  && $deliver_status==1 && $deliver_audit_status==2){?>
                 <!--结果审核驳回-->
                 <table class="info_table">
                     <tr>
-                        <td><a href="#" class="common_button2">重新提交</a></td>
+                        <td><a href="/media/index/giveTask?task_id=<?=$task_id?>" class="common_button2">重新提交</a></td>
                     </tr>
                 </table>
                 <!--结果审核驳回-end-->
@@ -205,7 +205,7 @@
                 <!--待确认收款-->
                 <table class="info_table">
                     <tr>
-                        <td><a href="#" class="common_button">确认收款</a></td>
+                        <td><a href="#" class="confirmReceivables">确认收款</a></td>
                     </tr>
                 </table>
                 <!--待确认收款-end-->
@@ -214,6 +214,7 @@
         </div>
         <script type="text/javascript" src="/js/third/jquery.js"></script>
         <script type="text/javascript" src="/js/third/swiper-3.3.1.jquery.min.js"></script>
+        <script type="text/javascript" src="/js/util.js"></script>
         <script type="text/javascript" src="/js/indexMedia.js"></script>
     </body>
 </html>

@@ -253,8 +253,10 @@
                 <!--待提交-->
                 <table class="info_table">
                     <tr>
-                        <td><a href="#" class="common_button3">修改</a></td>
+                        <td><a href="/advertiser/index/taskView?task_id=<?=$task_id?>" class="common_button3">修改</a></td>
+<!--                        todo 提交按钮-->
                         <td><a href="#" class="common_button2">提交</a></td>
+<!--                        todo 结束按钮-->
                         <td><a href="#" class="common_button4">结束</a></td>
                     </tr>
                 </table>
@@ -264,7 +266,7 @@
                 <!--驳回-->
                 <table class="info_table">
                     <tr>
-                        <td><a href="#" class="common_button3">修改</a></td>
+                        <td><a href="/advertiser/index/taskView?task_id=<?=$task_id?>" class="common_button3">修改</a></td>
                         <td><a href="#" class="common_button4">结束</a></td>
                     </tr>
                 </table>
@@ -274,7 +276,7 @@
                 <!--待付款-->
                 <table class="info_table">
                     <tr>
-                        <td><a href="#" class="common_button2">确认付款</a></td>
+                        <td><a href="#" class="common_button3">确认付款</a></td>
                         <td><a href="#" class="common_button4">结束</a></td>
                     </tr>
                 </table>
@@ -292,6 +294,7 @@
             </div>
         </div>
         <script type="text/javascript" src="/js/third/jquery.js"></script>
+        <script type="text/javascript" src="/js/util.js"></script>
         <script type="text/javascript" src="/js/infoAdvert.js"></script>
     </body>
     <?php

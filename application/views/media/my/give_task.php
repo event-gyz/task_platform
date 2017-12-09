@@ -16,7 +16,10 @@
                         <?php if(in_array('1',explode(',',$completion_criteria))){?>
                         <tr>
                             <th align="left" class="border_bottom" width="90px;">任务结果链接</th>
-                            <td class="border_bottom"><input type="text" v-model="url" placeholder="请输入，以http://或https://开头"></td>
+                            <td class="border_bottom">
+<!--                                todo 审核失败以后原数据要显示-->
+                                <input type="text" v-model="url" placeholder="请输入，以http://或https://开头" value="<?=$deliver_link?>">
+                            </td>
                         </tr>
                         <?php }?>
                         <?php if(in_array('2',explode(',',$completion_criteria))){?>

@@ -390,7 +390,7 @@ class Index extends CI_Controller {
     }
 
     /**
-     *  我的列表 （我的任务）
+     *  我的列表 （我的任务接口）
      */
     public function taskListApi(){
         if(isset($_POST['page']) && !empty($_POST['page'])){
@@ -480,6 +480,9 @@ class Index extends CI_Controller {
         $task_id = (int)$_GET['task_id'];
         $where['task_id'] = $task_id;
         $result = $this->__get_task_model()->getAdvertiserTaskDetailByCondition($where);
+        if(empty($result)){
+            echo '任务ID错误，请重试或联系管理员';exit;
+        }
         if($result['media_man_require'] == 1){
             $hobbyConfig = $this->config->item('hobby');
             $industryConfig = $this->config->item('industry');
@@ -566,7 +569,7 @@ class Index extends CI_Controller {
         }
 
         if( $handle === $this->_endTask ){
-            if($result['start_time'] - time() < 43200){
+            if(($result['start_time'] - time()) < 43200){
                 $this->_return['errorno'] = -1;
                 //todo 文案补全
                 $this->_return['msg'] = '距离任务开始小于12小时不可结束任务，如需结束任务请联系客服';
