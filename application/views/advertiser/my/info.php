@@ -73,12 +73,6 @@
                 <!--执行中-end-->
                 <?php }?>
 
-                <?php if($release_status == 2){?>
-                    <!--已完成-->
-                    <div class="min-title1">任务基础信息<span class="warn">● 已完成</span></div>
-                    <!--已完成-end-->
-                <?php }?>
-
                 <?php if($release_status == 7){?>
                     <!--已结束-->
                     <div class="min-title1">任务基础信息<span class="warn">● 已结束</span></div>
@@ -290,6 +284,15 @@
                     </tr>
                 </table>
                 <!--待财务确认收款-end-->
+                <? } ?>
+                <?php if($release_status == 1 && (time()+43200)<$start_time){?>
+                    <!--任务开始前12小时广告主可以关闭任务-->
+                    <table class="info_table">
+                        <tr>
+                            <td><a href="#" class="common_button4">结束</a></td>
+                        </tr>
+                    </table>
+                    <!--任务开始前12小时广告主可以关闭任务-end-->
                 <? } ?>
             </div>
         </div>
