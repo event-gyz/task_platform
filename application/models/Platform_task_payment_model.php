@@ -95,9 +95,6 @@ class Platform_task_payment_model extends MY_Model{
         if(!isset($data['task_id']) || empty($data['task_id'])){
             return false;
         }
-        if(!isset($data['pay_money']) && empty($data['pay_money'])){
-            return false;
-        }
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
