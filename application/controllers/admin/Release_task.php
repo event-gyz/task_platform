@@ -497,6 +497,7 @@ class Release_task extends ADMIN_Controller {
 
     // 根据task_id来生成图片和excel压缩包
     private function __prepare_download_all_by_task_id($task_id, $zip_file_path) {
+        set_time_limit(0);
         $info          = $this->__get_platform_task_model()->selectById($task_id);
         $task_map_list = $this->__get_platform_task_map_model()->get_task_map_list_by_task_id($task_id);
 
@@ -521,6 +522,7 @@ class Release_task extends ADMIN_Controller {
 
     // 根据task_id和task_map_id来生成图片和excel压缩包
     private function __prepare_images_zip_and_excel_by_map_id($task_id, $task_map_id, $zip_file_path) {
+        set_time_limit(0);
         $info          = $this->__get_platform_task_model()->selectById($task_id);
         $task_map_info = $this->__get_platform_task_map_model()->selectById($task_map_id);
 
