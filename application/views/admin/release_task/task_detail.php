@@ -171,7 +171,13 @@
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">任务发布情况分布</h3>
-                <button @click="" type="button" class="btn btn-primary btn-xs pull-right">下载全部</button>
+                <el-button @click.once="prepare_download_all_by_task_id"
+                           type="primary" size="mini" class="pull-right"
+                           v-if="is_show_download_all_btn(tableData)"
+                           :all-result-button-id="all"
+                >
+                    下载全部
+                </el-button>
             </div>
             <div class="box-body">
 
@@ -687,6 +693,10 @@
             return false;
 
         },
+        is_show_download_all_btn            : function (rows) {
+            // 是否显示下载全部的按钮
+            return rows.length !== 0;
+        },
         update_deliver_audit_status         : async function (index, rows, deliver_audit_status) {
             try {
 
@@ -928,6 +938,9 @@
                 }
 
             }
+        },
+        prepare_download_all_by_task_id     : async function () {
+
         },
     };
 
