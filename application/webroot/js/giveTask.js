@@ -6,7 +6,7 @@ var app = new Vue({
     data:{
         task_id:'',
         url:'',
-        imgs:[]
+        imgs:[1]
     },
     mounted:function(){
         this.$nextTick(function(){

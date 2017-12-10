@@ -16,7 +16,7 @@
             <ul class="my_task" style="display:none;">
                 <!--执行中-->
                 <li v-for="item in lists" class="task_box">
-                    <a :href="'/media/index/taskDetail?task_id='+item.task_id">
+                    <a class="a_box" :href="'/media/index/taskDetail?task_id='+item.task_id">
                     <div class="top proceed" :class="task_status_class(item)">
                         <p class="name">{{item.task_name}}</p>
                         <p class="status">● {{task_status(item)}}</p>
