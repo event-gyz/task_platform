@@ -600,12 +600,15 @@ class Index extends CI_Controller {
         }
 
         if( $handle === $this->_endTask ){
-            if(($result['start_time'] - time()) < 43200){
-                $this->_return['errorno'] = -1;
-                //todo 文案补全
-                $this->_return['msg'] = '距离任务开始小于12小时不可结束任务，如需结束任务请联系客服';
-                echo json_encode($this->_return);exit;
+            if($result['pay_status']==1){
+                if(($result['start_time'] - time()) < 43200){
+                    $this->_return['errorno'] = -1;
+                    //todo 文案补全
+                    $this->_return['msg'] = '距离任务开始小于12小时不可结束任务，如需结束任务请联系客服';
+                    echo json_encode($this->_return);exit;
+                }
             }
+
         }
 
         if( $handle === $this->_payTask ){

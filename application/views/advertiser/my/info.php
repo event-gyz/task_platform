@@ -248,9 +248,7 @@
                 <table class="info_table">
                     <tr>
                         <td><a href="/advertiser/index/taskView?task_id=<?=$task_id?>" class="common_button3">修改</a></td>
-<!--                        todo 提交按钮-->
                         <td><a href="#" class="common_button2">提交</a></td>
-<!--                        todo 结束按钮-->
                         <td><a href="#" class="common_button4">结束</a></td>
                     </tr>
                 </table>
@@ -276,23 +274,14 @@
                 </table>
                 <!--待付款-end-->
                 <? } ?>
-                <?php if(($audit_status == 3) && ($release_status == 0) && ($pay_status == 1) && ($finance_status != 1)){?>
-                <!--待财务确认收款-->
+                <?php if(($audit_status == 3) && ($release_status == 0) && ($pay_status == 1)  && (time()+43200)>$start_time){?>
+                <!--待财务确认收款/待发布-->
                 <table class="info_table">
                     <tr>
                         <td><a href="#" class="common_button4">结束</a></td>
                     </tr>
                 </table>
-                <!--待财务确认收款-end-->
-                <? } ?>
-                <?php if($release_status == 1 && (time()+43200)<$start_time){?>
-                    <!--任务开始前12小时广告主可以关闭任务-->
-                    <table class="info_table">
-                        <tr>
-                            <td><a href="#" class="common_button4">结束</a></td>
-                        </tr>
-                    </table>
-                    <!--任务开始前12小时广告主可以关闭任务-end-->
+                <!--待财务确认收款/待发布-end-->
                 <? } ?>
             </div>
         </div>
