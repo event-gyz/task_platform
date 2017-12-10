@@ -495,7 +495,7 @@ class Index extends CI_Controller {
      */
     public function taskInfo(){
         $user_info = $this->__get_user_session();
-        $where['advertiser_user_id'] = $user_info['advertiser_id'];
+//        $where['advertiser_user_id'] = $user_info['advertiser_id'];
         if(!isset($_GET['task_id']) || empty($_GET['task_id'])){
             $this->_return['errorno'] = -1;
             $this->_return['msg'] = '参数错误';

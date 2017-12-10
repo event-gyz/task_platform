@@ -209,9 +209,9 @@ class Platform_task_model extends MY_Model {
 
         $sql = "SELECT [*] FROM `{$this->table}` AS pt LEFT JOIN `platform_task_payment` AS ptp on pt.task_id=ptp.task_id where 1=1 ";
 
-        if (empty($where['advertiser_user_id'])) {
-            return false;
-        }
+//        if (empty($where['advertiser_user_id'])) {
+//            return false;
+//        }
         if (empty($where['task_id'])) {
             return false;
         }
