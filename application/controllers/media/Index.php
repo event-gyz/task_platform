@@ -464,12 +464,29 @@ class Index extends CI_Controller {
      *  我的列表  （交付任务页面）
      */
     public function giveTask(){
-        $task_id = $_GET['task_id'];
+        $this->load->view('media/my/give_task');
+    }
+
+    public function getGiveInfo(){
+        $task_id = $_POST['task_id'];
+        if(empty($task_id)){
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = 'task_id不能为空';
+            echo json_encode($this->_return);exit;
+        }
         $user_info = $this->__get_user_session();
         $where ['media_man_user_id'] = $user_info['media_man_id'];
         $where ['task_id'] = $task_id;
         $info = $this->__get_task_map_model()->getMediaManTaskDetailByCondition($where);
-        $this->load->view('media/my/give_task',$info);
+        if(empty($info)){
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '数据异常请联系客服';
+            echo json_encode($this->_return);exit;
+        }
+        $this->_return['errorno'] = '1';
+        $this->_return['msg'] = '获取数据成功';
+        $this->_return['data'] = $info;
+        echo json_encode($this->_return);exit;
     }
 
     /**

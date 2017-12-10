@@ -67,7 +67,7 @@
                     </div>
                     <p class="bg_line"></p>
                     <p class="button1">
-                        <a href="#">立即修改</a><br>
+                        <a href="/media/index/giveTask?task_id=<?=$task_id?>&flag=2">立即修改</a><br>
                         <span><img src="/images/status/ts.png"><?=$allot_time?></span>
                     </p>
                 </div>
@@ -197,7 +197,7 @@
                 <!--结果审核驳回-->
                 <table class="info_table">
                     <tr>
-                        <td><a href="/media/index/giveTask?task_id=<?=$task_id?>" class="common_button2">重新提交</a></td>
+                        <td><a href="/media/index/giveTask?task_id=<?=$task_id?>&flag=2" class="common_button2">重新交付</a></td>
                     </tr>
                 </table>
                 <!--结果审核驳回-end-->
