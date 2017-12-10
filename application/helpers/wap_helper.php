@@ -111,7 +111,14 @@ class wap {
             return false;
         }
 
-        return $complete_flag['is_write_complete'] === true ? true : false;
+        if ($complete_flag['is_write_complete'] !== true) {
+            return false;
+        }
+
+        // 删除.json文件
+        unlink($json_file_path);
+
+        return true;
     }
 
 }
