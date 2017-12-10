@@ -824,7 +824,7 @@
                     cur_btn_select: myselect,
                 };
 
-                let intervalId = setInterval(this.is_file_write_completed, 3000, params);
+                let intervalId = setInterval(this.is_file_write_completed, 1000, params);
                 this.intervalIds.push({'task_map_id': task_map_id, 'intervalId': intervalId});
             } catch (error) {
                 $(myselect).removeClass('is-loading');
