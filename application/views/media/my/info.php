@@ -44,12 +44,12 @@
                 <!--执行中-end-->
 
                 <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==0){?>
-                <!--待结果审核-->
+                <!--交付待审核-->
                 <div class="task_status task_status1">
-                    <p class="status">● 待结果审核</p>
+                    <p class="status">● 交付待审核</p>
                     <p class="time">交付时间：<?=$deliver_time?></p>
                 </div>
-                <!--待结果审核-end-->
+                <!--交付待审核-end-->
 
                 <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==2){?>
                 <!--结果审核驳回-->
