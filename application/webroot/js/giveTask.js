@@ -71,28 +71,34 @@ var app = new Vue({
                     return;
                 }
             }
-            $.ajax({
-                url: "/media/index/giveTaskApi",
-                dataType: 'json',
-                type:"post",
-                data:{
-                    task_id: this.task_id,
-                    deliver_link: this.url,
-                    deliver_images: this.imgs
-                },
-                success: function(res) {
-                    if(res.errorno > 0){
-                        util.tips(res.msg);
-                        //提示停留2秒然后跳转
-                        location.href='/media/index/taskDetail?task_id='+this.task_id;
-                    }else{
-                        util.tips(res.msg)
+            util.confirm('是否确认交付任务',function(){
+                $.ajax({
+                    url: "/media/index/giveTaskApi",
+                    dataType: 'json',
+                    type:"post",
+                    data:{
+                        task_id: _this.task_id,
+                        deliver_link: _this.url,
+                        deliver_images: _this.imgs
+                    },
+                    success: function(res) {
+                        if(res.errorno > 0){
+                            util.tips(res.msg);
+                            //提示停留2秒然后跳转
+                            setTimeout(function(){
+                                location.href='/media/index/taskDetail?task_id='+_this.task_id;
+                            },2000);
+
+                        }else{
+                            util.tips(res.msg)
+                        }
+                    },
+                    error:function(){
+                        util.tips('网络异常，请尝试刷新！');
                     }
-                },
-                error:function(){
-                    util.tips('网络异常，请尝试刷新！');
-                }
-            })
+                })
+            },function(){});
+
         }
     }
 });
