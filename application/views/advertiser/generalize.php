@@ -63,12 +63,12 @@
                     <th align="left" class="border_bottom" >账号要求</th>
                     <td class="border_bottom" align="center">
                         <p class="index_advert_icon">
-                            <span @click="numAsk = 2" :class="{cur:!numAsk}"><img v-if="!numAsk" src="/images/icon1.png"><img v-else src="/images/icon2.png">&nbsp;无要求</span>
-                            <span @click="numAsk = 1" :class="{cur:numAsk}"><img v-if="!numAsk" src="/images/icon2.png"><img v-else src="/images/icon1.png">&nbsp;自定义要求</span>
+                            <span @click="numAsk = 2" :class="{cur:numAsk ==2}"><img v-if="numAsk ==2" src="/images/icon1.png"><img v-else src="/images/icon2.png">&nbsp;无要求</span>
+                            <span @click="numAsk = 1" :class="{cur:numAsk ==1}"><img v-if="numAsk ==2" src="/images/icon2.png"><img v-else src="/images/icon1.png">&nbsp;自定义要求</span>
                         </p>
                     </td>
                 </tr>
-                <tr class="no_bg" style="display: none" v-show="numAsk">
+                <tr class="no_bg" style="display: none" v-show="numAsk==1">
                     <td colspan="2" class="no_bg_td">
                         <div class="bg">
                             <table>
@@ -126,10 +126,7 @@
                                     <th align="left">地域</th>
                                     <td>
                                         <p class="text-box">
-                                            <span @click="setCity('1')" :class="{cur:city.indexOf('1')!=-1}">北京</span>
-                                            <span @click="setCity('2')" :class="{cur:city.indexOf('2')!=-1}">上海</span>
-                                            <span @click="setCity('3')" :class="{cur:city.indexOf('3')!=-1}">广州</span>
-                                            <span @click="setCity('4')" :class="{cur:city.indexOf('4')!=-1}">深圳</span>
+                                            <span v-for="item in initCity" @click="setCity(item.id)" :class="{cur:city.indexOf(item.id)!=-1}">{{item.name}}</span>
                                         </p>
                                     </td>
                                 </tr>

@@ -23,6 +23,7 @@ var app = new Vue({
         age:[],//年龄（账号要求）
         liking:[],//兴趣爱好（账号要求）
         industry:[],//行业（账号要求）
+        initCity:[{'name':'北京',id:1},{'name':'上海',id:2},{'name':'广州',id:3}],
         city:[]//地域
     },
     mounted:function(){
@@ -31,7 +32,22 @@ var app = new Vue({
             var _this =this;
             this.initAjax();//初始化获取值
             this.setTime();
-
+            $.ajax({
+                url: "/advertiser/index/getAllUseCity",
+                dataType: 'json',
+                type:"post",
+                data:{},
+                success: function(res) {
+                    if(res.errorno >= 0){
+                        _this.initCity = res.data;
+                    }else{
+                        util.tips(res.msg)
+                    }
+                },
+                error:function(){
+                    util.tips('网络异常，请尝试刷新！');
+                }
+            });
             $("#task_type").picker({
                 title: "请选择任务类型",
                 cols: [
