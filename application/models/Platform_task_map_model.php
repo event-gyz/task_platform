@@ -200,7 +200,7 @@ class Platform_task_map_model extends MY_Model {
         $param                  = "pt.*,ptm.*,ptr.platform_pay_money,ptr.platform_pay_way,ptr.finance_status,ptr.pay_time,ptm.reasons_for_rejection as tm_reasons_for_rejection";
         $task_table             = 'platform_task';
         $task_receivables_table = 'platform_task_receivables';
-        $sql                    = "SELECT [*] FROM `{$this->table}` AS ptm  LEFT JOIN `{$task_table}` AS pt ON pt.task_id=ptm.task_id LEFT JOIN `{$task_receivables_table}` AS ptr on ptr.task_map_id=ptm.task_map_id where ptm.receive_status=1 ";
+        $sql                    = "SELECT [*] FROM `{$this->table}` AS ptm  LEFT JOIN `{$task_table}` AS pt ON pt.task_id=ptm.task_id LEFT JOIN `{$task_receivables_table}` AS ptr on ptr.task_map_id=ptm.task_map_id where 1=1 ";
 
         // 拼接查询条件
         // 根据用户id
