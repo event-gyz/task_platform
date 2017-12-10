@@ -43,7 +43,7 @@
                     </table>
                     <table v-if="task_status(item) == '待确认收款'" class="task_table" style="width: 100%"><!--待确认收款-->
                         <tr>
-                            <td><a class="a_box s_color1" href="#">确认收款</a></td>
+                            <td><a class="a_box s_color1" href="#" @click="sk(item.task_id)">确认收款</a></td>
                         </tr>
                     </table>
                 </li>
