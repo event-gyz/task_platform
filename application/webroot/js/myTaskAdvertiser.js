@@ -4,6 +4,7 @@
 var app = new Vue({
     el:'#app',
     data:{
+        curTime: parseInt(moment().valueOf()/1000),
         loading:false,//状态标记
         total:100,
         page:1,
@@ -77,8 +78,8 @@ var app = new Vue({
         },
         //时间
         timeFn: function(s,e){
-            var s = moment(Number(s)).format('MM-DD');
-            var e = moment(Number(e)).format('MM-DD');
+            var s = moment(Number(s)*1000).format('MM-DD');
+            var e = moment(Number(e)*1000).format('MM-DD');
             return s+' ~ '+e;
         },
         //当前状态
@@ -146,7 +147,29 @@ var app = new Vue({
                     }
                 })
             },function(){});
-
+        },
+        //结束
+        end: function(id,index){
+            var _this = this;
+            util.confirm('是否确认结束此任务',function(){
+                $.ajax({
+                    url: "/advertiser/index/endTask",
+                    dataType: 'json',
+                    type:"post",
+                    data:{task_id:id},
+                    success: function(res) {
+                        if(res.errorno >= 0){
+                            var data = res.data;
+                            _this.lists[index].release_status = data.release_status;
+                        }else{
+                            util.tips(res.msg);
+                        }
+                    },
+                    error:function(){
+                        util.tips('网络异常，请尝试刷新！');
+                    }
+                })
+            },function(){});
         }
 
     }

@@ -135,7 +135,9 @@ class Index extends CI_Controller {
             $this->load->view('media/account');
         } else {
 
-            if((!isset($_POST ['wx_code']) || empty($_POST ['wx_code']) || !isset($_POST ['wx_type']) || empty($_POST ['wx_type']) || !isset($_POST ['wx_max_fans']) || empty($_POST ['wx_max_fans'])) || (!isset($_POST ['weibo_nickname']) || empty($_POST ['weibo_nickname']) || !isset($_POST ['weibo_type']) || empty($_POST ['weibo_type']) || !isset($_POST ['weibo_max_fans']) || empty($_POST ['weibo_max_fans']) || !isset($_POST ['weibo_link']) || empty($_POST ['weibo_link']))){
+            if((!isset($_POST ['wx_code']) || empty($_POST ['wx_code']) || !isset($_POST ['wx_type']) || empty($_POST ['wx_type']) || !isset($_POST ['wx_max_fans']) || empty($_POST ['wx_max_fans']))
+                && (!isset($_POST ['weibo_nickname']) || empty($_POST ['weibo_nickname']) || !isset($_POST ['weibo_type']) || empty($_POST ['weibo_type']) || !isset($_POST ['weibo_max_fans']) || empty($_POST ['weibo_max_fans']) || !isset($_POST ['weibo_link']) || empty($_POST ['weibo_link']))
+            ){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '请至少完善一个推广账号，否则将无法提交审核';
                 echo json_encode($this->_return);exit;
@@ -155,6 +157,8 @@ class Index extends CI_Controller {
             $userInfo = $this->__get_user_session();
             $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
             if ($re) {
+                $userInfo = array_merge($userInfo,$data);
+                $this->session->set_userdata($this->_user_info,$userInfo);
                 $this->__saveLog($userInfo['media_man_id'],11,'保存自媒体人账户信息',$userInfo,$data);
                 $this->_return['errorno'] = '1';
                 $this->_return['msg'] = '保存成功';
