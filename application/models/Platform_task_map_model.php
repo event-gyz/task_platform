@@ -11,7 +11,6 @@ class Platform_task_map_model extends MY_Model {
         parent::__construct();
     }
 
-
     public function get_task_map_list_by_condition($where, $fields = "ptm.*") {
 
         $sql = "SELECT [*] FROM `{$this->table}` AS ptm where 1=1 ";
@@ -46,6 +45,23 @@ class Platform_task_map_model extends MY_Model {
 
         $data = ['sql' => $_sql, 'total' => $total, 'list' => $this->__deal_list($_list)];
         return $data;
+    }
+
+    // 根据task_id查询所有任务交付记录
+    public function get_task_map_list_by_task_id($task_id) {
+        $this->db->from("`{$this->getTableName()}` AS ptm");
+        $this->db->where(
+            array(
+                'ptm.task_id' => $task_id,
+            )
+        );
+        $query = $this->db->get();
+        $list  = $query->result_array();
+
+        if (!empty($list)) {
+            $list = $this->__deal_list($list);
+        }
+        return $list;
     }
 
     // 处理任务交付列表数据,交付状态,领取/拒绝时间,完成时间
