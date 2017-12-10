@@ -394,8 +394,10 @@ class Index extends CI_Controller {
         $allCityId = array_filter(array_column($useUser,'school_city'));
         $allCityId = array_unique($allCityId);
         foreach($allCityId as $key=>$value){
-            $new[$key]['id'] = $value;
-            $new[$key]['name'] = $this->__get_china_model()->select_name_by_id($value);
+            $new[] = [
+                'id' => $value,
+                'name' => $this->__get_china_model()->select_name_by_id($value)
+            ];
         }
         $this->_return['errorno'] = 1;
         $this->_return['msg'] = '成功';
