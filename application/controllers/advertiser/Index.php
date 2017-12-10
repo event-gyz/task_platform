@@ -397,7 +397,10 @@ class Index extends CI_Controller {
             $new[$key]['id'] = $value;
             $new[$key]['name'] = $this->__get_china_model()->select_name_by_id($value);
         }
-        echo json_encode($new);
+        $this->_return['errorno'] = 1;
+        $this->_return['msg'] = '成功';
+        $this->_return['data'] = $new;
+        echo json_encode($this->_return);exit;
 
     }
     /**
