@@ -413,7 +413,7 @@ class Release_task extends ADMIN_Controller {
         fastcgi_finish_request();
         // 异步调用
         $image_file_zip_path = FCPATH . "/zip/{$info['task_name']}-{$task_id}/" . $zip_file_name;
-        $this->__create_image_zip($task_map_id, $image_file_zip_path);
+        $this->__create_image_zip($task_map_info, $image_file_zip_path);
     }
 
     // 下载单个交付任务的完成结果
@@ -546,7 +546,7 @@ class Release_task extends ADMIN_Controller {
 
         // 生成图片压缩包
         $image_file_zip_path = FCPATH . "/zip/{$info['task_name']}-{$task_id}/" . "{$sub_file_name}-images.zip";
-        $this->__create_image_zip($task_map_id, $image_file_zip_path);
+        $this->__create_image_zip($task_map_info, $image_file_zip_path);
 
         // 打包excel文件和图片压缩包到一个文件
         $this->zip->read_file($csv_file_path);
@@ -557,12 +557,11 @@ class Release_task extends ADMIN_Controller {
     }
 
     // 创建单个任务交付记录的图片压缩包
-    private function __create_image_zip($task_map_id, $image_file_zip_path) {
+    private function __create_image_zip($task_map_info, $image_file_zip_path) {
         set_time_limit(0);
         wap::create_folders(dirname($image_file_zip_path));
 
-        $task_map_info = $this->__get_platform_task_map_model()->selectById($task_map_id);
-        $image_arr     = json_decode($task_map_info['deliver_images'], true);
+        $image_arr = json_decode($task_map_info['deliver_images'], true);
 
         $this->load->library('zip');
 
