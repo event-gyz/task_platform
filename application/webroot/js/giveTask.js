@@ -4,6 +4,7 @@
 var app = new Vue({
     el:'#app',
     data:{
+        type:[1,2],
         task_id:'',
         url:'',
         imgs:[1]
@@ -19,6 +20,24 @@ var app = new Vue({
                     _this.task_id = val;
                 }
             });
+            $.ajax({
+                url: "/media/index/getGiveInfo",
+                dataType: 'json',
+                type:"post",
+                data:{task_id:_this.task_id},
+                success: function(res) {
+                    if(res.errorno >= 0){
+                        _this.url = res.data.deliver_link;
+                        _this.imgs = res.data.deliver_images;
+                        _this.type = res.data.completion_criteria.split(',');
+                    }else{
+                        util.tips(res.msg);
+                    }
+                },
+                error:function(){
+                    util.tips('网络异常，请尝试刷新！');
+                }
+            })
             wx.config({
                 debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: 'aaa', // 必填，企业号的唯一标识，此处填写企业号corpid
