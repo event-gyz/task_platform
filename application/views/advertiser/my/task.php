@@ -32,31 +32,31 @@
                     </a>
                     <table v-if="task_status(item) == '待提交'" class="task_table" style="width: 100%"><!--待提交-->
                         <tr>
-                            <td class="border"><a class="a_box" href="#">修改</a></td>
-                            <td class="border"><a class="a_box pass" href="#">提交</a></td>
-                            <td v-if="(item.start_time-curTime)>43200"><a class="a_box warn" href="#">结束</a></td>
+                            <td class="border"><a class="a_box" :href="'/advertiser/index/taskView?task_id='+item.task_id+'&flag=2'">修改</a></td>
+                            <td class="border"><a class="a_box pass" href="#" @click="submit(item.task_id,index)">提交</a></td>
+                            <td><a class="a_box warn" href="#" @click="end(item.task_id,index)">结束</a></td>
                         </tr>
                     </table>
                     <table v-if="task_status(item) == '驳回'" class="task_table" style="width: 100%"><!--驳回-->
                         <tr>
-                            <td class="border"><a class="a_box" href="#">修改</a></td>
-                            <td v-if="(item.start_time-curTime)>43200"><a class="a_box warn" href="#">结束</a></td>
+                            <td class="border"><a class="a_box" :href="'/advertiser/index/taskView?task_id='+item.task_id+'&flag=2'">修改</a></td>
+                            <td><a class="a_box warn" href="#" @click="end(item.task_id,index)">结束</a></td>
                         </tr>
                     </table>
                     <table v-if="task_status(item) == '待付款'" class="task_table" style="width: 100%"><!--待付款-->
                         <tr>
                             <td class="border"><a class="a_box pass" href="#" @click="qrfk(item.task_id,index)">确认付款</a></td>
-                            <td v-if="(item.start_time-curTime)>43200"><a class="a_box warn" href="#" @click="end(item.task_id,index)">结束</a></td>
+                            <td><a class="a_box warn" href="#" @click="end(item.task_id,index)">结束</a></td>
                         </tr>
                     </table>
-                    <table v-if="task_status(item) == '代财务确认收款'" class="task_table" style="width: 100%"><!--代财务确认收款-->
+                    <table v-if="task_status(item) == '待财务确认收款'" class="task_table" style="width: 100%"><!--待财务确认收款-->
                         <tr v-if="(item.start_time-curTime)>43200">
-                            <td><a class="a_box warn" href="#">结束</a></td>
+                            <td><a class="a_box warn" href="#" @click="end(item.task_id,index)">结束</a></td>
                         </tr>
                     </table>
                     <table v-if="task_status(item) == '待发布'" class="task_table" style="width: 100%"><!--待发布-->
                         <tr v-if="(item.start_time-curTime)>43200">
-                            <td><a class="a_box warn" href="#">结束</a></td>
+                            <td><a class="a_box warn" href="#" @click="end(item.task_id,index)">结束</a></td>
                         </tr>
                     </table>
                 </li>
