@@ -389,6 +389,17 @@ class Index extends CI_Controller {
         $this->load->view('advertiser/my/task');
     }
 
+    public function getAllUseCity(){
+        $useUser = $this->__get_media_man_model()->getUseMediaMan();
+        $allCityId = array_filter(array_column($useUser,'school_city'));
+        $allCityId = array_unique($allCityId);
+        foreach($allCityId as $key=>$value){
+            $new[$key]['id'] = $value;
+            $new[$key]['name'] = $this->__get_china_model()->select_name_by_id($value);
+        }
+        echo json_encode($new);
+
+    }
     /**
      *  我的列表 （我的任务接口）
      */
@@ -663,6 +674,13 @@ class Index extends CI_Controller {
         return $nStr;
     }
 
+    /**
+     * @return Platform_media_man_model
+     */
+    private function __get_media_man_model() {
+        $this->load->model('Platform_media_man_model');
+        return $this->Platform_media_man_model;
+    }
 
     private function __get_user_session(){
         $userSession = $this->session->userdata($this->_user_info);
@@ -690,6 +708,14 @@ class Index extends CI_Controller {
     private function __get_task_map_model() {
         $this->load->model('Platform_task_map_model');
         return $this->Platform_task_map_model;
+    }
+
+    /**
+     * @return China_model
+     */
+    private function __get_china_model() {
+        $this->load->model('China_model');
+        return $this->China_model;
     }
 
     /**

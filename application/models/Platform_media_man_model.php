@@ -131,5 +131,10 @@ class Platform_media_man_model extends MY_Model {
         return $this->db->insert_id();
     }
 
+    public function getUseMediaMan(){
+        $where['status'] = 2;
+        $query = $this->db->get_where($this->getTableName(), $where);
+        return $query->result_array();
+    }
 }
 
