@@ -203,8 +203,10 @@
                             </el-table-column>
                             <el-table-column label="操作" width="300">
                                 <template slot-scope="scope">
-                                    <el-button @click="" type="primary" size="mini"
+                                    <el-button @click.once="prepare_download_finish_result(tableData[scope.$index])"
+                                               type="primary" size="mini"
                                                v-if="is_show_download_complete_result_btn(scope.$index,tableData)"
+                                               :result-button-id="tableData[scope.$index].task_map_id"
                                     >
                                         下载完成结果
                                     </el-button>
@@ -803,7 +805,7 @@
                     $(params.cur_btn_select).removeClass('is-loading');
                     let loading_html = `<a href="${params.cur_zip_path}" style="color:white;cursor:pointer;">点击下载</a>`;
                     $(params.cur_btn_select).html(loading_html);
-                    this.$message.success('文件生成完毕,请点击下载');
+                    this.$message.success('图片压缩包生成完毕,请点击下载');
 
                     // 移除定时任务
                     let intervalInfo = _.find(this.intervalIds, {'task_map_id': params.task_map_id});
@@ -828,29 +830,127 @@
                 }
 
             }
-        }
+        },
+        prepare_download_finish_result      : async function (info) {
+            let task_id     = info.task_id;
+            let task_map_id = info.task_map_id;
 
+            // 找到当前点击的按钮并添加加载样式
+            let loading_html = '<i class="el-icon-loading"></i><span>压缩包生成中...</span>';
+            let myselect     = "[result-button-id='" + task_map_id + "']";
+            $(myselect).addClass('is-loading');
+            $(myselect).html(loading_html);
+
+            try {
+                const url      = '/admin/release_task/prepare_download_finish_result';
+                const response = await axios.post(url,
+                    {
+                        "task_id"    : task_id,
+                        "task_map_id": task_map_id,
+                    }
+                );
+                const resData  = response.data;
+
+                if (resData.error_no !== 0) {
+                    $(myselect).removeClass('is-loading');
+                    $(myselect).html('下载完成结果');
+                    return this.$message.error(resData.msg)
+                }
+
+                let cur_zip_path = resData.data.file_path;
+
+                let params = {
+                    task_map_id   : task_map_id,
+                    cur_zip_path  : cur_zip_path,
+                    cur_btn_select: myselect,
+                };
+
+                let intervalId = setInterval(this.is_file_write_completed4finish, 1000, params);
+                this.intervalIds4finish.push({'task_map_id': task_map_id, 'intervalId': intervalId});
+            } catch (error) {
+                $(myselect).removeClass('is-loading');
+                $(myselect).html('下载完成结果');
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+
+        },
+        is_file_write_completed4finish      : async function (params) {
+            try {
+                const url      = '/admin/release_task/is_file_write_completed';
+                const response = await axios.get(url, {
+                    params: {
+                        "file_path": params.cur_zip_path,
+                    }
+                });
+                const resData  = response.data;
+
+                if (resData.error_no === 0) {
+                    $(params.cur_btn_select).removeClass('is-loading');
+                    let loading_html = `<a href="${params.cur_zip_path}" style="color:white;cursor:pointer;">点击下载</a>`;
+                    $(params.cur_btn_select).html(loading_html);
+                    this.$message.success('完成结果压缩包生成完毕,请点击下载');
+
+                    // 移除定时任务
+                    let intervalInfo = _.find(this.intervalIds4finish, {'task_map_id': params.task_map_id});
+                    _.pull(this.intervalIds4finish, intervalInfo);
+                    clearInterval(intervalInfo.intervalId);
+                }
+            } catch (error) {
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+        },
     };
 
     const data = function () {
         return {
-            loading    : false,// 是否显示加载
-            task_id    : '<?= $info['task_id']?>',
-            ruleForm   : {
+            loading           : false,// 是否显示加载
+            task_id           : '<?= $info['task_id']?>',
+            ruleForm          : {
                 platform_price: '',
             },
-            rules      : {
+            rules             : {
                 platform_price: [
                     {required: true, message: '请填写有效的任务单价', trigger: 'blur'}
                 ],
             },
-            tableData  : [],// 初始化表格数据
-            pagination : {
+            tableData         : [],// 初始化表格数据
+            pagination        : {
                 currentPage: 1,// 当前页
                 total      : 0,// 总记录数
                 pageSize   : 10,// 每页显示记录数
             },
-            intervalIds: [],// 当前定时任务的id数组
+            intervalIds       : [],// 下载图片的定时任务的id数组
+            intervalIds4finish: [],// 下载完成结果的定时任务的id数组
         };
     };
 
