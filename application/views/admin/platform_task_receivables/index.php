@@ -68,7 +68,7 @@
                                             <select class="form-control" name="m_finance_status">
                                                 <option value="">全部</option>
 
-                                                <?php foreach ($media_man_list_finance_status_list as $key => $value): ?>
+                                                <?php foreach ($finance_status_list as $key => $value): ?>
                                                     <option value="<?= $key ?>"
                                                         <?= "$key" === $form_data['m_finance_status'] ? 'selected' : ''; ?>
                                                     >
@@ -131,26 +131,46 @@
                                     <th><?= $value['media_man_id'] ?></th>
                                     <th><?= $value['media_man_login_name'] ?></th>
                                     <th><?= $value['media_man_name'] ?></th>
-                                    <th><?= $value['sex'] ?></th>
+                                    <th><?= $value['sex'] === "1" ? "男" : "女" ?></th>
                                     <th><?= $value['media_man_phone'] ?></th>
                                     <th><?= $value['school_name'] ?></th>
                                     <th><?= $value['zfb_nu'] ?></th>
                                     <th><?= $value['zfb_realname'] ?></th>
-                                    <th><?= $value['platform_pay_way'] ?></th>
-                                    <th><?= $value['platform_price'] ?></th>
-                                    <th><?= $value['finance_status'] ?></th>
+                                    <th><?= $platform_pay_way_list[$value['platform_pay_way']] ?></th>
+                                    <th><?= $value['platform_pay_money'] ?></th>
+                                    <th>
+
+                                        <?php if (($value['finance_status'] === "0")): ?>
+                                            <small class="label bg-yellow">
+                                                待付款
+                                            </small>
+                                        <?php elseif (($value['finance_status'] === "1") && ($value['receivables_status'] === "0")): ?>
+                                            <small class="label bg-orange">
+                                                待确认收款
+                                            </small>
+                                        <?php elseif (($value['finance_status'] === "1") && ($value['receivables_status'] === "1")): ?>
+                                            <small class="label bg-green">
+                                                已完成
+                                            </small>
+                                        <?php else: ?>
+                                            <small class="label bg-gray">
+                                                未知
+                                            </small>
+                                        <?php endif; ?>
+
+                                    </th>
                                     <th><?= $value['pay_time'] ?></th>
                                     <th>
                                         <?php
 
                                         // 是否确认付款按钮
-                                        $is_show_confirm_pay_btn = 1;
+                                        $is_show_confirm_pay_btn = ($value['finance_status'] === "0");
 
                                         ?>
 
                                         <?php if ($is_show_confirm_pay_btn): ?>
                                             <button @click="" type="button"
-                                                    class="btn btn-success btn-xs margin-r-5">确认付款
+                                                    class="btn btn-primary btn-xs margin-r-5">确认付款
                                             </button>
                                         <?php endif; ?>
 

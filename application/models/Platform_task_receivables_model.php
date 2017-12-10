@@ -20,7 +20,15 @@ class Platform_task_receivables_model extends MY_Model {
      */
     public function get_task_receivables_list_by_condition($where) {
 
-        $param           = "pt.*,pmm.*,ptr.platform_pay_money,ptr.platform_pay_way,ptr.finance_status,ptr.pay_time";
+        $param_arr       = [
+            'pt.*', 'pmm.*',
+            'ptm.receivables_status',
+            'ptr.platform_pay_money',
+            'ptr.platform_pay_way',
+            'ptr.finance_status',
+            'ptr.pay_time',
+        ];
+        $param           = implode(',', $param_arr);
         $task_table      = 'platform_task';
         $task_map_table  = 'platform_task_map';
         $media_man_table = 'platform_media_man';

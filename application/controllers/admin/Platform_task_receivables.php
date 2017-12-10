@@ -23,10 +23,11 @@ class Platform_task_receivables extends ADMIN_Controller {
 
         return $this->load->view('admin/platform_task_receivables/index',
             [
-                'form_data'                          => $form_data,
-                'list'                               => $data['list'],
-                'page_link'                          => $page_link,
-                'media_man_list_finance_status_list' => $this->config->item('media_man_list_finance_status'),
+                'form_data'             => $form_data,
+                'list'                  => $data['list'],
+                'page_link'             => $page_link,
+                'finance_status_list'   => $this->config->item('media_man_list_finance_status'),
+                'platform_pay_way_list' => $this->config->item('media_man_list_platform_pay_way'),
             ]
         );
     }

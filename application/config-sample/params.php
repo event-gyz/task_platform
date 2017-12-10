@@ -164,3 +164,9 @@ $config['media_man_list_finance_status'] = [
     '2' => '待确认收款',
     '3' => '已完成',
 ];
+
+// 自媒体人结账列表中的支付方式
+$config['media_man_list_platform_pay_way'] = [
+    '1' => '线下',
+    '2' => '线上',
+];
