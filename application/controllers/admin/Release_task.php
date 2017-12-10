@@ -400,7 +400,7 @@ class Release_task extends ADMIN_Controller {
         }
 
         $sub_file_name = "{$info['task_name']}-{$task_id}-{$task_map_info['media_man_user_name']}-{$task_map_id}";
-        $zip_file_name = "{$sub_file_name}.zip";
+        $zip_file_name = "{$sub_file_name}-images.zip";
 
         header("Content-type:application/json;;charset=utf-8");
         $result = array(
@@ -412,42 +412,101 @@ class Release_task extends ADMIN_Controller {
 
         fastcgi_finish_request();
         // 异步调用
-        $this->__create_image_zip($task_id, $task_map_id);
+        $image_file_zip_path = FCPATH . '/zip/' . $zip_file_name;
+        $this->__create_image_zip($task_map_id, $image_file_zip_path);
     }
 
-    // 创建图片压缩包
-    private function __create_image_zip($task_id, $task_map_id) {
+    // 创建单个任务交付记录的图片压缩包
+    private function __create_image_zip($task_map_id, $image_file_zip_path) {
         set_time_limit(0);
+        wap::create_folders(dirname($image_file_zip_path));
 
-        $info          = $this->__get_platform_task_model()->selectById($task_id);
         $task_map_info = $this->__get_platform_task_map_model()->selectById($task_map_id);
         $image_arr     = json_decode($task_map_info['deliver_images'], true);
 
         $this->load->library('zip');
 
-        $sub_file_name = "{$info['task_name']}-{$task_id}-{$task_map_info['media_man_user_name']}-{$task_map_id}";
-        $sub_dir_name  = "{$sub_file_name}-images/";
-        $zip_file_name = "{$sub_file_name}.zip";
-        $archive_path  = FCPATH . '/zip/' . $zip_file_name;
-
-        wap::create_folders(dirname($archive_path));
-
         $data = [];
         foreach ($image_arr as $image) {
             $image_file_path = FCPATH . $image;
             if (is_file($image_file_path)) {
-                $image_file_key        = $sub_dir_name . basename($image_file_path);
+                $image_file_key        = basename($image_file_path);
                 $data[$image_file_key] = file_get_contents($image_file_path);
             }
         }
 
         if (empty($data)) {
-            $this->zip->add_data($sub_dir_name . '.tmp', '本文件夹中没有任务图片,如果你看到这个文件,那你可能查看了隐藏文件,哈哈');
+            $this->zip->add_data('没有图片.txt', '本文件夹中没有任务图片');
         }
 
         $this->zip->add_data($data);
-        $this->zip->archive($archive_path);
-        wap::write_file_complete_flag($archive_path);
+        $this->zip->archive($image_file_zip_path);
+        wap::write_file_complete_flag($image_file_zip_path);
+
+    }
+
+    // 根据task_map_id来生成图片和excel压缩包
+    private function __prepare_images_zip_and_excel_by_map_id($task_id, $task_map_id) {
+        $info          = $this->__get_platform_task_model()->selectById($task_id);
+        $task_map_info = $this->__get_platform_task_map_model()->selectById($task_map_id);
+
+        $sub_file_name = "{$info['task_name']}-{$task_id}-{$task_map_info['media_man_user_name']}-{$task_map_id}";
+
+        // 生成excel文件
+        $csv_file_path = FCPATH . '/zip/' . "{$sub_file_name}.csv";
+        $this->_export_csv4task_map([$task_map_info], $csv_file_path);
+
+        // 生成图片压缩包
+        $image_file_zip_path = FCPATH . '/zip/' . "{$sub_file_name}-images.zip";
+        $this->__create_image_zip($task_map_id, $image_file_zip_path);
+
+        // 打包excel文件和图片压缩包到一个文件
+        $this->load->library('zip');
+        $zip_file_path = FCPATH . '/zip/' . "{$sub_file_name}.zip";
+
+        $data[basename($csv_file_path)]       = file_get_contents($csv_file_path);
+        $data[basename($image_file_zip_path)] = file_get_contents($image_file_zip_path);
+        $this->zip->add_data($data);
+        $this->zip->archive($zip_file_path);
+        wap::write_file_complete_flag($zip_file_path);
+
+    }
+
+    // 导出任务交付记录到CSV文件
+    private function _export_csv4task_map($data, $csv_file_path) {
+        set_time_limit(0);
+        wap::create_folders(dirname($csv_file_path));
+
+        // 导出CSV
+        $title_arr = [
+            '序号', '用户名', '状态', '发送时间', '领取/拒绝时间', '完成时间', '链接',
+        ];
+        $str       = implode(",", $title_arr);
+        $str       = $str . PHP_EOL;
+        $str       = iconv('utf-8', "gb2312//IGNORE", $str);// '一'bug 必须带上//IGNORE
+        file_put_contents($csv_file_path, $str);
+
+        foreach ($data as $k => $v) {
+
+            $task_map_id         = $v['task_map_id'];
+            $media_man_user_name = $v['media_man_user_name'];
+            $status              = $v['status'];
+            $create_time         = $v['create_time'];
+            $receive_time        = $v['receive_time'];
+            $deliver_time        = $v['deliver_time'];
+            $deliver_link        = $v['deliver_link'];
+
+            $value_arr = [
+                $task_map_id, $media_man_user_name, $status, $create_time,
+                $receive_time, $deliver_time, $deliver_link,
+            ];
+
+            $value = implode(",", $value_arr);
+            $value = $value . PHP_EOL;
+            $value = iconv('utf-8', "gb2312//IGNORE", $value);// '一'bug 必须带上//IGNORE
+            file_put_contents($csv_file_path, $value, FILE_APPEND);
+
+        }
 
     }
 

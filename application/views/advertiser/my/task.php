@@ -14,9 +14,9 @@
         <div class="main" id="app" style="margin: 0;">
             <ul class="my_task" style="display:none;">
                 <li class="task_box" v-for="item in lists">
-                    <a href="#">
+                    <a class="a_box" :href="'/advertiser/index/taskInfo?task_id='+item.task_id">
                     <div class="top wait" :class="task_status_class(item)">
-                        <p class="name">{{item.task_name}}</a></p>
+                        <p class="name">{{item.task_name}}</p>
                         <p class="status">● {{task_status(item)}}</p>
                     </div>
                     <div class="context">

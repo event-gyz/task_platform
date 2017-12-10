@@ -35,13 +35,13 @@ class Index extends CI_Controller {
                 redirect(wap::get_server_address_and_port().'/media/login/accountStatus2');
             }else if($userInfo['audit_status']==0){
                 //跳到待审核页面
-                redirect(wap::get_server_address_and_port().'media/login/accountStatus3');
+                redirect(wap::get_server_address_and_port().'/media/login/accountStatus3');
             }else if($userInfo['audit_status']==2){
                 //跳到驳回页面
-                redirect(wap::get_server_address_and_port().'media/login/accountStatus4');
+                redirect(wap::get_server_address_and_port().'/media/login/accountStatus4');
             }else if($userInfo['status']==9){
                 //跳到冻结页面
-                redirect(wap::get_server_address_and_port().'media/login/accountStatus5');
+                redirect(wap::get_server_address_and_port().'/media/login/accountStatus5');
             }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
                 return true;
             }
@@ -110,13 +110,18 @@ class Index extends CI_Controller {
             $data['school_area'] = $schoolAddress[2];
             //通过session获取用户信息
             $userInfo = $this->__get_user_session();
-
             $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
-            $this->__set_user_session();
             if ($re) {
+                $userInfo = array_merge($userInfo,$data);
+                $this->session->set_userdata($this->_user_info,$userInfo);
                 $this->__saveLog($userInfo['media_man_id'],11,'保存自媒体人基础信息',$userInfo,$data);
                 $this->_return['errorno'] = '1';
                 $this->_return['msg'] = '保存成功';
+                echo json_encode($this->_return);
+                exit;
+            }else{
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '请修改信息后再提交';
                 echo json_encode($this->_return);
                 exit;
             }
@@ -614,12 +619,6 @@ class Index extends CI_Controller {
             redirect(wap::get_server_address_and_port().'/media/login/login');
         }
         return $userSession;
-    }
-
-    private function __set_user_session(){
-        $userInfo = $this->__get_user_session();
-        $userInfo = $this->__get_media_man_model()->selectById($userInfo['media_man_id']);
-        $this->session->set_userdata($this->_user_info,$userInfo);
     }
 
 
