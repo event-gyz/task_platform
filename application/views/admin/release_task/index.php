@@ -300,65 +300,6 @@
         fmtResTableData: function () {
             // 处理服务端返回的数据
             return _.map(this.tableData, function (info) {
-
-                let status       = '';
-                let receive_time = '';// 领取/拒绝时间
-                let deliver_time = '';// 完成时间
-
-                // 待领取：当系统将任务发送给自媒体人时，状态显示待领取，发送时间显示具体的发送时间。
-                // 已领取：当自媒体人在wap端操作领取时，则状态显示为已领取，领取/拒绝时间显示操作领取的具体时间。
-                // 已拒绝：当自媒体人在wap端操作拒绝时，则状态显示为已拒绝，领取/拒绝时间显示操作拒绝的具体时间。
-                // 待结果确认：当自媒体人在wap端交付了任务时，则状态变更为待结果确认。
-                // 已完成：当自媒体人交付的结果审核通过时，则状态变更为已完成，完成时间显示操作通过的具体时间。
-                // 审核驳回：当自媒体人交付的结果审核不通过时，则状态变更为审核驳回，完成时间显示操作驳回的具体时间，当审核结果二次提交审核后，则状态变更为待审核(待结果确认)。
-
-                if (info.receive_status === "0") {
-                    status = '待领取';
-                }
-
-                if (info.receive_status === "1") {
-                    status       = '已领取';
-                    receive_time = info.receive_time;
-                }
-
-                if (info.receive_status === "2") {
-                    status       = '已拒绝';
-                    receive_time = info.receive_time;
-                }
-
-                if (
-                    (info.receive_status === "1") &&
-                    (info.deliver_status === "1") &&
-                    (info.deliver_audit_status === "0")
-                ) {
-                    status       = '待结果确认';
-                    receive_time = info.receive_time;
-                }
-
-                if (
-                    (info.receive_status === "1") &&
-                    (info.deliver_status === "1") &&
-                    (info.deliver_audit_status === "1")
-                ) {
-                    status       = '已完成';
-                    receive_time = info.receive_time;
-                    deliver_time = info.update_time;
-                }
-
-                if (
-                    (info.receive_status === "1") &&
-                    (info.deliver_status === "1") &&
-                    (info.deliver_audit_status === "2")
-                ) {
-                    status       = '审核驳回';
-                    receive_time = info.receive_time;
-                    deliver_time = info.update_time;
-                }
-
-                info.status       = status;
-                info.receive_time = receive_time;
-                info.deliver_time = deliver_time;
-
                 return info;
             });
         }
