@@ -134,7 +134,26 @@ var app = new Vue({
             }else if(obj.receive_status==2){
                 return 'close';
             }
+        },
+        sk: function(id){
+            util.confirm('确认执行此操作吗？',function(){
+                $.ajax({
+                    url: "/media/index/receivables",
+                    dataType: 'json',
+                    type:"post",
+                    data:{task_id:id},
+                    success: function(res) {
+                        if(res.errorno >= 0){
+                            window.location.reload();
+                        }else{//无任务
+                            util.tips(res.msg);
+                        }
+                    },
+                    error:function(){
+                        util.tips('网络异常，请尝试刷新！');
+                    }
+                })
+            },function(){});
         }
-
     }
 });
