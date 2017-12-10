@@ -119,36 +119,11 @@ var app = new Vue({
         },
         save: function(){
             var _this = this;
-            if(!this.wx){
-                util.tips('请输入微信号！');
-                return;
-            }
-            if(!this.wxType){
-                util.tips('请选择微信号类型！');
-                return;
-            }
-            if(!this.wxNumber){
-                util.tips('请输入微信最高粉丝量！');
-                return;
-            }
-            if(!this.wb){
-                util.tips('请输入微博昵称！');
-                return;
-            }
-            if(!this.wbType){
-                util.tips('请选择微博类型！');
-                return;
-            }
-            if(!this.wbNumber){
-                util.tips('请输入微博最高粉丝量！');
-                return;
-            }
-            if(!this.wbUrl){
-                util.tips('请输入微博链接！');
-                return;
-            }else if(!util.regexp.url.test(this.wbUrl)){
-                util.tips('微博链接格式错误！');
-                return;
+            if(this.wbUrl){
+                if(!util.regexp.url.test(this.wbUrl)){
+                    util.tips('微博链接格式错误！');
+                    return;
+                }
             }
             $.ajax({
                 url: "/media/index/savePromotedInfo",

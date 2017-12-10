@@ -122,7 +122,33 @@ var app = new Vue({
             }else{
                 return 'wait';
             }
+        },
+        //确认付款
+        qrfk: function(id,index){
+            var _this = this;
+            util.confirm('是否确认已付款',function(){
+                $.ajax({
+                    url: "/advertiser/index/payTask",
+                    dataType: 'json',
+                    type:"post",
+                    data:{task_id:id},
+                    success: function(res) {
+                        if(res.errorno >= 0){
+                            var data = res.data;
+                            _this.lists[index].pay_status = data.pay_status;
+                            _this.lists[index].finance_status = data.finance_status;
+                        }else{
+                            util.tips(res.msg);
+                        }
+                    },
+                    error:function(){
+                        util.tips('网络异常，请尝试刷新！');
+                    }
+                })
+            },function(){});
+
         }
+
     }
 });
 

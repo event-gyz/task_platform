@@ -13,7 +13,7 @@
     <body>
         <div class="main" id="app" style="margin: 0;">
             <ul class="my_task" style="display:none;">
-                <li class="task_box" v-for="item in lists">
+                <li class="task_box" v-for="(item,index) in lists">
                     <a class="a_box" :href="'/advertiser/index/taskInfo?task_id='+item.task_id">
                     <div class="top wait" :class="task_status_class(item)">
                         <p class="name">{{item.task_name}}</p>
@@ -43,9 +43,9 @@
                             <td><a class="a_box warn" href="#">结束</a></td>
                         </tr>
                     </table>
-                    <table v-if="task_status(item) == '代付款'" class="task_table" style="width: 100%"><!--代付款-->
+                    <table v-if="task_status(item) == '待付款'" class="task_table" style="width: 100%"><!--待付款-->
                         <tr>
-                            <td class="border"><a class="a_box pass" href="#">确认付款</a></td>
+                            <td class="border"><a class="a_box pass" href="#" @click="qrfk(item.task_id,index)">确认付款</a></td>
                             <td><a class="a_box warn" href="#">结束</a></td>
                         </tr>
                     </table>
