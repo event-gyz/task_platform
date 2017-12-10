@@ -508,14 +508,26 @@ class Release_task extends ADMIN_Controller {
         $this->_export_csv4task_map($task_map_list, $csv_file_path);
 
         // 根据单个任务生成图片压缩包
-        // $image_file_zip_path = FCPATH . "/zip/{$info['task_name']}-{$task_id}/" . "{$sub_file_name}-images.zip";
-        // $this->__create_image_zip($task_map_id, $image_file_zip_path);
+        $image_file_zip_path_arr = [];
+        foreach ($task_map_list as $task_map_info) {
+            $image_arr = json_decode($task_map_info['deliver_images'], true);
+            if (empty($image_arr)) {
+                continue;
+            }
+
+            $task_map_id         = $task_map_info['task_map_id'];
+            $image_sub_file_name = "{$info['task_name']}-{$task_id}-{$task_map_info['media_man_user_name']}-{$task_map_id}";
+            $image_file_zip_path = FCPATH . "/zip/{$info['task_name']}-{$task_id}/" . "{$image_sub_file_name}-images.zip";
+            $this->__create_image_zip($task_map_id, $image_file_zip_path);
+            $image_file_zip_path_arr[] = $image_file_zip_path;
+        }
+
+        foreach ($image_file_zip_path_arr as $v) {
+            $this->zip->read_file($v);
+        }
 
         // 打包excel文件和图片压缩包到一个文件
-        // $this->zip->clear_data();// 清除压缩包缓存,防止打包会产生多余文件
-        $this->load->library('zip');
         $this->zip->read_file($csv_file_path);
-        // $this->zip->read_file($image_file_zip_path);
         $this->zip->archive($zip_file_path);
         wap::write_file_complete_flag($zip_file_path);
     }
@@ -537,7 +549,6 @@ class Release_task extends ADMIN_Controller {
         $this->__create_image_zip($task_map_id, $image_file_zip_path);
 
         // 打包excel文件和图片压缩包到一个文件
-        $this->zip->clear_data();// 清除压缩包缓存,防止打包会产生多余文件
         $this->zip->read_file($csv_file_path);
         $this->zip->read_file($image_file_zip_path);
         $this->zip->archive($zip_file_path);
@@ -570,6 +581,7 @@ class Release_task extends ADMIN_Controller {
 
         $this->zip->add_data($data);
         $this->zip->archive($image_file_zip_path);
+        $this->zip->clear_data();// 清除压缩包缓存,防止其他打包操作会产生多余文件
         wap::write_file_complete_flag($image_file_zip_path);
 
     }
