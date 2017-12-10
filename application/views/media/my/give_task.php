@@ -13,14 +13,13 @@
             <div class="login-style">
                 <div class="input-box">
                     <table>
-                        <tr>
+                        <tr v-if="type.indexOf('1') != -1">
                             <th align="left" class="border_bottom" width="90px;">任务结果链接</th>
-                            <td class="border_bottom">
-<!--                                todo 审核失败以后原数据要显示-->
+                            <td class="border_bottom" id="info">
                                 <input type="text" v-model="url" placeholder="请输入，以http://或https://开头">
                             </td>
                         </tr>
-                        <tr>
+                        <tr v-if="type.indexOf('2') != -1">
                             <th align="left" width="60px;" valign="top"><br>任务结果图片</th>
                             <td>
                                 <ul class="generalize_img_box">

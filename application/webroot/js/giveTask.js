@@ -28,7 +28,7 @@ var app = new Vue({
                 success: function(res) {
                     if(res.errorno >= 0){
                         _this.url = res.data.deliver_link;
-                        _this.imgs = res.data.deliver_images;
+                        _this.imgs = JSON.parse(res.data.deliver_images);
                         _this.type = res.data.completion_criteria.split(',');
                     }else{
                         util.tips(res.msg);
@@ -77,12 +77,14 @@ var app = new Vue({
         },
         save: function(){
             var _this = this;
-            if(!this.url){
-                util.tips('请输入任务结果链接！');
-                return;
-            }else if(!util.regexp.url.test(this.url)){
-                util.tips('任务结果链接格式错误！');
-                return;
+            if($('#info').length){
+                if(!this.url){
+                    util.tips('请输入任务结果链接！');
+                    return;
+                }else if(!util.regexp.url.test(this.url)){
+                    util.tips('任务结果链接格式错误！');
+                    return;
+                }
             }
             if($('.generalize_img_box').length){
                 if(!this.imgs.length){
