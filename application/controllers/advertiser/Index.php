@@ -467,9 +467,12 @@ class Index extends CI_Controller {
         $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 0;
         $info ['release_status'] = 7;
 
-        $data = $this->__checkTaskWhetherBelongUser($task_id,$this->_endTask);
+        $this->__checkTaskWhetherBelongUser($task_id,$this->_endTask);
 
         $result = $this->__get_task_model()->updateInfo($task_id,$info);
+
+        $where['task_id'] = $task_id;
+        $data = $this->__get_task_model()->selectByCondition($where);
         if(!empty($result)){
             $this->__saveLog($task_id,10,'结束任务','','');
             $this->_return['errorno'] = 1;
@@ -534,9 +537,12 @@ class Index extends CI_Controller {
 
         $info ['pay_status'] = 1;
 
-        $data = $this->__checkTaskWhetherBelongUser($task_id,$this->_payTask);
+        $this->__checkTaskWhetherBelongUser($task_id,$this->_payTask);
 
         $result = $this->__get_task_model()->updateInfo($task_id,$info);
+
+        $where['task_id'] = $task_id;
+        $data = $this->__get_task_model()->selectByCondition($where);
         if(!empty($result)){
             $this->__saveLog($task_id,13,'确认付款','','');
             $this->_return['errorno'] = 1;
