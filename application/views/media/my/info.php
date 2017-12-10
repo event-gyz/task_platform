@@ -205,7 +205,7 @@
                 <!--待确认收款-->
                 <table class="info_table">
                     <tr>
-                        <td><a href="#" class="confirmReceivables">确认收款</a></td>
+                        <td><a href="#" class="common_button confirmReceivables">确认收款</a></td>
                     </tr>
                 </table>
                 <!--待确认收款-end-->
