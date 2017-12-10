@@ -443,9 +443,12 @@ class Index extends CI_Controller {
         $task_id = (isset($_POST['task_id'])&&!empty($_POST['task_id'])) ? $_POST['task_id'] : 0;
         $info ['audit_status'] = 1;
 
-        $data = $this->__checkTaskWhetherBelongUser($task_id,$this->_submitAudit);
+        $this->__checkTaskWhetherBelongUser($task_id,$this->_submitAudit);
 
         $result = $this->__get_task_model()->updateInfo($task_id,$info);
+
+        $where['task_id'] = $task_id;
+        $data = $this->__get_task_model()->getAdvertiserTaskDetailByCondition($where);
         if(!empty($result)){
             $this->__saveLog($task_id,3,'提交审核','','');
             $this->_return['errorno'] = 1;
@@ -472,7 +475,7 @@ class Index extends CI_Controller {
         $result = $this->__get_task_model()->updateInfo($task_id,$info);
 
         $where['task_id'] = $task_id;
-        $data = $this->__get_task_model()->selectByCondition($where);
+        $data = $this->__get_task_model()->getAdvertiserTaskDetailByCondition($where);
         if(!empty($result)){
             $this->__saveLog($task_id,10,'结束任务','','');
             $this->_return['errorno'] = 1;
@@ -542,8 +545,12 @@ class Index extends CI_Controller {
         $result = $this->__get_task_model()->updateInfo($task_id,$info);
 
         $where['task_id'] = $task_id;
-        $data = $this->__get_task_model()->selectByCondition($where);
+        $data = $this->__get_task_model()->getAdvertiserTaskDetailByCondition($where);
         if(!empty($result)){
+            $paymentData=[
+                'task_id'=>$task_id
+            ];
+            $this->__get_task_payment()->insert($paymentData);
             $this->__saveLog($task_id,13,'确认付款','','');
             $this->_return['errorno'] = 1;
             $this->_return['msg'] = '操作成功';
@@ -745,6 +752,14 @@ class Index extends CI_Controller {
     private function __get_task_model() {
         $this->load->model('Platform_task_model');
         return $this->Platform_task_model;
+    }
+
+    /**
+     * @return Platform_task_payment_model
+     */
+    private function __get_task_payment() {
+        $this->load->model('Platform_task_payment_model');
+        return $this->Platform_task_payment_model;
     }
 
 
