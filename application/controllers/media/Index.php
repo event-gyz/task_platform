@@ -112,6 +112,7 @@ class Index extends CI_Controller {
             $userInfo = $this->__get_user_session();
 
             $re = $this->__get_media_man_model()->updateInfo($userInfo['media_man_id'],$data);
+            $this->__set_user_session();
             if ($re) {
                 $this->__saveLog($userInfo['media_man_id'],11,'保存自媒体人基础信息',$userInfo,$data);
                 $this->_return['errorno'] = '1';
@@ -615,6 +616,11 @@ class Index extends CI_Controller {
         return $userSession;
     }
 
+    private function __set_user_session(){
+        $userInfo = $this->__get_user_session();
+        $userInfo = $this->__get_media_man_model()->selectById($userInfo['media_man_id']);
+        $this->session->set_userdata($this->_user_info,$userInfo);
+    }
 
 
     /**
