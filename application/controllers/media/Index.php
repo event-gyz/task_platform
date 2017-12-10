@@ -687,6 +687,7 @@ class Index extends CI_Controller {
             'new_data'        => json_encode($new_data),
         ];
         $this->__get_log_model()->insert($data);
+        return true;
     }
 
     /**
