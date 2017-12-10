@@ -477,11 +477,9 @@ class Release_task extends ADMIN_Controller {
         $this->__create_image_zip($task_map_id, $image_file_zip_path);
 
         // 打包excel文件和图片压缩包到一个文件
-        $this->load->library('zip');
-
-        $data[basename($csv_file_path)]       = file_get_contents($csv_file_path);
-        $data[basename($image_file_zip_path)] = file_get_contents($image_file_zip_path);
-        $this->zip->add_data($data);
+        $this->zip->clear_data();// 清除压缩包缓存,防止打包会产生多余文件
+        $this->zip->read_file($csv_file_path);
+        $this->zip->read_file($image_file_zip_path);
         $this->zip->archive($zip_file_path);
         wap::write_file_complete_flag($zip_file_path);
 
