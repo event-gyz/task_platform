@@ -518,7 +518,7 @@ class Release_task extends ADMIN_Controller {
             $task_map_id         = $task_map_info['task_map_id'];
             $image_sub_file_name = "{$info['task_name']}-{$task_id}-{$task_map_info['media_man_user_name']}-{$task_map_id}";
             $image_file_zip_path = FCPATH . "/zip/{$info['task_name']}-{$task_id}/" . "{$image_sub_file_name}-images.zip";
-            $this->__create_image_zip($task_map_id, $image_file_zip_path);
+            $this->__create_image_zip4download_all($task_map_info, $image_file_zip_path);
             $image_file_zip_path_arr[] = $image_file_zip_path;
         }
 
@@ -583,6 +583,33 @@ class Release_task extends ADMIN_Controller {
         $this->zip->archive($image_file_zip_path);
         $this->zip->clear_data();// 清除压缩包缓存,防止其他打包操作会产生多余文件
         wap::write_file_complete_flag($image_file_zip_path);
+
+    }
+
+    private function __create_image_zip4download_all($task_map_info, $image_file_zip_path) {
+        set_time_limit(0);
+        wap::create_folders(dirname($image_file_zip_path));
+
+        $image_arr = json_decode($task_map_info['deliver_images'], true);
+
+        $this->load->library('zip');
+
+        $data = [];
+        foreach ($image_arr as $image) {
+            $image_file_path = FCPATH . $image;
+            if (is_file($image_file_path)) {
+                $image_file_key        = basename($image_file_path);
+                $data[$image_file_key] = file_get_contents($image_file_path);
+            }
+        }
+
+        if (empty($data)) {
+            $this->zip->add_data('没有图片.txt', '本文件夹中没有任务图片');
+        }
+
+        $this->zip->add_data($data);
+        $this->zip->archive($image_file_zip_path);
+        $this->zip->clear_data();// 清除压缩包缓存,防止其他打包操作会产生多余文件
 
     }
 
