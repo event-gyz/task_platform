@@ -261,7 +261,7 @@ var app = new Vue({
                 },
                 success: function(res) {
                     if(res.errorno > 0){
-                        location.href='/media/index/savePromotedInfo';
+                        location.href='/media/index/savePromotedInfo?flag=2';
                     }else{
                         util.tips(res.msg)
                     }
