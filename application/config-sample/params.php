@@ -158,3 +158,9 @@ $config['release_task_status'] = [
     '3' => '待确认完成',
 ];
 
+// 自媒体人结账列表中的财务状态
+$config['media_man_list_finance_status'] = [
+    '1' => '待付款',
+    '2' => '待确认收款',
+    '3' => '已完成',
+];
