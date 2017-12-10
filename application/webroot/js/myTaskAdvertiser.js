@@ -105,9 +105,9 @@ var app = new Vue({
                 return '待财务确认收款';
             }else if((obj.audit_status == 3) && (obj.release_status == 0) && (obj.pay_status == 1) && (obj.finance_status == 1)){
                 return '待发布';
-            }else if(obj.release_status == 1 && (time()>obj.start_time)){
+            }else if(obj.release_status == 1 && (time()<obj.start_time)){
                 return '待开始';
-            }else if(obj.release_status == 1 && (time()<obj.start_time) && (time()>obj.end_time)){
+            }else if(obj.release_status == 1 && (time()>obj.start_time) && (time()<obj.end_time)){
                 return '执行中';
             }
         },
@@ -170,8 +170,31 @@ var app = new Vue({
                     }
                 })
             },function(){});
+        },
+        //提交
+        submit: function(id,index){
+            var _this = this;
+            util.confirm('是否确认提交',function(){
+                $.ajax({
+                    url: "/advertiser/index/submitAudit",
+                    dataType: 'json',
+                    type:"post",
+                    data:{task_id:id},
+                    success: function(res) {
+                        if(res.errorno >= 0){
+                            var data = res.data;
+                            _this.lists[index].audit_status = data.audit_status;
+                            _this.lists[index].release_status = data.release_status;
+                        }else{
+                            util.tips(res.msg);
+                        }
+                    },
+                    error:function(){
+                        util.tips('网络异常，请尝试刷新！');
+                    }
+                })
+            },function(){});
         }
-
     }
 });
 
