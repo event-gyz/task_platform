@@ -84,7 +84,7 @@ var app = new Vue({
         //当前状态
         task_status: function(obj){
             function time(){return parseInt(moment().valueOf()/1000);}
-            if(obj.release_status == 9){
+            if(obj.release_status == 9 || obj.release_status == 8 || obj.release_status == 7){
                 return '已关闭';
             }else if(obj.release_status==7){
                 return '已结束';
