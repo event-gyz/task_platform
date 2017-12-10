@@ -246,8 +246,13 @@ class Platform_task_map_model extends MY_Model {
     }
 
     public function selectById($task_map_id) {
-        $query = $this->db->get_where($this->getTableName(), array('task_map_id' => $task_map_id));
-        return $query->row_array();
+        $query  = $this->db->get_where($this->getTableName(), array('task_map_id' => $task_map_id));
+        $result = $query->row_array();
+        if (!empty($result)) {
+            $list   = $this->__deal_list([$result]);
+            $result = $list[0];
+        }
+        return $result;
     }
 
     //todo 封装方法匹配自媒体人
