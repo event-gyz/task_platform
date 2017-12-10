@@ -412,3 +412,12 @@ table tr.no_bg div.bg {
     padding: 20px 10px;
     text-align: center;
 }
+
+.no_task {
+    padding: 30px 0;
+    text-align: center;
+    color: #666;
+}
+.no_task img {
+    width: 120px;
+}
