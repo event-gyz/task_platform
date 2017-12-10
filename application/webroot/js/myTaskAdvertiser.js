@@ -35,8 +35,6 @@ var app = new Vue({
                         _this.lists = _this.lists.concat(res.data.list);
                         _this.total = parseInt(res.data.total);
                         _this.page = parseInt(res.data.page);
-                        alert(res.data.list.length);
-                        alert(_this.lists.length);
                         if(_this.total<=_this.page*10){
                             $('.weui-loadmore').hide();
                         }
@@ -96,7 +94,7 @@ var app = new Vue({
                 return '已关闭';
             }else if((obj.audit_status == 0) && (obj.release_status == 0)){
                 return '待提交';
-            }else if((obj.audit_status == 1) && (boj.release_status == 0)){
+            }else if((obj.audit_status == 1) && (obj.release_status == 0)){
                 return '待审核';
             }else if((obj.audit_status == 2) && (obj.release_status == 0)){
                 return '驳回';

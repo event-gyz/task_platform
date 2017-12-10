@@ -106,7 +106,7 @@ var app = new Vue({
                             _this.task_id = task_id;//id
                         }else{
                             util.tips(res.msg)
-                            
+
                         }
                     },
                     error:function(){
