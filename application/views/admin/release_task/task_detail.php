@@ -171,7 +171,13 @@
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">任务发布情况分布</h3>
-                <button @click="" type="button" class="btn btn-primary btn-xs pull-right">下载全部</button>
+                <el-button @click.once="prepare_download_all_by_task_id"
+                           type="primary" size="mini" class="pull-right"
+                           v-if="is_show_download_all_btn(tableData)"
+                           all-result-button-id="all"
+                >
+                    下载全部
+                </el-button>
             </div>
             <div class="box-body">
 
@@ -687,6 +693,10 @@
             return false;
 
         },
+        is_show_download_all_btn            : function (rows) {
+            // 是否显示下载全部的按钮
+            return rows.length !== 0;
+        },
         update_deliver_audit_status         : async function (index, rows, deliver_audit_status) {
             try {
 
@@ -929,6 +939,97 @@
 
             }
         },
+        prepare_download_all_by_task_id     : async function () {
+            let task_id = this.task_id;
+
+            // 找到当前点击的按钮并添加加载样式
+            let loading_html = '<i class="el-icon-loading"></i><span>压缩包生成中...</span>';
+            let myselect     = "[all-result-button-id='all']";
+            $(myselect).addClass('is-loading');
+            $(myselect).html(loading_html);
+
+            try {
+                const url      = '/admin/release_task/prepare_download_all_by_task_id';
+                const response = await axios.post(url,
+                    {
+                        "task_id": task_id,
+                    }
+                );
+                const resData  = response.data;
+
+                if (resData.error_no !== 0) {
+                    $(myselect).removeClass('is-loading');
+                    $(myselect).html('下载全部');
+                    return this.$message.error(resData.msg)
+                }
+
+                let cur_zip_path = resData.data.file_path;
+
+                let params = {
+                    cur_zip_path  : cur_zip_path,
+                    cur_btn_select: myselect,
+                };
+
+                this.intervalId4all = setInterval(this.is_file_write_completed4all, 1000, params);
+            } catch (error) {
+                $(myselect).removeClass('is-loading');
+                $(myselect).html('下载全部');
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+        },
+        is_file_write_completed4all         : async function (params) {
+            try {
+                const url      = '/admin/release_task/is_file_write_completed';
+                const response = await axios.get(url, {
+                    params: {
+                        "file_path": params.cur_zip_path,
+                    }
+                });
+                const resData  = response.data;
+
+                if (resData.error_no === 0) {
+                    $(params.cur_btn_select).removeClass('is-loading');
+                    let loading_html = `<a href="${params.cur_zip_path}" style="color:white;cursor:pointer;">点击下载</a>`;
+                    $(params.cur_btn_select).html(loading_html);
+                    this.$message.success('全部结果的压缩包生成完毕,请点击下载');
+
+                    // 移除定时任务
+                    clearInterval(this.intervalId4all);
+                }
+            } catch (error) {
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+        },
     };
 
     const data = function () {
@@ -951,6 +1052,7 @@
             },
             intervalIds       : [],// 下载图片的定时任务的id数组
             intervalIds4finish: [],// 下载完成结果的定时任务的id数组
+            intervalId4all    : 0,// 下载全部结果的定时任务的id
         };
     };
 

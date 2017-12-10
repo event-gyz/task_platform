@@ -406,13 +406,13 @@ class Release_task extends ADMIN_Controller {
         $result = array(
             'error_no' => 0,
             'msg'      => '操作成功',
-            'data'     => ['file_path' => '/zip/' . $zip_file_name],
+            'data'     => ['file_path' => "/zip/{$info['task_name']}-{$task_id}/" . $zip_file_name],
         );
         echo json_encode($result);
 
         fastcgi_finish_request();
         // 异步调用
-        $image_file_zip_path = FCPATH . '/zip/' . $zip_file_name;
+        $image_file_zip_path = FCPATH . "/zip/{$info['task_name']}-{$task_id}/" . $zip_file_name;
         $this->__create_image_zip($task_map_id, $image_file_zip_path);
     }
 
@@ -451,14 +451,19 @@ class Release_task extends ADMIN_Controller {
         $result = array(
             'error_no' => 0,
             'msg'      => '操作成功',
-            'data'     => ['file_path' => '/zip/' . $zip_file_name],
+            'data'     => ['file_path' => "/zip/{$info['task_name']}-{$task_id}/" . $zip_file_name],
         );
         echo json_encode($result);
 
         fastcgi_finish_request();
         // 异步调用
-        $zip_file_path = FCPATH . '/zip/' . $zip_file_name;
+        $zip_file_path = FCPATH . "/zip/{$info['task_name']}-{$task_id}/" . $zip_file_name;
         $this->__prepare_images_zip_and_excel_by_map_id($task_id, $task_map_id, $zip_file_path);
+    }
+
+    // 下载全部交付任务的完成结果
+    public function prepare_download_all_by_task_id() {
+
     }
 
     // 根据task_id和task_map_id来生成图片和excel压缩包
@@ -469,19 +474,17 @@ class Release_task extends ADMIN_Controller {
         $sub_file_name = "{$info['task_name']}-{$task_id}-{$task_map_info['media_man_user_name']}-{$task_map_id}";
 
         // 生成excel文件
-        $csv_file_path = FCPATH . '/zip/' . "{$sub_file_name}.csv";
+        $csv_file_path = FCPATH . "/zip/{$info['task_name']}-{$task_id}/" . "{$sub_file_name}.csv";
         $this->_export_csv4task_map([$task_map_info], $csv_file_path);
 
         // 生成图片压缩包
-        $image_file_zip_path = FCPATH . '/zip/' . "{$sub_file_name}-images.zip";
+        $image_file_zip_path = FCPATH . "/zip/{$info['task_name']}-{$task_id}/" . "{$sub_file_name}-images.zip";
         $this->__create_image_zip($task_map_id, $image_file_zip_path);
 
         // 打包excel文件和图片压缩包到一个文件
-        $this->load->library('zip');
-
-        $data[basename($csv_file_path)]       = file_get_contents($csv_file_path);
-        $data[basename($image_file_zip_path)] = file_get_contents($image_file_zip_path);
-        $this->zip->add_data($data);
+        $this->zip->clear_data();// 清除压缩包缓存,防止打包会产生多余文件
+        $this->zip->read_file($csv_file_path);
+        $this->zip->read_file($image_file_zip_path);
         $this->zip->archive($zip_file_path);
         wap::write_file_complete_flag($zip_file_path);
 
