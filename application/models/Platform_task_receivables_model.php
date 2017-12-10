@@ -3,31 +3,37 @@
 /**
  * Class Platform_task_receivables_model
  */
-class Platform_task_receivables_model extends MY_Model{
+class Platform_task_receivables_model extends MY_Model {
 
     public $table = 'platform_task_receivables';
 
-    public function __construct(){
+    public function __construct() {
         parent::__construct();
     }
 
     /**
      * 自媒体人结账列表
+     *
      * @param $where
+     *
      * @return array
      */
     public function get_task_receivables_list_by_condition($where) {
 
-        $param = "pt.*,pmm.*,ptr.platform_pay_money,ptr.platform_pay_way,ptr.finance_status,ptr.pay_time";
-        $task_table = 'platform_task';
-        $task_map_table = 'platform_task_map';
+        $param           = "pt.*,pmm.*,ptr.platform_pay_money,ptr.platform_pay_way,ptr.finance_status,ptr.pay_time";
+        $task_table      = 'platform_task';
+        $task_map_table  = 'platform_task_map';
         $media_man_table = 'platform_media_man';
-        $sql = "SELECT [*] FROM `{$task_map_table}` AS ptm LEFT JOIN `{$this->table}` AS ptr on ptr.task_map_id=ptm.task_map_id LEFT JOIN `{$task_table}` AS pt ON pt.task_id=ptm.task_id LEFT JOIN `{$media_man_table}` AS pmm on pmm.media_man_id=ptm.media_man_user_id where 1=1 ";
+        $sql             = "SELECT [*] FROM `{$this->table}` AS ptr ";
+        $sql             .= "LEFT JOIN `{$task_map_table}` AS ptm on ptr.task_map_id = ptm.task_map_id ";
+        $sql             .= "LEFT JOIN `{$task_table}` AS pt ON pt.task_id = ptm.task_id ";
+        $sql             .= "LEFT JOIN `{$media_man_table}` AS pmm on pmm.media_man_id = ptm.media_man_user_id where 1=1 ";
 
         // 拼接查询条件
+
         // 根据用户名
-        if (isset($where['login_name']) && $where['login_name']) {
-            $sql .= sprintf(" AND pmm.media_man_login_name like '%s%%'", $where['login_name']);
+        if (isset($where['media_man_login_name']) && $where['media_man_login_name']) {
+            $sql .= sprintf(" AND pmm.media_man_login_name like '%s%%'", $where['media_man_login_name']);
         }
 
         // 根据学校名称
@@ -40,20 +46,25 @@ class Platform_task_receivables_model extends MY_Model{
             $sql .= sprintf(" AND pmm.zfb_nu like '%s%%'", $where['zfb_nu']);
         }
 
-        // 根据财务审核状态
-        if (isset($where['finance_status']) && $where['finance_status']) {
+        // 根据财务确认状态
+        if (isset($where['finance_status']) && $where['finance_status'] !== '') {
             $sql .= sprintf(" AND ptr.finance_status = %d", $where['finance_status']);
         }
 
+        // 根据自媒体人确认收款状态
+        if (isset($where['receivables_status']) && $where['receivables_status'] !== '') {
+            $sql .= sprintf(" AND ptm.receivables_status = %d", $where['receivables_status']);
+        }
+
         // 总数
-        $sqlCount = str_replace('[*]', 'count(ptm.task_map_id) AS c', $sql);
+        $sqlCount = str_replace('[*]', 'count(ptr.receivables_id) AS c', $sql);
         $total    = $this->getCount($sqlCount);
 
         if ($total === '0') {
             return ['total' => $total, 'list' => []];
         }
 
-        $sql .= ' ORDER BY ptm.task_map_id DESC';
+        $sql .= ' ORDER BY ptm.create_time DESC';
 
         $offset = isset($where['offset']) ? $where['offset'] : 0;
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
@@ -67,31 +78,17 @@ class Platform_task_receivables_model extends MY_Model{
         return $data;
     }
 
-    /**
-     * 修改广告主支付财务审核状态
-     * @return bool
-     */
-    public function updateStatus($where){
-        if(!isset($where['payment_id']) || empty($where['payment_id'])){
-            return false;
-        }else if(!isset($where['task_id']) || empty($where['task_id'])){
-            return false;
-        }
-        return $this->update(['finance_status'=>1], $where );
+    public function updateInfo($receivables_id, $info) {
+        $where = array('receivables_id' => $receivables_id);
+        return $this->update($info, $where);
     }
 
-    public function select_by_id($task_id) {
-        $query = $this->db->get_where($this->getTableName(), array('task_id' => $task_id));
+    public function selectById($receivables_id) {
+        $query = $this->db->get_where($this->getTableName(), array('receivables_id' => $receivables_id));
         return $query->row_array();
     }
 
-    public function insert($data){
-        if(!isset($data['task_id']) || empty($data['task_id'])){
-            return false;
-        }
-        if(!isset($data['pay_money']) && empty($data['pay_money'])){
-            return false;
-        }
+    public function insert($data) {
         $this->db->insert($this->table, $data);
         return $this->db->insert_id();
     }
