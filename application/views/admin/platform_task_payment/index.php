@@ -186,7 +186,7 @@
                                         ?>
 
                                         <?php if ($is_show_confirm_btn): ?>
-                                            <button @click="confirm_receive_money('<?= $value['payment_id'] ?>')"
+                                            <button @click="show_confirm_receive_money_dialog('<?= $value['payment_id'] ?>')"
                                                     type="button"
                                                     class="btn btn-primary btn-xs margin-r-5">确认收款
                                             </button>
@@ -214,6 +214,31 @@
 
         </div>
 
+        <el-dialog title="上传支付凭证" :visible.sync="dialogTableVisible" center>
+
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+
+                <el-form-item label="确认金额" prop="pay_money">
+                    <el-col :span="8">
+                        <el-input v-model="ruleForm.pay_money"></el-input>
+                    </el-col>
+                </el-form-item>
+
+
+                <el-form-item label="备注" prop="confirm_remark">
+                    <el-col :span="8">
+                        <el-input type="textarea" v-model="ruleForm.confirm_remark"></el-input>
+                    </el-col>
+                </el-form-item>
+
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="submitForm('ruleForm')">确 认</el-button>
+                <el-button type="info" @click="dialogTableVisible = false">关 闭</el-button>
+            </div>
+        </el-dialog>
+
     </section>
     <!-- /.content -->
 </div>
@@ -225,12 +250,35 @@
 
     const localComputed = {};
     const localMethods  = {
-        confirm_receive_money: function (payment_id) {
+        show_confirm_receive_money_dialog: function (payment_id) {
+            this.dialogTableVisible = true;
+        },
+        submitForm                       : function (formName) {
+            this.$refs[formName].validate((valid) => {
+
+                if (!valid) {
+                    return false;
+                }
+
+            });
         },
     };
     const data          = function () {
         return {
-            loading: false,// 是否显示加载
+            loading           : false,// 是否显示加载
+            dialogTableVisible: false,// 是否显示dialog
+            ruleForm          : {
+                pay_money     : '',
+                confirm_remark: ''
+            },
+            rules             : {
+                pay_money     : [
+                    {required: true, message: '确认金额', trigger: 'blur'}
+                ],
+                confirm_remark: [
+                    {required: false, message: '请填写备注', trigger: 'blur'}
+                ]
+            }
         };
     };
 
