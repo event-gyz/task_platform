@@ -232,7 +232,6 @@
                                 :data="upload_params"
                                 :action="uploadUrl"
                                 :multiple="true"
-                                :file-list="ruleForm.fileList"
                                 :auto-upload="false"
                                 :on-change="handleChange"
                         >
@@ -288,6 +287,10 @@
                     return false;
                 }
 
+                // todo 验证表单
+
+                console.log(this.ruleForm.fileList);
+
             });
         },
         submitUpload                     : function () {
@@ -305,6 +308,7 @@
                 }
 
                 if (response.error_no === 0) {
+                    this.ruleForm.fileList.push(response.data.file_path);
                     return this.$message.success(response.msg);
                 }
 
