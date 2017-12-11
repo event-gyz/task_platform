@@ -9,7 +9,7 @@ var app = new Vue({
         taskType:'',//任务类型
         taskTitle:'',//任务标题
         taskUrl:'',//任务链接
-        taskImg:[1],//任务图片
+        taskImg:[],//任务图片
         taskDes:'',//任务描述
         taskPrice:'',//任务单价
         numAsk:2,//账号要求（1=有要求，2=无要求）
@@ -183,6 +183,7 @@ var app = new Vue({
                 sourceType: ['album', 'camera'],
                 success: function (res) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    $('body').html(localIds);
                     _this.taskImg.push(localIds);
                 }
             });
