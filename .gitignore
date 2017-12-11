@@ -35,3 +35,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 desktop.ini
 application/webroot/zip
 application/webroot/upload
+application/webroot/js/wx/access_token.js
+application/webroot/js/wx/jsapi_ticket.js
