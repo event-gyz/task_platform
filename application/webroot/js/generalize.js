@@ -57,6 +57,7 @@ var app = new Vue({
                     }
                 ],
                 onChange:function(p, values, displayValues){
+                    $('input').onblur();
                     _this.taskType = values[0];
                 }
             });
@@ -136,6 +137,7 @@ var app = new Vue({
             $("#start_time").calendar({
                 minDate: moment().subtract(1, 'day').format('YYYY-MM-DD'),
                 onChange:function(p, values, displayValues){
+                    $('input').onblur();
                     _this.startTime=values[0];
                     var endTime = values;
                     if(_this.endTime){
@@ -150,6 +152,7 @@ var app = new Vue({
                         value: endTime,
                         minDate: moment(moment(values[0]).valueOf()).subtract(1, 'day').format('YYYY-MM-DD'),
                         onChange:function(p, values, displayValues){
+                            $('input').onblur();
                             _this.endTime=values[0];
                         },
                         onClose: function(){
@@ -164,6 +167,7 @@ var app = new Vue({
             $("#end_time").calendar({
                 minDate: moment().subtract(1, 'day').format('YYYY-MM-DD'),
                 onChange:function(p, values, displayValues){
+                    $('input').onblur();
                     _this.endTime=values[0];
                 },
                 onClose: function(){
