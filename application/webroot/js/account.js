@@ -76,6 +76,9 @@ var app = new Vue({
                         values: ['个人账号','企业号','订阅号','服务号']
                     }
                 ],
+                onOpen:function(){
+                    $('input').blur();
+                },
                 onChange:function(p, values, displayValues){
                     _this.wxType = values[0];
                 }
@@ -88,6 +91,9 @@ var app = new Vue({
                         values: ['普通用户','个人认证微博号','机构认证微博号']
                     }
                 ],
+                onOpen:function(){
+                    $('input').blur();
+                },
                 onChange:function(p, values, displayValues){
                     _this.wbType = values[0];
                 }

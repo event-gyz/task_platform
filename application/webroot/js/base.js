@@ -134,6 +134,9 @@ var app = new Vue({
                         values: ['男','女']
                     }
                 ],
+                onOpen:function(){
+                    $('input').blur();
+                },
                 onChange:function(p, values, displayValues){
                     _this.sex = values[0];
                 }
@@ -146,6 +149,9 @@ var app = new Vue({
                         values: ['工科','医药','财经','师范','综合','农业','理工','化工','海洋','艺术','政法']
                     }
                 ],
+                onOpen:function(){
+                    $('input').blur();
+                },
                 onChange:function(p, values, displayValues){
                     _this.schoolType = values[0];
                 }
@@ -158,12 +164,18 @@ var app = new Vue({
                         values: ['211/985','本科','专科']
                     }
                 ],
+                onOpen:function(){
+                    $('input').blur();
+                },
                 onChange:function(p, values, displayValues){
                     _this.schoolLevel = values[0];
                 }
             });
             $("#schoolAddress").cityPicker({
                 title: "请选择学校地区",
+                onOpen:function(){
+                    $('input').blur();
+                },
                 onChange:function(p, values, displayValues){
                     _this.schoolAddress = displayValues.join(' ');
                 }
