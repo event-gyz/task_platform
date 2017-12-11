@@ -64,6 +64,10 @@ $signPackage = $jssdk->GetSignPackage();
     <div style="padding-bottom: 20px;">
         <p class="button-box"><input type="button" @click="save" value="确认提交" class="common_button"></p>
     </div>
+    <input type="hidden" id="appId" value='<?php echo $signPackage["appId"];?>'>
+    <input type="hidden" id="timestamp" value='<?php echo $signPackage["timestamp"];?>'>
+    <input type="hidden" id="nonceStr" value='<?php echo $signPackage["nonceStr"];?>'>
+    <input type="hidden" id="signature" value='<?php echo $signPackage["signature"];?>'>
 </div>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript" src="/js/third/jquery.js"></script>
@@ -71,7 +75,7 @@ $signPackage = $jssdk->GetSignPackage();
 <script type="text/javascript" src="/js/third/vue.js"></script>
 <script type="text/javascript" src="/js/person.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-<script>
+<!--script>
     /*
      * 注意：
      * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
@@ -83,10 +87,19 @@ $signPackage = $jssdk->GetSignPackage();
      * 邮件主题：【微信JS-SDK反馈】具体问题
      * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
      */
-
+    wx.config({
+        debug: true,
+        appId: '<?php echo $signPackage["appId"];?>',
+        timestamp: <?php echo $signPackage["timestamp"];?>,
+        nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+        signature: '<?php echo $signPackage["signature"];?>',
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+        ]
+    });
     wx.ready(function () {
         // 在这里调用 API
     });
-</script>
+</script-->
 </body>
 </html>
