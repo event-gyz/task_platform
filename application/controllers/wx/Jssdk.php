@@ -104,11 +104,11 @@ class JSSDK  extends CI_Controller{
   }
 
   private function get_php_file($filename) {
-    return trim(substr(file_get_contents($filename), 15));
+    return trim(file_get_contents($filename));
   }
   private function set_php_file($filename, $content) {
     $fp = fopen($filename, "w");
-    fwrite($fp, "<?php exit();?>" . $content);
+    fwrite($fp, $content);
     fclose($fp);
   }
 }
