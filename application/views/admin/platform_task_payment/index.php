@@ -114,6 +114,7 @@
                                 <th>姓名/公司名称</th>
                                 <th>电话</th>
                                 <th>任务总金额</th>
+                                <th>付款总金额</th>
                                 <th>付款方式</th>
                                 <th>付款时间</th>
                                 <th>财务状态</th>
@@ -124,7 +125,7 @@
 
                             <?php foreach ($list as $value): ?>
                                 <tr>
-                                    <th><?= $value['task_id'] ?> </th>
+                                    <th><?= $value['task_id'] ?></th>
                                     <th><?= $value['task_name'] ?></th>
                                     <th><?= $value['advertiser_id'] ?></th>
                                     <th><?= $value['advertiser_login_name'] ?></th>
@@ -151,6 +152,7 @@
 
                                     </th>
                                     <th><?= $value['total_price'] ?></th>
+                                    <th><?= $value['pay_money'] ?></th>
                                     <th><?= $platform_pay_way_list[$value['pay_way']] ?></th>
                                     <th><?= $value['pay_time'] ?></th>
                                     <th>
@@ -184,7 +186,8 @@
                                         ?>
 
                                         <?php if ($is_show_confirm_btn): ?>
-                                            <button @click="" type="button"
+                                            <button @click="confirm_receive_money('<?= $value['payment_id'] ?>')"
+                                                    type="button"
                                                     class="btn btn-primary btn-xs margin-r-5">确认收款
                                             </button>
                                         <?php endif; ?>
@@ -221,7 +224,10 @@
 <script>
 
     const localComputed = {};
-    const localMethods  = {};
+    const localMethods  = {
+        confirm_receive_money: function (payment_id) {
+        },
+    };
     const data          = function () {
         return {
             loading: false,// 是否显示加载
