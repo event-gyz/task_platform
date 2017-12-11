@@ -3,12 +3,12 @@ class JSSDK  extends CI_Controller{
   private $appId;
   private $appSecret;
 
-  public function __construct($appId, $appSecret) {
-      parent::__construct ();
-    $this->appId = $appId;
-    $this->appSecret = $appSecret;
-    $this->load->helper('Wap');
-  }
+    public function __construct($appId, $appSecret) {
+        parent::__construct ();
+        $this->appId = $appId;
+        $this->appSecret = $appSecret;
+        $this->load->helper('Wap');
+    }
 
   public function getSignPackage() {
     $jsapiTicket = $this->getJsApiTicket();
