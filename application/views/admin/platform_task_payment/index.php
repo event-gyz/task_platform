@@ -218,6 +218,22 @@
 
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
 
+                <el-form-item label="上传凭证">
+                    <el-col :span="12">
+
+                        <el-upload
+                                action=""
+                                :multiple="true"
+                                :file-list="ruleForm.fileList"
+                                :auto-upload="false">
+                            <el-button slot="trigger" size="mini" type="primary">选取文件</el-button>
+                            <el-button size="mini" type="success" @click="submitUpload">上传到服务器</el-button>
+                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                        </el-upload>
+
+                    </el-col>
+                </el-form-item>
+
                 <el-form-item label="确认金额" prop="pay_money">
                     <el-col :span="8">
                         <el-input v-model="ruleForm.pay_money"></el-input>
@@ -262,14 +278,18 @@
 
             });
         },
+        submitUpload() {
+            // this.$refs.upload.submit();
+        },
     };
     const data          = function () {
         return {
             loading           : false,// 是否显示加载
-            dialogTableVisible: false,// 是否显示dialog
+            dialogTableVisible: true,// 是否显示dialog
             ruleForm          : {
                 pay_money     : '',
-                confirm_remark: ''
+                confirm_remark: '',
+                fileList      : [],
             },
             rules             : {
                 pay_money     : [
@@ -278,7 +298,7 @@
                 confirm_remark: [
                     {required: false, message: '请填写备注', trigger: 'blur'}
                 ]
-            }
+            },
         };
     };
 
