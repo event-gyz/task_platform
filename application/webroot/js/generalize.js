@@ -183,7 +183,8 @@ var app = new Vue({
                 sourceType: ['album', 'camera'],
                 success: function (res) {
                     var localIds = res.localIds.split(','); // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    _this.taskImg.concat(localIds);
+                    _this.taskImg = _this.taskImg.concat(localIds);
+                    alert(_this.taskImg.length);
                 }
             });
         },
