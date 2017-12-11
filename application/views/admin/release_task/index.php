@@ -475,18 +475,15 @@
                 type             : 'warning'
             }).then(async () => {
 
-                var close_reason = "";
                 await this.$prompt('请输入手工作废的原因', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText : '取消',
                     inputValidator   : (value) => { return value !== null; },
                     inputErrorMessage: '手工作废原因不能为空'
                 }).then(({value}) => {
-                    close_reason = value;
+                    this.do_update_task_release_status(task_id, '8', value);
                 }).catch(() => {
                 });
-
-                await this.do_update_task_release_status(task_id, '8', close_reason);
 
             }).catch(() => {
             });
