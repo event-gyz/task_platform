@@ -108,7 +108,7 @@ class JSSDK  extends CI_Controller{
   }
   private function set_php_file($filename, $content) {
 
-    $fp = fopen(dirname(__FILE__) .'/../../webroot/'.$filename, "w");
+    $fp = fopen(dirname(__FILE__) .'/../../webroot'.$filename, "w");
     fwrite($fp, $content);
     fclose($fp);
   }
