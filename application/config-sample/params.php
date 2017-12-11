@@ -170,3 +170,16 @@ $config['media_man_list_platform_pay_way'] = [
     '1' => '线下',
     '2' => '线上',
 ];
+
+// 广告主付款列表中的支付方式
+$config['adv_list_pay_way'] = [
+    '1' => '线下',
+    '2' => '线上',
+];
+
+// 广告主付款列表中的财务状态
+$config['adv_list_finance_status'] = [
+    '1' => '待财务确认',
+    '2' => '已支付',
+];
+
