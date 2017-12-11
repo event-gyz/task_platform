@@ -58,7 +58,7 @@ class JSSDK  extends CI_Controller{
       if ($ticket) {
         $data->expire_time = time() + 7000;
         $data->jsapi_ticket = $ticket;
-        $this->set_php_file("../../webroot/js/wx/jsapi_ticket.php", json_encode($data));
+        $this->set_php_file("./../../webroot/js/wx/jsapi_ticket.php", json_encode($data));
       }
     } else {
       $ticket = $data->jsapi_ticket;
@@ -79,7 +79,7 @@ class JSSDK  extends CI_Controller{
       if ($access_token) {
         $data->expire_time = time() + 7000;
         $data->access_token = $access_token;
-        $this->set_php_file("../../webroot/js/wx/access_token.php", json_encode($data));
+        $this->set_php_file("./../../webroot/js/wx/access_token.php", json_encode($data));
       }
     } else {
       $access_token = $data->access_token;
