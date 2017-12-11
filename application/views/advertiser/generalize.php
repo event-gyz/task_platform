@@ -1,3 +1,8 @@
+<?php
+require_once dirname(__FILE__)."./../../controllers/Jssdk.php";
+$jssdk = new JSSDK("wx286bc47fc04c2a25", "587babff126cb893ad86e58d04cbdf30");
+$signPackage = $jssdk->GetSignPackage();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -183,6 +188,10 @@
     <p><a href="/advertiser/index/my"><i class="iconfont">&#xe600;</i><br>我的</a></p>
 </div>
 <!--nav-end-->
+<input type="hidden" id="appId" value='<?php echo $signPackage["appId"];?>'>
+<input type="hidden" id="timestamp" value='<?php echo $signPackage["timestamp"];?>'>
+<input type="hidden" id="nonceStr" value='<?php echo $signPackage["nonceStr"];?>'>
+<input type="hidden" id="signature" value='<?php echo $signPackage["signature"];?>'>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript" src="/js/third/zepto.min.js"></script>
 <script type="text/javascript" src="/js/third/swiper-3.3.1.jquery.min.js"></script>
