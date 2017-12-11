@@ -26,7 +26,19 @@ var app = new Vue({
                     _this.flag = val;
                 }
             });
-
+            wx.config({
+                debug: true,
+                appId: '<?php echo $signPackage["appId"];?>',
+                timestamp: '<?php echo $signPackage["timestamp"];?>',
+                nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+                signature: '<?php echo $signPackage["signature"];?>',
+                jsApiList: [
+                    'chooseImage',
+                    'uploadImage',
+                    'downloadImage',
+                    'previewImage'
+                ]
+            });
             /*wx.config({
                 debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: 'aaa', // 必填，企业号的唯一标识，此处填写企业号corpid
@@ -96,7 +108,6 @@ var app = new Vue({
                 sourceType: ['album', 'camera'],
                 success: function (res) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    alert(localIds)
                     _this[name] = localIds;
                 }
             });
