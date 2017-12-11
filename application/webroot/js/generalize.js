@@ -56,8 +56,10 @@ var app = new Vue({
                         values: ['线下执行','线上传播','调查收集','其他']
                     }
                 ],
-                onChange:function(p, values, displayValues){
+                onOpen:function(){
                     $('input').blur();
+                },
+                onChange:function(p, values, displayValues){
                     _this.taskType = values[0];
                 }
             });
@@ -136,8 +138,10 @@ var app = new Vue({
             var _this = this;
             $("#start_time").calendar({
                 minDate: moment().subtract(1, 'day').format('YYYY-MM-DD'),
-                onChange:function(p, values, displayValues){
+                onOpen:function(){
                     $('input').blur();
+                },
+                onChange:function(p, values, displayValues){
                     _this.startTime=values[0];
                     var endTime = values;
                     if(_this.endTime){
@@ -151,8 +155,10 @@ var app = new Vue({
                     $("#end_time").calendar({
                         value: endTime,
                         minDate: moment(moment(values[0]).valueOf()).subtract(1, 'day').format('YYYY-MM-DD'),
-                        onChange:function(p, values, displayValues){
+                        onOpen:function(){
                             $('input').blur();
+                        },
+                        onChange:function(p, values, displayValues){
                             _this.endTime=values[0];
                         },
                         onClose: function(){
@@ -166,8 +172,10 @@ var app = new Vue({
             });
             $("#end_time").calendar({
                 minDate: moment().subtract(1, 'day').format('YYYY-MM-DD'),
-                onChange:function(p, values, displayValues){
+                onOpen:function(){
                     $('input').blur();
+                },
+                onChange:function(p, values, displayValues){
                     _this.endTime=values[0];
                 },
                 onClose: function(){
