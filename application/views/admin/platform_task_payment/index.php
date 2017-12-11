@@ -316,7 +316,7 @@
         return {
             loading           : false,// 是否显示加载
             upload_loading    : false,// 上传的加载框
-            dialogTableVisible: true,// 是否显示dialog
+            dialogTableVisible: false,// 是否显示dialog
             uploadUrl         : '/admin/platform_task_payment/upload_file',// 上传服务器地址
             upload_params     : {'task_id': 0},// 上传时附带的额外参数
             ruleForm          : {
