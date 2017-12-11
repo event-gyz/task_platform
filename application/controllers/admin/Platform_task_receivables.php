@@ -86,6 +86,38 @@ class Platform_task_receivables extends ADMIN_Controller {
         ];
     }
 
+    public function confirm_pay_money() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
+
+        $receivables_id = $req_data['receivables_id'];
+
+        if (empty($receivables_id)) {
+            return $this->response_json(1, 'receivables_id不能为空');
+        }
+
+        $info = $this->__get_platform_task_receivables_model()->selectById($receivables_id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应的信息');
+        }
+
+        $update_info['finance_status']    = 1;// 设定自媒体人结账记录为财务已确认付款
+        $update_info['confirming_person'] = $this->sys_user_info['id'];
+        $sys_log_content                  = "{$this->sys_user_info['user_name']}确认了付款";
+
+        $result = $this->__get_platform_task_receivables_model()->updateInfo($receivables_id, $update_info);
+
+        if ($result === 1) {
+
+            $this->add_sys_log(13, $sys_log_content, $receivables_id, json_encode($info), json_encode($update_info));
+
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(1, '非法操作');
+    }
+
     /**
      * @return Platform_task_receivables_model
      */
