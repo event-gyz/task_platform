@@ -2,6 +2,7 @@
 require_once "Jssdk.php";
 $jssdk = new JSSDK("wx286bc47fc04c2a25", "587babff126cb893ad86e58d04cbdf30");
 $signPackage = $jssdk->GetSignPackage();
+print_r($signPackage);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +13,7 @@ $signPackage = $jssdk->GetSignPackage();
 <body>
   
 </body>
-<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script>
   /*
    * 注意：
