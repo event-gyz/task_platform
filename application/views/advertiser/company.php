@@ -49,6 +49,10 @@
             <div style="padding-bottom: 20px;">
                 <p class="button-box"><input type="button" @click="save" value="确认提交" class="common_button"></p>
             </div>
+            <input type="hidden" id="appId" value='<?php echo $signPackage["appId"];?>'>
+            <input type="hidden" id="timestamp" value='<?php echo $signPackage["timestamp"];?>'>
+            <input type="hidden" id="nonceStr" value='<?php echo $signPackage["nonceStr"];?>'>
+            <input type="hidden" id="signature" value='<?php echo $signPackage["signature"];?>'>
         </div>
         <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
         <script type="text/javascript" src="/js/third/jquery.js"></script>

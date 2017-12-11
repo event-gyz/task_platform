@@ -27,7 +27,7 @@ var app = new Vue({
                 }
             });
             wx.config({
-                debug: true,
+                debug: false,
                 appId: $('#appId').val(),
                 timestamp: $('#timestamp').val(),
                 nonceStr: $('#nonceStr').val(),
@@ -119,18 +119,18 @@ var app = new Vue({
                 util.tips('身份证号格式错误！');
                 return;
             }
-            // if(!this.frontCard){
-            //     util.tips('请上传身份证正面照片！');
-            //     return;
-            // }
-            // if(!this.backCard){
-            //     util.tips('请上传身份证背面照片！');
-            //     return;
-            // }
-            // if(!this.card){
-            //     util.tips('请上传手持身份证照片！');
-            //     return;
-            // }
+            if(!this.frontCard){
+                util.tips('请上传身份证正面照片！');
+                return;
+            }
+            if(!this.backCard){
+                util.tips('请上传身份证背面照片！');
+                return;
+            }
+            if(!this.card){
+                util.tips('请上传手持身份证照片！');
+                return;
+            }
             $.ajax({
                 url: "/advertiser/index/saveInfo",
                 dataType: 'json',
