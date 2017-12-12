@@ -212,7 +212,6 @@ var app = new Vue({
                                         if(res.errorno >= 0){
                                             var url = '/'+res.data;
                                             _this.taskImg.push(url);
-                                            alert(_this.taskImg);
                                         }else{
                                             util.tips(res.msg)
                                         }
