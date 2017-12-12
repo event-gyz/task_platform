@@ -83,6 +83,23 @@ class Platform_task_receivables_model extends MY_Model {
         return $data;
     }
 
+    public function get_all_task_receivables_list() {
+        $param_arr = [
+            'pt.*', 'pmm.*', 'ptm.receivables_status',
+            'ptr.platform_pay_money', 'ptr.receivables_id', 'ptr.platform_pay_way',
+            'ptr.finance_status', 'ptr.pay_time',
+        ];
+        $fields    = implode(',', $param_arr);
+        $this->db->select($fields);
+        $this->db->from(" `{$this->getTableName()}` AS ptr");
+        $this->db->join(' `platform_task_map` AS ptm', 'ptr.task_map_id = ptm.task_map_id', 'LEFT');
+        $this->db->join(' `platform_task` AS pt', 'pt.task_id = ptm.task_id', 'LEFT');
+        $this->db->join(' `platform_media_man` AS pmm', 'pmm.media_man_id = ptm.media_man_user_id', 'LEFT');
+        $this->db->order_by('ptm.create_time', 'DESC');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function updateInfo($receivables_id, $info) {
         $where = array('receivables_id' => $receivables_id);
         return $this->update($info, $where);

@@ -88,6 +88,9 @@
                                         <label for="sex" class="col-sm-3 control-label"></label>
                                         <div class="col-sm-7">
                                             <button type="submit" class="btn btn-info">搜索</button>
+                                            <el-button button-id="export" @click="prepare_export_receivables"
+                                                       type="primary" size="small">导出
+                                            </el-button>
                                         </div>
                                     </div>
 
@@ -203,7 +206,7 @@
 
     const localComputed = {};
     const localMethods  = {
-        confirm_pay_money   : function (receivables_id, task_name) {
+        confirm_pay_money         : function (receivables_id, task_name) {
 
             let message = `确认任务 ${task_name} 已付款了吗？`;
 
@@ -217,7 +220,7 @@
             });
 
         },
-        do_confirm_pay_money: async function (receivables_id, task_name) {
+        do_confirm_pay_money      : async function (receivables_id, task_name) {
             try {
                 this.loading   = true;
                 const url      = '/admin/platform_task_receivables/confirm_pay_money';
@@ -258,10 +261,97 @@
 
             }
         },
+        prepare_export_receivables: async function () {
+
+            // 找到当前点击的按钮并添加加载样式
+            let loading_html = '<i class="el-icon-loading"></i><span>excel生成中...</span>';
+            let myselect     = "[button-id='export']";
+            $(myselect).addClass('is-loading');
+            $(myselect).html(loading_html);
+
+            try {
+                const url      = '/admin/platform_task_receivables/prepare_export_receivables';
+                const response = await axios.post(url);
+                const resData  = response.data;
+
+                if (resData.error_no !== 0) {
+                    $(myselect).removeClass('is-loading');
+                    $(myselect).html('导出');
+                    return this.$message.error(resData.msg)
+                }
+
+                let cur_excel_path = resData.data.file_path;
+
+                let params = {
+                    cur_excel_path: cur_excel_path,
+                    cur_btn_select: myselect,
+                };
+
+                this.intervalId = setInterval(this.is_file_write_completed, 1000, params);
+            } catch (error) {
+                $(myselect).removeClass('is-loading');
+                $(myselect).html('导出');
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+        },
+        is_file_write_completed   : async function (params) {
+            try {
+                const url      = '/admin/platform_task_receivables/is_file_write_completed';
+                const response = await axios.get(url, {
+                    params: {
+                        "file_path": params.cur_excel_path,
+                    }
+                });
+                const resData  = response.data;
+
+                if (resData.error_no === 0) {
+                    $(params.cur_btn_select).removeClass('is-loading');
+                    let loading_html = `<a href="${params.cur_zip_path}" style="color:white;cursor:pointer;">点击下载</a>`;
+                    $(params.cur_btn_select).html(loading_html);
+                    this.$message.success('excel生成完毕,请点击下载');
+
+                    // 移除定时任务
+                    clearInterval(this.intervalId);
+                }
+            } catch (error) {
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+        },
     };
     const data          = function () {
         return {
-            loading: false,// 是否显示加载
+            loading   : false,// 是否显示加载
+            intervalId: 0,
         };
     };
 

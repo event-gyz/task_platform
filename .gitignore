@@ -34,6 +34,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/results/
 desktop.ini
 application/webroot/zip
+application/webroot/excel
 application/webroot/upload
 application/controllers/access_token.js
 application/controllers/jsapi_ticket.js
