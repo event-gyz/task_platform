@@ -210,7 +210,9 @@ var app = new Vue({
                                     },
                                     success: function(res) {
                                         if(res.errorno >= 0){
-                                            _this.taskImg = _this.taskImg.push('/'+JSON.parse(res.data));
+                                            var url = '/'+JSON.parse(res.data);
+                                            alert(url);
+                                            _this.taskImg = _this.taskImg.push(url);
                                         }else{
                                             util.tips(res.msg)
                                         }
