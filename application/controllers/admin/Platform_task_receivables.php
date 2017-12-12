@@ -120,7 +120,7 @@ class Platform_task_receivables extends ADMIN_Controller {
 
     public function prepare_export_receivables() {
 
-        $sub_file_name = "广告主付款列表-" . date('YmdHis') . ".csv";
+        $sub_file_name = "自媒体人结账列表-" . date('YmdHis') . ".csv";
 
         header("Content-type:application/json;;charset=utf-8");
         $result = array(

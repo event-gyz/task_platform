@@ -26,7 +26,7 @@ class Platform_task_payment_model extends MY_Model {
             'pa.advertiser_name', 'pa.advertiser_phone',
             'pa.company_name', 'pa.content_phone', 'ptp.create_time as pay_time',
         ];
-        $param            = implode(',', $param_arr);
+        $fields           = implode(',', $param_arr);
         $task_table       = 'platform_task';
         $advertiser_table = 'platform_advertiser';
         $sql              = "SELECT [*] FROM `{$this->table}` AS ptp ";
@@ -76,12 +76,32 @@ class Platform_task_payment_model extends MY_Model {
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
         $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
-        $_sql = str_replace('[*]', $param, $sql);
+        $_sql = str_replace('[*]', $fields, $sql);
 
         $_list = $this->getList($_sql);
 
         $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
         return $data;
+    }
+
+    public function get_all_task_payment_list() {
+        $param_arr        = [
+            'pt.*', 'ptp.*',
+            'pa.advertiser_type', 'pa.advertiser_id', 'pa.advertiser_login_name',
+            'pa.advertiser_name', 'pa.advertiser_phone',
+            'pa.company_name', 'pa.content_phone', 'ptp.create_time as pay_time',
+        ];
+        $fields           = implode(',', $param_arr);
+        $task_table       = 'platform_task';
+        $advertiser_table = 'platform_advertiser';
+        $sql              = "SELECT {$fields} FROM `{$this->table}` AS ptp ";
+        $sql              .= "LEFT JOIN `{$task_table}` AS pt ON pt.task_id = ptp.task_id ";
+        $sql              .= "LEFT JOIN `{$advertiser_table}` AS pa ON pt.advertiser_user_id = pa.advertiser_id WHERE 1=1 ";
+        $sql              .= 'ORDER BY ptp.update_time DESC';
+
+        $pdo = new \PDO($this->db->dsn, $this->db->username, $this->db->password);
+        $pdo->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+        return $pdo->query($sql);
     }
 
     public function updateInfo($payment_id, $info) {
