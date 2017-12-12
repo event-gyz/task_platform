@@ -82,7 +82,8 @@ class Platform_task_payment extends ADMIN_Controller {
 
     public function upload_file() {
 
-        $task_id = $this->input->post('task_id');
+        $task_id       = $this->input->post('task_id');
+        $img_timestamp = $this->input->post('img_timestamp');
 
         if (empty($task_id)) {
             return $this->response_json(1, '缺少必要参数,请刷新页面再试', ['file_path' => '']);
@@ -105,7 +106,12 @@ class Platform_task_payment extends ADMIN_Controller {
         } else {
             $data      = $this->upload->data();
             $file_path = $sub_upload_path . '/' . $data['file_name'];
-            return $this->response_json(0, '上传成功', ['file_path' => $file_path]);
+            return $this->response_json(0, '上传成功',
+                [
+                    'file_path'     => $file_path,
+                    'img_timestamp' => $img_timestamp,
+                ]
+            );
         }
     }
 
