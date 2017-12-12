@@ -175,7 +175,7 @@
                                         <?php endif; ?>
 
                                     </th>
-                                    <th><?= $value['confirming_person'] ?></th>
+                                    <th><?= $value['confirming_person_name'] ?></th>
                                     <th><?= $value['confirm_time'] ?></th>
                                     <th>
                                         <?php

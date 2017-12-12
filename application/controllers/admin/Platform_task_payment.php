@@ -157,12 +157,13 @@ class Platform_task_payment extends ADMIN_Controller {
             return $this->response_json(1, '查找不到对应的付款信息');
         }
 
-        $update_info['finance_status']    = 1;// 设定广告主付款状态为财务已确认
-        $update_info['pay_money']         = $pay_money;
-        $update_info['pay_voucher']       = json_encode(array_column($fileList, 'file_path'));// 支付凭证
-        $update_info['confirming_person'] = $this->sys_user_info['id'];
-        $update_info['confirm_remark']    = $confirm_remark;
-        $sys_log_content                  = "{$this->sys_user_info['user_name']}确认了收款";
+        $update_info['finance_status']         = 1;// 设定广告主付款状态为财务已确认
+        $update_info['pay_money']              = $pay_money;
+        $update_info['pay_voucher']            = json_encode(array_column($fileList, 'file_path'));// 支付凭证
+        $update_info['confirming_person']      = $this->sys_user_info['id'];
+        $update_info['confirming_person_name'] = $this->sys_user_info['user_name'];
+        $update_info['confirm_remark']         = $confirm_remark;
+        $sys_log_content                       = "{$this->sys_user_info['user_name']}确认了收款";
 
         $result = $this->__get_platform_task_payment_model()->updateInfo($payment_id, $update_info);
 
@@ -266,13 +267,13 @@ class Platform_task_payment extends ADMIN_Controller {
                 $finance_status = '已支付';
             }
 
-            $confirming_person = $v['confirming_person'];
-            $confirm_time      = $v['confirm_time'];
+            $confirming_person_name = $v['confirming_person_name'];
+            $confirm_time           = $v['confirm_time'];
 
             $value_arr = [
                 $task_id, $task_name, $advertiser_id, $advertiser_login_name,
                 $u_name_or_c_name, $u_phone_or_c_phone, $total_price, $pay_money,
-                $platform_pay_way, $pay_time, $finance_status, $confirming_person, $confirm_time,
+                $platform_pay_way, $pay_time, $finance_status, $confirming_person_name, $confirm_time,
             ];
 
             $value = implode(",", $value_arr);
