@@ -8,6 +8,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,
 }
 html,body {
     background: #F3F4F8;
+    font-size: 14px;
 }
 table {
     border-collapse:collapse;
@@ -257,7 +258,7 @@ table th.border_bottom{
 }
 table th {
     color: #333;
-    font-size: 15px;
+    font-size: 14px;
 }
 table textarea,
 table input[type="text"],
@@ -268,7 +269,7 @@ table input[type="password"] {
     height: 50px;
     line-height: 50px;
     padding: 0 5px;
-    font-size: 15px;
+    font-size: 14px;
     color: #333;
 }
 table input:focus,
@@ -456,7 +457,7 @@ table textarea:focus {
     width: 50px;
 }
 .statu_box h2 {
-    font-size: 24px;
+    font-size: 22px;
     text-align: center;
     padding: 10px 0;
     color: #333;
@@ -495,19 +496,19 @@ table textarea:focus {
 }
 .statu_box p.button1 a {
     display: inline-block;
-    font-size: 17px;
+    font-size: 15px;
 }
 .statu_box p.button2 a {
     display: inline-block;
     width: 49%;
     padding: 3px 0;
-    font-size: 17px;
+    font-size: 15px;
 }
 .statu_box p.button3 a {
     display: inline-block;
     width: 31%;
     padding: 3px 0;
-    font-size: 17px;
+    font-size: 15px;
 }
 .statu_box .info {
     padding: 10px 20px;
