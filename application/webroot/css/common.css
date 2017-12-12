@@ -457,7 +457,7 @@ table textarea:focus {
     width: 50px;
 }
 .statu_box h2 {
-    font-size: 24px;
+    font-size: 22px;
     text-align: center;
     padding: 10px 0;
     color: #333;
@@ -496,19 +496,19 @@ table textarea:focus {
 }
 .statu_box p.button1 a {
     display: inline-block;
-    font-size: 17px;
+    font-size: 15px;
 }
 .statu_box p.button2 a {
     display: inline-block;
     width: 49%;
     padding: 3px 0;
-    font-size: 17px;
+    font-size: 15px;
 }
 .statu_box p.button3 a {
     display: inline-block;
     width: 31%;
     padding: 3px 0;
-    font-size: 17px;
+    font-size: 15px;
 }
 .statu_box .info {
     padding: 10px 20px;
