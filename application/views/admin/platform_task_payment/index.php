@@ -266,7 +266,7 @@
 
         <el-dialog title="查看支付凭证" :visible.sync="dialogTableVisible4View" center>
 
-            <el-form label-width="100px">
+            <el-form label-width="100px" v-loading.body="loading_form4view" element-loading-text="查询中,请稍候...">
 
                 <el-form-item label="上传凭证">
 
@@ -311,10 +311,12 @@
             try {
 
                 this.dialogTableVisible4View = true;
+                this.loading_form4view       = true;
                 const url                    = '/admin/platform_task_payment/view_task_payment';
                 const response               = await axios.get(url, {
                     params: {"payment_id": payment_id}
                 });
+                this.loading_form4view       = false;
                 const resData                = response.data;
 
                 if (resData.error_no === 0) {
@@ -324,6 +326,7 @@
                 return this.$message.error(resData.msg);
 
             } catch (error) {
+                this.loading_form4view = false;
 
                 if (error instanceof Error) {
 
@@ -457,6 +460,7 @@
         return {
             loading                : false,// 是否显示加载
             loading_form           : false,// 表单加载
+            loading_form4view      : false,// 查看表单的加载
             dialogTableVisible     : false,// 是否显示dialog
             dialogTableVisible4View: false,// 是否显示查看支付凭证的dialog
             uploadUrl              : '/admin/platform_task_payment/upload_file',// 上传服务器地址
