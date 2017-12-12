@@ -270,10 +270,11 @@
 
                 <el-form-item label="上传凭证">
 
-                    <el-col :span="12">
-
-
-                    </el-col>
+                    <el-carousel :interval="4000" type="card" height="200px">
+                        <el-carousel-item v-for="item in cur_pay_voucher" :key="item">
+                            <img :src="item">
+                        </el-carousel-item>
+                    </el-carousel>
 
                 </el-form-item>
 
@@ -320,7 +321,9 @@
                 const resData                = response.data;
 
                 if (resData.error_no === 0) {
-                    return this.cur_payment_info = resData.data;
+                    this.cur_payment_info = resData.data;
+                    this.cur_pay_voucher  = JSON.parse(resData.data.pay_voucher);
+                    return true;
                 }
 
                 return this.$message.error(resData.msg);
@@ -479,6 +482,7 @@
                 ]
             },
             cur_payment_info       : {},
+            cur_pay_voucher        : [],
         };
     };
 
