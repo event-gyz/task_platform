@@ -140,11 +140,11 @@ $signPackage = $jssdk->GetSignPackage();
                     </td>
                 </tr>
                 <tr>
-                    <th align="left" class="border_bottom">任务开始时间</th>
+                    <th align="left" class="border_bottom">任务开始<br>时间</th>
                     <td class="border_bottom"><input id="start_time" style="text-align: right;" type="text" v-model="startTime" readonly="readonly" placeholder="请选择 >"></td>
                 </tr>
                 <tr>
-                    <th align="left" class="border_bottom">任务结束时间</th>
+                    <th align="left" class="border_bottom">任务结束<br>时间</th>
                     <td class="border_bottom"><input id="end_time" style="text-align: right;" type="text" v-model="endTime" readonly="readonly" placeholder="请选择 >"></td>
                 </tr>
                 <tr>
