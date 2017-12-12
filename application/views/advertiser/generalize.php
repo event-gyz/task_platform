@@ -9,13 +9,13 @@ $signPackage = $jssdk->GetSignPackage();
     <title>开始推广</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="/css/weui.min.css">
     <link rel="stylesheet" href="/css/common.css" />
     <link rel="stylesheet" href="/css/swiper-3.4.2.min.css" />
     <link rel="stylesheet" href="/css/indexAdvert.css" />
     <link rel="stylesheet" href="/css/login.css" />
     <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_xnfkadft2e7y14i.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
-    <link rel="stylesheet" href="/css/weui.min.css">
 </head>
 <body>
 <div class="main" id="app">
