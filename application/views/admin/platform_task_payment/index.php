@@ -186,7 +186,7 @@
                                         ?>
 
                                         <?php if ($is_show_confirm_btn): ?>
-                                            <button @click="show_confirm_receive_money_dialog('<?= $value['task_id'] ?>')"
+                                            <button @click="show_confirm_receive_money_dialog('<?= $value['task_id'] ?>','<?= $value['payment_id'] ?>')"
                                                     type="button"
                                                     class="btn btn-primary btn-xs margin-r-5">确认收款
                                             </button>
@@ -216,7 +216,8 @@
 
         <el-dialog title="上传支付凭证" :visible.sync="dialogTableVisible" center>
 
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" v-loading.body="loading_form"
+                     element-loading-text="提交中,请稍候...">
 
                 <el-form-item label="上传凭证">
 
@@ -273,9 +274,10 @@
 
     const localComputed = {};
     const localMethods  = {
-        show_confirm_receive_money_dialog: function (task_id) {
-            this.upload_params.task_id = task_id;
-            this.dialogTableVisible    = true;
+        show_confirm_receive_money_dialog: function (task_id, payment_id) {
+            this.upload_params.task_id    = task_id;
+            this.upload_params.payment_id = payment_id;
+            this.dialogTableVisible       = true;
         },
         submitForm                       : function (formName) {
             this.$refs[formName].validate((valid) => {
@@ -295,9 +297,57 @@
                     return false;
                 }
 
-                console.log(this.ruleForm);
+                this.confirm_receive_money();
 
             });
+
+        },
+        confirm_receive_money            : async function () {
+            try {
+
+                this.loading_form = true;
+                const url         = '/admin/platform_task_payment/confirm_receive_money';
+                const response    = await axios.post(
+                    url,
+                    {
+                        "task_id"       : this.upload_params.task_id,
+                        "payment_id"    : this.upload_params.payment_id,
+                        "pay_money"     : this.ruleForm.pay_money,
+                        "fileList"      : this.ruleForm.fileList,
+                        "confirm_remark": this.ruleForm.confirm_remark,
+                    },
+                );
+                this.loading_form = false;
+                const resData     = response.data;
+
+                if (resData.error_no === 0) {
+                    this.dialogTableVisible = false;
+                    this.$message.success('操作成功,即将刷新页面...');
+                    return window.location.reload();
+                }
+
+                return this.$message.error(resData.msg);
+
+            } catch (error) {
+
+                this.loading_form = false;
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
         },
         submitUpload                     : function () {
             this.$refs.upload.submit();
@@ -337,9 +387,10 @@
     const data          = function () {
         return {
             loading           : false,// 是否显示加载
+            loading_form      : false,// 表单加载
             dialogTableVisible: false,// 是否显示dialog
             uploadUrl         : '/admin/platform_task_payment/upload_file',// 上传服务器地址
-            upload_params     : {'task_id': 0, 'img_timestamp': 0},// 上传时附带的额外参数
+            upload_params     : {'task_id': 0, 'payment_id': 0, 'img_timestamp': 0},// 上传时附带的额外参数
             ruleForm          : {
                 pay_money     : '',
                 confirm_remark: '',

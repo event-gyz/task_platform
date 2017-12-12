@@ -115,12 +115,82 @@ class Platform_task_payment extends ADMIN_Controller {
         }
     }
 
+    public function confirm_receive_money() {
+        $req_json = file_get_contents("php://input");
+        $req_data = json_decode($req_json, true);
+
+        $task_id        = $req_data['task_id'];
+        $payment_id     = $req_data['payment_id'];
+        $pay_money      = $req_data['pay_money'];
+        $fileList       = $req_data['fileList'];
+        $confirm_remark = $req_data['confirm_remark'];
+
+        if (empty($task_id)) {
+            return $this->response_json(1, 'task_id不能为空');
+        }
+
+        if (empty($payment_id)) {
+            return $this->response_json(1, 'payment_id不能为空');
+        }
+
+        if (!is_numeric($pay_money)) {
+            return $this->response_json(1, '请输入有效确认金额');
+        }
+
+        if ($pay_money <= 0) {
+            return $this->response_json(1, '确认金额只能是正数');
+        }
+
+        if (empty($fileList)) {
+            return $this->response_json(1, '请上传凭证');
+        }
+
+        $info = $this->__get_platform_task_model()->selectById($task_id);
+
+        if (empty($info)) {
+            return $this->response_json(1, '查找不到对应的信息');
+        }
+
+        $task_payment_info = $this->__get_platform_task_payment_model()->selectById($payment_id);
+
+        if (empty($task_payment_info)) {
+            return $this->response_json(1, '查找不到对应的付款信息');
+        }
+
+        $update_info['finance_status']    = 1;// 设定广告主付款状态为财务已确认
+        $update_info['pay_money']         = $pay_money;
+        $update_info['pay_voucher']       = json_encode(array_column($fileList, 'file_path'));// 支付凭证
+        $update_info['confirming_person'] = $this->sys_user_info['id'];
+        $update_info['confirm_remark']    = $confirm_remark;
+        $sys_log_content                  = "{$this->sys_user_info['user_name']}确认了收款";
+
+        $result = $this->__get_platform_task_payment_model()->updateInfo($payment_id, $update_info);
+
+        if ($result === 1) {
+
+            $this->add_sys_log(14, $sys_log_content, $task_id, json_encode($info), json_encode($update_info));
+
+            return $this->response_json(0, '操作成功');
+        }
+
+        return $this->response_json(1, '非法操作');
+
+    }
+
     /**
      * @return Platform_task_payment_model
      */
     private function __get_platform_task_payment_model() {
         $this->load->model('Platform_task_payment_model');
         return $this->Platform_task_payment_model;
+    }
+
+    /**
+     * @return Platform_task_model
+     */
+    private function __get_platform_task_model() {
+        $this->load->model('Platform_task_model');
+        return $this->Platform_task_model;
     }
 
 }
