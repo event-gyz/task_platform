@@ -195,6 +195,7 @@ var app = new Vue({
                 sourceType: ['album', 'camera'],
                 success: function (res) {
                     var localIds = typeof(res.localIds) == 'string'?[res.localIds]:res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+
                     localIds.forEach(function(item,index){
                         wx.getLocalImgData({
                             localId: '' + item, // 图片的localID
@@ -209,7 +210,7 @@ var app = new Vue({
                                     },
                                     success: function(res) {
                                         if(res.errorno >= 0){
-                                            _this.taskImg = _this.taskImg.push(res.data);
+                                            _this.taskImg = _this.taskImg.push('/'+res.data);
                                         }else{
                                             util.tips(res.msg)
                                         }
