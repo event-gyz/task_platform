@@ -62,7 +62,10 @@ $signPackage = $jssdk->GetSignPackage();
             <table>
                 <tr>
                     <th align="left" class="border_bottom" width="70px;">任务单价</th>
-                    <td class="border_bottom"><input style="text-align: right;width:87%;" type="number" v-model="taskPrice" placeholder="请输入"><span style="color: #333;">元</span></td>
+                    <td class="border_bottom">
+                        <input style="text-align: right;width:87%;position: absolute;right:20px;top:3px;" type="number" v-model="taskPrice" placeholder="请输入">
+                        <span style="color: #333;position: absolute;right:8px;top:18px;">元</span>
+                    </td>
                 </tr>
                 <tr>
                     <th align="left" class="border_bottom" >账号要求</th>
@@ -158,7 +161,10 @@ $signPackage = $jssdk->GetSignPackage();
                 </tr>
                 <tr>
                     <th align="left" class="border_bottom">账号数量</th>
-                    <td class="border_bottom"><input style="text-align: right;width: 87%;" type="number" v-model="number" placeholder="请输入"><span style="color: #333;">个</span></td>
+                    <td class="border_bottom">
+                        <input style="text-align: right;width: 87%;position: absolute;right:20px;top:3px;" type="number" v-model="number" placeholder="请输入">
+                        <span style="color: #333;position: absolute;right:8px;top:18px;">个</span>
+                    </td>
                 </tr>
                 <tr>
                     <th align="left" class="border_bottom">任务总价</th>
