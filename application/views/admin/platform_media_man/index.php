@@ -137,7 +137,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-xs-3">
+                                    <div class="form-group col-xs-3" style="display: none;">
                                         <label for="tag" class="col-sm-3 control-label">标签</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
