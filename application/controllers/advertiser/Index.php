@@ -515,6 +515,12 @@ class Index extends CI_Controller {
             $result['require_age'] = $this->__handleNuToName($result['require_age'],$ageConfig);
             $result['require_industry'] = $this->__handleNuToName($result['require_industry'],$industryConfig);
             $result['require_hobby'] = $this->__handleNuToName($result['require_hobby'],$hobbyConfig);
+
+            $require_local = '';
+            foreach(explode(',',$result['require_local']) as $cid){
+                $require_local[] = str_replace("市","",$this->__get_china_model()->select_name_by_id($cid));
+            }
+            $result['require_local'] = implode(',',$require_local);
         }
         $completionCriteriaConfig = $this->config->item('task_completion_criteria');
         $publishingPlatformConfig = $this->config->item('publishing_platform');
@@ -526,6 +532,7 @@ class Index extends CI_Controller {
         }else{
             $result['allot_time'] = 0;
         }
+
         $result['total_person'] = $this->__get_task_map_model()->getRoweceiveTaskCount($task_id);
         $this->load->view('advertiser/my/info',$result);
 //        echo '<pre>';print_r($result);exit;

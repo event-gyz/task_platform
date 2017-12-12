@@ -9,13 +9,13 @@ $signPackage = $jssdk->GetSignPackage();
     <title>开始推广</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="/css/weui.min.css">
     <link rel="stylesheet" href="/css/common.css" />
     <link rel="stylesheet" href="/css/swiper-3.4.2.min.css" />
     <link rel="stylesheet" href="/css/indexAdvert.css" />
     <link rel="stylesheet" href="/css/login.css" />
     <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_xnfkadft2e7y14i.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
 </head>
 <body>
 <div class="main" id="app">
@@ -61,8 +61,8 @@ $signPackage = $jssdk->GetSignPackage();
         <div class="input-box" style="margin-bottom:0px">
             <table>
                 <tr>
-                    <th align="left" class="border_bottom" width="90px;">任务单价</th>
-                    <td class="border_bottom"><input style="text-align: right;width:88%;" type="number" v-model="taskPrice" placeholder="请输入"><span style="color: #333;">元</span></td>
+                    <th align="left" class="border_bottom" width="70px;">任务单价</th>
+                    <td class="border_bottom"><input style="text-align: right;width:87%;" type="number" v-model="taskPrice" placeholder="请输入"><span style="color: #333;">元</span></td>
                 </tr>
                 <tr>
                     <th align="left" class="border_bottom" >账号要求</th>
@@ -140,11 +140,11 @@ $signPackage = $jssdk->GetSignPackage();
                     </td>
                 </tr>
                 <tr>
-                    <th align="left" class="border_bottom">任务开始时间</th>
+                    <th align="left" class="border_bottom">任务开始<br>时间</th>
                     <td class="border_bottom"><input id="start_time" style="text-align: right;" type="text" v-model="startTime" readonly="readonly" placeholder="请选择 >"></td>
                 </tr>
                 <tr>
-                    <th align="left" class="border_bottom">任务结束时间</th>
+                    <th align="left" class="border_bottom">任务结束<br>时间</th>
                     <td class="border_bottom"><input id="end_time" style="text-align: right;" type="text" v-model="endTime" readonly="readonly" placeholder="请选择 >"></td>
                 </tr>
                 <tr>
@@ -158,7 +158,7 @@ $signPackage = $jssdk->GetSignPackage();
                 </tr>
                 <tr>
                     <th align="left" class="border_bottom">账号数量</th>
-                    <td class="border_bottom"><input style="text-align: right;width: 88%;" type="number" v-model="number" placeholder="请输入"><span style="color: #333;">个</span></td>
+                    <td class="border_bottom"><input style="text-align: right;width: 87%;" type="number" v-model="number" placeholder="请输入"><span style="color: #333;">个</span></td>
                 </tr>
                 <tr>
                     <th align="left" class="border_bottom">任务总价</th>

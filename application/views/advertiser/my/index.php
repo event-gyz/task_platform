@@ -22,7 +22,7 @@
                         if($userSession['advertiser_type']==1){
                             echo (!empty($userSession['advertiser_name'])?$userSession['advertiser_name']:'未设置');
                         }else{
-                            (!empty($userSession['company_name'])?$userSession['company_name']:'未设置');
+                            echo (!empty($userSession['company_name'])?$userSession['company_name']:'未设置');
                         }
   ?>
                     </li>
