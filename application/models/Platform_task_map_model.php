@@ -190,7 +190,7 @@ class Platform_task_map_model extends MY_Model {
         $sql .= ' ORDER BY ptm.task_map_id DESC';
 
         $limit  = 10;
-        $offset = !empty($where['page']) ? (($where['page'] - 1) * $limit) : 0;
+        $offset = (isset($where['page']) && !empty($where['page'])) ? (($where['page'] - 1) * $limit) : 0;
 
         $sql .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
@@ -200,7 +200,7 @@ class Platform_task_map_model extends MY_Model {
 //        echo $_sql;
         $data['total'] = $total;
         $data['list']  = $_list;
-        $data['page']  = $where['page'];
+        $data['page']  = (isset($where['page']) && !empty($where['page'])) ? $where['page'] : 1;
         return $data;
     }
 

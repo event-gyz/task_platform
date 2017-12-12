@@ -540,9 +540,9 @@ class Index extends CI_Controller {
      *  我的列表 （我的收入）
      */
     public function incomeList(){
-        if(isset($_POST['page']) && !empty($_POST['page'])){
-            $where['page'] = $_POST['page'];
-        }
+//        if(isset($_POST['page']) && !empty($_POST['page'])){
+//            $where['page'] = $_POST['page'];
+//        }
         $user_info = $this->__get_user_session();
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $where['finance_status'] = 1;
