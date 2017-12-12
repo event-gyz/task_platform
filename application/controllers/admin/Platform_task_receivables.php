@@ -118,6 +118,93 @@ class Platform_task_receivables extends ADMIN_Controller {
         return $this->response_json(1, '非法操作');
     }
 
+    public function prepare_export_receivables() {
+
+        $sub_file_name = "广告主付款列表-" . date('YmdHis') . ".csv";
+
+        header("Content-type:application/json;;charset=utf-8");
+        $result = array(
+            'error_no' => 0,
+            'msg'      => '操作成功',
+            'data'     => ['file_path' => "/excel/" . date('Ymd') . "/{$sub_file_name}"],
+        );
+        echo json_encode($result);
+
+        fastcgi_finish_request();
+        // 异步调用
+        $csv_file_path = FCPATH . "/excel/" . date('Ymd') . "/{$sub_file_name}";
+        $this->__prepare_excel($csv_file_path);
+    }
+
+    private function __prepare_excel($csv_file_path) {
+        set_time_limit(0);
+        $list = $this->__get_platform_task_receivables_model()->get_all_task_receivables_list();
+        // 生成excel文件
+        $this->_export_csv($list, $csv_file_path);
+    }
+
+    // 导出自媒体人结账记录到CSV文件
+    private function _export_csv($data, $csv_file_path) {
+        set_time_limit(0);
+        wap::create_folders(dirname($csv_file_path));
+
+        // 导出CSV
+        $title_arr = [
+            '任务ID', '任务名称', '用户ID', '用户名', '姓名', '性别', '电话',
+            '学校名称', '支付宝', '真实姓名', '支付方式', '付款金额', '财务状态', '财务确认时间',
+        ];
+        $str       = implode(",", $title_arr);
+        $str       = $str . PHP_EOL;
+        $str       = iconv('utf-8', "gb2312//IGNORE", $str);// '一'bug 必须带上//IGNORE
+        file_put_contents($csv_file_path, $str);
+
+        foreach ($data as $k => $v) {
+
+            $task_id              = $v['task_id'];
+            $task_name            = $v['task_name'];
+            $media_man_id         = $v['media_man_id'];
+            $media_man_login_name = $v['media_man_login_name'];
+            $media_man_name       = $v['media_man_name'];
+            $sex                  = $v['sex'] === "1" ? "男" : "女";
+            $media_man_phone      = $v['media_man_phone'];
+            $school_name          = $v['school_name'];
+            $zfb_nu               = $v['zfb_nu'];
+            $zfb_realname         = $v['zfb_realname'];
+            $platform_pay_way     = $v['platform_pay_way'];
+            $platform_pay_money   = $v['platform_pay_money'];
+            $finance_status       = $v['finance_status'];
+            $pay_time             = $v['pay_time'];
+
+            $value_arr = [
+                $task_id, $task_name, $media_man_id, $media_man_login_name,
+                $media_man_name, $sex, $media_man_phone, $school_name, $zfb_nu,
+                $zfb_realname, $platform_pay_way, $platform_pay_money, $finance_status, $pay_time,
+            ];
+
+            $value = implode(",", $value_arr);
+            $value = $value . PHP_EOL;
+            $value = iconv('utf-8', "gb2312//IGNORE", $value);// '一'bug 必须带上//IGNORE
+            file_put_contents($csv_file_path, $value, FILE_APPEND);
+
+        }
+
+        wap::write_file_complete_flag($csv_file_path);
+
+    }
+
+    // 检测文件是否写入完毕
+    public function is_file_write_completed() {
+        $file_path = $this->input->get('file_path');
+
+        $result = wap::read_file_complete_flag(FCPATH . $file_path);
+
+        if ($result) {
+            return $this->response_json(0, '文件生成完毕');
+        }
+
+        return $this->response_json(1, '文件正在生成中...请稍候');
+    }
+
     /**
      * @return Platform_task_receivables_model
      */
