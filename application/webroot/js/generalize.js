@@ -195,7 +195,24 @@ var app = new Vue({
                 sourceType: ['album', 'camera'],
                 success: function (res) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    _this.taskImg = _this.taskImg.concat(localIds);
+                    $.ajax({
+                        url: "/upload/base64toimg",
+                        dataType: 'json',
+                        type:"post",
+                        data:{
+                            imgBase64:localIds
+                        },
+                        success: function(res) {
+                            if(res.errorno >= 0){
+                                _this.taskImg = _this.taskImg.concat(localIds);
+                            }else{
+                                util.tips(res.msg)
+                            }
+                        },
+                        error:function(){
+                            util.tips('网络异常，请尝试刷新！');
+                        }
+                    });
                 }
             });
         },
