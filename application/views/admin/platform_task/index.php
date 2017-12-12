@@ -197,10 +197,35 @@
                                     <th><?= $value['media_man_number'] ?></th>
                                     <th><?= $value['actual_media_man_number'] ?></th>
                                     <th>
-                                        <a href="/admin/platform_task/task_detail?id=<?= $value['task_id'] ?>"
-                                           class="btn btn-success btn-sm">
-                                            详情
-                                        </a>
+
+                                        <?php
+
+                                        // 是否显示审核按钮
+                                        $is_show_audit_btn = ($value['audit_status'] === "1");
+
+                                        // 是否显示手工作废按钮
+                                        $is_show_cancellation_btn = (in_array($value['audit_status'], [1, 2])) ||
+                                            (($value['pay_status'] === "0") && ($value['audit_status'] === "3")) ||
+                                            (($value['pay_status'] === "1") && ($value['audit_status'] === "3") && ($value['finance_status'] === "0"));
+                                        $is_show_cancellation_btn = (!in_array($value['release_status'], [8])) && $is_show_cancellation_btn;
+
+                                        ?>
+
+                                        <?php if ($is_show_audit_btn): ?>
+                                            <a href="/admin/platform_task/task_detail?id=<?= $value['task_id'] ?>"
+                                               class="btn btn-warning btn-xs">
+                                                审核
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <?php if ($is_show_cancellation_btn): ?>
+                                            <button @click="update_task_release_status('<?= $value['task_id'] ?>')"
+                                                    type="button"
+                                                    class="btn btn-warning btn-xs margin-r-5">
+                                                手工作废
+                                            </button>
+                                        <?php endif; ?>
+
                                     </th>
                                 </tr>
                             <?php endforeach; ?>
