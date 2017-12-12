@@ -88,7 +88,7 @@
                                         <label for="sex" class="col-sm-3 control-label"></label>
                                         <div class="col-sm-7">
                                             <button type="submit" class="btn btn-info">搜索</button>
-                                            <el-button button-id="export" @click="prepare_export_receivables"
+                                            <el-button button-id="export" @click.once="prepare_export_receivables"
                                                        type="primary" size="small">导出
                                             </el-button>
                                         </div>
