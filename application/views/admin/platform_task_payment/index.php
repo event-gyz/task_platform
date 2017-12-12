@@ -218,12 +218,7 @@
 
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
 
-                <el-form-item label="上传凭证"
-                              v-loading="upload_loading"
-                              element-loading-text="正在上传,请稍候..."
-                              element-loading-spinner="el-icon-loading"
-                              element-loading-background="rgba(0, 0, 0, 0.8)"
-                >
+                <el-form-item label="上传凭证">
 
                     <el-col :span="12">
 
@@ -234,10 +229,12 @@
                                 :multiple="true"
                                 :auto-upload="false"
                                 :on-change="handleChange"
+                                :on-remove="handleRemove"
+                                :before-upload="handleUpload"
                         >
                             <el-button slot="trigger" size="mini" type="primary">选取文件</el-button>
                             <el-button size="mini" type="success" @click="submitUpload">上传到服务器</el-button>
-                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2M</div>
                         </el-upload>
 
                     </el-col>
@@ -284,21 +281,28 @@
             this.$refs[formName].validate((valid) => {
 
                 if (!valid) {
+                    this.$message.error('请输入确认金额,并上传凭证');
                     return false;
                 }
 
-                // todo 验证表单
+                if (this.ruleForm.pay_money <= 0) {
+                    this.$message.error('确认金额只能是正数');
+                    return false;
+                }
 
-                console.log(this.ruleForm.fileList);
+                if (this.ruleForm.fileList.length === 0) {
+                    this.$message.error('请上传凭证');
+                    return false;
+                }
+
+                console.log(this.ruleForm);
 
             });
         },
         submitUpload                     : function () {
-            this.upload_loading = true;
             this.$refs.upload.submit();
         },
         handleChange                     : function (file) {
-            this.upload_loading = false;
 
             let response = file.response;
             if (response !== undefined) {
@@ -308,21 +312,34 @@
                 }
 
                 if (response.error_no === 0) {
-                    this.ruleForm.fileList.push(response.data.file_path);
-                    return this.$message.success(response.msg);
+                    if (response.data.file_path !== '') {
+                        this.ruleForm.fileList.push({
+                            'file_path'    : response.data.file_path,
+                            'img_timestamp': response.data.img_timestamp
+                        });
+                        return this.$message.success(response.msg);
+                    }
                 }
 
             }
 
         },
+        handleRemove                     : function (file) {
+            let fileInfo = _.find(this.ruleForm.fileList, function (val) {
+                return val.img_timestamp === file.uid.toString();
+            });
+            _.pull(this.ruleForm.fileList, fileInfo);
+        },
+        handleUpload                     : function (file) {
+            this.upload_params.img_timestamp = file.uid;
+        },
     };
     const data          = function () {
         return {
             loading           : false,// 是否显示加载
-            upload_loading    : false,// 上传的加载框
             dialogTableVisible: false,// 是否显示dialog
             uploadUrl         : '/admin/platform_task_payment/upload_file',// 上传服务器地址
-            upload_params     : {'task_id': 0},// 上传时附带的额外参数
+            upload_params     : {'task_id': 0, 'img_timestamp': 0},// 上传时附带的额外参数
             ruleForm          : {
                 pay_money     : '',
                 confirm_remark: '',
