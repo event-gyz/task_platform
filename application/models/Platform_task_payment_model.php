@@ -19,12 +19,12 @@ class Platform_task_payment_model extends MY_Model {
      * @return array
      */
     public function get_task_payment_list_by_condition($where) {
-
         $param_arr        = [
-            'pt.*', 'ptp.*',
-            'pa.advertiser_type', 'pa.advertiser_id', 'pa.advertiser_login_name',
-            'pa.advertiser_name', 'pa.advertiser_phone',
-            'pa.company_name', 'pa.content_phone', 'ptp.create_time as pay_time',
+            'pt.task_id', 'pt.task_name', 'pt.total_price', 'pt.pay_way',
+            'pa.advertiser_id', 'pa.advertiser_login_name', 'pa.advertiser_type', 'pa.advertiser_name',
+            'pa.company_name', 'pa.advertiser_phone', 'pa.content_phone',
+            'ptp.payment_id', 'ptp.pay_money', 'ptp.create_time as pay_time', 'ptp.finance_status',
+            'ptp.confirming_person_name', 'ptp.confirm_time',
         ];
         $fields           = implode(',', $param_arr);
         $task_table       = 'platform_task';
@@ -86,10 +86,11 @@ class Platform_task_payment_model extends MY_Model {
 
     public function get_all_task_payment_list() {
         $param_arr        = [
-            'pt.*', 'ptp.*',
-            'pa.advertiser_type', 'pa.advertiser_id', 'pa.advertiser_login_name',
-            'pa.advertiser_name', 'pa.advertiser_phone',
-            'pa.company_name', 'pa.content_phone', 'ptp.create_time as pay_time',
+            'pt.task_id', 'pt.task_name', 'pt.total_price', 'pt.pay_way',
+            'pa.advertiser_id', 'pa.advertiser_login_name', 'pa.advertiser_type', 'pa.advertiser_name',
+            'pa.company_name', 'pa.advertiser_phone', 'pa.content_phone',
+            'ptp.payment_id', 'ptp.pay_money', 'ptp.create_time as pay_time', 'ptp.finance_status',
+            'ptp.confirming_person_name', 'ptp.confirm_time',
         ];
         $fields           = implode(',', $param_arr);
         $task_table       = 'platform_task';
