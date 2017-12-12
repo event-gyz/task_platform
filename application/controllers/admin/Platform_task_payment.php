@@ -177,6 +177,22 @@ class Platform_task_payment extends ADMIN_Controller {
 
     }
 
+    public function view_task_payment() {
+        $payment_id = $this->input->get('payment_id');
+
+        if (empty($payment_id)) {
+            return $this->response_json(1, 'payment_id不能为空');
+        }
+
+        $task_payment_info = $this->__get_platform_task_payment_model()->selectById($payment_id);
+
+        if (empty($task_payment_info)) {
+            return $this->response_json(1, '查找不到对应的付款信息');
+        }
+
+        return $this->response_json(0, '操作成功', $task_payment_info);
+    }
+
     /**
      * @return Platform_task_payment_model
      */

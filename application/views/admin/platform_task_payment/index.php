@@ -193,7 +193,8 @@
                                         <?php endif; ?>
 
                                         <?php if ($is_show_view_btn): ?>
-                                            <button @click="" type="button"
+                                            <button @click="show_view_receive_money_dialog('<?= $value['payment_id'] ?>')"
+                                                    type="button"
                                                     class="btn btn-success btn-xs margin-r-5">查看凭证
                                             </button>
                                         <?php endif; ?>
@@ -263,6 +264,38 @@
             </div>
         </el-dialog>
 
+        <el-dialog title="查看支付凭证" :visible.sync="dialogTableVisible4View" center>
+
+            <el-form label-width="100px">
+
+                <el-form-item label="上传凭证">
+
+                    <el-col :span="12">
+
+
+                    </el-col>
+
+                </el-form-item>
+
+                <el-form-item label="确认金额">
+                    <el-col :span="8">
+                        <el-input v-model="cur_payment_info.pay_money" :disabled="true"></el-input>
+                    </el-col>
+                </el-form-item>
+
+                <el-form-item label="备注" prop="confirm_remark">
+                    <el-col :span="8">
+                        <el-input type="textarea" v-model="cur_payment_info.confirm_remark" :disabled="true"></el-input>
+                    </el-col>
+                </el-form-item>
+
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button type="info" @click="dialogTableVisible4View = false">关 闭</el-button>
+            </div>
+        </el-dialog>
+
     </section>
     <!-- /.content -->
 </div>
@@ -274,6 +307,42 @@
 
     const localComputed = {};
     const localMethods  = {
+        show_view_receive_money_dialog   : async function (payment_id) {
+            try {
+
+                this.dialogTableVisible4View = true;
+                const url                    = '/admin/platform_task_payment/view_task_payment';
+                const response               = await axios.get(url, {
+                    params: {"payment_id": payment_id}
+                });
+                const resData                = response.data;
+
+                if (resData.error_no === 0) {
+                    return this.cur_payment_info = resData.data;
+                }
+
+                return this.$message.error(resData.msg);
+
+            } catch (error) {
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+
+        },
         show_confirm_receive_money_dialog: function (task_id, payment_id) {
             this.upload_params.task_id    = task_id;
             this.upload_params.payment_id = payment_id;
@@ -386,17 +455,18 @@
     };
     const data          = function () {
         return {
-            loading           : false,// 是否显示加载
-            loading_form      : false,// 表单加载
-            dialogTableVisible: false,// 是否显示dialog
-            uploadUrl         : '/admin/platform_task_payment/upload_file',// 上传服务器地址
-            upload_params     : {'task_id': 0, 'payment_id': 0, 'img_timestamp': 0},// 上传时附带的额外参数
-            ruleForm          : {
+            loading                : false,// 是否显示加载
+            loading_form           : false,// 表单加载
+            dialogTableVisible     : false,// 是否显示dialog
+            dialogTableVisible4View: false,// 是否显示查看支付凭证的dialog
+            uploadUrl              : '/admin/platform_task_payment/upload_file',// 上传服务器地址
+            upload_params          : {'task_id': 0, 'payment_id': 0, 'img_timestamp': 0},// 上传时附带的额外参数
+            ruleForm               : {
                 pay_money     : '',
                 confirm_remark: '',
                 fileList      : [],
             },
-            rules             : {
+            rules                  : {
                 pay_money     : [
                     {required: true, message: '确认金额', trigger: 'blur'}
                 ],
@@ -404,6 +474,7 @@
                     {required: false, message: '请填写备注', trigger: 'blur'}
                 ]
             },
+            cur_payment_info       : {},
         };
     };
 
