@@ -199,7 +199,8 @@ var app = new Vue({
                         localId: '' + localIds, // 图片的localID
                         success: function (res) {
                             var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-                            $.ajax({
+                            alert(localData)
+                            /*$.ajax({
                                 url: "/upload/base64toimg",
                                 dataType: 'json',
                                 type:"post",
@@ -216,7 +217,7 @@ var app = new Vue({
                                 error:function(){
                                     util.tips('网络异常，请尝试刷新！');
                                 }
-                            });
+                            });*/
                         }
                     });
                 }
