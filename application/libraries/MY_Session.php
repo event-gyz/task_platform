@@ -6,9 +6,6 @@
  * Time: 下午4:50
  */
 
-/**
- ** $Author: Wang  $
- **/
 
 class MY_Session{
 

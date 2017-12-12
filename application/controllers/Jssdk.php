@@ -47,7 +47,7 @@ class JSSDK  extends CI_Controller{
 
   private function getJsApiTicket() {
     // jsapi_ticket 应该全局存储与更新，以下代码以写入到文件中做示例
-    $data = json_decode($this->get_php_file("http://campus.liuxuedai360.com/js/wx/jsapi_ticket.js"));
+    $data = json_decode($this->get_php_file("./jsapi_ticket.js"));
     if ($data->expire_time < time()) {
       $accessToken = $this->getAccessToken();
       // 如果是企业号用以下 URL 获取 ticket
@@ -58,7 +58,7 @@ class JSSDK  extends CI_Controller{
       if ($ticket) {
         $data->expire_time = time() + 7000;
         $data->jsapi_ticket = $ticket;
-        $this->set_php_file("./../webroot/js/wx/jsapi_ticket.js", json_encode($data));
+        $this->set_php_file("./jsapi_ticket.js", json_encode($data));
       }
     } else {
       $ticket = $data->jsapi_ticket;
@@ -69,7 +69,7 @@ class JSSDK  extends CI_Controller{
 
   private function getAccessToken() {
     // access_token 应该全局存储与更新，以下代码以写入到文件中做示例
-    $data = json_decode($this->get_php_file("http://campus.liuxuedai360.com/js/wx/access_token.js"));
+    $data = json_decode($this->get_php_file("./access_token.js"));
     if ($data->expire_time <time()) {
       // 如果是企业号用以下URL获取access_token
       // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
@@ -79,7 +79,7 @@ class JSSDK  extends CI_Controller{
       if ($access_token) {
         $data->expire_time = time() + 7000;
         $data->access_token = $access_token;
-        $this->set_php_file("./../webroot/js/wx/access_token.js", json_encode($data));
+        $this->set_php_file("./access_token.js", json_encode($data));
       }
     } else {
       $access_token = $data->access_token;
