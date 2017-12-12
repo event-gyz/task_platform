@@ -270,9 +270,9 @@
 
                 <el-form-item label="上传凭证">
 
-                    <el-carousel :interval="4000" type="card" height="200px">
+                    <el-carousel :interval="4000" type="card" height="200px" arrow="never">
                         <el-carousel-item v-for="item in cur_pay_voucher" :key="item">
-                            <img :src="item">
+                            <a :href="item" target="_blank"><img :src="item"></a>
                         </el-carousel-item>
                     </el-carousel>
 
