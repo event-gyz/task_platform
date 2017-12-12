@@ -230,4 +230,23 @@ class Platform_task_model extends MY_Model {
 
     }
 
+
+
+    public function selectAllByCondition($where) {
+        if (empty($where)) {
+            return false;
+        }
+        $query = $this->db->get_where($this->getTableName(), $where);
+        return $query->result_array();
+    }
+
+
+    public function getCloseData() {
+        $time = time();
+        $sql = "SELECT * FROM `{$this->table}` where start_time<$time and release_status=0 and (audit_status=2 or pay_status=0) ";
+
+        return $this->getList($sql);
+
+    }
+
 }
