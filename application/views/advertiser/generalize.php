@@ -1,3 +1,8 @@
+<?php
+require_once dirname(__FILE__)."./../../controllers/Jssdk.php";
+$jssdk = new JSSDK("wx286bc47fc04c2a25", "587babff126cb893ad86e58d04cbdf30");
+$signPackage = $jssdk->GetSignPackage();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -176,6 +181,11 @@
         </div>
     </div>
 </div>
+
+<input type="hidden" id="appId" value='<?php echo $signPackage["appId"];?>'>
+<input type="hidden" id="timestamp" value='<?php echo $signPackage["timestamp"];?>'>
+<input type="hidden" id="nonceStr" value='<?php echo $signPackage["nonceStr"];?>'>
+<input type="hidden" id="signature" value='<?php echo $signPackage["signature"];?>'>
 <!--nav-->
 <div class="nav">
     <p><a href="/advertiser/index/home"><i class="iconfont">&#xe661;</i><br>首页</a></p>

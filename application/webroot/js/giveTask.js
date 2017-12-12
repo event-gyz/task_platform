@@ -7,7 +7,7 @@ var app = new Vue({
         type:[1,2],
         task_id:'',
         url:'',
-        imgs:[1]
+        imgs:[]
     },
     mounted:function(){
         this.$nextTick(function(){
@@ -37,21 +37,20 @@ var app = new Vue({
                 error:function(){
                     util.tips('网络异常，请尝试刷新！');
                 }
-            })
+            });
             wx.config({
-                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                appId: 'aaa', // 必填，企业号的唯一标识，此处填写企业号corpid
-                timestamp: '123123', // 必填，生成签名的时间戳
-                nonceStr: 'sdfsdfsfd', // 必填，生成签名的随机串
-                signature: 'eeee',// 必填，签名，见附录1
+                debug: false,
+                appId: $('#appId').val(),
+                timestamp: $('#timestamp').val(),
+                nonceStr: $('#nonceStr').val(),
+                signature: $('#signature').val(),
                 jsApiList: [
                     'chooseImage',
                     'uploadImage',
                     'downloadImage',
                     'previewImage'
-                ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                ]
             });
-
         });
     },
     computed:{
@@ -62,12 +61,12 @@ var app = new Vue({
         uploadImg:function(){
             var _this = this;
             wx.chooseImage({
-                count: 1,
+                count: 9,
                 sizeType: ['compressed'],
                 sourceType: ['album', 'camera'],
                 success: function (res) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    _this.imgs.push(localIds);
+                    _this.taskImg = _this.taskImg.concat(localIds);
                 }
             });
         },

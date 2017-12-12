@@ -1,3 +1,8 @@
+<?php
+require_once dirname(__FILE__)."./../../controllers/Jssdk.php";
+$jssdk = new JSSDK("wx286bc47fc04c2a25", "587babff126cb893ad86e58d04cbdf30");
+$signPackage = $jssdk->GetSignPackage();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,6 +43,10 @@
                 <p class="button-box"><input type="button" @click="save" value="确认提交" class="common_button"></p>
             </div>
         </div>
+        <input type="hidden" id="appId" value='<?php echo $signPackage["appId"];?>'>
+        <input type="hidden" id="timestamp" value='<?php echo $signPackage["timestamp"];?>'>
+        <input type="hidden" id="nonceStr" value='<?php echo $signPackage["nonceStr"];?>'>
+        <input type="hidden" id="signature" value='<?php echo $signPackage["signature"];?>'>
         <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
         <script type="text/javascript" src="/js/third/jquery.js"></script>
         <script type="text/javascript" src="/js/third/vue.js"></script>

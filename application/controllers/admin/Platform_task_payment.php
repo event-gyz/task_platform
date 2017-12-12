@@ -80,6 +80,35 @@ class Platform_task_payment extends ADMIN_Controller {
         ];
     }
 
+    public function upload_file() {
+
+        $task_id = $this->input->post('task_id');
+
+        if (empty($task_id)) {
+            return $this->response_json(1, '缺少必要参数,请刷新页面再试', ['file_path' => '']);
+        }
+
+        $sub_upload_path = "/upload/pay_voucher/{$task_id}";
+        $upload_path     = FCPATH . $sub_upload_path;
+        if (!file_exists($upload_path)) {
+            wap::create_folders($upload_path);
+        }
+
+        $config['upload_path']   = $upload_path;
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['max_size']      = '2048';
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('file')) {
+            $error = $this->upload->display_errors('', '');
+            return $this->response_json(1, $error, ['file_path' => '']);
+        } else {
+            $data      = $this->upload->data();
+            $file_path = $sub_upload_path . '/' . $data['file_name'];
+            return $this->response_json(0, '上传成功', ['file_path' => $file_path]);
+        }
+    }
+
     /**
      * @return Platform_task_payment_model
      */

@@ -9,7 +9,7 @@ var app = new Vue({
         taskType:'',//任务类型
         taskTitle:'',//任务标题
         taskUrl:'',//任务链接
-        taskImg:[1],//任务图片
+        taskImg:[],//任务图片
         taskDes:'',//任务描述
         taskPrice:'',//任务单价
         numAsk:2,//账号要求（1=有要求，2=无要求）
@@ -56,22 +56,25 @@ var app = new Vue({
                         values: ['线下执行','线上传播','调查收集','其他']
                     }
                 ],
+                onOpen:function(){
+                    $('input').blur();
+                },
                 onChange:function(p, values, displayValues){
                     _this.taskType = values[0];
                 }
             });
             wx.config({
-                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                appId: 'aaa', // 必填，企业号的唯一标识，此处填写企业号corpid
-                timestamp: '123123', // 必填，生成签名的时间戳
-                nonceStr: 'sdfsdfsfd', // 必填，生成签名的随机串
-                signature: 'eeee',// 必填，签名，见附录1
+                debug: false,
+                appId: $('#appId').val(),
+                timestamp: $('#timestamp').val(),
+                nonceStr: $('#nonceStr').val(),
+                signature: $('#signature').val(),
                 jsApiList: [
                     'chooseImage',
                     'uploadImage',
                     'downloadImage',
                     'previewImage'
-                ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                ]
             });
         })
     },
@@ -135,6 +138,9 @@ var app = new Vue({
             var _this = this;
             $("#start_time").calendar({
                 minDate: moment().subtract(1, 'day').format('YYYY-MM-DD'),
+                onOpen:function(){
+                    $('input').blur();
+                },
                 onChange:function(p, values, displayValues){
                     _this.startTime=values[0];
                     var endTime = values;
@@ -149,6 +155,9 @@ var app = new Vue({
                     $("#end_time").calendar({
                         value: endTime,
                         minDate: moment(moment(values[0]).valueOf()).subtract(1, 'day').format('YYYY-MM-DD'),
+                        onOpen:function(){
+                            $('input').blur();
+                        },
                         onChange:function(p, values, displayValues){
                             _this.endTime=values[0];
                         },
@@ -163,6 +172,9 @@ var app = new Vue({
             });
             $("#end_time").calendar({
                 minDate: moment().subtract(1, 'day').format('YYYY-MM-DD'),
+                onOpen:function(){
+                    $('input').blur();
+                },
                 onChange:function(p, values, displayValues){
                     _this.endTime=values[0];
                 },
@@ -178,12 +190,12 @@ var app = new Vue({
         uploadImg: function(){
             var _this = this;
             wx.chooseImage({
-                count: 1,
+                count: 9,
                 sizeType: ['compressed'],
                 sourceType: ['album', 'camera'],
                 success: function (res) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    _this.taskImg.push(localIds);
+                    _this.taskImg = _this.taskImg.concat(localIds);
                 }
             });
         },

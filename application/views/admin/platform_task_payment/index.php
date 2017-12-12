@@ -186,7 +186,7 @@
                                         ?>
 
                                         <?php if ($is_show_confirm_btn): ?>
-                                            <button @click="show_confirm_receive_money_dialog('<?= $value['payment_id'] ?>')"
+                                            <button @click="show_confirm_receive_money_dialog('<?= $value['task_id'] ?>')"
                                                     type="button"
                                                     class="btn btn-primary btn-xs margin-r-5">确认收款
                                             </button>
@@ -218,20 +218,30 @@
 
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
 
-                <el-form-item label="上传凭证">
+                <el-form-item label="上传凭证"
+                              v-loading="upload_loading"
+                              element-loading-text="正在上传,请稍候..."
+                              element-loading-spinner="el-icon-loading"
+                              element-loading-background="rgba(0, 0, 0, 0.8)"
+                >
+
                     <el-col :span="12">
 
                         <el-upload
-                                action=""
+                                ref="upload"
+                                :data="upload_params"
+                                :action="uploadUrl"
                                 :multiple="true"
-                                :file-list="ruleForm.fileList"
-                                :auto-upload="false">
+                                :auto-upload="false"
+                                :on-change="handleChange"
+                        >
                             <el-button slot="trigger" size="mini" type="primary">选取文件</el-button>
                             <el-button size="mini" type="success" @click="submitUpload">上传到服务器</el-button>
                             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                         </el-upload>
 
                     </el-col>
+
                 </el-form-item>
 
                 <el-form-item label="确认金额" prop="pay_money">
@@ -266,8 +276,9 @@
 
     const localComputed = {};
     const localMethods  = {
-        show_confirm_receive_money_dialog: function (payment_id) {
-            this.dialogTableVisible = true;
+        show_confirm_receive_money_dialog: function (task_id) {
+            this.upload_params.task_id = task_id;
+            this.dialogTableVisible    = true;
         },
         submitForm                       : function (formName) {
             this.$refs[formName].validate((valid) => {
@@ -276,16 +287,42 @@
                     return false;
                 }
 
+                // todo 验证表单
+
+                console.log(this.ruleForm.fileList);
+
             });
         },
-        submitUpload() {
-            // this.$refs.upload.submit();
+        submitUpload                     : function () {
+            this.upload_loading = true;
+            this.$refs.upload.submit();
+        },
+        handleChange                     : function (file) {
+            this.upload_loading = false;
+
+            let response = file.response;
+            if (response !== undefined) {
+
+                if (response.error_no === 1) {
+                    return this.$message.error(response.msg);
+                }
+
+                if (response.error_no === 0) {
+                    this.ruleForm.fileList.push(response.data.file_path);
+                    return this.$message.success(response.msg);
+                }
+
+            }
+
         },
     };
     const data          = function () {
         return {
             loading           : false,// 是否显示加载
-            dialogTableVisible: true,// 是否显示dialog
+            upload_loading    : false,// 上传的加载框
+            dialogTableVisible: false,// 是否显示dialog
+            uploadUrl         : '/admin/platform_task_payment/upload_file',// 上传服务器地址
+            upload_params     : {'task_id': 0},// 上传时附带的额外参数
             ruleForm          : {
                 pay_money     : '',
                 confirm_remark: '',
