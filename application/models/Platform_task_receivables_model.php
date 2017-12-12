@@ -21,9 +21,12 @@ class Platform_task_receivables_model extends MY_Model {
     public function get_task_receivables_list_by_condition($where) {
 
         $param_arr       = [
-            'pt.*', 'pmm.*', 'ptm.receivables_status',
-            'ptr.platform_pay_money', 'ptr.receivables_id', 'ptr.platform_pay_way',
-            'ptr.finance_status', 'ptr.pay_time',
+            'pt.task_id', 'pt.task_name',
+            'ptm.receivables_status',
+            'pmm.media_man_id', 'pmm.media_man_login_name', 'pmm.media_man_name',
+            'pmm.sex', 'pmm.media_man_phone', 'pmm.school_name', 'pmm.zfb_nu', 'pmm.zfb_realname',
+            'ptr.platform_pay_way', 'ptr.platform_pay_money', 'ptr.finance_status', 'ptr.pay_time',
+            'ptr.receivables_id',
         ];
         $fields          = implode(',', $param_arr);
         $task_table      = 'platform_task';
@@ -85,9 +88,12 @@ class Platform_task_receivables_model extends MY_Model {
 
     public function get_all_task_receivables_list() {
         $param_arr       = [
-            'pt.*', 'pmm.*', 'ptm.receivables_status',
-            'ptr.platform_pay_money', 'ptr.receivables_id', 'ptr.platform_pay_way',
-            'ptr.finance_status', 'ptr.pay_time',
+            'pt.task_id', 'pt.task_name',
+            'ptm.receivables_status',
+            'pmm.media_man_id', 'pmm.media_man_login_name', 'pmm.media_man_name',
+            'pmm.sex', 'pmm.media_man_phone', 'pmm.school_name', 'pmm.zfb_nu', 'pmm.zfb_realname',
+            'ptr.platform_pay_way', 'ptr.platform_pay_money', 'ptr.finance_status', 'ptr.pay_time',
+            'ptr.receivables_id',
         ];
         $fields          = implode(',', $param_arr);
         $task_table      = 'platform_task';
