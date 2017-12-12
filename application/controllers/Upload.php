@@ -32,6 +32,7 @@ class Upload extends CI_Controller {
         $rs = file_put_contents($pathname,$img);
         $this->_return['errorno'] = '1';
         $this->_return['msg'] = '保存成功';
+        $this->_return['data'] = $pathname;
         echo json_encode($this->_return);
         exit;
     }
