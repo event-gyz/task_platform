@@ -10,6 +10,9 @@ html,body {
     background: #F3F4F8;
     font-size: 14px;
 }
+.main {
+    font-size: 14px;
+}
 table {
     border-collapse:collapse;
     border-spacing:0;
