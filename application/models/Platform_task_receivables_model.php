@@ -25,7 +25,7 @@ class Platform_task_receivables_model extends MY_Model {
             'ptr.platform_pay_money', 'ptr.receivables_id', 'ptr.platform_pay_way',
             'ptr.finance_status', 'ptr.pay_time',
         ];
-        $param           = implode(',', $param_arr);
+        $fields          = implode(',', $param_arr);
         $task_table      = 'platform_task';
         $task_map_table  = 'platform_task_map';
         $media_man_table = 'platform_media_man';
@@ -75,7 +75,7 @@ class Platform_task_receivables_model extends MY_Model {
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
         $sql    .= sprintf(" LIMIT %d,%d", $offset, $limit);
 
-        $_sql = str_replace('[*]', $param, $sql);
+        $_sql = str_replace('[*]', $fields, $sql);
 
         $_list = $this->getList($_sql);
 
@@ -84,20 +84,24 @@ class Platform_task_receivables_model extends MY_Model {
     }
 
     public function get_all_task_receivables_list() {
-        $param_arr = [
+        $param_arr       = [
             'pt.*', 'pmm.*', 'ptm.receivables_status',
             'ptr.platform_pay_money', 'ptr.receivables_id', 'ptr.platform_pay_way',
             'ptr.finance_status', 'ptr.pay_time',
         ];
-        $fields    = implode(',', $param_arr);
-        $this->db->select($fields);
-        $this->db->from(" `{$this->getTableName()}` AS ptr");
-        $this->db->join(' `platform_task_map` AS ptm', 'ptr.task_map_id = ptm.task_map_id', 'LEFT');
-        $this->db->join(' `platform_task` AS pt', 'pt.task_id = ptm.task_id', 'LEFT');
-        $this->db->join(' `platform_media_man` AS pmm', 'pmm.media_man_id = ptm.media_man_user_id', 'LEFT');
-        $this->db->order_by('ptm.create_time', 'DESC');
-        $query = $this->db->get();
-        return $query->result_array();
+        $fields          = implode(',', $param_arr);
+        $task_table      = 'platform_task';
+        $task_map_table  = 'platform_task_map';
+        $media_man_table = 'platform_media_man';
+        $sql             = "SELECT $fields FROM `{$this->table}` AS ptr ";
+        $sql             .= "LEFT JOIN `{$task_map_table}` AS ptm on ptr.task_map_id = ptm.task_map_id ";
+        $sql             .= "LEFT JOIN `{$task_table}` AS pt ON pt.task_id = ptm.task_id ";
+        $sql             .= "LEFT JOIN `{$media_man_table}` AS pmm on pmm.media_man_id = ptm.media_man_user_id ";
+        $sql             .= 'ORDER BY ptm.create_time DESC';
+
+        $pdo = new \PDO($this->db->dsn, $this->db->username, $this->db->password);
+        $pdo->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+        return $pdo->query($sql);
     }
 
     public function updateInfo($receivables_id, $info) {

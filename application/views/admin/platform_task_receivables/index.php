@@ -321,7 +321,7 @@
 
                 if (resData.error_no === 0) {
                     $(params.cur_btn_select).removeClass('is-loading');
-                    let loading_html = `<a href="${params.cur_zip_path}" style="color:white;cursor:pointer;">点击下载</a>`;
+                    let loading_html = `<a href="${params.cur_excel_path}" style="color:white;cursor:pointer;">点击下载</a>`;
                     $(params.cur_btn_select).html(loading_html);
                     this.$message.success('excel生成完毕,请点击下载');
 

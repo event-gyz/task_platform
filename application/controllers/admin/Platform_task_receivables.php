@@ -158,6 +158,8 @@ class Platform_task_receivables extends ADMIN_Controller {
         $str       = iconv('utf-8', "gb2312//IGNORE", $str);// '一'bug 必须带上//IGNORE
         file_put_contents($csv_file_path, $str);
 
+        $platform_pay_way_list = $this->config->item('media_man_list_platform_pay_way');
+
         foreach ($data as $k => $v) {
 
             $task_id              = $v['task_id'];
@@ -170,10 +172,19 @@ class Platform_task_receivables extends ADMIN_Controller {
             $school_name          = $v['school_name'];
             $zfb_nu               = $v['zfb_nu'];
             $zfb_realname         = $v['zfb_realname'];
-            $platform_pay_way     = $v['platform_pay_way'];
+            $platform_pay_way     = $platform_pay_way_list[$v['platform_pay_way']];
             $platform_pay_money   = $v['platform_pay_money'];
-            $finance_status       = $v['finance_status'];
-            $pay_time             = $v['pay_time'];
+
+            $finance_status = '未知';
+            if (($v['finance_status'] === "0")) {
+                $finance_status = '待付款';
+            } elseif (($v['finance_status'] === "1") && ($v['receivables_status'] === "0")) {
+                $finance_status = '待确认收款';
+            } elseif (($v['finance_status'] === "1") && ($v['receivables_status'] === "1")) {
+                $finance_status = '已完成';
+            }
+
+            $pay_time = $v['pay_time'];
 
             $value_arr = [
                 $task_id, $task_name, $media_man_id, $media_man_login_name,

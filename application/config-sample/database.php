@@ -5,7 +5,7 @@ $active_group  = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-    'dsn'          => '',
+    'dsn'          => 'mysql:host=192.168.100.21;dbname=task_platform',
     'hostname'     => '192.168.100.21',
     'username'     => 'huitang',
     'password'     => 'Evt_huitang2015',
