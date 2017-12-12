@@ -107,7 +107,7 @@ class Index extends CI_Controller {
                 'id_card' => $_POST['idCard'],
                 'advertiser_type' => 1,
                 'id_card_positive_pic' => $_POST['frontCard'],
-                'id_card_back_pic' => (int)$_POST['backCard'],
+                'id_card_back_pic' => $_POST['backCard'],
                 'handheld_id_card_pic' => $_POST['handheld_id_card_pic'],
             );
             //企业

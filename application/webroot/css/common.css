@@ -252,6 +252,7 @@ table {
 }
 table td,
 table th {
+    position: relative;
     height: 50px;
     padding: 3px 15px 3px 0;
 }
