@@ -15,7 +15,7 @@ $signPackage = $jssdk->GetSignPackage();
     <link rel="stylesheet" href="/css/login.css" />
     <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_xnfkadft2e7y14i.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="/css/weui.min.css">
 </head>
 <body>
 <div class="main" id="app">
@@ -61,8 +61,8 @@ $signPackage = $jssdk->GetSignPackage();
         <div class="input-box" style="margin-bottom:0px">
             <table>
                 <tr>
-                    <th align="left" class="border_bottom" width="90px;">任务单价</th>
-                    <td class="border_bottom"><input style="text-align: right;width:88%;" type="number" v-model="taskPrice" placeholder="请输入"><span style="color: #333;">元</span></td>
+                    <th align="left" class="border_bottom" width="70px;">任务单价</th>
+                    <td class="border_bottom"><input style="text-align: right;width:87%;" type="number" v-model="taskPrice" placeholder="请输入"><span style="color: #333;">元</span></td>
                 </tr>
                 <tr>
                     <th align="left" class="border_bottom" >账号要求</th>
@@ -158,7 +158,7 @@ $signPackage = $jssdk->GetSignPackage();
                 </tr>
                 <tr>
                     <th align="left" class="border_bottom">账号数量</th>
-                    <td class="border_bottom"><input style="text-align: right;width: 88%;" type="number" v-model="number" placeholder="请输入"><span style="color: #333;">个</span></td>
+                    <td class="border_bottom"><input style="text-align: right;width: 87%;" type="number" v-model="number" placeholder="请输入"><span style="color: #333;">个</span></td>
                 </tr>
                 <tr>
                     <th align="left" class="border_bottom">任务总价</th>

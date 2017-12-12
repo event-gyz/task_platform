@@ -94,8 +94,34 @@ var app = new Vue({
                 sizeType: ['compressed'],
                 sourceType: ['album', 'camera'],
                 success: function (res) {
-                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                    _this[name] = localIds;
+                    var localIds = typeof(res.localIds) == 'string'?[res.localIds]:res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    localIds.forEach(function(item,index){
+                        wx.getLocalImgData({
+                            localId: '' + item, // 图片的localID
+                            success: function (res) {
+                                var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                                $.ajax({
+                                    url: "/upload/base64toimg",
+                                    dataType: 'json',
+                                    type:"post",
+                                    data:{
+                                        imgBase64:localData
+                                    },
+                                    success: function(res) {
+                                        if(res.errorno >= 0){
+                                            var url = '/'+res.data;
+                                            _this[name] = url;
+                                        }else{
+                                            util.tips(res.msg)
+                                        }
+                                    },
+                                    error:function(){
+                                        util.tips('网络异常，请尝试刷新！');
+                                    }
+                                });
+                            }
+                        });
+                    });
                 }
             });
         },

@@ -71,6 +71,7 @@
     width: 100%;
     padding-bottom: 10px;
     overflow: hidden;
+    position: relative;
 }
 .generalize_up_button li {
     float: left;
@@ -85,8 +86,8 @@
     width: 100%;
 }
 .generalize_up_button li.text {
-    padding-left: 15px;
-    width: 180px;
+    position: absolute;
+    margin-left: 70px;
     height: 60px;
     line-height: 16px;
     font-size: 12px;
@@ -111,7 +112,7 @@ table tr.no_bg div.bg {
 }
 .sjpt ul {
     display: inline-block;
-    padding: 0 18px;
+    padding: 0 8px;
 }
 .sjpt ul li {
     float: left;
