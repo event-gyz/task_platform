@@ -186,14 +186,15 @@
                                         ?>
 
                                         <?php if ($is_show_confirm_btn): ?>
-                                            <button @click="show_confirm_receive_money_dialog('<?= $value['task_id'] ?>')"
+                                            <button @click="show_confirm_receive_money_dialog('<?= $value['task_id'] ?>','<?= $value['payment_id'] ?>')"
                                                     type="button"
                                                     class="btn btn-primary btn-xs margin-r-5">确认收款
                                             </button>
                                         <?php endif; ?>
 
                                         <?php if ($is_show_view_btn): ?>
-                                            <button @click="" type="button"
+                                            <button @click="show_view_receive_money_dialog('<?= $value['payment_id'] ?>')"
+                                                    type="button"
                                                     class="btn btn-success btn-xs margin-r-5">查看凭证
                                             </button>
                                         <?php endif; ?>
@@ -216,7 +217,8 @@
 
         <el-dialog title="上传支付凭证" :visible.sync="dialogTableVisible" center>
 
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" v-loading.body="loading_form"
+                     element-loading-text="提交中,请稍候...">
 
                 <el-form-item label="上传凭证">
 
@@ -262,6 +264,39 @@
             </div>
         </el-dialog>
 
+        <el-dialog title="查看支付凭证" :visible.sync="dialogTableVisible4View" center>
+
+            <el-form label-width="100px" v-loading.body="loading_form4view" element-loading-text="查询中,请稍候...">
+
+                <el-form-item label="上传凭证">
+
+                    <el-carousel :interval="4000" type="card" height="200px" arrow="never">
+                        <el-carousel-item v-for="item in cur_pay_voucher" :key="item">
+                            <a :href="item" target="_blank"><img :src="item"></a>
+                        </el-carousel-item>
+                    </el-carousel>
+
+                </el-form-item>
+
+                <el-form-item label="确认金额">
+                    <el-col :span="8">
+                        <el-input v-model="cur_payment_info.pay_money" :disabled="true"></el-input>
+                    </el-col>
+                </el-form-item>
+
+                <el-form-item label="备注" prop="confirm_remark">
+                    <el-col :span="8">
+                        <el-input type="textarea" v-model="cur_payment_info.confirm_remark" :disabled="true"></el-input>
+                    </el-col>
+                </el-form-item>
+
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button type="info" @click="dialogTableVisible4View = false">关 闭</el-button>
+            </div>
+        </el-dialog>
+
     </section>
     <!-- /.content -->
 </div>
@@ -273,9 +308,51 @@
 
     const localComputed = {};
     const localMethods  = {
-        show_confirm_receive_money_dialog: function (task_id) {
-            this.upload_params.task_id = task_id;
-            this.dialogTableVisible    = true;
+        show_view_receive_money_dialog   : async function (payment_id) {
+            try {
+
+                this.dialogTableVisible4View = true;
+                this.loading_form4view       = true;
+                const url                    = '/admin/platform_task_payment/view_task_payment';
+                const response               = await axios.get(url, {
+                    params: {"payment_id": payment_id}
+                });
+                this.loading_form4view       = false;
+                const resData                = response.data;
+
+                if (resData.error_no === 0) {
+                    this.cur_payment_info = resData.data;
+                    this.cur_pay_voucher  = JSON.parse(resData.data.pay_voucher);
+                    return true;
+                }
+
+                return this.$message.error(resData.msg);
+
+            } catch (error) {
+                this.loading_form4view = false;
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+
+        },
+        show_confirm_receive_money_dialog: function (task_id, payment_id) {
+            this.upload_params.task_id    = task_id;
+            this.upload_params.payment_id = payment_id;
+            this.dialogTableVisible       = true;
         },
         submitForm                       : function (formName) {
             this.$refs[formName].validate((valid) => {
@@ -295,9 +372,57 @@
                     return false;
                 }
 
-                console.log(this.ruleForm);
+                this.confirm_receive_money();
 
             });
+
+        },
+        confirm_receive_money            : async function () {
+            try {
+
+                this.loading_form = true;
+                const url         = '/admin/platform_task_payment/confirm_receive_money';
+                const response    = await axios.post(
+                    url,
+                    {
+                        "task_id"       : this.upload_params.task_id,
+                        "payment_id"    : this.upload_params.payment_id,
+                        "pay_money"     : this.ruleForm.pay_money,
+                        "fileList"      : this.ruleForm.fileList,
+                        "confirm_remark": this.ruleForm.confirm_remark,
+                    },
+                );
+                this.loading_form = false;
+                const resData     = response.data;
+
+                if (resData.error_no === 0) {
+                    this.dialogTableVisible = false;
+                    this.$message.success('操作成功,即将刷新页面...');
+                    return window.location.reload();
+                }
+
+                return this.$message.error(resData.msg);
+
+            } catch (error) {
+
+                this.loading_form = false;
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
         },
         submitUpload                     : function () {
             this.$refs.upload.submit();
@@ -336,16 +461,19 @@
     };
     const data          = function () {
         return {
-            loading           : false,// 是否显示加载
-            dialogTableVisible: false,// 是否显示dialog
-            uploadUrl         : '/admin/platform_task_payment/upload_file',// 上传服务器地址
-            upload_params     : {'task_id': 0, 'img_timestamp': 0},// 上传时附带的额外参数
-            ruleForm          : {
+            loading                : false,// 是否显示加载
+            loading_form           : false,// 表单加载
+            loading_form4view      : false,// 查看表单的加载
+            dialogTableVisible     : false,// 是否显示dialog
+            dialogTableVisible4View: false,// 是否显示查看支付凭证的dialog
+            uploadUrl              : '/admin/platform_task_payment/upload_file',// 上传服务器地址
+            upload_params          : {'task_id': 0, 'payment_id': 0, 'img_timestamp': 0},// 上传时附带的额外参数
+            ruleForm               : {
                 pay_money     : '',
                 confirm_remark: '',
                 fileList      : [],
             },
-            rules             : {
+            rules                  : {
                 pay_money     : [
                     {required: true, message: '确认金额', trigger: 'blur'}
                 ],
@@ -353,6 +481,8 @@
                     {required: false, message: '请填写备注', trigger: 'blur'}
                 ]
             },
+            cur_payment_info       : {},
+            cur_pay_voucher        : [],
         };
     };
 
