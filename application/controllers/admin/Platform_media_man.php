@@ -156,6 +156,7 @@ class Platform_media_man extends ADMIN_Controller {
                 'industry_list'        => $this->config->item('industry'),
                 'wx_type_list'         => $this->config->item('wx_type'),
                 'weibo_type_list'      => $this->config->item('weibo_type'),
+                'area_list'            => $this->__get_china_model()->get_area_list(),
             ]
         );
     }
@@ -181,6 +182,13 @@ class Platform_media_man extends ADMIN_Controller {
         $req_data['last_operator_id']   = $this->sys_user_info['id'];
         $req_data['last_operator_name'] = $this->sys_user_info['user_name'];
         $sys_log_content                = '修改了媒体人信息';
+
+        if (!empty($req_data['area_info'])) {
+            $req_data['school_province'] = isset($req_data['area_info'][0]) ? $req_data['area_info'][0] : '';
+            $req_data['school_city']     = isset($req_data['area_info'][1]) ? $req_data['area_info'][1] : '';
+            $req_data['school_area']     = isset($req_data['area_info'][2]) ? $req_data['area_info'][2] : '';
+            unset($req_data['area_info']);
+        }
 
         $result = $this->__get_platform_media_man_model()->updateInfo($id, $req_data);
 

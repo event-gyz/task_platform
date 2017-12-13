@@ -110,24 +110,14 @@
                             </el-form-item>
 
                             <el-form-item label="学校地区" prop="school_province">
-                                <el-select v-model="ruleForm.school_province" placeholder="请选择学校所在省">
-                                    <el-option label="公立学校" value="1"></el-option>
-                                    <el-option label="私立学校" value="2"></el-option>
-                                </el-select>
-                            </el-form-item>
 
-                            <el-form-item prop="school_city">
-                                <el-select v-model="ruleForm.school_city" placeholder="请选择学校所在市">
-                                    <el-option label="公立学校" value="1"></el-option>
-                                    <el-option label="私立学校" value="2"></el-option>
-                                </el-select>
-                            </el-form-item>
+                                <el-cascader
+                                        expand-trigger="hover"
+                                        :options="area_list"
+                                        v-model="ruleForm.area_info"
+                                >
+                                </el-cascader>
 
-                            <el-form-item prop="school_area">
-                                <el-select v-model="ruleForm.school_area" placeholder="请选择学校所在区">
-                                    <el-option label="公立学校" value="1"></el-option>
-                                    <el-option label="私立学校" value="2"></el-option>
-                                </el-select>
                             </el-form-item>
 
                             <el-form-item label="办学层次" prop="school_level">
@@ -256,9 +246,11 @@
                     media_man_phone: '<?= $info['media_man_phone']?>',
                     school_name    : '<?= $info['school_name']?>',
                     school_type    : '<?= $info['school_type']?>',
-                    school_province: '<?= $info['school_province']?>',
-                    school_city    : '<?= $info['school_city']?>',
-                    school_area    : '<?= $info['school_area']?>',
+                    area_info      : [
+                        '<?= $info['school_province']?>',
+                        '<?= $info['school_city']?>',
+                        '<?= $info['school_area']?>',
+                    ],
                     school_level   : '<?= $info['school_level']?>',
                     zfb_nu         : '<?= $info['zfb_nu']?>',
                     zfb_realname   : '<?= $info['zfb_realname']?>',
@@ -288,15 +280,6 @@
                     ],
                     school_type    : [
                         {required: true, message: '请选择学校类型', trigger: 'change'}
-                    ],
-                    school_province: [
-                        {required: true, message: '请选择学校所在省', trigger: 'change'}
-                    ],
-                    school_city    : [
-                        {required: true, message: '请选择学校所在城市', trigger: 'change'}
-                    ],
-                    school_area    : [
-                        {required: true, message: '请选择学校所在区', trigger: 'change'}
                     ],
                     school_level   : [
                         {required: true, message: '请选择学校办学层次', trigger: 'change'}
@@ -337,7 +320,8 @@
                     weibo_link     : [
                         {required: true, message: '请填写微博链接', trigger: 'blur'}
                     ],
-                }
+                },
+                area_list        : JSON.parse('<?= json_encode($area_list) ?>'),
             };
         },
         methods: {
