@@ -303,4 +303,12 @@ class Platform_media_man extends ADMIN_Controller {
         return $this->Platform_media_man_model;
     }
 
+    /**
+     * @return China_model
+     */
+    private function __get_china_model() {
+        $this->load->model('China_model');
+        return $this->China_model;
+    }
+
 }
