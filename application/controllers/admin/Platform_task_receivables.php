@@ -162,7 +162,7 @@ class Platform_task_receivables extends ADMIN_Controller {
 
         foreach ($data as $k => $v) {
 
-            $task_id              = $v['task_id'];
+            $task_id              = 'RW' . $v['task_id'];
             $task_name            = $v['task_name'];
             $media_man_id         = $v['media_man_id'];
             $media_man_login_name = $v['media_man_login_name'];

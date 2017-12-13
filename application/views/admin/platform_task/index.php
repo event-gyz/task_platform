@@ -154,7 +154,7 @@
                                 <tr>
                                     <th>
                                         <a href="/admin/platform_task/task_detail?id=<?= $value['task_id'] ?>">
-                                            <?= $value['task_id'] ?>
+                                            RW<?= $value['task_id'] ?>
                                         </a>
                                     </th>
                                     <th><?= $value['task_name'] ?></th>
