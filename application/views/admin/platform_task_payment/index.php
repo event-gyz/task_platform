@@ -191,14 +191,14 @@
                                         <?php if ($is_show_confirm_btn): ?>
                                             <button @click="show_confirm_receive_money_dialog('<?= $value['task_id'] ?>','<?= $value['payment_id'] ?>')"
                                                     type="button"
-                                                    class="btn btn-primary btn-xs margin-r-5">确认收款
+                                                    class="btn btn-primary btn-sm margin-r-5">确认收款
                                             </button>
                                         <?php endif; ?>
 
                                         <?php if ($is_show_view_btn): ?>
                                             <button @click="show_view_receive_money_dialog('<?= $value['payment_id'] ?>')"
                                                     type="button"
-                                                    class="btn btn-success btn-xs margin-r-5">查看凭证
+                                                    class="btn btn-success btn-sm margin-r-5">查看凭证
                                             </button>
                                         <?php endif; ?>
 

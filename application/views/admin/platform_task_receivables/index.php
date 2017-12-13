@@ -174,7 +174,7 @@
                                         <?php if ($is_show_confirm_pay_btn): ?>
                                             <button @click="confirm_pay_money('<?= $value['receivables_id'] ?>','<?= $value['task_name'] ?>')"
                                                     type="button"
-                                                    class="btn btn-primary btn-xs margin-r-5">确认付款
+                                                    class="btn btn-primary btn-sm margin-r-5">确认付款
                                             </button>
                                         <?php endif; ?>
 

@@ -213,7 +213,7 @@
 
                                         <?php if ($is_show_audit_btn): ?>
                                             <a href="/admin/platform_task/task_detail?id=<?= $value['task_id'] ?>"
-                                               class="btn btn-warning btn-xs">
+                                               class="btn btn-warning btn-sm">
                                                 审核
                                             </a>
                                         <?php endif; ?>
@@ -221,7 +221,7 @@
                                         <?php if ($is_show_cancellation_btn): ?>
                                             <button @click="update_task_release_status('<?= $value['task_id'] ?>')"
                                                     type="button"
-                                                    class="btn btn-warning btn-xs margin-r-5">
+                                                    class="btn btn-danger btn-sm margin-r-5">
                                                 手工作废
                                             </button>
                                         <?php endif; ?>
