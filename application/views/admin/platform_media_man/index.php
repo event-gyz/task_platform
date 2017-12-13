@@ -192,7 +192,7 @@
                                 <tr>
                                     <th>
                                         <a href="/admin/platform_media_man/media_man_detail?id=<?= $value['media_man_id'] ?>">
-                                            <?= $value['media_man_id'] ?>
+                                            KPS<?= $value['media_man_id'] ?>
                                         </a>
                                     </th>
                                     <th><?= $value['media_man_login_name'] ?></th>

@@ -163,7 +163,7 @@
                                 <tr>
                                     <th>
                                         <a href="/admin/platform_advertiser/personal_adv_detail?id=<?= $value['advertiser_id'] ?>">
-                                            <?= $value['advertiser_id'] ?>
+                                            KPS<?= $value['advertiser_id'] ?>
                                         </a>
                                     </th>
                                     <th><?= $value['advertiser_login_name'] ?></th>
