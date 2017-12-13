@@ -30,7 +30,7 @@
         <script type="text/javascript" src="/js/third/jquery.js"></script>
         <script type="text/javascript" src="/js/util.js"></script>
         <script type="text/javascript" src="/js/third/vue.js"></script>
-        <script type="text/javascript" src="/js/new_pwd_advert.js"></script>
+        <script type="text/javascript" src="/js/newPwdAdvert.js"></script>
     </body>
 </html>
 
