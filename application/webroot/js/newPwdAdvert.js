@@ -25,7 +25,7 @@ var app = new Vue({
                 type:"post",
                 data:{
                     password:this.password,
-                    againPassword:this.againPassword
+                    rel_password:this.againPassword
                 },
                 success: function(res) {
                     if(res.errorno > 0){
