@@ -152,6 +152,7 @@ class Index extends CI_Controller {
                 'weibo_max_fans' => (int)$_POST['weibo_max_fans'],
                 'weibo_link' => trim($_POST['weibo_link']),
                 'status' => 1,  //进入后台审核列表
+                'audit_status' => 0,  //进入后台审核列表
             );
 
             $userInfo = $this->__get_user_session();
