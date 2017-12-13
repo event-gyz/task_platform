@@ -33,7 +33,7 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="advertiser_name" class="col-sm-3 control-label">姓名</label>
+                                        <label for="advertiser_name" class="col-sm-4 control-label">姓名</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control" id="advertiser_name"
                                                    placeholder="输入姓名来搜索..." name="advertiser_name"
@@ -43,7 +43,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="advertiser_phone" class="col-sm-3 control-label">手机号码</label>
+                                        <label for="advertiser_phone" class="col-sm-4 control-label">手机号码</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control" id="advertiser_phone"
                                                    placeholder="输入手机号码来搜索..." name="advertiser_phone"
@@ -53,7 +53,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="audit_status" class="col-sm-3 control-label">审核状态</label>
+                                        <label for="audit_status" class="col-sm-4 control-label">审核状态</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="audit_status">
                                                 <option value="">全部</option>
@@ -71,8 +71,8 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label class="col-sm-3 control-label">注册时间</label>
-                                        <div class="input-group">
+                                        <label class="col-sm-4 control-label">注册时间</label>
+                                        <div class="col-sm-7 input-group">
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
@@ -89,7 +89,7 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="id_card" class="col-sm-3 control-label">身份证号</label>
+                                        <label for="id_card" class="col-sm-4 control-label">身份证号</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
                                                    placeholder="输入身份证号来搜索..." name="id_card"
@@ -99,17 +99,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="advertiser_id" class="col-sm-3 control-label">用户ID</label>
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control"
-                                                   placeholder="输入用户ID来搜索..." name="advertiser_id"
-                                                   value="<?= $form_data['advertiser_id'] ?>"
-                                            >
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-xs-3">
-                                        <label for="status" class="col-sm-3 control-label">账号状态</label>
+                                        <label for="status" class="col-sm-4 control-label">账号状态</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="status">
                                                 <option value="">全部</option>
@@ -127,7 +117,21 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <button type="submit" class="btn btn-info">搜索</button>
+                                        <label for="advertiser_id" class="col-sm-4 control-label">用户ID</label>
+                                        <div class="col-sm-7 input-group">
+                                            <span class="input-group-addon">KPS</span>
+                                            <input type="text" class="form-control"
+                                                   placeholder="输入用户ID来搜索..." name="advertiser_id"
+                                                   value="<?= $form_data['advertiser_id'] ?>"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-xs-3">
+                                        <label for="sex" class="col-sm-4 control-label"></label>
+                                        <div class="col-sm-7">
+                                            <button type="submit" class="btn btn-info">搜索</button>
+                                        </div>
                                     </div>
 
                                 </div>
