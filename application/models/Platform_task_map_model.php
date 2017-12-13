@@ -343,8 +343,8 @@ class Platform_task_map_model extends MY_Model {
 
         // 根据media_man_id
         $sql .= sprintf(" AND ptm.media_man_user_id = %d", $media_man_id);
-        if (isset($where['map_id']) && $where['map_id']) {
-            $sql .= sprintf(" AND ptm.task_map_id = %d", $where['map_id']);
+        if (isset($where['task_id']) && $where['task_id']) {
+            $sql .= sprintf(" AND ptm.task_id = %d", $where['task_id']);
         }
         if (isset($where['receive_status'])) {
             $sql .= sprintf(" AND ptm.receive_status = %d", $where['receive_status']);
