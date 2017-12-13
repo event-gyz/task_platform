@@ -344,7 +344,7 @@
                 });
             },
             goBack                        : function (formName) {
-                window.location.href = '/admin/platform_media_man/home';
+                window.history.go(-1);
             },
             media_audit                   : async function () {
                 try {
