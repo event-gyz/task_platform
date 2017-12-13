@@ -22,7 +22,7 @@
                     </div>
                     <div class="context">
                         <ul>
-                            <li>任务编号：<span>{{item.task_id}}</span></li>
+                            <li>任务编号：<span>RW{{item.task_id}}</span></li>
                             <li>任务类型：<span>{{typeFn(item.task_type)}}</span></li>
                             <li>任务总价：<span class="warn">¥{{item.total_price}}</span></li>
                             <li>发布平台：<span>{{platformFn(item.publishing_platform)}}</span></li>
