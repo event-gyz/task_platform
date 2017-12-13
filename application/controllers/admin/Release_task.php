@@ -337,6 +337,8 @@ class Release_task extends ADMIN_Controller {
             $sys_log_content = "自媒体人{$task_map_info['media_man_user_name']}-{$task_map_info['media_man_user_id']}提交的任务交付,被审核驳回了";
         }
 
+        $this->db->trans_begin();
+
         if ($deliver_audit_status === "1") {
             // 自媒体人交付的任务审核通过后,需要向platform_task_receivables表中插入数据
             $this->__get_platform_task_receivables_model()->insert(['task_map_id' => $task_map_id]);
@@ -345,13 +347,17 @@ class Release_task extends ADMIN_Controller {
         $result = $this->__get_platform_task_map_model()->updateInfo($task_map_id, $update_info);
 
         if ($result === 1) {
-
             $this->add_sys_log(12, $sys_log_content, $id, json_encode($task_map_info), json_encode($update_info));
-
-            return $this->response_json(0, '操作成功');
         }
 
-        return $this->response_json(1, '非法操作');
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->response_json(1, '操作失败,请稍候再试');
+        }
+
+        $this->db->trans_commit();
+
+        return $this->response_json(0, '操作成功');
     }
 
     // 检测文件是否写入完毕
