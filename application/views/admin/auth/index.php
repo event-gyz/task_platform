@@ -30,8 +30,8 @@
                             <form class="form-horizontal">
 
                                 <div class="form-group col-xs-3">
-                                    <label for="auth_name" class="col-sm-3 control-label">权限名称</label>
-                                    <div class="col-sm-9">
+                                    <label for="auth_name" class="col-sm-4 control-label">权限名称</label>
+                                    <div class="col-sm-7">
                                         <input type="text" class="form-control" id="auth_name"
                                                placeholder="输入权限名称来搜索..." name="auth_name"
                                                value="<?= $form_data['auth_name'] ?>"
@@ -40,8 +40,8 @@
                                 </div>
 
                                 <div class="form-group col-xs-3">
-                                    <label for="level" class="col-sm-3 control-label">权限等级</label>
-                                    <div class="col-sm-9">
+                                    <label for="level" class="col-sm-4 control-label">权限等级</label>
+                                    <div class="col-sm-7">
                                         <select class="form-control" name="level">
                                             <option value="0"
                                                 <?= $form_data['level'] == '0' ? "selected" : "" ?>

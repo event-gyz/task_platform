@@ -30,8 +30,8 @@
                             <form class="form-horizontal">
 
                                 <div class="form-group col-xs-3">
-                                    <label for="role_name" class="col-sm-3 control-label">角色名称</label>
-                                    <div class="col-sm-9">
+                                    <label for="role_name" class="col-sm-4 control-label">角色名称</label>
+                                    <div class="col-sm-7">
                                         <input type="text" class="form-control" id="role_name"
                                                placeholder="输入角色名称来搜索..." name="role_name"
                                                value="<?= $form_data['role_name'] ?>"
