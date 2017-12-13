@@ -131,7 +131,7 @@
                                 <tr>
                                     <th>RW<?= $value['task_id'] ?></th>
                                     <th><?= $value['task_name'] ?></th>
-                                    <th><?= $value['media_man_id'] ?></th>
+                                    <th>KPS<?= $value['media_man_id'] ?></th>
                                     <th><?= $value['media_man_login_name'] ?></th>
                                     <th><?= $value['media_man_name'] ?></th>
                                     <th><?= $value['sex'] === "1" ? "男" : "女" ?></th>

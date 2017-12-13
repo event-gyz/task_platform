@@ -240,7 +240,7 @@ class Platform_task_payment extends ADMIN_Controller {
 
             $task_id               = 'RW' . $v['task_id'];
             $task_name             = $v['task_name'];
-            $advertiser_id         = $v['advertiser_id'];
+            $advertiser_id         = 'KPS' . $v['advertiser_id'];
             $advertiser_login_name = $v['advertiser_login_name'];
 
             $u_name_or_c_name   = '';

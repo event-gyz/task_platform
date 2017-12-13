@@ -164,7 +164,7 @@ class Platform_task_receivables extends ADMIN_Controller {
 
             $task_id              = 'RW' . $v['task_id'];
             $task_name            = $v['task_name'];
-            $media_man_id         = $v['media_man_id'];
+            $media_man_id         = 'KPS' . $v['media_man_id'];
             $media_man_login_name = $v['media_man_login_name'];
             $media_man_name       = $v['media_man_name'];
             $sex                  = $v['sex'] === "1" ? "男" : "女";

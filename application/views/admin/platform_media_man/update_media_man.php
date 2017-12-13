@@ -25,7 +25,7 @@
                 <div class="row">
 
                     <div class="col-sm-2 invoice-col">
-                        <b>用户ID：</b> <?= $info['media_man_id'] ?><br><br>
+                        <b>用户ID：</b> KPS<?= $info['media_man_id'] ?><br><br>
                     </div>
 
                     <div class="col-sm-2 invoice-col">
