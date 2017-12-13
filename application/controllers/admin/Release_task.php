@@ -229,8 +229,7 @@ class Release_task extends ADMIN_Controller {
     // 系统自动发布规则
     private function __sys_auto_release($task_info) {
 
-        $actual_media_man_number = 0;// 实际计算出来符合条件的自媒体人的帐号数量
-        $media_man_number        = $task_info['media_man_number'];// 广告主要求的自媒体人数量
+        $media_man_number = $task_info['media_man_number'];// 广告主要求的自媒体人数量
 
         // media_man_require 自媒体人帐号要求 1有 2无
         if ($task_info['media_man_require'] === '2') {
