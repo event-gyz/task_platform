@@ -139,8 +139,8 @@
                 <!--待领取-->
                 <table class="info_table">
                     <tr>
-                        <td><a href="#" class="common_button2 accept">领取</a></td>
-                        <td><a href="#" class="common_button4 refuse">拒绝</a></td>
+                        <td><a href="javascrtip:;" class="common_button2 accept">领取</a></td>
+                        <td><a href="javascrtip:;" class="common_button4 refuse">拒绝</a></td>
                     </tr>
                 </table>
                 <!--待领取-end-->
