@@ -149,6 +149,7 @@ class Index extends CI_Controller {
         }
         //进入后台审核列表
         $data['status'] = 1;
+        $data['audit_status'] = 0;
 
         //通过session获取用户信息
         $userInfo = $this->__get_user_session();
