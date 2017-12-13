@@ -149,6 +149,7 @@
         </div>
         <script type="text/javascript" src="/js/third/jquery.js"></script>
         <script type="text/javascript" src="/js/third/swiper-3.3.1.jquery.min.js"></script>
+        <script type="text/javascript" src="/js/util.js"></script>
         <script type="text/javascript" src="/js/indexMedia.js"></script>
     </body>
 </html>
