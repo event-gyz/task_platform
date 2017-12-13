@@ -208,11 +208,12 @@ class Release_task extends ADMIN_Controller {
             return $this->response_json(1, '查找不到对应的信息');
         }
 
-        $update_info['platform_price'] = $platform_price;
-        $update_info['release_status'] = 1;// 设定任务发布状态为已发布
-        $sys_log_content               = '修改任务价格为:' . $platform_price;
+        $actual_media_man_number = $this->__sys_auto_release($info);
 
-        $this->__sys_auto_release($info);
+        $update_info['actual_media_man_number'] = $actual_media_man_number;
+        $update_info['platform_price']          = $platform_price;
+        $update_info['release_status']          = 1;// 设定任务发布状态为已发布
+        $sys_log_content                        = '修改任务价格为:' . $platform_price;
 
 //        $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
 //
@@ -235,7 +236,7 @@ class Release_task extends ADMIN_Controller {
         if ($task_info['media_man_require'] === '2') {
             // 发送给全量的自媒体帐号
             $data0 = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require([]);
-            $this->__get_platform_media_man_model()->do_sys_auto_release($task_info['task_id'], $data0['list']);
+            $this->__get_platform_task_map_model()->do_sys_auto_release($task_info['task_id'], $data0['list']);
             return $data0['total'];
         }
 
@@ -280,12 +281,12 @@ class Release_task extends ADMIN_Controller {
                 // 当捞取的自媒体账号数小于等于账号数量的50%时，则视同平台无法满足账号要求，给全部自媒体账号发送此条任务信息。
                 // 发送给全量的自媒体帐号
                 $data0 = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require([]);
-                $this->__get_platform_media_man_model()->do_sys_auto_release($task_info['task_id'], $data0['list']);
+                $this->__get_platform_task_map_model()->do_sys_auto_release($task_info['task_id'], $data0['list']);
                 return $data0['total'];
             }
 
             // 发送给符合条件的自媒体人帐号,虽然不完全满足数量的要求
-            $this->__get_platform_media_man_model()->do_sys_auto_release($task_info['task_id'], $data['list']);
+            $this->__get_platform_task_map_model()->do_sys_auto_release($task_info['task_id'], $data['list']);
             return $actual_media_man_number;
 
         }
@@ -318,7 +319,7 @@ class Release_task extends ADMIN_Controller {
             }
 
             $data2 = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require($where);
-            $this->__get_platform_media_man_model()->do_sys_auto_release($task_info['task_id'], $data2['list']);
+            $this->__get_platform_task_map_model()->do_sys_auto_release($task_info['task_id'], $data2['list']);
             return $data2['total'];
 
         }
