@@ -213,7 +213,7 @@
                             </el-form-item>
 
                             <el-form-item>
-                                <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+                                <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
                                 <el-button @click="goBack('ruleForm')">返回</el-button>
                             </el-form-item>
 
