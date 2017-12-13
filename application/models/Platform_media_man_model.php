@@ -96,22 +96,22 @@ class Platform_media_man_model extends MY_Model {
 
         // 性别要求
         if (isset($where['require_sex']) && $where['require_sex']) {
-            $sql .= sprintf(" OR mm.sex = %d ", $where['require_sex']);
+            $sql .= sprintf(" AND mm.sex = %d ", $where['require_sex']);
         }
 
         // 自媒体人年龄要求
         if (isset($where['require_age']) && $where['require_age']) {
-            $sql .= sprintf(" OR mm.age IN (%s) ", $where['require_age']);
+            $sql .= sprintf(" AND mm.age IN (%s) ", $where['require_age']);
         }
 
         // 自媒体人地域要求
         if (isset($where['require_local']) && $where['require_local']) {
-            $sql .= sprintf(" OR mm.school_province IN (%s) ", $where['require_local']);
+            $sql .= sprintf(" AND mm.school_province IN (%s) ", $where['require_local']);
         }
 
         // 行业要求
         if (isset($where['require_industry']) && $where['require_industry']) {
-            $sql .= sprintf(" OR mm.industry IN (%s) ", $where['require_industry']);
+            $sql .= sprintf(" AND mm.industry IN (%s) ", $where['require_industry']);
         }
 
         // 自媒体人爱好要求
@@ -119,13 +119,20 @@ class Platform_media_man_model extends MY_Model {
 
             $require_hobby_arr = explode(',', $where['require_hobby']);
 
+            $tmp = 'AND ( ';
+
             if (!empty($require_hobby_arr)) {
 
                 foreach ($require_hobby_arr as $v) {
-                    $sql .= sprintf(" OR mm.hobby LIKE '%%%s%%' ", $v);
+                    $tmp .= sprintf(" OR mm.hobby LIKE '%%%s%%' ", $v);
+                    // todo 去除or
                 }
 
             }
+
+            $tmp .= ' ) ';
+
+            $sql .= $tmp;
 
         }
 
@@ -152,6 +159,8 @@ class Platform_media_man_model extends MY_Model {
                 default:
                     break;
             }
+
+            $sql .= sprintf(" LIMIT %d,%d", 0, $where['limit']);
 
         }
 
