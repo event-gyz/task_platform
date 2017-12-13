@@ -318,8 +318,6 @@
                 type             : 'warning'
             }).then(async () => {
 
-                let freezing_reason = "";
-
                 if (account_status === "9") {
 
                     await this.$prompt('请输入冻结的原因', '提示', {
@@ -328,13 +326,13 @@
                         inputValidator   : (value) => { return value !== null; },
                         inputErrorMessage: '冻结原因不能为空'
                     }).then(({value}) => {
-                        freezing_reason = value;
+                        this.do_update_media_account_status(account_status, media_man_id, value);
                     }).catch(() => {
                     });
 
+                } else {
+                    await this.do_update_media_account_status(account_status, media_man_id, '');
                 }
-
-                await this.do_update_media_account_status(account_status, media_man_id, freezing_reason);
 
             }).catch(() => {
             });

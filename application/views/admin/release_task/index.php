@@ -368,18 +368,15 @@
         },
         release_task                 : async function (task_id) {
 
-            let platform_price = 0;
             await this.$prompt('请输入任务单价', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText : '取消',
                 inputValidator   : (value) => { return (value !== null) && (value > 0); },
                 inputErrorMessage: '任务单价只能是正数,仅支持小数点后一位'
             }).then(({value}) => {
-                platform_price = value;
+                this.do_release_task(task_id, value);
             }).catch(() => {
             });
-
-            await this.do_release_task(task_id, platform_price);
 
         },
         do_release_task              : async function (task_id, platform_price) {
