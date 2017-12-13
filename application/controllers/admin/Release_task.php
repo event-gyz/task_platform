@@ -337,6 +337,11 @@ class Release_task extends ADMIN_Controller {
             $sys_log_content = "自媒体人{$task_map_info['media_man_user_name']}-{$task_map_info['media_man_user_id']}提交的任务交付,被审核驳回了";
         }
 
+        if ($deliver_audit_status === "1") {
+            // 自媒体人交付的任务审核通过后,需要向platform_task_receivables表中插入数据
+            $this->__get_platform_task_receivables_model()->insert(['task_map_id' => $task_map_id]);
+        }
+
         $result = $this->__get_platform_task_map_model()->updateInfo($task_map_id, $update_info);
 
         if ($result === 1) {
@@ -672,6 +677,14 @@ class Release_task extends ADMIN_Controller {
     private function __get_platform_task_map_model() {
         $this->load->model('Platform_task_map_model');
         return $this->Platform_task_map_model;
+    }
+
+    /**
+     * @return Platform_task_receivables_model
+     */
+    private function __get_platform_task_receivables_model() {
+        $this->load->model('Platform_task_receivables_model');
+        return $this->Platform_task_receivables_model;
     }
 
 }
