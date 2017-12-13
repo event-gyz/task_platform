@@ -3,15 +3,7 @@
     <head>
         <title>广告主首页</title>
         <meta charset="UTF-8">
-        <meta name="MobileOptimized" content="320"/>
-        <meta http-equiv="cleartype" content="on">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <meta name="format-detection" content="telephone=no, email=no" />
-        <meta name="msapplication-tap-highlight" content="no"/>
-
-
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="/css/swiper-3.4.2.min.css" />
         <link rel="stylesheet" href="/css/indexAdvert.css" />
