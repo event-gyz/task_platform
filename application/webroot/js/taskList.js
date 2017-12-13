@@ -84,7 +84,7 @@ var app = new Vue({
         //领取
         pick: function(id){
             $.ajax({
-                url: "/media/index/acceptTask  ",
+                url: "/media/index/acceptTask",
                 dataType: 'json',
                 type:"post",
                 data:{task_id:id},
