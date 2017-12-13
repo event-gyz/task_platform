@@ -283,7 +283,7 @@ class Login extends CI_Controller {
         $code = mt_rand(100000, 999999);
 
         //todo 发送验证码
-//        $this->__sendPhoneMsg($phone,$code ,1);
+        $this->__sendPhoneMsg($phone,$code ,1);
 
         $model = $model . $phone;
 
@@ -429,10 +429,10 @@ class Login extends CI_Controller {
      */
     private function __sendPhoneMsg($number='',$code ,$template_id = 1){
 
-//        $contents = ['code'=>$code];//短信分段内容
-//        $this->load->library('JSMS');
-//        $this->JSMS = new JSMS();
-//        return $this->JSMS->sendMessage($number,$template_id,$contents);
+        $contents = ['code'=>$code];//短信分段内容
+        $this->load->library('JSMS');
+        $this->JSMS = new JSMS();
+        return $this->JSMS->sendMessage($number,$template_id,$contents);
 
     }
 
