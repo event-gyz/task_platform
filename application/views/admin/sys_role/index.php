@@ -40,7 +40,7 @@
                                 </div>
 
                                 <div class="form-group col-xs-3">
-                                    <button type="submit" class="btn btn-info">搜索</button>
+                                    <button type="submit" class="btn btn-info" style="margin-right: 10px;">搜索</button>
                                     <a class="btn btn-success" href="/admin/sys_role/add">添加角色</a>
                                 </div>
 
