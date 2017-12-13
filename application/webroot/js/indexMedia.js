@@ -47,7 +47,7 @@ $('.accept').click(function(){
                 util.alert('领取任务'+task_name+'成功，请按时完成任务并提交完成结果！',function(){
                     location.href='/media/index/taskDetail?task_id='+task_id;
                 })
-                
+
             }else{
                 util.tips(res.msg)
             }

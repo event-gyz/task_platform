@@ -104,7 +104,7 @@ var app = new Vue({
                 return '已完成';
             }else if(obj.receive_status==1 && obj.deliver_audit_status!=1 && (time()>obj.end_time)){
                 return '未完成';
-            }else if(obj.receive_status==2){
+            }else if(obj.release_status==2){
                 return '已拒绝';
             }
         },
@@ -131,7 +131,7 @@ var app = new Vue({
                 return 'end';
             }else if(obj.receive_status==1 && obj.deliver_audit_status!=1 && (time()>obj.end_time)){
                 return 'wait';
-            }else if(obj.receive_status==2){
+            }else if(obj.release_status==2){
                 return 'close';
             }
         },
