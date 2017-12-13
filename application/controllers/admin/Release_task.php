@@ -234,8 +234,10 @@ class Release_task extends ADMIN_Controller {
 
         // media_man_require 自媒体人帐号要求 1有 2无
         if ($task_info['media_man_require'] === '2') {
-            // todo 发送给全量的自媒体帐号
-            return $actual_media_man_number;
+            // 发送给全量的自媒体帐号
+            $data0 = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require([]);
+            $this->__get_platform_media_man_model()->do_sys_auto_release($task_info['task_id'], $data0['list']);
+            return $data0['total'];
         }
 
         // 根据自媒体人帐号要求计算符合条件的自媒体人帐号
@@ -277,11 +279,14 @@ class Release_task extends ADMIN_Controller {
 
             if ($actual_media_man_number <= ($media_man_number * 0.5)) {
                 // 当捞取的自媒体账号数小于等于账号数量的50%时，则视同平台无法满足账号要求，给全部自媒体账号发送此条任务信息。
-                // todo 发送给全量的自媒体帐号
-                return $actual_media_man_number;
+                // 发送给全量的自媒体帐号
+                $data0 = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require([]);
+                $this->__get_platform_media_man_model()->do_sys_auto_release($task_info['task_id'], $data0['list']);
+                return $data0['total'];
             }
 
-            // todo 发送给符合条件的自媒体人帐号,虽然不完全满足数量的要求
+            // 发送给符合条件的自媒体人帐号,虽然不完全满足数量的要求
+            $this->__get_platform_media_man_model()->do_sys_auto_release($task_info['task_id'], $data['list']);
             return $actual_media_man_number;
 
         }
@@ -314,10 +319,8 @@ class Release_task extends ADMIN_Controller {
             }
 
             $data2 = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require($where);
-
-            $actual_media_man_number = $data2['total'];
-
-            return $actual_media_man_number;
+            $this->__get_platform_media_man_model()->do_sys_auto_release($task_info['task_id'], $data2['list']);
+            return $data2['total'];
 
         }
 

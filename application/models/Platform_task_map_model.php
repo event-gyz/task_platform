@@ -378,5 +378,32 @@ class Platform_task_map_model extends MY_Model {
         return $this->update($info, $where);
     }
 
+    /**
+     * 插入数据到platform_task_map
+     *
+     * @param $task_id
+     * @param $list
+     *
+     * @return bool
+     */
+    public function do_sys_auto_release($task_id, $list) {
+
+        if (empty($list)) {
+            return false;
+        }
+
+        // INSERT INTO `task_platform`.`platform_task_map` ( `media_man_user_id`, `media_man_user_name`, `task_id`,`receive_time`) values ( '1', '高规格', '2','0000-00-00 00:00:00')
+
+        $sql = 'INSERT INTO `task_platform`.`platform_task_map` ( `media_man_user_id`, `media_man_user_name`, `task_id`, `receive_time`)  VALUES ';
+        foreach ($list as $k => $v) {
+            $sql .= "( '{$v['media_man_id']}', '{$v['media_man_login_name']}', '{$task_id}','0000-00-00 00:00:00'),";
+        }
+
+        $sql = rtrim($sql, ',');
+
+        return $this->db->query($sql);
+
+    }
+
 }
 
