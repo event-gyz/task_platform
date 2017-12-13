@@ -126,7 +126,7 @@
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom" >任务编号</th>
-                            <td class="border_bottom" align="right"><?=$task_id?></td>
+                            <td class="border_bottom" align="right"><?= 'RW'.$task_id?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">任务名称</th>
