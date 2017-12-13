@@ -97,7 +97,7 @@ var app = new Vue({
             });
         },
         removeImg: function(item){
-            var index= this.imgs.indexOf(name);
+            var index= this.imgs.indexOf(item);
             this.imgs.splice(index,1);
         },
         save: function(){
