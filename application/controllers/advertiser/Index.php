@@ -154,7 +154,13 @@ class Index extends CI_Controller {
         $userInfo = $this->__get_user_session();
         $re = $this->__get_advertiser_model()->updateInfo($userInfo['advertiser_id'],$data);
         if ($re) {
-            $this->__saveLog($userInfo['advertiser_id'],11,'保存广告主基础信息','',$data);
+            $log = $this->__saveLog($userInfo['advertiser_id'],11,'保存广告主基础信息','',$data);
+            if(!$log){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '保存失败11';
+                echo json_encode($this->_return);
+                exit;
+            }
             $this->_return['errorno'] = '1';
             $this->_return['msg'] = '保存成功';
             echo json_encode($this->_return);
