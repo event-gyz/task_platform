@@ -45,7 +45,7 @@ $('.accept').click(function(){
             success: function(res) {
                 if(res.errorno > 0){
                     util.tips("领取任务"+task_name+"成功，请按时完成任务并提交完成结果");
-                    location.href='/advertiser/index/taskDetail?task_id='+task_id;
+                    location.href='/media/index/taskDetail?task_id='+task_id;
                 }else{
                     util.tips(res.msg)
                 }
