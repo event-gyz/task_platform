@@ -81,7 +81,7 @@ var app = new Vue({
                                     success: function(res) {
                                         if(res.errorno >= 0){
                                             var url = '/'+res.data;
-                                            _this.taskImg = _this.taskImg.push(url);
+                                            _this.imgs = _this.imgs.push(url);
                                         }else{
                                             util.tips(res.msg)
                                         }
