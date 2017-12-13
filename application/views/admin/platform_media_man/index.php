@@ -233,10 +233,10 @@
                                         $is_show_audit_btn = (($value['status'] === "1") && ($value['audit_status'] === "0"));
 
                                         // 是否显示冻结按钮
-                                        $is_show_disable_btn = ($value['status'] === "2");
+                                        $is_show_disable_btn = ($value['status'] === "2") && ($value['audit_status'] === "1");
 
                                         // 是否显示解冻按钮
-                                        $is_show_active_btn = ($value['status'] === "9");
+                                        $is_show_active_btn = ($value['status'] === "9") && ($value['audit_status'] === "1");
 
                                         ?>
 

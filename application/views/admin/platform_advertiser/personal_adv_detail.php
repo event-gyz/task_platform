@@ -75,14 +75,14 @@
                             <?= $adv_account_status[$info['status']] ?>
                         </small>
 
-                        <?php if ($info['status'] === "9"): ?>
+                        <?php if (($info['status'] === "9") && ($info['audit_status'] === "1")): ?>
                             <button @click="update_adv_account_status('2','<?= $info['advertiser_id'] ?>')"
                                     class="btn btn-success btn-sm" style="margin-left: 10px;">
                                 解冻
                             </button>
                         <?php endif; ?>
 
-                        <?php if ($info['status'] === "2"): ?>
+                        <?php if (($info['status'] === "2") && ($info['audit_status'] === "1")): ?>
                             <button @click="update_adv_account_status('9','<?= $info['advertiser_id'] ?>')"
                                     class="btn btn-danger btn-sm" style="margin-left: 10px;">
                                 冻结
