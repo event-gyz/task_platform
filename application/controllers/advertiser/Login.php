@@ -176,7 +176,7 @@ class Login extends CI_Controller {
                 $this->session->set_userdata($this->_user_info,$data);
                 $this->_return['errorno'] = 1;
                 $this->_return['msg'] = '注册成功';
-                //删除注册时用到的session
+                $this->_return['data'] = $data;
                 $this->session->unset_userdata($this->_model.$_POST ['phone']);
                 echo json_encode($this->_return);exit;
             }
@@ -292,7 +292,6 @@ class Login extends CI_Controller {
         $this->session->set_userdata($model, ['sendTime' => time(), 'code' => $code]);
 
         $this->_return['msg'] = '发送成功';
-        $this->_return['data'] = $code;
 
         echo json_encode($this->_return);exit;
 

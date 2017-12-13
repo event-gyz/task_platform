@@ -133,10 +133,8 @@ class MY_Model {
      * @return bool
      */
     public function update($set = null, $condition = null) {
-        $effect = $this->db->update($this->getTableName(), $set, $condition);
-        if ($effect === false) {
-            throw new SystemError(SystemError::DB_SQL_FAIL);
-        }
+        $this->db->update($this->getTableName(), $set, $condition);
+
         return $this->db->affected_rows();
     }
 

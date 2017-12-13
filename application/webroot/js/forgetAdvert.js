@@ -56,7 +56,8 @@ var app = new Vue({
                 type:"post",
                 data:{
                     phone:this.phone,
-                    verification:this.verification
+                    code:this.verification,
+                    type:'pwd'
                 },
                 success: function(res) {
                     if(res.errorno >= 0){

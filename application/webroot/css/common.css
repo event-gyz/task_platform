@@ -568,3 +568,9 @@ table textarea {
 .protocol span {
     color: #FC9153;
 }
+
+*{
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}

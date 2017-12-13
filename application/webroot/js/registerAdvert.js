@@ -77,7 +77,8 @@ var app = new Vue({
                 },
                 success: function(res) {
                     if(res.errorno > 0){
-                        location.href='/advertiser/index/person';
+                        // location.href='/advertiser/index/person';
+                        location.href='/advertiser/index/person?phone='+ res.data.advertiser_phone + '&flag=2';
                     }else{
                         util.tips(res.msg)
                     }
