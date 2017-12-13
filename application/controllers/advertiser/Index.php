@@ -13,7 +13,7 @@ class Index extends CI_Controller {
         parent::__construct ();
         $this->load->library('session');
         $this->load->helper('Wap');
-        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my') && !strpos($_SERVER["REQUEST_URI"],'/person') && !strpos($_SERVER["REQUEST_URI"],'/company') && !strpos($_SERVER["REQUEST_URI"],'userInfoApi')){
+        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my') && !strpos($_SERVER["REQUEST_URI"],'/person') && !strpos($_SERVER["REQUEST_URI"],'/company') && !strpos($_SERVER["REQUEST_URI"],'userInfoApi') && !strpos($_SERVER["REQUEST_URI"],'/saveInfo')){
             $this->checkUserLogin();
         }
 
@@ -79,7 +79,7 @@ class Index extends CI_Controller {
                 $this->_return['msg'] = '请填写姓名';
                 echo json_encode($this->_return);exit;
             }
-            if(!isset($_POST ['idCard']) || empty($_POST ['id_card'])){
+            if(!isset($_POST ['idCard']) || empty($_POST ['idCard'])){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '请填写身份证号';
                 echo json_encode($this->_return);exit;
@@ -157,6 +157,11 @@ class Index extends CI_Controller {
             $this->__saveLog($userInfo['advertiser_id'],11,'保存广告主基础信息','',$data);
             $this->_return['errorno'] = '1';
             $this->_return['msg'] = '保存成功';
+            echo json_encode($this->_return);
+            exit;
+        }else {
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '保存失败';
             echo json_encode($this->_return);
             exit;
         }
