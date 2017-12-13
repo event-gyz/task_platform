@@ -5,7 +5,7 @@
 <link href="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.min.css" rel="stylesheet">
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" v-loading.body="loading" element-loading-text="拼命加载中">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -169,7 +169,7 @@
 
                 </div>
 
-                <div class="box">
+                <div class="box" v-loading.body="loading" element-loading-text="拼命加载中" id="table">
 
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover">
@@ -398,7 +398,7 @@
         computed: localComputed,
     };
     const Ctor = Vue.extend(Main);
-    new Ctor().$mount('#app');
+    new Ctor().$mount('#table');
 
 </script>
 
