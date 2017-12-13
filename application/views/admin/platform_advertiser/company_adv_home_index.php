@@ -145,7 +145,7 @@
 
                 </div>
 
-                <div class="box">
+                <div class="box" v-loading.body="loading" element-loading-text="拼命加载中" id="table">
 
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover">
@@ -199,10 +199,41 @@
                                     <th><?= $value['last_operator_name'] ?></th>
                                     <th><?= $value['update_time'] ?></th>
                                     <th>
-                                        <a href="/admin/platform_advertiser/company_adv_detail?id=<?= $value['advertiser_id'] ?>"
-                                           class="btn btn-success btn-sm">
-                                            详情
-                                        </a>
+
+                                        <?php
+
+                                        // 是否显示审核按钮
+                                        $is_show_audit_btn = ($value['status'] === "1") && ($value['audit_status'] === "0");
+
+                                        // 是否显示冻结按钮
+                                        $is_show_disable_btn = ($value['status'] === "2") && ($value['audit_status'] === "1");
+
+                                        // 是否显示解冻按钮
+                                        $is_show_active_btn = ($value['status'] === "9") && ($value['audit_status'] === "1");
+
+                                        ?>
+
+                                        <?php if ($is_show_audit_btn): ?>
+                                            <a href="/admin/platform_advertiser/company_adv_detail?id=<?= $value['advertiser_id'] ?>"
+                                               class="btn btn-success btn-sm">
+                                                审核
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <?php if ($is_show_disable_btn): ?>
+                                            <button @click="update_adv_account_status('9','<?= $value['advertiser_id'] ?>')"
+                                                    class="btn btn-danger btn-sm">
+                                                冻结
+                                            </button>
+                                        <?php endif; ?>
+
+                                        <?php if ($is_show_active_btn): ?>
+                                            <button @click="update_adv_account_status('2','<?= $value['advertiser_id'] ?>')"
+                                                    class="btn btn-success btn-sm">
+                                                解冻
+                                            </button>
+                                        <?php endif; ?>
+
                                     </th>
                                 </tr>
                             <?php endforeach; ?>
@@ -240,6 +271,98 @@
                 '七月', '八月', '九月', '十月', '十一月', '十二月'],
         }
     });
+
+    const localComputed = {};
+    const localMethods  = {
+        update_adv_account_status   : async function (account_status, advertiser_id) {
+
+            const message = (account_status === "2") ? "确定要将此用户解冻吗，解冻后可正常登陆使用。" : "确定要将此用户冻结吗，冻结后无法正常登陆。";
+
+            this.$confirm(message, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText : '取消',
+                type             : 'warning'
+            }).then(async () => {
+
+                if (account_status === "9") {
+
+                    await this.$prompt('请输入冻结的原因', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText : '取消',
+                        inputValidator   : (value) => { return value !== null; },
+                        inputErrorMessage: '冻结原因不能为空'
+                    }).then(({value}) => {
+                        this.do_update_adv_account_status(account_status, advertiser_id, value);
+                    }).catch(() => {
+                    });
+
+                } else {
+                    this.do_update_adv_account_status(account_status, advertiser_id, '');
+                }
+
+            }).catch(() => {
+            });
+
+        },
+        do_update_adv_account_status: async function (account_status, advertiser_id, freezing_reason) {
+            try {
+
+                this.loading = true;
+                var url      = '/admin/platform_advertiser/update_adv_account_status';
+                var response = await axios.post(
+                    url,
+                    {
+                        "id"             : advertiser_id,
+                        "account_status" : account_status,
+                        "freezing_reason": freezing_reason,
+                    },
+                );
+                this.loading = false;
+                var resData  = response.data;
+
+                if (resData.error_no === 0) {
+                    this.$message.success('操作成功,即将刷新页面...');
+                    return window.location.reload();
+                }
+
+                return this.$message.error(resData.msg);
+
+            } catch (error) {
+
+                this.loading = false;
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+        },
+    };
+    const data          = function () {
+        return {
+            loading: false,// 是否显示加载
+        };
+    };
+
+    const Main = {
+        data    : data,
+        created : function () {},
+        methods : localMethods,
+        computed: localComputed,
+    };
+    const Ctor = Vue.extend(Main);
+    new Ctor().$mount('#table');
 
 </script>
 
