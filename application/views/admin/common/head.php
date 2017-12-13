@@ -19,6 +19,15 @@
 
         <link href="https://cdn.bootcss.com/element-ui/2.0.5/theme-chalk/index.css" rel="stylesheet">
 
+        <style>
+
+            /* 清除默认的上传文件样式 */
+            .el-upload__input{
+                display: none !important;
+            }
+
+        </style>
+
     </head>
 
     <body class="hold-transition skin-blue sidebar-mini">
