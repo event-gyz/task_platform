@@ -19,7 +19,7 @@
                 </div>
                 <!--已关闭-end-->
 
-                <?php }else if($release_status==2){?>
+                <?php }else if($receive_status==2){?>
                 <!--已拒绝-->
                 <div class="task_status task_status1">
                     <p class="status">● 已拒绝</p>

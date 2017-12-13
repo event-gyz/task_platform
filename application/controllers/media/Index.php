@@ -224,7 +224,7 @@ class Index extends CI_Controller {
 
         $where['task_id'] = $task_id;
         $where['receive_status'] = 0;
-        $where['release_status'] = 2;
+        $where['release_status'] = 1;
         $result = $this->__get_task_map_model()->getUnclaimedTaskDetail($media_man_id,$where);
         if(empty($result)){
             $result = ['flag'=>2];

@@ -46,7 +46,7 @@
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">任务名称</th>
-                            <td class="border_bottom" align="right"><?=$task_name?></td>
+                            <td class="border_bottom" align="right" id="task_name"><?=$task_name?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">任务类型</th>
@@ -139,8 +139,8 @@
                 <!--待领取-->
                 <table class="info_table">
                     <tr>
-                        <td><a href="#" class="common_button2">领取</a></td>
-                        <td><a href="#" class="common_button4">拒绝</a></td>
+                        <td><a href="javascrtip:;" class="common_button2 accept">领取</a></td>
+                        <td><a href="javascrtip:;" class="common_button4 refuse">拒绝</a></td>
                     </tr>
                 </table>
                 <!--待领取-end-->
@@ -149,6 +149,7 @@
         </div>
         <script type="text/javascript" src="/js/third/jquery.js"></script>
         <script type="text/javascript" src="/js/third/swiper-3.3.1.jquery.min.js"></script>
+        <script type="text/javascript" src="/js/util.js"></script>
         <script type="text/javascript" src="/js/indexMedia.js"></script>
     </body>
 </html>

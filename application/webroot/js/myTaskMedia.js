@@ -86,6 +86,8 @@ var app = new Vue({
             function time(){return parseInt(moment().valueOf()/1000);}
             if(obj.release_status == 9 || obj.release_status == 8 || obj.release_status == 7){
                 return '已关闭';
+            }else if(obj.receive_status==2){
+                return '已拒绝';
             }else if(obj.release_status==7){
                 return '已结束';
             }else if(obj.release_status==1 && obj.receive_status==1 && (time()<obj.start_time)){
@@ -104,14 +106,14 @@ var app = new Vue({
                 return '已完成';
             }else if(obj.receive_status==1 && obj.deliver_audit_status!=1 && (time()>obj.end_time)){
                 return '未完成';
-            }else if(obj.receive_status==2){
-                return '已拒绝';
             }
         },
         //状态class
         task_status_class: function(obj){
             function time(){return parseInt(moment().valueOf()/1000);}
             if(obj.release_status == 9){
+                return 'close';
+            }else if(obj.receive_status==2){
                 return 'close';
             }else if(obj.release_status==7){
                 return 'close';
@@ -131,8 +133,6 @@ var app = new Vue({
                 return 'end';
             }else if(obj.receive_status==1 && obj.deliver_audit_status!=1 && (time()>obj.end_time)){
                 return 'wait';
-            }else if(obj.receive_status==2){
-                return 'close';
             }
         },
         sk: function(id){

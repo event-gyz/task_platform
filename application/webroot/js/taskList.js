@@ -83,6 +83,12 @@ var app = new Vue({
         },
         //领取
         pick: function(id){
+            var taskName = '';
+            this.lists.forEach(function(item){
+                if(item.task_id == id){
+                    taskName = item.task_name;
+                }
+            });
             $.ajax({
                 url: "/media/index/acceptTask  ",
                 dataType: 'json',
@@ -90,7 +96,7 @@ var app = new Vue({
                 data:{task_id:id},
                 success: function(res) {
                     if(res.errorno >= 0){
-                        util.alert('任务领取成功！',function(){
+                        util.alert('领取任务'+taskName+'成功，请按时完成任务并提交完成结果！',function(){
                             location.reload();
                         })
                     }else{
@@ -103,7 +109,13 @@ var app = new Vue({
             })
         },
         reject: function(id){
-            util.confirm('确认要此执行操作吗？',function(){
+            var taskName = '';
+            this.lists.forEach(function(item){
+                if(item.task_id == id){
+                    taskName = item.task_name;
+                }
+            });
+            util.confirm('确定要拒绝任务'+taskName+'吗，拒绝后不可再领取',function(){
                 $.ajax({
                     url: "/media/index/refuseTask",
                     dataType: 'json',
