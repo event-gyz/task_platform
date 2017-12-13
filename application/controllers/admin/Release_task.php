@@ -208,6 +208,8 @@ class Release_task extends ADMIN_Controller {
             return $this->response_json(1, '查找不到对应的信息');
         }
 
+        $this->db->trans_begin();
+
         $actual_media_man_number = $this->__sys_auto_release($info);
 
         $update_info['actual_media_man_number'] = $actual_media_man_number;
@@ -218,13 +220,18 @@ class Release_task extends ADMIN_Controller {
         $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
 
         if ($result === 1) {
-
             $this->add_sys_log(8, $sys_log_content, $id, json_encode($info), json_encode($update_info));
-
-            return $this->response_json(0, '操作成功');
         }
 
-        return $this->response_json(1, '非法操作');
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->response_json(1, '操作失败,请稍候再试');
+        }
+
+        $this->db->trans_commit();
+
+        return $this->response_json(0, '操作成功');
+
     }
 
     // 系统自动发布规则
