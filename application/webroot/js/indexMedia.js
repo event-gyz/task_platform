@@ -34,27 +34,29 @@ $('.confirmReceivables').click(function(){
 $('.accept').click(function(){
     var task_id = window.location.search.substr(1).split('=')[1];
     var task_name = $("#task_name").text();
-    util.confirm('确认执行该操作吗？',function(){
-        $.ajax({
-            url: "/media/index/acceptTask",
-            dataType: 'json',
-            type:"post",
-            data:{
-                task_id: task_id
-            },
-            success: function(res) {
-                if(res.errorno > 0){
-                    util.tips("领取任务"+task_name+"成功，请按时完成任务并提交完成结果");
+
+    $.ajax({
+        url: "/media/index/acceptTask",
+        dataType: 'json',
+        type:"post",
+        data:{
+            task_id: task_id
+        },
+        success: function(res) {
+            if(res.errorno > 0){
+                util.alert('领取任务'+task_name+'成功，请按时完成任务并提交完成结果！',function(){
                     location.href='/media/index/taskDetail?task_id='+task_id;
-                }else{
-                    util.tips(res.msg)
-                }
-            },
-            error:function(){
-                util.tips('网络异常，请尝试刷新！');
+                })
+                
+            }else{
+                util.tips(res.msg)
             }
-        })
-    },function(){})
+        },
+        error:function(){
+            util.tips('网络异常，请尝试刷新！');
+        }
+    })
+
 });
 
 
@@ -73,7 +75,9 @@ $('.refuse').click(function(){
             },
             success: function(res) {
                 if(res.errorno > 0){
-                    location.href='/media/index/getMissionHallView';
+                    util.alert('任务已拒绝！',function(){
+                        location.href='/media/index/getMissionHallView';
+                    })
                 }else{
                     util.tips(res.msg)
                 }
