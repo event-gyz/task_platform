@@ -296,7 +296,6 @@ class Login extends CI_Controller {
         $this->session->set_userdata($model, ['sendTime' => time(), 'code' => $code]);
 
         $this->_return['msg'] = '发送成功';
-        $this->_return['data'] = $code;
         echo json_encode($this->_return);exit;
 
     }
