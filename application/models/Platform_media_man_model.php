@@ -94,49 +94,39 @@ class Platform_media_man_model extends MY_Model {
 
         // 拼接查询条件
 
-        // 根据自媒体人电话
-        if (isset($where['media_man_phone']) && $where['media_man_phone']) {
-            $sql .= sprintf(" AND mm.media_man_phone like '%s%%'", $where['media_man_phone']);
+        // 性别要求
+        if (isset($where['require_sex']) && $where['require_sex']) {
+            $sql .= sprintf(" OR mm.sex = %d ", $where['require_sex']);
         }
 
-        // 根据自媒体人登录名
-        if (isset($where['media_man_login_name']) && $where['media_man_login_name']) {
-            $sql .= sprintf(" AND mm.media_man_login_name like '%s%%'", $where['media_man_login_name']);
+        // 自媒体人年龄要求
+        if (isset($where['require_age']) && $where['require_age']) {
+            $sql .= sprintf(" OR mm.age IN (%s) ", $where['require_age']);
         }
 
-        // 根据自媒体人姓名
-        if (isset($where['media_man_name']) && $where['media_man_name']) {
-            $sql .= sprintf(" AND mm.media_man_name like '%s%%'", $where['media_man_name']);
+        // 自媒体人地域要求
+        if (isset($where['require_local']) && $where['require_local']) {
+            $sql .= sprintf(" OR mm.school_province IN (%s) ", $where['require_local']);
         }
 
-        // 根据自媒体人审核状态
-        if (isset($where['audit_status']) && $where['audit_status'] !== '') {
-            $sql .= sprintf(" AND mm.audit_status = %d", $where['audit_status']);
+        // 行业要求
+        if (isset($where['require_industry']) && $where['require_industry']) {
+            $sql .= sprintf(" OR mm.industry IN (%s) ", $where['require_industry']);
         }
 
-        // 根据自媒体人行吧
-        if (isset($where['sex']) && $where['sex']) {
-            $sql .= sprintf(" AND mm.sex = %d", $where['sex']);
-        }
+        // 自媒体人爱好要求
+        if (isset($where['require_hobby']) && $where['require_hobby']) {
 
-        // 根据自媒体人账户状态
-        if (isset($where['status']) && $where['status'] !== '') {
-            $sql .= sprintf(" AND mm.status = %d", $where['status']);
-        }
+            $require_hobby_arr = explode(',', $where['require_hobby']);
 
-        // 根据自媒体人学校名称
-        if (isset($where['school_name']) && $where['school_name']) {
-            $sql .= sprintf(" AND mm.school_name like '%s%%'", $where['school_name']);
-        }
+            if (!empty($require_hobby_arr)) {
 
-        // 根据自媒体人创建开始时间
-        if (isset($where['start_time']) && $where['start_time']) {
-            $sql .= sprintf(" AND mm.create_time >= '%s'", $where['start_time']);
-        }
+                foreach ($require_hobby_arr as $v) {
+                    $sql .= sprintf(" OR mm.hobby LIKE '%%%s%%' ", $v);
+                }
 
-        // 根据自媒体人创建结束时间
-        if (isset($where['end_time']) && $where['end_time']) {
-            $sql .= sprintf(" AND mm.create_time <= '%s'", $where['end_time']);
+            }
+
         }
 
         // 总数
@@ -147,7 +137,24 @@ class Platform_media_man_model extends MY_Model {
             return ['total' => $total, 'list' => []];
         }
 
-        $sql  .= ' ORDER BY mm.media_man_id DESC';
+        if (isset($where['order_by']) && $where['order_by']) {
+
+            switch ($where['order_by']) {
+                case 'wx_max_fans':
+                    $sql .= ' ORDER BY mm.wx_max_fans DESC ';
+                    break;
+                case 'weibo_max_fans':
+                    $sql .= ' ORDER BY mm.weibo_max_fans DESC ';
+                    break;
+                case 'wx_or_weibo_max_fans':
+                    $sql .= ' ORDER BY mm.wx_max_fans DESC , mm.weibo_max_fans DESC ';
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
         $_sql = str_replace('[*]', $fields, $sql);
 
         $_list = $this->getList($_sql);

@@ -212,14 +212,16 @@ class Release_task extends ADMIN_Controller {
         $update_info['release_status'] = 1;// 设定任务发布状态为已发布
         $sys_log_content               = '修改任务价格为:' . $platform_price;
 
-        $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
+        $this->__sys_auto_release($info);
 
-        if ($result === 1) {
-
-            $this->add_sys_log(8, $sys_log_content, $id, json_encode($info), json_encode($update_info));
-
-            return $this->response_json(0, '操作成功');
-        }
+//        $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
+//
+//        if ($result === 1) {
+//
+//            $this->add_sys_log(8, $sys_log_content, $id, json_encode($info), json_encode($update_info));
+//
+//            return $this->response_json(0, '操作成功');
+//        }
 
         return $this->response_json(1, '非法操作');
     }
@@ -239,6 +241,8 @@ class Release_task extends ADMIN_Controller {
         // 根据自媒体人帐号要求计算符合条件的自媒体人帐号
 
         // （1）根据发布任务时的账号要求捞取符合条件的自媒体人账号，只要满足账号要求中的一条即视为符合条件的账号。
+
+        $where = [];
 
         // require_sex 性别要求
         if (!empty($task_info['require_sex'])) {
@@ -264,6 +268,8 @@ class Release_task extends ADMIN_Controller {
         if (!empty($task_info['require_hobby'])) {
             $where['require_hobby'] = $task_info['require_hobby'];
         }
+
+        $data = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require($where);
 
         // （2）当捞取的自媒体账号超过发布任务时的账号数量时，
         //      则根据发布的平台将自媒体人对应平台的粉丝数倒序，将此任务发给粉丝数多的自媒体账号，
@@ -727,6 +733,14 @@ class Release_task extends ADMIN_Controller {
 
         }
 
+    }
+
+    /**
+     * @return Platform_media_man_model
+     */
+    private function __get_platform_media_man_model() {
+        $this->load->model('Platform_media_man_model');
+        return $this->Platform_media_man_model;
     }
 
     /**
