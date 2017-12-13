@@ -13,7 +13,7 @@ class Index extends CI_Controller {
         parent::__construct ();
         $this->load->library('session');
         $this->load->helper('Wap');
-        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my') && !strpos($_SERVER["REQUEST_URI"],'/person') && !strpos($_SERVER["REQUEST_URI"],'/company') && !strpos($_SERVER["REQUEST_URI"],'userInfoApi')){
+        if(!strpos($_SERVER["REQUEST_URI"],'home') && !strpos($_SERVER["REQUEST_URI"],'/my') && !strpos($_SERVER["REQUEST_URI"],'/person') && !strpos($_SERVER["REQUEST_URI"],'/company') && !strpos($_SERVER["REQUEST_URI"],'userInfoApi') && !strpos($_SERVER["REQUEST_URI"],'/saveInfo')){
             $this->checkUserLogin();
         }
 
