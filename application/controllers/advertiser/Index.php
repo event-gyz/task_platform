@@ -159,6 +159,11 @@ class Index extends CI_Controller {
             $this->_return['msg'] = '保存成功';
             echo json_encode($this->_return);
             exit;
+        }else {
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '保存失败';
+            echo json_encode($this->_return);
+            exit;
         }
     }
 
