@@ -315,6 +315,10 @@ class Release_task extends ADMIN_Controller {
 
             $data2 = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require($where);
 
+            $actual_media_man_number = $data2['total'];
+
+            return $actual_media_man_number;
+
         }
 
     }

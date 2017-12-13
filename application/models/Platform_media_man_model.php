@@ -123,9 +123,14 @@ class Platform_media_man_model extends MY_Model {
 
             if (!empty($require_hobby_arr)) {
 
-                foreach ($require_hobby_arr as $v) {
-                    $tmp .= sprintf(" OR mm.hobby LIKE '%%%s%%' ", $v);
-                    // todo 去除or
+                foreach ($require_hobby_arr as $k => $v) {
+
+                    if ($k === 0) {
+                        $tmp .= sprintf(" mm.hobby LIKE '%%%s%%' ", $v);
+                    } else {
+                        $tmp .= sprintf(" OR mm.hobby LIKE '%%%s%%' ", $v);
+                    }
+
                 }
 
             }
