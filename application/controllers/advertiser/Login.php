@@ -357,8 +357,8 @@ class Login extends CI_Controller {
      */
     public function verifyCodeApi(){
         $phone = (int)$_POST['phone'];
-        $code  = (int)$_POST['verification'];
-        
+        $code  = (int)$_POST['code'];
+
         if (isset($_POST['type']) && ($_POST['type']=='pwd')) {
             $model = $this->_pwdmodel;
         }else{
