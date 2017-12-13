@@ -38,13 +38,13 @@ class Index extends CI_Controller {
                 redirect(wap::get_server_address_and_port().'/advertiser/login/accountStatus2');
             }else if($userInfo['audit_status']==0){
                 //跳到待审核页面
-                redirect(wap::get_server_address_and_port().'advertiser/login/accountStatus3');
+                redirect(wap::get_server_address_and_port().'/advertiser/login/accountStatus3');
             }else if($userInfo['audit_status']==2){
                 //跳到驳回页面
-                redirect(wap::get_server_address_and_port().'advertiser/login/accountStatus4');
+                redirect(wap::get_server_address_and_port().'/advertiser/login/accountStatus4');
             }else if($userInfo['status']==9){
                 //跳到冻结页面
-                redirect(wap::get_server_address_and_port().'advertiser/login/accountStatus5');
+                redirect(wap::get_server_address_and_port().'/advertiser/login/accountStatus5');
             }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
                 return true;
             }
@@ -103,7 +103,7 @@ class Index extends CI_Controller {
                 echo json_encode($this->_return);exit;
             }
             $data = array (
-                'name' => trim($_POST['name']),
+                'advertiser_name' => trim($_POST['name']),
                 'id_card' => $_POST['idCard'],
                 'advertiser_type' => 1,
                 'id_card_positive_pic' => $_POST['frontCard'],
@@ -154,13 +154,9 @@ class Index extends CI_Controller {
         $userInfo = $this->__get_user_session();
         $re = $this->__get_advertiser_model()->updateInfo($userInfo['advertiser_id'],$data);
         if ($re) {
+            $userInfo = array_merge($userInfo,$data);
+            $this->session->set_userdata($this->_user_info,$userInfo);
             $log = $this->__saveLog($userInfo['advertiser_id'],11,'保存广告主基础信息','',$data);
-            if(!$log){
-                $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '保存失败11';
-                echo json_encode($this->_return);
-                exit;
-            }
             $this->_return['errorno'] = '1';
             $this->_return['msg'] = '保存成功';
             echo json_encode($this->_return);
@@ -788,7 +784,7 @@ class Index extends CI_Controller {
         $user_info = $this->__get_user_session();
         $data = [
             'user_id'     => $user_info['advertiser_id'],
-            'user_name'   => $user_info['advertiser_name'],
+            'user_name'   => !empty($user_info['advertiser_name'])?$user_info['advertiser_name']:'',
             'operate_data_id' => $operate_data_id,
             'user_type'    => 1,
             'user_log_type' => $user_log_type,
