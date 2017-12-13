@@ -60,7 +60,7 @@ var app = new Vue({
                     type:'pwd'
                 },
                 success: function(res) {
-                    if(res.errorno > 0){
+                    if(res.errorno >= 0){
                         location.href='/media/login/new_pwd';
                     }else{
                         util.tips(res.msg)
