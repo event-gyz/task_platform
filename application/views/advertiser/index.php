@@ -5,6 +5,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/swiper-3.4.2.min.css" />
+        <link rel="stylesheet" href="/css/indexAdvert.css" />
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_s6a0urnhzjsxxbt9.css">
     </head>
     <body>
         <div class="main">
@@ -126,9 +129,7 @@
             <p><a href="/advertiser/index/my"><i class="iconfont">&#xe600;</i><br>我的</a></p>
         </div>
         <!--nav-end-->
-        <script type="text/javascript" src="/js/third/jquery.js"></script>
-        <script type="text/javascript" src="/js/third/swiper-3.3.1.jquery.min.js"></script>
-        <script type="text/javascript" src="/js/indexAdvertiser.js"></script>
+        
     </body>
 </html>
 
