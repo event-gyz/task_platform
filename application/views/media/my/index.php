@@ -50,7 +50,7 @@
                         <td class="border_bottom">修改密码</td>
                         <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
                     </tr>
-                    <tr onclick="window.location.href='#'">
+                    <tr onclick="window.location.href='tel:13764567708'">
                         <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/kf.png"></th>
                         <td>联系客服</td>
                         <td align="right" width="30px;"><i class="iconfont">&#xe610;</i></td>
