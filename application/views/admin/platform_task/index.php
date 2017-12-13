@@ -5,7 +5,7 @@
 <link href="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.min.css" rel="stylesheet">
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div class="content-wrapper" v-loading.body="loading" element-loading-text="拼命加载中">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -197,10 +197,35 @@
                                     <th><?= $value['media_man_number'] ?></th>
                                     <th><?= $value['actual_media_man_number'] ?></th>
                                     <th>
-                                        <a href="/admin/platform_task/task_detail?id=<?= $value['task_id'] ?>"
-                                           class="btn btn-success btn-sm">
-                                            详情
-                                        </a>
+
+                                        <?php
+
+                                        // 是否显示审核按钮
+                                        $is_show_audit_btn = ($value['audit_status'] === "1");
+
+                                        // 是否显示手工作废按钮
+                                        $is_show_cancellation_btn = (in_array($value['audit_status'], [1, 2])) ||
+                                            (($value['pay_status'] === "0") && ($value['audit_status'] === "3")) ||
+                                            (($value['pay_status'] === "1") && ($value['audit_status'] === "3") && ($value['finance_status'] === "0"));
+                                        $is_show_cancellation_btn = (!in_array($value['release_status'], [8])) && $is_show_cancellation_btn;
+
+                                        ?>
+
+                                        <?php if ($is_show_audit_btn): ?>
+                                            <a href="/admin/platform_task/task_detail?id=<?= $value['task_id'] ?>"
+                                               class="btn btn-warning btn-xs">
+                                                审核
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <?php if ($is_show_cancellation_btn): ?>
+                                            <button @click="update_task_release_status('<?= $value['task_id'] ?>')"
+                                                    type="button"
+                                                    class="btn btn-warning btn-xs margin-r-5">
+                                                手工作废
+                                            </button>
+                                        <?php endif; ?>
+
                                     </th>
                                 </tr>
                             <?php endforeach; ?>
@@ -238,6 +263,92 @@
                 '七月', '八月', '九月', '十月', '十一月', '十二月'],
         }
     });
+
+    const localComputed = {};
+    const localMethods  = {
+        update_task_release_status   : function (task_id) {
+
+            var message = "确定要将任务作废吗，作废后任务将关闭无法正常流转。";
+
+            this.$confirm(message, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText : '取消',
+                type             : 'warning'
+            }).then(async () => {
+
+                await this.$prompt('请输入手工作废的原因', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText : '取消',
+                    inputValidator   : (value) => { return value !== null; },
+                    inputErrorMessage: '手工作废原因不能为空'
+                }).then(({value}) => {
+                    this.do_update_task_release_status(task_id, '8', value);
+                }).catch(() => {
+                });
+
+            }).catch(() => {
+            });
+
+        },
+        do_update_task_release_status: async function (task_id, release_status, close_reason) {
+            try {
+
+                this.loading = true;
+                var url      = '/admin/platform_task/update_task_release_status';
+                var response = await axios.post(
+                    url,
+                    {
+                        "id"            : task_id,
+                        "release_status": release_status,
+                        "close_reason"  : close_reason,
+                    },
+                );
+                this.loading = false;
+                var resData  = response.data;
+
+                if (resData.error_no === 0) {
+                    this.$message.success('操作成功,即将刷新页面...');
+                    return window.location.reload();
+                }
+
+                return this.$message.error(resData.msg);
+
+            } catch (error) {
+
+                this.loading = false;
+
+                if (error instanceof Error) {
+
+                    if (error.response) {
+                        return this.$message.error(error.response.data.responseText);
+                    }
+
+                    if (error.request) {
+                        console.error(error.request);
+                        return this.$message.error('服务器未响应');
+                    }
+
+                    console.error(error);
+
+                }
+
+            }
+        },
+    };
+    const data          = function () {
+        return {
+            loading: false,// 是否显示加载
+        };
+    };
+
+    const Main = {
+        data    : data,
+        created : function () {},
+        methods : localMethods,
+        computed: localComputed,
+    };
+    const Ctor = Vue.extend(Main);
+    new Ctor().$mount('#app');
 
 </script>
 

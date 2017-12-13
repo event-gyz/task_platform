@@ -157,12 +157,13 @@ class Platform_task_payment extends ADMIN_Controller {
             return $this->response_json(1, '查找不到对应的付款信息');
         }
 
-        $update_info['finance_status']    = 1;// 设定广告主付款状态为财务已确认
-        $update_info['pay_money']         = $pay_money;
-        $update_info['pay_voucher']       = json_encode(array_column($fileList, 'file_path'));// 支付凭证
-        $update_info['confirming_person'] = $this->sys_user_info['id'];
-        $update_info['confirm_remark']    = $confirm_remark;
-        $sys_log_content                  = "{$this->sys_user_info['user_name']}确认了收款";
+        $update_info['finance_status']         = 1;// 设定广告主付款状态为财务已确认
+        $update_info['pay_money']              = $pay_money;
+        $update_info['pay_voucher']            = json_encode(array_column($fileList, 'file_path'));// 支付凭证
+        $update_info['confirming_person']      = $this->sys_user_info['id'];
+        $update_info['confirming_person_name'] = $this->sys_user_info['user_name'];
+        $update_info['confirm_remark']         = $confirm_remark;
+        $sys_log_content                       = "{$this->sys_user_info['user_name']}确认了收款";
 
         $result = $this->__get_platform_task_payment_model()->updateInfo($payment_id, $update_info);
 
@@ -191,6 +192,112 @@ class Platform_task_payment extends ADMIN_Controller {
         }
 
         return $this->response_json(0, '操作成功', $task_payment_info);
+    }
+
+    public function prepare_export_task_payment() {
+
+        $sub_file_name = "广告主付款列表-" . date('YmdHis') . ".csv";
+
+        header("Content-type:application/json;;charset=utf-8");
+        $result = array(
+            'error_no' => 0,
+            'msg'      => '操作成功',
+            'data'     => ['file_path' => "/excel/" . date('Ymd') . "/{$sub_file_name}"],
+        );
+        echo json_encode($result);
+
+        fastcgi_finish_request();
+        // 异步调用
+        $csv_file_path = FCPATH . "/excel/" . date('Ymd') . "/{$sub_file_name}";
+        $this->__prepare_excel($csv_file_path);
+    }
+
+    private function __prepare_excel($csv_file_path) {
+        set_time_limit(0);
+        $list = $this->__get_platform_task_payment_model()->get_all_task_payment_list();
+        // 生成excel文件
+        $this->_export_csv($list, $csv_file_path);
+    }
+
+    // 导出广告主收款记录到CSV文件
+    private function _export_csv($data, $csv_file_path) {
+        set_time_limit(0);
+        wap::create_folders(dirname($csv_file_path));
+
+        // 导出CSV
+        $title_arr = [
+            '任务ID', '任务名称', '用户ID', '用户名', '姓名/公司名称', '电话', '任务总金额',
+            '付款总金额', '付款方式', '付款时间', '财务状态', '最后操作人', '财务确认时间',
+        ];
+        $str       = implode(",", $title_arr);
+        $str       = $str . PHP_EOL;
+        $str       = iconv('utf-8', "gb2312//IGNORE", $str);// '一'bug 必须带上//IGNORE
+        file_put_contents($csv_file_path, $str);
+
+        $platform_pay_way_list = $this->config->item('adv_list_pay_way');
+
+        foreach ($data as $k => $v) {
+
+            $task_id               = $v['task_id'];
+            $task_name             = $v['task_name'];
+            $advertiser_id         = $v['advertiser_id'];
+            $advertiser_login_name = $v['advertiser_login_name'];
+
+            $u_name_or_c_name   = '';
+            $u_phone_or_c_phone = '';
+            if (($v['advertiser_type'] === "1")) {
+                $u_name_or_c_name   = empty($v['advertiser_name']) ? '' : $v['advertiser_name'];
+                $u_phone_or_c_phone = empty($v['advertiser_phone']) ? '' : $v['advertiser_phone'];
+            }
+
+            if (($v['advertiser_type'] === "2")) {
+                $u_name_or_c_name   = empty($v['company_name']) ? '' : $v['company_name'];
+                $u_phone_or_c_phone = empty($v['content_phone']) ? '' : $v['content_phone'];
+            }
+
+            $total_price      = $v['total_price'];
+            $pay_money        = $v['pay_money'];
+            $platform_pay_way = $platform_pay_way_list[$v['pay_way']];
+            $pay_time         = $v['pay_time'];
+
+            $finance_status = '未知';
+            if (($v['finance_status'] === "0")) {
+                $finance_status = '待财务确认';
+            } elseif (($v['finance_status'] === "1")) {
+                $finance_status = '已支付';
+            }
+
+            $confirming_person_name = $v['confirming_person_name'];
+            $confirm_time           = $v['confirm_time'];
+
+            $value_arr = [
+                $task_id, $task_name, $advertiser_id, $advertiser_login_name,
+                $u_name_or_c_name, $u_phone_or_c_phone, $total_price, $pay_money,
+                $platform_pay_way, $pay_time, $finance_status, $confirming_person_name, $confirm_time,
+            ];
+
+            $value = implode(",", $value_arr);
+            $value = $value . PHP_EOL;
+            $value = iconv('utf-8', "gb2312//IGNORE", $value);// '一'bug 必须带上//IGNORE
+            file_put_contents($csv_file_path, $value, FILE_APPEND);
+
+        }
+
+        wap::write_file_complete_flag($csv_file_path);
+
+    }
+
+    // 检测文件是否写入完毕
+    public function is_file_write_completed() {
+        $file_path = $this->input->get('file_path');
+
+        $result = wap::read_file_complete_flag(FCPATH . $file_path);
+
+        if ($result) {
+            return $this->response_json(0, '文件生成完毕');
+        }
+
+        return $this->response_json(1, '文件正在生成中...请稍候');
     }
 
     /**

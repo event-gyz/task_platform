@@ -285,6 +285,12 @@
                 <?php if (($info['status'] === "1") && ($info['audit_status'] === "0")): ?>
                     <button @click="submitForm('ruleForm')" type="button" class="btn btn-success margin-r-5">提交</button>
                 <?php endif; ?>
+                <?php if ((in_array($info['audit_status'], [1, 2]))): ?>
+                    <a href="/admin/platform_media_man/to_update_media_man?id=<?= $info['media_man_id'] ?>"
+                       class="btn btn-success btn-sm">
+                        修改
+                    </a>
+                <?php endif; ?>
                 <button @click="goBack('ruleForm')" type="button" class="btn btn-default margin-r-5"> 返回</button>
             </div>
         </div>
