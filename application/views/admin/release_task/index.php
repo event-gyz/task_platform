@@ -5,7 +5,7 @@
 <link href="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.min.css" rel="stylesheet">
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" v-loading.body="loading" element-loading-text="拼命加载中">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -33,7 +33,7 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="task_name" class="col-sm-3 control-label">任务名称</label>
+                                        <label for="task_name" class="col-sm-4 control-label">任务名称</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
                                                    placeholder="输入任务名称来搜索..." name="task_name"
@@ -43,7 +43,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="publishing_platform" class="col-sm-3 control-label">发布平台</label>
+                                        <label for="publishing_platform" class="col-sm-4 control-label">发布平台</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="publishing_platform">
                                                 <option value="">全部</option>
@@ -61,7 +61,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="task_type" class="col-sm-3 control-label">任务类型</label>
+                                        <label for="task_type" class="col-sm-4 control-label">任务类型</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="task_type">
                                                 <option value="">全部</option>
@@ -79,8 +79,8 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label class="col-sm-3 control-label">提交时间</label>
-                                        <div class="input-group col-sm-7">
+                                        <label class="col-sm-4 control-label">提交时间</label>
+                                        <div class="col-sm-7 input-group">
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
@@ -97,7 +97,7 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="task_status" class="col-sm-3 control-label">任务状态</label>
+                                        <label for="task_status" class="col-sm-4 control-label">任务状态</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="task_status">
                                                 <option value="">全部</option>
@@ -115,7 +115,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="sex" class="col-sm-3 control-label"></label>
+                                        <label for="sex" class="col-sm-4 control-label"></label>
                                         <div class="col-sm-7">
                                             <button type="submit" class="btn btn-info">搜索</button>
                                         </div>
@@ -132,7 +132,7 @@
 
                 </div>
 
-                <div class="box">
+                <div class="box"  v-loading.body="loading" element-loading-text="拼命加载中" id="table">
 
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover">
@@ -244,35 +244,35 @@
 
                     <?= $page_link ?>
 
+                    <el-dialog title="查看自媒体人" :visible.sync="dialogTableVisible">
+                        <el-table :data="fmtResTableData" height="300" border>
+                            <el-table-column property="task_map_id" label="序号" width="110"></el-table-column>
+                            <el-table-column property="media_man_user_name" label="用户名" width="150"></el-table-column>
+                            <el-table-column property="status" label="状态" width="150"></el-table-column>
+                            <el-table-column property="create_time" label="发送时间" width="150"></el-table-column>
+                            <el-table-column property="receive_time" label="领取/拒绝时间" width="150"></el-table-column>
+                            <el-table-column property="deliver_time" label="完成时间" width="200"></el-table-column>
+                        </el-table>
+                        <el-pagination
+                                layout="total, sizes, prev, pager, next, jumper"
+                                @size-change="handleSizeChange"
+                                @current-change="handleCurrentChange"
+                                :page-sizes="[10, 15, 20, 25]"
+                                :current-page="pagination.currentPage"
+                                :page-size="pagination.pageSize"
+                                :total="pagination.total">
+                        </el-pagination>
+                        <div slot="footer" class="dialog-footer">
+                            <el-button type="info" @click="dialogTableVisible = false">关 闭</el-button>
+                        </div>
+                    </el-dialog>
+
                 </div>
                 <!-- /.box -->
 
             </div>
 
         </div>
-
-        <el-dialog title="查看自媒体人" :visible.sync="dialogTableVisible">
-            <el-table :data="fmtResTableData" height="300" border>
-                <el-table-column property="task_map_id" label="序号" width="110"></el-table-column>
-                <el-table-column property="media_man_user_name" label="用户名" width="150"></el-table-column>
-                <el-table-column property="status" label="状态" width="150"></el-table-column>
-                <el-table-column property="create_time" label="发送时间" width="150"></el-table-column>
-                <el-table-column property="receive_time" label="领取/拒绝时间" width="150"></el-table-column>
-                <el-table-column property="deliver_time" label="完成时间" width="200"></el-table-column>
-            </el-table>
-            <el-pagination
-                    layout="total, sizes, prev, pager, next, jumper"
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :page-sizes="[10, 15, 20, 25]"
-                    :current-page="pagination.currentPage"
-                    :page-size="pagination.pageSize"
-                    :total="pagination.total">
-            </el-pagination>
-            <div slot="footer" class="dialog-footer">
-                <el-button type="info" @click="dialogTableVisible = false">关 闭</el-button>
-            </div>
-        </el-dialog>
 
     </section>
     <!-- /.content -->
@@ -555,7 +555,7 @@
         computed: localComputed,
     };
     const Ctor = Vue.extend(Main);
-    new Ctor().$mount('#app');
+    new Ctor().$mount('#table');
 
 </script>
 

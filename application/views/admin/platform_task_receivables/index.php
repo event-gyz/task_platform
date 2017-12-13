@@ -33,7 +33,7 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="media_man_login_name" class="col-sm-3 control-label">用户名</label>
+                                        <label for="media_man_login_name" class="col-sm-4 control-label">用户名</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
                                                    placeholder="输入用户名称来搜索..." name="media_man_login_name"
@@ -43,7 +43,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="school_name" class="col-sm-3 control-label">学校名称</label>
+                                        <label for="school_name" class="col-sm-4 control-label">学校名称</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
                                                    placeholder="输入学校名称来搜索..." name="school_name"
@@ -53,7 +53,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="zfb_nu" class="col-sm-3 control-label">支付宝</label>
+                                        <label for="zfb_nu" class="col-sm-4 control-label">支付宝</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
                                                    placeholder="输入支付宝帐号来搜索..." name="zfb_nu"
@@ -63,7 +63,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="m_finance_status" class="col-sm-3 control-label">财务状态</label>
+                                        <label for="m_finance_status" class="col-sm-4 control-label">财务状态</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="m_finance_status">
                                                 <option value="">全部</option>
@@ -85,7 +85,7 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="sex" class="col-sm-3 control-label"></label>
+                                        <label for="sex" class="col-sm-4 control-label"></label>
                                         <div class="col-sm-7">
                                             <button type="submit" class="btn btn-info">搜索</button>
                                             <el-button button-id="export" @click.once="prepare_export_receivables"

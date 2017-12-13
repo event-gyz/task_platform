@@ -5,7 +5,7 @@
 <link href="https://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.min.css" rel="stylesheet">
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" v-loading.body="loading" element-loading-text="拼命加载中">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -33,7 +33,7 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="task_name" class="col-sm-3 control-label">任务名称</label>
+                                        <label for="task_name" class="col-sm-4 control-label">任务名称</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
                                                    placeholder="输入任务名称来搜索..." name="task_name"
@@ -43,7 +43,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="publishing_platform" class="col-sm-3 control-label">发布平台</label>
+                                        <label for="publishing_platform" class="col-sm-4 control-label">发布平台</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="publishing_platform">
                                                 <option value="">全部</option>
@@ -61,7 +61,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="task_type" class="col-sm-3 control-label">任务类型</label>
+                                        <label for="task_type" class="col-sm-4 control-label">任务类型</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="task_type">
                                                 <option value="">全部</option>
@@ -79,8 +79,8 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label class="col-sm-3 control-label">提交时间</label>
-                                        <div class="input-group col-sm-7">
+                                        <label class="col-sm-4 control-label">提交时间</label>
+                                        <div class="col-sm-7 input-group">
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
@@ -97,7 +97,7 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="task_status" class="col-sm-3 control-label">任务状态</label>
+                                        <label for="task_status" class="col-sm-4 control-label">任务状态</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="task_status">
                                                 <option value="">全部</option>
@@ -115,7 +115,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="sex" class="col-sm-3 control-label"></label>
+                                        <label for="sex" class="col-sm-4 control-label"></label>
                                         <div class="col-sm-7">
                                             <button type="submit" class="btn btn-info">搜索</button>
                                         </div>
@@ -132,7 +132,7 @@
 
                 </div>
 
-                <div class="box">
+                <div class="box" v-loading.body="loading" element-loading-text="拼命加载中" id="table">
 
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover">
@@ -348,7 +348,7 @@
         computed: localComputed,
     };
     const Ctor = Vue.extend(Main);
-    new Ctor().$mount('#app');
+    new Ctor().$mount('#table');
 
 </script>
 
