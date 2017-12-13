@@ -94,7 +94,7 @@ class Platform_advertiser_model extends MY_Model {
             return ['total' => $total, 'list' => []];
         }
 
-        $sql .= ' ORDER BY pa.advertiser_id DESC';
+        $sql .= ' ORDER BY pa.update_time DESC';
 
         $offset = isset($where['offset']) ? $where['offset'] : 0;
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
@@ -102,7 +102,7 @@ class Platform_advertiser_model extends MY_Model {
 
         $get_id_sql = str_replace('[*]', 'pa.advertiser_id', $sql);
         $final_sql  = sprintf("SELECT [*] FROM `%s` AS pa, ( %s ) AS T2 WHERE pa.advertiser_id = T2.advertiser_id", $this->table, $get_id_sql);
-        $final_sql  .= ' ORDER BY pa.advertiser_id DESC';
+        $final_sql  .= ' ORDER BY pa.update_time DESC';
         $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);
@@ -112,17 +112,17 @@ class Platform_advertiser_model extends MY_Model {
     }
 
 
-    public function updateInfo($advertiser_id,$info){
-        if(empty($advertiser_id)){
+    public function updateInfo($advertiser_id, $info) {
+        if (empty($advertiser_id)) {
             return false;
         }
-        $where = array('advertiser_id'=>$advertiser_id);
-        return $this->update($info, $where );
+        $where = array('advertiser_id' => $advertiser_id);
+        return $this->update($info, $where);
     }
 
-    public function updateInfoByPhone($phone,$info){
-        $where = array('advertiser_phone'=>$phone);
-        return $this->update($info, $where );
+    public function updateInfoByPhone($phone, $info) {
+        $where = array('advertiser_phone' => $phone);
+        return $this->update($info, $where);
     }
 
     public function selectByPhone($phone) {
@@ -144,11 +144,11 @@ class Platform_advertiser_model extends MY_Model {
     }
 
     public function selectByUserName($login_name) {
-        $query = $this->db->get_where($this->getTableName(), array('advertiser_login_name' => $login_name));
+        $query  = $this->db->get_where($this->getTableName(), array('advertiser_login_name' => $login_name));
         $result = $query->row_array();
-        if($result){
+        if ($result) {
             return $result;
-        }else{
+        } else {
             $query = $this->db->get_where($this->getTableName(), array('advertiser_phone' => $login_name));
             return $query->row_array();
         }
