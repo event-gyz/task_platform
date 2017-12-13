@@ -224,6 +224,55 @@ class Release_task extends ADMIN_Controller {
         return $this->response_json(1, '非法操作');
     }
 
+    // 系统自动发布规则
+    private function __sys_auto_release($task_info) {
+
+        // media_man_require 自媒体人帐号要求 1有 2无
+
+        $actual_media_man_number = 0;
+
+        if ($task_info['media_man_require'] === '2') {
+            // todo 发送给全量的自媒体帐号
+            return $actual_media_man_number;
+        }
+
+        // todo 根据自媒体人帐号要求计算符合条件的自媒体人帐号
+        // （1）根据发布任务时的账号要求捞取符合条件的自媒体人账号，只要满足账号要求中的一条即视为符合条件的账号。
+        // （2）当捞取的自媒体账号超过发布任务时的账号数量时，
+        //      则根据发布的平台将自媒体人对应平台的粉丝数倒序，将此任务发给粉丝数多的自媒体账号，
+        //      如发送的平台是微博+微信平台，则将两个平台粉丝数相加后的结果倒序。
+        //      如遇到粉丝数相同的情况，则发给注册时间较早的账号。
+        // （3）当捞取的自媒体账号数小于等于账号数量的50%时，则视同平台无法满足账号要求，给全部自媒体账号发送此条任务信息。
+
+
+        // require_sex 性别要求
+        if (!empty($task_info['require_sex'])) {
+            $where['require_sex'] = $task_info['require_sex'];
+        }
+
+        // require_age 自媒体人年龄要求
+        if (!empty($task_info['require_age'])) {
+            $where['require_age'] = $task_info['require_age'];
+        }
+
+        // require_local 自媒体人地域要求
+        if (!empty($task_info['require_local'])) {
+            $where['require_local'] = $task_info['require_local'];
+        }
+
+        // require_industry 行业要求
+        if (!empty($task_info['require_industry'])) {
+            $where['require_industry'] = $task_info['require_industry'];
+        }
+
+        // require_hobby 自媒体人爱好要求
+        if (!empty($task_info['require_hobby'])) {
+            $where['require_hobby'] = $task_info['require_hobby'];
+        }
+
+
+    }
+
     // 根据task_id分页查询自媒体人
     public function view_self_media_man() {
         $id     = $this->input->get('id');

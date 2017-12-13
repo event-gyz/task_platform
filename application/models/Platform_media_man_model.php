@@ -104,18 +104,18 @@ class Platform_media_man_model extends MY_Model {
     }
 
     public function selectByLoginName($login_name) {
-        $query = $this->db->get_where($this->getTableName(), array('media_man_login_name' => $login_name));
+        $query  = $this->db->get_where($this->getTableName(), array('media_man_login_name' => $login_name));
         $result = $query->row_array();
         return $result;
 
     }
 
     public function selectByUserName($login_name) {
-        $query = $this->db->get_where($this->getTableName(), array('media_man_login_name' => $login_name));
+        $query  = $this->db->get_where($this->getTableName(), array('media_man_login_name' => $login_name));
         $result = $query->row_array();
-        if($result){
+        if ($result) {
             return $result;
-        }else{
+        } else {
             $query = $this->db->get_where($this->getTableName(), array('media_man_phone' => $login_name));
             return $query->row_array();
         }
@@ -131,9 +131,9 @@ class Platform_media_man_model extends MY_Model {
         return $this->db->insert_id();
     }
 
-    public function getUseMediaMan(){
+    public function getUseMediaMan() {
         $where['status'] = 2;
-        $query = $this->db->get_where($this->getTableName(), $where);
+        $query           = $this->db->get_where($this->getTableName(), $where);
         return $query->result_array();
     }
 }
