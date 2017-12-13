@@ -79,7 +79,7 @@ class Index extends CI_Controller {
                 $this->_return['msg'] = '请填写姓名';
                 echo json_encode($this->_return);exit;
             }
-            if(!isset($_POST ['idCard']) || empty($_POST ['id_card'])){
+            if(!isset($_POST ['id_card']) || empty($_POST ['id_card'])){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '请填写身份证号';
                 echo json_encode($this->_return);exit;
