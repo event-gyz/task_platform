@@ -16,7 +16,7 @@
             <ul class="my_task" style="display:none;">
                 <!--list-->
                 <li class="task_box" v-for="item in lists">
-                    <a class="a_box" :href="'/media/index/giveTask?task_id='+item.task_id">
+                    <a class="a_box" :href="'/media/index/getMissionHallTaskDetail?task_id=='+item.task_id">
                         <div class="top wait">
                             <p class="name">待领取</p>
                             <p class="time" v-html="item.allot_time"></p>
