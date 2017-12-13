@@ -77,7 +77,7 @@
                                                 <i class="fa fa-calendar"></i>
                                             </div>
                                             <input type="text" name="create_time"
-                                                   class="form-control pull-right"
+                                                   class="form-control"
                                                    id="reservation"
                                                    value="<?= $form_data['create_time'] ?>"
                                             >
