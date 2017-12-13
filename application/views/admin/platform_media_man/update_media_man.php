@@ -115,6 +115,7 @@
                                         expand-trigger="hover"
                                         :options="area_list"
                                         v-model="ruleForm.area_info"
+                                        filterable
                                 >
                                 </el-cascader>
 
