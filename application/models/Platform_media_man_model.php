@@ -141,13 +141,13 @@ class Platform_media_man_model extends MY_Model {
 
             switch ($where['order_by']) {
                 case 'wx_max_fans':
-                    $sql .= ' ORDER BY mm.wx_max_fans DESC ';
+                    $sql .= ' ORDER BY mm.wx_max_fans DESC , mm.create_time ASC ';
                     break;
                 case 'weibo_max_fans':
-                    $sql .= ' ORDER BY mm.weibo_max_fans DESC ';
+                    $sql .= ' ORDER BY mm.weibo_max_fans DESC , mm.create_time ASC ';
                     break;
                 case 'wx_or_weibo_max_fans':
-                    $sql .= ' ORDER BY mm.wx_max_fans DESC , mm.weibo_max_fans DESC ';
+                    $sql .= ' ORDER BY (mm.weibo_max_fans + mm.wx_max_fans) DESC , mm.create_time ASC ';
                     break;
                 default:
                     break;
