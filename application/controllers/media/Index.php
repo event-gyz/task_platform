@@ -215,14 +215,14 @@ class Index extends CI_Controller {
      * 任务大厅任务详情
      */
     public function getMissionHallTaskDetail(){
-        $map_id = (isset($_GET['task_id'])&&!empty($_GET['task_id'])) ? $_GET['task_id'] : 0;
+        $task_id = (isset($_GET['task_id'])&&!empty($_GET['task_id'])) ? $_GET['task_id'] : 0;
         $user_info = $this->__get_user_session();
         $media_man_id = $user_info['media_man_id'];
 
         //超时未领取的任务置为超时
         $this->__get_task_map_model()->updateTimeOutTaskMap($media_man_id);
 
-        $where['map_id'] = $map_id;
+        $where['task_id'] = $task_id;
         $where['receive_status'] = 0;
         $where['release_status'] = 1;
         $result = $this->__get_task_map_model()->getUnclaimedTaskDetail($media_man_id,$where);
@@ -246,16 +246,6 @@ class Index extends CI_Controller {
 
         }
         $this->load->view('/media/task_info',$result);
-//        if(is_array($result) && !empty($result)){
-//            $this->_return['errorno'] = 1;
-//            $this->_return['msg'] = '成功';
-//            $this->_return['data'] = $result;
-//            echo json_encode($this->_return);exit;
-//        }else{
-//            $this->_return['errorno'] = -1;
-//            $this->_return['msg'] = '任务已失效';
-//            echo json_encode($this->_return);exit;
-//        }
     }
 
     /**
