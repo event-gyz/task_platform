@@ -307,7 +307,7 @@ class Platform_task_map_model extends MY_Model {
         $sql .= sprintf(" AND ptm.media_man_user_id = %d", $media_man_id);
 
         $sql .= sprintf(" AND ptm.receive_status = %d", 0);
-        $sql .= sprintf(" AND pt.release_status = %d", 1);
+        $sql .= sprintf(" AND pt.release_status = %d", 2);
 
         // 总数
         $sqlCount = str_replace('[*]', 'count(ptm.task_map_id) AS c', $sql);
