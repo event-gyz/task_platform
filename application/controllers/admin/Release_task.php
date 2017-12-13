@@ -211,6 +211,7 @@ class Release_task extends ADMIN_Controller {
         $this->db->trans_begin();
 
         $actual_media_man_number = $this->__sys_auto_release($info);
+        // todo 需要确认实际发布数量为0时是否还需要发布
 
         $update_info['actual_media_man_number'] = $actual_media_man_number;
         $update_info['platform_price']          = $platform_price;
