@@ -441,7 +441,7 @@
                 $is_show_cancellation_btn = (!in_array($info['release_status'], [8])) && $is_show_cancellation_btn;
                 ?>
                 <?php if ($is_show_cancellation_btn): ?>
-                    <button @click="update_task_release_status()" type="button" class="btn btn-warning margin-r-5">
+                    <button @click="update_task_release_status()" type="button" class="btn btn-danger margin-r-5">
                         手工作废
                     </button>
                 <?php endif; ?>

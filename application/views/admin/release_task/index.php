@@ -132,7 +132,7 @@
 
                 </div>
 
-                <div class="box"  v-loading.body="loading" element-loading-text="拼命加载中" id="table">
+                <div class="box" v-loading.body="loading" element-loading-text="拼命加载中" id="table">
 
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover">
@@ -208,12 +208,12 @@
 
                                         <?php if ($is_show_release_btn): ?>
                                             <button @click="release_task('<?= $value['task_id'] ?>')" type="button"
-                                                    class="btn btn-success btn-xs margin-r-5">发布
+                                                    class="btn btn-success btn-sm margin-r-5">发布
                                             </button>
                                         <?php endif; ?>
 
                                         <?php if ($is_show_view_btn): ?>
-                                            <button class="btn btn-primary btn-xs margin-r-5"
+                                            <button class="btn btn-primary btn-sm margin-r-5"
                                                     @click="view_self_media_man('<?= $value['task_id'] ?>')"
                                             >
                                                 查看自媒体人
@@ -223,14 +223,14 @@
                                         <?php if ($is_show_cancellation_btn): ?>
                                             <button @click="update_task_release_status('<?= $value['task_id'] ?>')"
                                                     type="button"
-                                                    class="btn btn-warning btn-xs margin-r-5">
+                                                    class="btn btn-danger btn-sm margin-r-5">
                                                 手工作废
                                             </button>
                                         <?php endif; ?>
 
                                         <?php if ($is_show_confirm_btn): ?>
                                             <button @click="confirm_finish('<?= $value['task_id'] ?>')" type="button"
-                                                    class="btn btn-primary btn-xs margin-r-5">
+                                                    class="btn btn-primary btn-sm margin-r-5">
                                                 确认完成
                                             </button>
                                         <?php endif; ?>
