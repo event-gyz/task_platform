@@ -213,16 +213,16 @@ class Release_task extends ADMIN_Controller {
         $update_info['actual_media_man_number'] = $actual_media_man_number;
         $update_info['platform_price']          = $platform_price;
         $update_info['release_status']          = 1;// 设定任务发布状态为已发布
-        $sys_log_content                        = '修改任务价格为:' . $platform_price;
+        $sys_log_content                        = '修改任务价格为:' . $platform_price . ',并发布了任务';
 
-//        $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
-//
-//        if ($result === 1) {
-//
-//            $this->add_sys_log(8, $sys_log_content, $id, json_encode($info), json_encode($update_info));
-//
-//            return $this->response_json(0, '操作成功');
-//        }
+        $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
+
+        if ($result === 1) {
+
+            $this->add_sys_log(8, $sys_log_content, $id, json_encode($info), json_encode($update_info));
+
+            return $this->response_json(0, '操作成功');
+        }
 
         return $this->response_json(1, '非法操作');
     }
@@ -302,15 +302,15 @@ class Release_task extends ADMIN_Controller {
             if (!empty($task_info['publishing_platform'])) {
 
                 if ($task_info['publishing_platform'] === '1') {
-                    $where['order_by'] = $task_info['wx_max_fans'];
+                    $where['order_by'] = 'wx_max_fans';
                 }
 
                 if ($task_info['publishing_platform'] === '2') {
-                    $where['order_by'] = $task_info['weibo_max_fans'];
+                    $where['order_by'] = 'weibo_max_fans';
                 }
 
                 if ($task_info['publishing_platform'] === '1,2') {
-                    $where['order_by'] = $task_info['wx_or_weibo_max_fans'];
+                    $where['order_by'] = 'wx_or_weibo_max_fans';
                 }
 
                 $where['offset'] = 0;
