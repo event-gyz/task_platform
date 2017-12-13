@@ -27,7 +27,7 @@ var app = new Vue({
                                 location.href='/advertiser/index/home';
                                 // 未完善基础信息
                             }else if (res.errorno == 2){
-                                location.href='/advertiser/index/saveBaseInfo';
+                                location.href='/advertiser/index/person';
                                 // 待审核
                             }else if (res.errorno == 3){
                                 location.href='/advertiser/login/accountStatus3';
