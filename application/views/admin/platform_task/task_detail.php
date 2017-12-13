@@ -308,11 +308,11 @@
 
                     <div class="col-sm-3 invoice-col">
                         <b>完成标准：</b> <?= $task_completion_criteria[$info['completion_criteria']] ?><br><br>
+                    </div>
+
                 </div>
 
-            </div>
-
-            <div class="row">
+                <div class="row">
 
                     <div class="col-sm-3 invoice-col">
                         <b>任务描述：</b> <?= $info['task_describe'] ?><br><br>
@@ -501,7 +501,7 @@
                 });
             },
             goBack                       : function (formName) {
-                window.location.href = '/admin/platform_task/home';
+                window.history.go(-1);
             },
             update_task_audit_status     : async function () {
                 try {

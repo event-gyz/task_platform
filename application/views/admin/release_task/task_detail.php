@@ -394,7 +394,7 @@
             });
         },
         goBack                              : function (formName) {
-            window.location.href = '/admin/release_task/home';
+            window.history.go(-1);
         },
         release_task                        : async function () {
             try {

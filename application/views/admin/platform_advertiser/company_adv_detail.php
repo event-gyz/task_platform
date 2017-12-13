@@ -249,7 +249,7 @@
                 });
             },
             goBack                      : function (formName) {
-                window.location.href = '/admin/platform_advertiser/company_adv_home';
+                window.history.go(-1);
             },
             adv_audit                   : async function () {
                 try {
