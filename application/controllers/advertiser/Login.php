@@ -66,6 +66,7 @@ class Login extends CI_Controller {
                 }else if($userInfo['status']==0){
                     $this->_return['errorno'] = '2';
                     $this->_return['msg'] = '未完善基础信息';
+                    $this->_return['data'] = $userInfo;
                     echo json_encode($this->_return);exit;
                 }else if($userInfo['audit_status']==0){
                     $this->_return['errorno'] = '3';
