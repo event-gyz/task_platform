@@ -236,16 +236,20 @@ class Platform_media_man extends ADMIN_Controller {
             return $this->response_json(1, '非法操作');
         }
 
+        $this->db->trans_begin();
+
         $update_info['last_operator_id']      = $this->sys_user_info['id'];
         $update_info['last_operator_name']    = $this->sys_user_info['user_name'];
         $update_info['audit_status']          = $audit_status;
         $update_info['reasons_for_rejection'] = empty($reasons_for_rejection) ? '' : $reasons_for_rejection;
-        $sys_log_content                      = '媒体人审核驳回,驳回的原因是:' . $update_info['reasons_for_rejection'];
+        $sys_log_content                      = sprintf($this->lang->line('media_audit_reject4_sys'), $update_info['reasons_for_rejection']);
+        $message_content                      = sprintf($this->lang->line('media_audit_reject4_user'), $update_info['reasons_for_rejection']);
 
         if ($audit_status === "1") {
             $update_info['reasons_for_rejection'] = "";
             $update_info['status']                = 2;// 当审核通过后需要将status设置为2正常
-            $sys_log_content                      = '媒体人审核通过';
+            $sys_log_content                      = $this->lang->line('media_audit_pass4_sys');
+            $message_content                      = $this->lang->line('media_audit_pass4_user');
         }
 
         $result = $this->__get_platform_media_man_model()->updateInfo($id, $update_info);
@@ -254,10 +258,19 @@ class Platform_media_man extends ADMIN_Controller {
 
             $this->add_sys_log(3, $sys_log_content, $id, json_encode($info), json_encode($update_info));
 
-            return $this->response_json(0, '操作成功');
+            $this->add_user_message($info['media_man_id'], 2, 1, $message_content);
+
         }
 
-        return $this->response_json(1, '非法操作');
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->response_json(1, '操作失败,请稍候再试');
+        }
+
+        $this->db->trans_commit();
+
+        return $this->response_json(0, '操作成功');
+
     }
 
     // 自媒体人的账户状态变更
