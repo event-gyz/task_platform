@@ -64,7 +64,7 @@
                                             <?= $advertiser_info['audit_status'] === "1" ? "bg-green" : "" ?>
                                             <?= $advertiser_info['audit_status'] === "2" ? "bg-red" : "" ?>
                                         ">
-                                <?= $adv_audit_status[$advertiser_info['audit_status']] ?>
+                                <?= isset($adv_audit_status[$advertiser_info['audit_status']]) ? $adv_audit_status[$advertiser_info['audit_status']] : '' ?>
                             </small>
                             <br><br>
                         </div>
@@ -77,7 +77,7 @@
                                             <?= $advertiser_info['status'] === "2" ? "bg-green" : "" ?>
                                             <?= $advertiser_info['status'] === "9" ? "bg-red" : "" ?>
                                         ">
-                                <?= $adv_account_status[$advertiser_info['status']] ?>
+                                <?= isset($adv_account_status[$advertiser_info['status']]) ? $adv_account_status[$advertiser_info['status']] : '' ?>
                             </small>
                             <br><br>
                         </div>
@@ -221,11 +221,13 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>任务类型：</b> <?= $task_type_list[$info['task_type']] ?><br><br>
+                        <b>任务类型：</b> <?= isset($task_type_list[$info['task_type']]) ? $task_type_list[$info['task_type']] : '' ?>
+                        <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>发布平台：</b> <?= $publishing_platform_list[$info['publishing_platform']] ?><br><br>
+                        <b>发布平台：</b> <?= isset($publishing_platform_list[$info['publishing_platform']]) ? $publishing_platform_list[$info['publishing_platform']] : '' ?>
+                        <br><br>
                     </div>
 
                 </div>
@@ -273,7 +275,8 @@
                 <div class="row">
 
                     <div class="col-sm-3 invoice-col">
-                        <b>审核状态：</b> <?= $task_audit_status[$info['audit_status']] ?> <br><br>
+                        <b>审核状态：</b> <?= isset($task_audit_status[$info['audit_status']]) ? $task_audit_status[$info['audit_status']] : '' ?>
+                        <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
@@ -307,7 +310,8 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>完成标准：</b> <?= $task_completion_criteria[$info['completion_criteria']] ?><br><br>
+                        <b>完成标准：</b> <?= isset($task_completion_criteria[$info['completion_criteria']]) ? $task_completion_criteria[$info['completion_criteria']] : '' ?>
+                        <br><br>
                     </div>
 
                 </div>
