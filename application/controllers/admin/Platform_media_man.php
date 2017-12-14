@@ -74,6 +74,8 @@ class Platform_media_man extends ADMIN_Controller {
             $where['status'] = $status;
         }
 
+        $where['no_draft'] = 0;// 去掉status = 草稿0状态的数据
+
         if (!empty($tag)) {
             // todo 根据媒体人标签进行搜索
             $where['tag'] = $tag;

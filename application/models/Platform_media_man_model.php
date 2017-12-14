@@ -47,6 +47,10 @@ class Platform_media_man_model extends MY_Model {
             $sql .= sprintf(" AND mm.status = %d", $where['status']);
         }
 
+        if (isset($where['no_draft']) && $where['no_draft'] !== '') {
+            $sql .= sprintf(" AND mm.status != %d", $where['no_draft']);
+        }
+
         // 根据自媒体人学校名称
         if (isset($where['school_name']) && $where['school_name']) {
             $sql .= sprintf(" AND mm.school_name like '%s%%'", $where['school_name']);

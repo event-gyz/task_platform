@@ -212,7 +212,6 @@
                                     <th><?= $value['create_time'] ?></th>
                                     <th>
                                         <small class="label
-                                            <?= $value['status'] === "0" ? "bg-gray" : "" ?>
                                             <?= $value['status'] === "1" ? "bg-yellow" : "" ?>
                                             <?= $value['status'] === "2" ? "bg-green" : "" ?>
                                             <?= $value['status'] === "9" ? "bg-red" : "" ?>
