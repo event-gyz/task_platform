@@ -81,7 +81,24 @@
 
                 <?php if($release_status == 8){?>
                     <!--已结束-->
-                    <div class="min-title1">任务基础信息<span class="warn">● 手工作废</span></div>
+                    <div class="statu_box">
+                        <p class="icon-box"><img src="/images/status/sb.png"></p>
+                        <h2>任务已关闭</h2>
+                        <p class="text">抱歉，此条任务已被关闭。</p>
+                        <div class="info">
+                            <ul>
+                                <li class="tit">关闭时间：</li>
+                                <li class="list">
+                                    <?=$close_time;?>
+                                </li>
+                                <li class="tit">关闭原因：</li>
+                                <li class="list">
+                                    <?=$close_reason;?>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="min-title1">任务基础信息<span class="warn">● 已关闭</span></div>
                     <!--已结束-end-->
                 <?php }?>
 
@@ -108,29 +125,6 @@
                 <!--执行中-end-->
                 <?php }?>
 
-                <?php if($release_status == 9){?>
-                <!--已关闭-->
-                <div class="statu_box">
-                    <p class="icon-box"><img src="/images/status/sb.png"></p>
-                    <h2>任务已关闭</h2>
-                    <p class="text">抱歉，此条任务已被关闭。</p>
-                    <div class="info">
-                        <ul>
-                            <li class="tit">关闭时间：</li>
-                            <li class="list">
-                                <?=$close_time;?>
-                            </li>
-                            <li class="tit">关闭原因：</li>
-                            <li class="list">
-                                <?=$close_reason;?>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="min-title1">任务基础信息<span class="warn">● 已关闭</span></div>
-                <!--已关闭-end-->
-                <?php }?>
-
                 <?php if($release_status == 2){?>
                 <!--已完成-->
                 <div class="min-title1">任务基础信息<span class="warn">● 已完成</span></div>
@@ -145,7 +139,7 @@
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom" >任务编号</th>
-                            <td class="border_bottom" align="right"><?= 'RW'.$task_id?></td>
+                            <td class="border_bottom" align="right"><?='RM'.$task_id?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">任务名称</th>

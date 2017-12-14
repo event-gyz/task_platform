@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <th align="left">身份证号</th>
-                    <td align="right"><?=$userInfo['advertiser_name']?></td>
+                    <td align="right"><?=$userInfo['id_card']?></td>
                 </tr>
             </table>
         </div>
