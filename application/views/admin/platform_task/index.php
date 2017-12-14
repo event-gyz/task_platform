@@ -186,6 +186,10 @@
                                             <small class="label bg-green">
                                                 财务已确认
                                             </small>
+                                        <?php elseif (($value['release_status'] === "8")): ?>
+                                            <small class="label bg-gray">
+                                                已关闭
+                                            </small>
                                         <?php else: ?>
                                             <small class="label bg-gray">
                                                 未知
