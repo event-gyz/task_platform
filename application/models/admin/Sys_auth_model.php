@@ -92,5 +92,59 @@ class Sys_auth_model extends MY_Model {
         return $this->delete(['id' => $sys_auth_id]);
     }
 
+    // 获取待处理的工作数量
+    public function get_job_count() {
+
+        // 公司广告主审核列表--广告主待审核数量
+        $sql1              = "SELECT count(*) AS c FROM `platform_advertiser` AS pa WHERE pa.audit_status = 1 AND pa.advertiser_type = 2";
+        $c_adv_audit_count = $this->db->query($sql1);
+
+        // 个人广告主审核列表--个人广告主待审核数量
+        $sql2              = "SELECT count(*) AS c FROM `platform_advertiser` AS pa WHERE pa.audit_status = 1 AND pa.advertiser_type = 1";
+        $p_adv_audit_count = $this->db->query($sql2);
+
+        // 自媒体人审核列表--自媒体人待审核数量
+        $sql3              = "SELECT count(*) AS c FROM `platform_media_man` AS pm WHERE pm.audit_status = 0";
+        $media_audit_count = $this->db->query($sql3);
+
+        // 任务管理---任务待审核数量
+        $sql4             = "SELECT count(*) AS c FROM `platform_task` AS pt WHERE pt.audit_status = 1";
+        $task_audit_count = $this->db->query($sql4);
+
+        // 发布管理---待发布任务数量
+        $sql5
+                                  = "SELECT count(*) AS c FROM `platform_task` AS pt 
+            LEFT JOIN `platform_task_payment` AS ptp on pt.task_id = ptp.task_id 
+            WHERE pt.release_status = 0 AND pt.audit_status = 3 AND pt.pay_status = 1  AND ptp.finance_status = 1";
+        $task_to_be_release_count = $this->db->query($sql5);
+
+        // 发布管理---待确认完成
+        $sql6
+                                         = "SELECT count(*) AS c FROM `platform_task` AS pt 
+            LEFT JOIN `platform_task_payment` AS ptp on pt.task_id = ptp.task_id 
+            WHERE pt.release_status = 1 AND pt.audit_status = 3 AND pt.pay_status = 1 AND ptp.finance_status = 1 AND pt.end_time <= 1513239167";
+        $task_to_be_confirm_finish_count = $this->db->query($sql6);
+
+        // 自媒体人结账列表---待付款
+        $sql7                  = "SELECT count(*) AS c FROM `platform_task_receivables` AS ptr WHERE ptr.finance_status = 0";
+        $media_to_be_pay_count = $this->db->query($sql7);
+
+        // 广告主付款列表---待财务确认
+        $sql8                            = "SELECT count(*) AS c FROM `platform_task_payment` AS ptp WHERE ptp.finance_status = 0";
+        $adv_to_be_finance_confirm_count = $this->db->query($sql8);
+
+        // key 的命名规则是根据 控制器-方法 来命名的,所以看起来有些奇怪,不要在意这些细节...
+        return [
+            'Platform_advertiser-company_adv_home'  => $c_adv_audit_count->row_array()['c'],
+            'Platform_advertiser-personal_adv_home' => $p_adv_audit_count->row_array()['c'],
+            'Platform_media_man-home'               => $media_audit_count->row_array()['c'],
+            'Platform_task-home'                    => $task_audit_count->row_array()['c'],
+            'Release_task-home'                     => $task_to_be_release_count->row_array()['c'] + $task_to_be_confirm_finish_count->row_array()['c'],
+            'Platform_task_receivables-home'        => $media_to_be_pay_count->row_array()['c'],
+            'Platform_task_payment-home'            => $adv_to_be_finance_confirm_count->row_array()['c'],
+        ];
+
+    }
+
 }
 
