@@ -23,3 +23,7 @@ $lang['media_submit_task_audit_reject4_sys']  = '自媒体人%s提交的任务�
 $lang['media_submit_task_audit_pass4_sys']    = '自媒体人%s提交的任务交付,审核通过';
 $lang['media_submit_task_audit_reject4_user'] = '抱歉,您交付的任务《%s》审核未通过。';
 $lang['media_submit_task_audit_pass4_user']   = '您交付的任务《%s》已通过，请等待财务打款。';
+
+// 财务确认付款给自媒体人
+$lang['finance_confirm_pay_money4_sys']  = ' %s 确认付款给自媒体人 %s ';
+$lang['finance_confirm_pay_money4_user'] = '您交付的任务《%s》财务已经确认付款，请查收后再确认收款。';
