@@ -49,6 +49,9 @@ $auth_id_arr = explode(',', $auth_ids);
                         <a href="javascript:;">
                             <span><?= $value0['auth_name'] ?></span>
                             <span class="pull-right-container">
+                                <?php if ($ps_menu_label = get_menu_label($value0['class'], $job_count_list)): ?>
+                                    <small class="label bg-red"><?= $ps_menu_label ?></small>
+                                <?php endif; ?>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>

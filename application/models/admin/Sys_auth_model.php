@@ -134,7 +134,18 @@ class Sys_auth_model extends MY_Model {
         $adv_to_be_finance_confirm_count = $this->db->query($sql8);
 
         // key 的命名规则是根据 控制器-方法 来命名的,所以看起来有些奇怪,不要在意这些细节...
+
+
         return [
+
+            // 一级菜单
+            'Platform_advertiser'                   => $c_adv_audit_count->row_array()['c'] + $p_adv_audit_count->row_array()['c'],
+            'Platform_media_man'                    => $media_audit_count->row_array()['c'],
+            'Platform_task'                         => $task_audit_count->row_array()['c'],
+            'Release_task'                          => $task_to_be_release_count->row_array()['c'] + $task_to_be_confirm_finish_count->row_array()['c'],
+            'Finance'                               => $media_to_be_pay_count->row_array()['c'] + $adv_to_be_finance_confirm_count->row_array()['c'],
+
+            // 二级菜单
             'Platform_advertiser-company_adv_home'  => $c_adv_audit_count->row_array()['c'],
             'Platform_advertiser-personal_adv_home' => $p_adv_audit_count->row_array()['c'],
             'Platform_media_man-home'               => $media_audit_count->row_array()['c'],
