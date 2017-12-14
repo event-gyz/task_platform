@@ -253,14 +253,13 @@ class Platform_task extends ADMIN_Controller {
             return $this->response_json(1, '非法操作');
         }
 
+        $this->db->trans_begin();
+
         $update_info['release_status'] = $release_status;
         $update_info['close_reason']   = empty($close_reason) ? '' : $close_reason;
-        $sys_log_content               = '任务发布状态被更新';
-
-        if ($release_status === "8") {
-            $sys_log_content           = '任务被手工作废';
-            $update_info['close_time'] = date('Y-m-d H:i:s');
-        }
+        $update_info['close_time']     = date('Y-m-d H:i:s');
+        $sys_log_content               = sprintf($this->lang->line('admin_zuo_fei_task4_sys'), "{$this->sys_user_info['user_name']}", $update_info['close_reason']);
+        $message_content               = sprintf($this->lang->line('admin_zuo_fei_task4_user'), $info['task_name'], $update_info['close_reason']);
 
         $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
 
@@ -268,10 +267,18 @@ class Platform_task extends ADMIN_Controller {
 
             $this->add_sys_log(9, $sys_log_content, $id, json_encode($info), json_encode($update_info));
 
-            return $this->response_json(0, '操作成功');
+            $this->add_user_message($info['advertiser_user_id'], 1, 2, $message_content, $info['task_id']);
+
         }
 
-        return $this->response_json(1, '非法操作');
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->response_json(1, '操作失败,请稍候再试');
+        }
+
+        $this->db->trans_commit();
+
+        return $this->response_json(0, '操作成功');
     }
 
     /**

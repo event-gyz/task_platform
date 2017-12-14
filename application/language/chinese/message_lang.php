@@ -35,3 +35,7 @@ $lang['finance_confirm_receive_money4_user'] = '您对任务《%s》的付款，
 // 管理员发布了任务
 $lang['admin_release_task4_sys']  = '%s 修改任务价格为 %s,并发布了任务。';
 $lang['admin_release_task4_user'] = '您的任务《%s》已经发布成功啦。';
+
+// 管理员手工作废任务
+$lang['admin_zuo_fei_task4_sys']  = '%s 手工作废了任务，原因是：%s。';
+$lang['admin_zuo_fei_task4_user'] = '您的任务《%s》被终止了,原因是：%s。';
