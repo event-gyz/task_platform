@@ -53,7 +53,8 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>学校类型：</b> <?= $school_type_list[$info['school_type']] ?><br><br>
+                        <b>学校类型：</b> <?= isset($school_type_list[$info['school_type']]) ? $school_type_list[$info['school_type']] : '' ?>
+                        <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
@@ -91,22 +92,24 @@
                 <div class="row">
 
                     <div class="col-sm-3 invoice-col">
-                        <b>办学层次：</b> <?= $school_level_list[$info['school_level']] ?><br><br>
+                        <b>办学层次：</b> <?= isset($school_level_list[$info['school_level']]) ? $school_level_list[$info['school_level']] : '' ?>
+                        <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>年龄：</b> <?= $age_list[$info['age']] ?><br><br>
+                        <b>年龄：</b> <?= isset($age_list[$info['age']]) ? $age_list[$info['age']] : '' ?><br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>行业：</b> <?= $industry_list[$info['industry']] ?> <br><br>
+                        <b>行业：</b> <?= isset($industry_list[$info['industry']]) ? $industry_list[$info['industry']] : '' ?>
+                        <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
                         <b>兴趣爱好：</b>
                         <?php if (!empty($info['hobby'])): ?>
                             <?php foreach (explode(',', $info['hobby']) as $value): ?>
-                                <?= $hobby_list[$value] ?>
+                                <?= isset($hobby_list[$value]) ? $hobby_list[$value] : '' ?>
                             <?php endforeach; ?>
                         <?php endif; ?>
                         <br><br>
@@ -127,7 +130,7 @@
                                             <?= $info['audit_status'] === "1" ? "bg-green" : "" ?>
                                             <?= $info['audit_status'] === "2" ? "bg-red" : "" ?>
                                         ">
-                            <?= $media_audit_status[$info['audit_status']] ?>
+                            <?= isset($media_audit_status[$info['audit_status']]) ? $media_audit_status[$info['audit_status']] : '' ?>
                         </small>
                         <br><br>
                     </div>
@@ -135,12 +138,11 @@
                     <div class="col-sm-3">
                         <b>账户状态：</b>
                         <small class="label
-                                            <?= $info['status'] === "0" ? "bg-gray" : "" ?>
                                             <?= $info['status'] === "1" ? "bg-yellow" : "" ?>
                                             <?= $info['status'] === "2" ? "bg-green" : "" ?>
                                             <?= $info['status'] === "9" ? "bg-red" : "" ?>
                                         ">
-                            <?= $media_account_status[$info['status']] ?>
+                            <?= isset($media_account_status[$info['status']]) ? $media_account_status[$info['status']] : '' ?>
                         </small>
 
                         <?php if (($info['status'] === "9") && ($info['audit_status'] === "1")): ?>
@@ -179,7 +181,8 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>账号类型：</b> <?= $wx_type_list[$info['wx_type']] ?><br><br>
+                        <b>账号类型：</b> <?= isset($wx_type_list[$info['wx_type']]) ? $wx_type_list[$info['wx_type']] : '' ?>
+                        <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
@@ -195,7 +198,8 @@
                     </div>
 
                     <div class="col-sm-3 invoice-col">
-                        <b>账号类型：</b> <?= $weibo_type_list[$info['weibo_type']] ?><br><br>
+                        <b>账号类型：</b> <?= isset($weibo_type_list[$info['weibo_type']]) ? $weibo_type_list[$info['weibo_type']] : '' ?>
+                        <br><br>
                     </div>
 
                     <div class="col-sm-3 invoice-col">
