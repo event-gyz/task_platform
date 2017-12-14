@@ -112,6 +112,10 @@ class Platform_media_man extends ADMIN_Controller {
         $where    = ['operate_data_id' => $id, 'sys_log_type' => "3,6,10", "offset" => 0, "limit" => 200];
         $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
 
+        $province = $this->__get_china_model()->get_by_pid_arr([0]);// 省
+        $city     = $this->__get_china_model()->get_by_pid_arr(array_column($province, 'id'));// 市
+        $area     = $this->__get_china_model()->get_by_pid_arr(array_column($city, 'id'));// 区
+
         return $this->load->view('admin/platform_media_man/media_man_detail',
             [
                 'info'                 => $info,
@@ -125,6 +129,9 @@ class Platform_media_man extends ADMIN_Controller {
                 'industry_list'        => $this->config->item('industry'),
                 'wx_type_list'         => $this->config->item('wx_type'),
                 'weibo_type_list'      => $this->config->item('weibo_type'),
+                'province'             => $province,// 省
+                'city'                 => $city,// 市
+                'area'                 => $area,// 区
             ]
         );
     }
