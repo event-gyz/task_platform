@@ -397,7 +397,8 @@ class Release_task extends ADMIN_Controller {
         $sys_log_content               = '任务发布状态被更新';
 
         if ($release_status === "8") {
-            $sys_log_content = '任务被手工作废';
+            $sys_log_content           = '任务被手工作废';
+            $update_info['close_time'] = date('Y-m-d H:i:s');
         }
 
         $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
