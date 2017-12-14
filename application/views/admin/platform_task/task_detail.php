@@ -253,9 +253,11 @@
                     <div class="col-sm-3 invoice-col">
                         <b>任务状态：</b>
 
-                        <?php if (($info['audit_status'] === "1")): ?>
+                        <?php if (($info['release_status'] === "8")): ?>
+                            已关闭
+                        <?php elseif (($info['audit_status'] === "1") && ($info['release_status'] === "0")): ?>
                             待审核
-                        <?php elseif (($info['audit_status'] === "2")): ?>
+                        <?php elseif (($info['audit_status'] === "2") && ($info['release_status'] === "0")): ?>
                             驳回
                         <?php elseif (($info['pay_status'] === "0") && ($info['audit_status'] === "3")): ?>
                             待广告主付款
