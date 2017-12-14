@@ -9,7 +9,6 @@ $config['adv_audit_status'] = [
 
 // 广告主账户状态
 $config['adv_account_status'] = [
-    '0' => '草稿',
     '1' => '待审核',
     '2' => '正常',
     '9' => '冻结',

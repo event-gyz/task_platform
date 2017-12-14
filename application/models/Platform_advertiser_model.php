@@ -66,6 +66,10 @@ class Platform_advertiser_model extends MY_Model {
             $sql .= sprintf(" AND pa.status = %d", $where['status']);
         }
 
+        if (isset($where['no_draft']) && $where['no_draft'] !== '') {
+            $sql .= sprintf(" AND pa.status != %d", $where['no_draft']);
+        }
+
         // 根据广告主身份证号
         if (isset($where['id_card']) && $where['id_card']) {
             $sql .= sprintf(" AND pa.id_card like '%s%%'", $where['id_card']);

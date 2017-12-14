@@ -182,18 +182,17 @@
                                             <?= $value['audit_status'] === "1" ? "bg-green" : "" ?>
                                             <?= $value['audit_status'] === "2" ? "bg-red" : "" ?>
                                         ">
-                                            <?= $adv_audit_status[$value['audit_status']] ?>
+                                            <?= isset($adv_audit_status[$value['audit_status']]) ? $adv_audit_status[$value['audit_status']] : '' ?>
                                         </small>
                                     </th>
                                     <th><?= $value['create_time'] ?></th>
                                     <th>
                                         <small class="label
-                                            <?= $value['status'] === "0" ? "bg-gray" : "" ?>
                                             <?= $value['status'] === "1" ? "bg-yellow" : "" ?>
                                             <?= $value['status'] === "2" ? "bg-green" : "" ?>
                                             <?= $value['status'] === "9" ? "bg-red" : "" ?>
                                         ">
-                                            <?= $adv_account_status[$value['status']] ?>
+                                            <?= isset($adv_account_status[$value['status']]) ? $adv_account_status[$value['status']] : '' ?>
                                         </small>
                                     </th>
                                     <th><?= $value['last_operator_name'] ?></th>

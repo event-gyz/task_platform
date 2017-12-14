@@ -63,7 +63,7 @@
                                             <?= $info['audit_status'] === "1" ? "bg-green" : "" ?>
                                             <?= $info['audit_status'] === "2" ? "bg-red" : "" ?>
                                         ">
-                            <?= $adv_audit_status[$info['audit_status']] ?>
+                            <?= isset($adv_audit_status[$info['audit_status']]) ? $adv_audit_status[$info['audit_status']] : '' ?>
                         </small>
                         <br><br>
                     </div>
@@ -74,12 +74,11 @@
                     <div class="col-sm-3">
                         <b>账户状态：</b>
                         <small class="label
-                                            <?= $info['status'] === "0" ? "bg-gray" : "" ?>
                                             <?= $info['status'] === "1" ? "bg-yellow" : "" ?>
                                             <?= $info['status'] === "2" ? "bg-green" : "" ?>
                                             <?= $info['status'] === "9" ? "bg-red" : "" ?>
                                         ">
-                            <?= $adv_account_status[$info['status']] ?>
+                            <?= isset($adv_account_status[$info['status']]) ? $adv_account_status[$info['status']] : '' ?>
                         </small>
 
                         <?php if (($info['status'] === "9") && ($info['audit_status'] === "1")): ?>

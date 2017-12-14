@@ -95,6 +95,7 @@ class Platform_advertiser extends ADMIN_Controller {
 
         $page_arr                 = $this->get_list_limit_and_offset_params();
         $where['advertiser_type'] = 1;
+        $where['no_draft']        = 0;// 去掉status = 草稿0状态的数据
         $where                    = array_merge($page_arr, $where);
 
         return [
@@ -151,6 +152,7 @@ class Platform_advertiser extends ADMIN_Controller {
 
         $page_arr                 = $this->get_list_limit_and_offset_params();
         $where['advertiser_type'] = 2;
+        $where['no_draft']        = 0;// 去掉status = 草稿0状态的数据
         $where                    = array_merge($page_arr, $where);
 
         return [
