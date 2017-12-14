@@ -166,11 +166,15 @@
                                     </th>
                                     <th><?= $value['title'] ?></th>
                                     <th>
-                                        <?php if (($value['audit_status'] === "1")): ?>
+                                        <?php if (($value['release_status'] === "8")): ?>
+                                            <small class="label bg-gray">
+                                                已关闭
+                                            </small>
+                                        <?php elseif (($value['audit_status'] === "1") && ($value['release_status'] === "0")): ?>
                                             <small class="label bg-yellow">
                                                 待审核
                                             </small>
-                                        <?php elseif (($value['audit_status'] === "2")): ?>
+                                        <?php elseif (($value['audit_status'] === "2") && ($value['release_status'] === "0")): ?>
                                             <small class="label bg-red">
                                                 驳回
                                             </small>
@@ -185,10 +189,6 @@
                                         <?php elseif (($value['pay_status'] === "1") && ($value['audit_status'] === "3") && ($value['finance_status'] === "1")): ?>
                                             <small class="label bg-green">
                                                 财务已确认
-                                            </small>
-                                        <?php elseif (($value['release_status'] === "8")): ?>
-                                            <small class="label bg-gray">
-                                                已关闭
                                             </small>
                                         <?php else: ?>
                                             <small class="label bg-gray">

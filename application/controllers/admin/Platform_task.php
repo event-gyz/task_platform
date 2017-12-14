@@ -62,15 +62,17 @@ class Platform_task extends ADMIN_Controller {
 
         if (!empty($task_status)) {
 
-            // '1' => '待审核',---> audit_status = 1
+            // '1' => '待审核',---> audit_status = 1 && release_status = 0
             // '2' => '待广告主付款',---> pay_status = 0 && audit_status = 3
             // '3' => '待财务确认',---> pay_status = 1 && audit_status = 3 && platform_task_payment.finance_status = 0
             // '4' => '财务已确认',---> pay_status = 1 && audit_status = 3 && platform_task_payment.finance_status = 1
-            // '5' => '驳回',---> audit_status = 2
+            // '5' => '驳回',---> audit_status = 2 && release_status = 0
+            // '6' => '已关闭',---> release_status = 8
 
             switch ($task_status) {
                 case 1:
-                    $where['audit_status'] = 1;
+                    $where['audit_status']   = 1;
+                    $where['release_status'] = 0;
                     break;
                 case 2:
                     $where['pay_status']   = 0;
@@ -87,7 +89,11 @@ class Platform_task extends ADMIN_Controller {
                     $where['finance_status'] = 1;
                     break;
                 case 5:
-                    $where['audit_status'] = 2;
+                    $where['audit_status']   = 2;
+                    $where['release_status'] = 0;
+                    break;
+                case 6:
+                    $where['release_status'] = 8;
                     break;
                 default:
             }
