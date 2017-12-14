@@ -32,6 +32,7 @@ class ADMIN_Controller extends CI_Controller {
 
         $this->load->model('admin/Sys_log_model');
         $this->load->model('admin/Sys_auth_model');
+        $this->load->model('User_message_model');
 
         if (empty($_SESSION['menu_auth_list'])) {
             $_SESSION['menu_auth_list'] = $this->Sys_auth_model->select_level0_level1_auth_list();
@@ -196,6 +197,34 @@ class ADMIN_Controller extends CI_Controller {
             ];
 
             $this->Sys_log_model->insert($data);
+
+        } catch (Exception $e) {
+        }
+    }
+
+    /**
+     * 添加用户站内信消息
+     *
+     * @param int    $user_id         自媒体人或者广告主主键id
+     * @param int    $user_type       1广告主,2自媒体人
+     * @param int    $message_type    1审核通知,2任务通知
+     * @param string $message_content 消息内容
+     * @param int    $task_id         关连的任务ID，message_type=1该字段为0
+     * @param string $message_url     消息对应的链接地址
+     */
+    protected function add_user_message($user_id, $user_type = 1, $message_type = 2, $message_content = '', $task_id = 0, $message_url = '') {
+        try {
+
+            $data = [
+                'user_id'         => $user_id,
+                'user_type'       => $user_type,
+                'message_type'    => $message_type,
+                'message_content' => $message_content,
+                'message_url'     => $message_url,
+                'task_id'         => $task_id,
+            ];
+
+            $this->User_message_model->insert($data);
 
         } catch (Exception $e) {
         }
