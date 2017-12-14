@@ -205,7 +205,7 @@
                                         <?php
 
                                         // 是否显示审核按钮
-                                        $is_show_audit_btn = ($value['audit_status'] === "1");
+                                        $is_show_audit_btn = ($value['audit_status'] === "1") && ($value['release_status'] === "0");
 
                                         // 是否显示手工作废按钮
                                         $is_show_cancellation_btn = (in_array($value['audit_status'], [1, 2])) ||
