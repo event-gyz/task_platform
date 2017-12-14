@@ -45,6 +45,11 @@ class ADMIN_Controller extends CI_Controller {
         }
 
         $this->sys_user_info = $this->get_user_info();
+
+        // 待办事项的数字提醒
+        $job_count_list             = $this->Sys_auth_model->get_job_count();
+        $_SESSION['job_count_list'] = $job_count_list;
+
     }
 
     // 检测用户是否具有操作权限

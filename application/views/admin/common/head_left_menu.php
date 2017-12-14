@@ -1,7 +1,8 @@
 <?php
 
 // 菜单列表
-$s_auth_list = $_SESSION['menu_auth_list'];
+$s_auth_list    = $_SESSION['menu_auth_list'];
+$job_count_list = $_SESSION['job_count_list'];
 
 /**
  * 获取当前菜单是否需要激活
@@ -15,6 +16,15 @@ function get_active_str($cur_path) {
     $cur_path    = strtolower($cur_path);
     $pos         = strpos($request_url, $cur_path);
     return ($pos === false) ? '' : 'active';
+}
+
+// 获取用户菜单的标签数字
+function get_menu_label($job_key, $job_count_list) {
+    $label = '';
+    if (isset($job_count_list[$job_key]) && $job_count_list[$job_key] !== '0') {
+        $label = $job_count_list[$job_key];
+    }
+    return $label;
 }
 
 // 用户的权限列表
@@ -53,6 +63,11 @@ $auth_id_arr = explode(',', $auth_ids);
                                 >
                                     <a href="/admin/<?= $value1['class'] ?>/<?= $value1['action'] ?>?my_auth_id=<?= $value1['id'] ?>">
                                         <?= $value1['auth_name'] ?>
+
+                                        <?php if ($s_menu_label = get_menu_label($value1['class'] . '-' . $value1['action'], $job_count_list)): ?>
+                                            <small class="label pull-right bg-red"><?= $s_menu_label ?></small>
+                                        <?php endif; ?>
+
                                     </a>
                                 </li>
                             <?php endif; ?>
