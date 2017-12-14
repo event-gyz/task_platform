@@ -58,9 +58,31 @@
 
                     <div class="col-sm-3 invoice-col">
                         <b>学校地址：</b>
-                        <?= $info['school_province'] ?>
-                        <?= $info['school_city'] ?>
-                        <?= $info['school_area'] ?>
+
+                        <?php
+
+                        $province_index = array_search($info['school_province'], array_column($province, 'id'));
+                        $province_name  = '';
+                        if ($province_index !== false) {
+                            $province_name = $province[$province_index]['name'];
+                        }
+
+                        $city_index = array_search($info['school_city'], array_column($city, 'id'));
+                        $city_name  = '';
+                        if ($city_index !== false) {
+                            $city_name = $city[$city_index]['name'];
+                        }
+
+                        $area_index = array_search($info['school_area'], array_column($area, 'id'));
+                        $area_name  = '';
+                        if ($area_index !== false) {
+                            $area_name = $area[$area_index]['name'];
+                        }
+
+                        echo "{$province_name} {$city_name} {$area_name}";
+
+                        ?>
+
                         <br><br>
                     </div>
 

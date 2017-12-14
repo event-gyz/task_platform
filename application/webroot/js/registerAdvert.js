@@ -16,6 +16,22 @@ var app = new Vue({
         //发送验证码
         getVerCode:function(){
             var _this = this;
+            if(!this.userName || !(this.userName.length>=6 && this.userName.length<=20)){
+                util.tips('用户名必须是6-20个字符！');
+                return;
+            }
+            if(!this.password || !(this.password.length>=6 && this.password.length<=12) || !(util.regexp.isNum.test(this.password) && util.regexp.isZM.test(this.password))){
+                util.tips('密码必须是6-12位英文和数字组合！');
+                return;
+            }
+            if(this.againPassword !== this.password){
+                util.tips('两次密码不同！');
+                return;
+            }
+            if(!util.regexp.mobile.test(this.phone)){
+                util.tips('手机号码错误！');
+                return;
+            }
             if(util.regexp.mobile.test(_this.phone)){
                 $.ajax({
                     url: "/advertiser/login/sendCode",

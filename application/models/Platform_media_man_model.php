@@ -11,7 +11,6 @@ class Platform_media_man_model extends MY_Model {
         parent::__construct();
     }
 
-
     public function get_media_man_list_by_condition($where, $fields = "mm.*") {
 
         $sql = "SELECT [*] FROM `{$this->table}` AS mm where 1=1 ";
@@ -88,6 +87,96 @@ class Platform_media_man_model extends MY_Model {
         return $data;
     }
 
+    // 根据任务要求获取符合条件的自媒体人帐号
+    public function get_media_man_list_by_task_require($where, $fields = "mm.*") {
+
+        $sql = "SELECT [*] FROM `{$this->table}` AS mm where 1=1 ";
+
+        // 拼接查询条件
+
+        // 性别要求
+        if (isset($where['require_sex']) && $where['require_sex']) {
+            $sql .= sprintf(" AND mm.sex = %d ", $where['require_sex']);
+        }
+
+        // 自媒体人年龄要求
+        if (isset($where['require_age']) && $where['require_age']) {
+            $sql .= sprintf(" AND mm.age IN (%s) ", $where['require_age']);
+        }
+
+        // 自媒体人地域要求
+        if (isset($where['require_local']) && $where['require_local']) {
+            $sql .= sprintf(" AND mm.school_province IN (%s) ", $where['require_local']);
+        }
+
+        // 行业要求
+        if (isset($where['require_industry']) && $where['require_industry']) {
+            $sql .= sprintf(" AND mm.industry IN (%s) ", $where['require_industry']);
+        }
+
+        // 自媒体人爱好要求
+        if (isset($where['require_hobby']) && $where['require_hobby']) {
+
+            $require_hobby_arr = explode(',', $where['require_hobby']);
+
+            $tmp = 'AND ( ';
+
+            if (!empty($require_hobby_arr)) {
+
+                foreach ($require_hobby_arr as $k => $v) {
+
+                    if ($k === 0) {
+                        $tmp .= sprintf(" mm.hobby LIKE '%%%s%%' ", $v);
+                    } else {
+                        $tmp .= sprintf(" OR mm.hobby LIKE '%%%s%%' ", $v);
+                    }
+
+                }
+
+            }
+
+            $tmp .= ' ) ';
+
+            $sql .= $tmp;
+
+        }
+
+        // 总数
+        $sqlCount = str_replace('[*]', 'count(mm.media_man_id) AS c', $sql);
+        $total    = $this->getCount($sqlCount);
+
+        if ($total === '0') {
+            return ['total' => $total, 'list' => []];
+        }
+
+        if (isset($where['order_by']) && $where['order_by']) {
+
+            switch ($where['order_by']) {
+                case 'wx_max_fans':
+                    $sql .= ' ORDER BY mm.wx_max_fans DESC , mm.create_time ASC ';
+                    break;
+                case 'weibo_max_fans':
+                    $sql .= ' ORDER BY mm.weibo_max_fans DESC , mm.create_time ASC ';
+                    break;
+                case 'wx_or_weibo_max_fans':
+                    $sql .= ' ORDER BY (mm.weibo_max_fans + mm.wx_max_fans) DESC , mm.create_time ASC ';
+                    break;
+                default:
+                    break;
+            }
+
+            $sql .= sprintf(" LIMIT %d,%d", 0, $where['limit']);
+
+        }
+
+        $_sql = str_replace('[*]', $fields, $sql);
+
+        $_list = $this->getList($_sql);
+
+        $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
+        return $data;
+    }
+
     public function updateInfo($media_man_id, $info) {
         $where = array('media_man_id' => $media_man_id);
         return $this->update($info, $where);
@@ -104,18 +193,18 @@ class Platform_media_man_model extends MY_Model {
     }
 
     public function selectByLoginName($login_name) {
-        $query = $this->db->get_where($this->getTableName(), array('media_man_login_name' => $login_name));
+        $query  = $this->db->get_where($this->getTableName(), array('media_man_login_name' => $login_name));
         $result = $query->row_array();
         return $result;
 
     }
 
     public function selectByUserName($login_name) {
-        $query = $this->db->get_where($this->getTableName(), array('media_man_login_name' => $login_name));
+        $query  = $this->db->get_where($this->getTableName(), array('media_man_login_name' => $login_name));
         $result = $query->row_array();
-        if($result){
+        if ($result) {
             return $result;
-        }else{
+        } else {
             $query = $this->db->get_where($this->getTableName(), array('media_man_phone' => $login_name));
             return $query->row_array();
         }
@@ -131,9 +220,9 @@ class Platform_media_man_model extends MY_Model {
         return $this->db->insert_id();
     }
 
-    public function getUseMediaMan(){
+    public function getUseMediaMan() {
         $where['status'] = 2;
-        $query = $this->db->get_where($this->getTableName(), $where);
+        $query           = $this->db->get_where($this->getTableName(), $where);
         return $query->result_array();
     }
 }

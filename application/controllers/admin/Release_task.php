@@ -208,20 +208,130 @@ class Release_task extends ADMIN_Controller {
             return $this->response_json(1, '查找不到对应的信息');
         }
 
-        $update_info['platform_price'] = $platform_price;
-        $update_info['release_status'] = 1;// 设定任务发布状态为已发布
-        $sys_log_content               = '修改任务价格为:' . $platform_price;
+        $this->db->trans_begin();
+
+        $actual_media_man_number = $this->__sys_auto_release($info);
+        // todo 需要确认实际发布数量为0时是否还需要发布
+
+        $update_info['actual_media_man_number'] = $actual_media_man_number;
+        $update_info['platform_price']          = $platform_price;
+        $update_info['release_status']          = 1;// 设定任务发布状态为已发布
+        $sys_log_content                        = '修改任务价格为:' . $platform_price . ',并发布了任务';
 
         $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
 
         if ($result === 1) {
-
             $this->add_sys_log(8, $sys_log_content, $id, json_encode($info), json_encode($update_info));
-
-            return $this->response_json(0, '操作成功');
         }
 
-        return $this->response_json(1, '非法操作');
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->response_json(1, '操作失败,请稍候再试');
+        }
+
+        $this->db->trans_commit();
+
+        return $this->response_json(0, '操作成功');
+
+    }
+
+    // 系统自动发布规则
+    private function __sys_auto_release($task_info) {
+
+        $media_man_number = $task_info['media_man_number'];// 广告主要求的自媒体人数量
+
+        // media_man_require 自媒体人帐号要求 1有 2无
+        if ($task_info['media_man_require'] === '2') {
+            // 发送给全量的自媒体帐号
+            $data0 = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require([]);
+            $this->__get_platform_task_map_model()->do_sys_auto_release($task_info['task_id'], $data0['list']);
+            return $data0['total'];
+        }
+
+        // 根据自媒体人帐号要求计算符合条件的自媒体人帐号
+
+        // 根据发布任务时的账号要求捞取符合条件的自媒体人账号，只要满足账号要求中的一条即视为符合条件的账号。
+
+        $where = [];
+
+        // require_sex 性别要求
+        if (!empty($task_info['require_sex'])) {
+            $where['require_sex'] = $task_info['require_sex'];
+        }
+
+        // require_age 自媒体人年龄要求
+        if (!empty($task_info['require_age'])) {
+            $where['require_age'] = $task_info['require_age'];
+        }
+
+        // require_local 自媒体人地域要求
+        if (!empty($task_info['require_local'])) {
+            $where['require_local'] = $task_info['require_local'];
+        }
+
+        // require_industry 行业要求
+        if (!empty($task_info['require_industry'])) {
+            $where['require_industry'] = $task_info['require_industry'];
+        }
+
+        // require_hobby 自媒体人爱好要求
+        if (!empty($task_info['require_hobby'])) {
+            $where['require_hobby'] = $task_info['require_hobby'];
+        }
+
+        $data = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require($where);
+
+        $actual_media_man_number = $data['total'];
+
+        if ($actual_media_man_number < $media_man_number) {
+
+            if ($actual_media_man_number <= ($media_man_number * 0.5)) {
+                // 当捞取的自媒体账号数小于等于账号数量的50%时，则视同平台无法满足账号要求，给全部自媒体账号发送此条任务信息。
+                // 发送给全量的自媒体帐号
+                $data0 = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require([]);
+                $this->__get_platform_task_map_model()->do_sys_auto_release($task_info['task_id'], $data0['list']);
+                return $data0['total'];
+            }
+
+            // 发送给符合条件的自媒体人帐号,虽然不完全满足数量的要求
+            $this->__get_platform_task_map_model()->do_sys_auto_release($task_info['task_id'], $data['list']);
+            return $actual_media_man_number;
+
+        }
+
+        if ($actual_media_man_number >= $media_man_number) {
+
+            // 当捞取的自媒体账号超过发布任务时的账号数量时，
+            // 则根据发布的平台将自媒体人对应平台的粉丝数倒序，将此任务发给粉丝数多的自媒体账号，
+            // 如发送的平台是微博+微信平台，则将两个平台粉丝数相加后的结果倒序。
+            // 如遇到粉丝数相同的情况，则发给注册时间较早的账号。
+
+            // publishing_platform 发布平台 1,微信 2,微博 1,2,微信微博
+            if (!empty($task_info['publishing_platform'])) {
+
+                if ($task_info['publishing_platform'] === '1') {
+                    $where['order_by'] = 'wx_max_fans';
+                }
+
+                if ($task_info['publishing_platform'] === '2') {
+                    $where['order_by'] = 'weibo_max_fans';
+                }
+
+                if ($task_info['publishing_platform'] === '1,2') {
+                    $where['order_by'] = 'wx_or_weibo_max_fans';
+                }
+
+                $where['offset'] = 0;
+                $where['limit']  = $media_man_number;
+
+            }
+
+            $data2 = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require($where);
+            $this->__get_platform_task_map_model()->do_sys_auto_release($task_info['task_id'], $data2['list']);
+            return $media_man_number;
+
+        }
+
     }
 
     // 根据task_id分页查询自媒体人
@@ -659,6 +769,14 @@ class Release_task extends ADMIN_Controller {
 
         }
 
+    }
+
+    /**
+     * @return Platform_media_man_model
+     */
+    private function __get_platform_media_man_model() {
+        $this->load->model('Platform_media_man_model');
+        return $this->Platform_media_man_model;
     }
 
     /**
