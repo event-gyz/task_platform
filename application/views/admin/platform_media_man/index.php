@@ -296,13 +296,22 @@
 <script>
 
     $('#reservation').daterangepicker({
-        locale: {
+        autoUpdateInput: false,
+        locale         : {
             applyLabel : '确定',
             cancelLabel: '取消',
             daysOfWeek : ['日', '一', '二', '三', '四', '五', '六'],
             monthNames : ['一月', '二月', '三月', '四月', '五月', '六月',
                 '七月', '八月', '九月', '十月', '十一月', '十二月'],
         }
+    });
+
+    $('#reservation').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+
+    $('#reservation').on('cancel.daterangepicker', function (ev, picker) {
+        $(this).val('');
     });
 
     const localComputed = {};
