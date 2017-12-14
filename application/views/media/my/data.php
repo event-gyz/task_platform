@@ -60,15 +60,15 @@
                     <table>
                         <tr>
                             <th align="left" class="border_bottom" width="90px;">微信号</th>
-                            <td class="border_bottom" align="right"><?=$wx_code?></td>
+                            <td class="border_bottom" align="right"><?= !empty($wx_code)?$wx_code:""?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">账号类型</th>
-                            <td class="border_bottom" align="right"><?=$wx_type?></td>
+                            <td class="border_bottom" align="right"><?=!empty($wx_type)?$wx_type:""?></td>
                         </tr>
                         <tr>
                             <th align="left">最高粉丝量</th>
-                            <td align="right"><?=$wx_max_fans?></td>
+                            <td align="right"><?=!empty($wx_max_fans)?$wx_max_fans:""?></td>
                         </tr>
                     </table>
                 </div>
@@ -76,19 +76,19 @@
                     <table>
                         <tr>
                             <th align="left" class="border_bottom" width="90px;">微博昵称</th>
-                            <td class="border_bottom" align="right"><?=$weibo_nickname?></td>
+                            <td class="border_bottom" align="right"><?=!empty($weibo_nickname)?$weibo_nickname:""?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">账号类型</th>
-                            <td class="border_bottom" align="right"><?=$weibo_type?></td>
+                            <td class="border_bottom" align="right"><?=!empty($weibo_type)?$weibo_type:""?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">最高粉丝量</th>
-                            <td class="border_bottom" align="right"><?=$weibo_max_fans?></td>
+                            <td class="border_bottom" align="right"><?=!empty($weibo_max_fans)?$weibo_max_fans:""?></td>
                         </tr>
                         <tr>
                             <th align="left">微博链接</th>
-                            <td align="right"><?=$weibo_link?></td>
+                            <td align="right"><?=!empty($weibo_link)?$weibo_link:""?></td>
                         </tr>
                     </table>
                 </div>

@@ -248,11 +248,13 @@ class Login extends CI_Controller {
         //验证当前手机号是否注册过
         $res = $this->__get_media_man_model()->selectByPhone($_POST['phone']);
         if (isset($_POST['type']) && ($_POST['type']=='pwd')) {
-            $userSessionInfo = $_SESSION[$this->_user_info];
-            if((!empty($userSessionInfo['media_man_phone'])) && $userSessionInfo['media_man_phone']!=$_POST['phone']){
-                $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '请使用当前用户注册时所使用的手机号';
-                echo json_encode($this->_return);exit;
+            if(isset($_SESSION[$this->_user_info]) && !empty($_SESSION[$this->_user_info])){
+                $userSessionInfo = $_SESSION[$this->_user_info];
+                if((!empty($userSessionInfo['media_man_phone'])) && $userSessionInfo['media_man_phone']!=$_POST['phone']){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '请使用当前用户注册时所使用的手机号';
+                    echo json_encode($this->_return);exit;
+                }
             }
             $model = $this->_pwdmodel;
             if(empty($res)){
