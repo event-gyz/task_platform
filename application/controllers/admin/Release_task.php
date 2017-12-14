@@ -328,7 +328,7 @@ class Release_task extends ADMIN_Controller {
 
             $data2 = $this->__get_platform_media_man_model()->get_media_man_list_by_task_require($where);
             $this->__get_platform_task_map_model()->do_sys_auto_release($task_info['task_id'], $data2['list']);
-            return $data2['total'];
+            return $media_man_number;
 
         }
 
