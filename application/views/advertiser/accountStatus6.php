@@ -15,7 +15,7 @@
                     <p class="icon-box"><img src="/images/status/cg.png"></p>
                     <h2>恭喜您，信息提交成功</h2>
                     <p class="text">我们将在***个工作日内完成审核，
-                        请请耐心等待。</p>
+                        请耐心等待。</p>
                     <p class="bg_line"></p>
                     <p class="button1"><a href="/advertiser/index/home">返回首页</a></p>
                 </div>

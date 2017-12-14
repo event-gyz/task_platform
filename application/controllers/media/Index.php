@@ -315,14 +315,21 @@ class Index extends CI_Controller {
         $result['industry'] = $this->__handleNuToName($result['industry'],$industryConfig);
         $result['age'] = $this->__handleNuToName($result['age'],$ageConfig);
         $result['hobby'] = $this->__handleNuToName($result['hobby'],$hobbyConfig);
-        $result['wx_type'] = $this->config->item('wx_type')[$result['wx_type']];
-        $result['weibo_type'] = $this->config->item('weibo_type')[$result['weibo_type']];
+
+        if(!empty($result['wx_type'])){
+            $result['wx_type'] = $this->config->item('wx_type')[$result['wx_type']];
+        }else{
+            $result['wx_type'] = '';
+        }
+
+        if(!empty($result['weibo_type'])){
+            $result['weibo_type'] = $this->config->item('weibo_type')[$result['weibo_type']];
+        }else{
+            $result['weibo_type'] = '';
+        }
+
         $result['characteristic'] = $result['industry'].','.$result['hobby'];
         $this->load->view('media/my/data',$result);
-//        $this->_return['errorno'] = 1;
-//        $this->_return['msg'] = '成功';
-//        $this->_return['data'] = $result;
-//        echo json_encode($this->_return);exit;
     }
 
     /**

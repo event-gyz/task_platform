@@ -37,7 +37,7 @@
     </div>
     <div>
         <p class="button-box"><input type="button" @click="save" value="下一步" class="common_button1"></p>
-        <p class="login-text" style="text-align: center;font-size: 12px;">点击下一步，集表示已阅读并同意<a href="/html/advertiser/protocol.html">《网站用户协议》</a></p>
+        <p class="login-text" style="text-align: center;font-size: 12px;">点击下一步，即表示已阅读并同意<a href="/html/advertiser/protocol.html">《网站用户协议》</a></p>
     </div>
 </div>
 <script type="text/javascript" src="/js/third/jquery.js"></script>
