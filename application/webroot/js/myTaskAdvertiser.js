@@ -90,7 +90,7 @@ var app = new Vue({
             }else if(obj.release_status==7){
                 return '已结束';
             }else if(obj.release_status==8){
-                return '手工作废';
+                return '已关闭';
             }else if(obj.release_status==9){
                 return '已关闭';
             }else if((obj.audit_status == 0) && (obj.release_status == 0)){
