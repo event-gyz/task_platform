@@ -248,6 +248,8 @@ class Platform_advertiser extends ADMIN_Controller {
             return $this->response_json(1, '非法操作');
         }
 
+        $this->db->trans_begin();
+
         $update_info['last_operator_id']      = $this->sys_user_info['id'];
         $update_info['last_operator_name']    = $this->sys_user_info['user_name'];
         $update_info['audit_status']          = $audit_status;
@@ -270,10 +272,17 @@ class Platform_advertiser extends ADMIN_Controller {
 
             $this->add_user_message($info['advertiser_id'], 1, 1, $message_content);
 
-            return $this->response_json(0, '操作成功');
         }
 
-        return $this->response_json(1, '非法操作');
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->response_json(1, '操作失败,请稍候再试');
+        }
+
+        $this->db->trans_commit();
+
+        return $this->response_json(0, '操作成功');
+
     }
 
     // 个人广告主和公司广告主的账户状态变更
