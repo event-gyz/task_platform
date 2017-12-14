@@ -254,14 +254,14 @@ class Platform_advertiser extends ADMIN_Controller {
         $update_info['last_operator_name']    = $this->sys_user_info['user_name'];
         $update_info['audit_status']          = $audit_status;
         $update_info['reasons_for_rejection'] = empty($reasons_for_rejection) ? '' : $reasons_for_rejection;
-        $sys_log_content                      = '广告主审核驳回,驳回的原因是:' . $update_info['reasons_for_rejection'];
-        $message_content                      = '抱歉,您的资质未能通过审核,原因是：' . $update_info['reasons_for_rejection'];
+        $sys_log_content                      = sprintf($this->lang->line('adv_audit_reject4_sys'), $update_info['reasons_for_rejection']);
+        $message_content                      = sprintf($this->lang->line('adv_audit_reject4_user'), $update_info['reasons_for_rejection']);
 
         if ($audit_status === "1") {
             $update_info['reasons_for_rejection'] = "";
             $update_info['status']                = 2;// 当审核通过后需要将status设置为2正常
-            $sys_log_content                      = '广告主审核通过';
-            $message_content                      = '恭喜，您的资质审核已通过，可正常使用各项功能。';
+            $sys_log_content                      = $this->lang->line('adv_audit_pass4_sys');
+            $message_content                      = $this->lang->line('adv_audit_pass4_user');
         }
 
         $result = $this->__get_platform_advertiser_model()->updateInfo($id, $update_info);

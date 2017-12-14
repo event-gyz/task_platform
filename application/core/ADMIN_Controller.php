@@ -30,6 +30,7 @@ class ADMIN_Controller extends CI_Controller {
     private function __init() {
         $this->host = $this->get_server_address_and_port();
 
+        $this->lang->load('message', 'chinese');
         $this->load->model('admin/Sys_log_model');
         $this->load->model('admin/Sys_auth_model');
         $this->load->model('User_message_model');
