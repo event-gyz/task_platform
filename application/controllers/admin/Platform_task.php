@@ -196,7 +196,7 @@ class Platform_task extends ADMIN_Controller {
         if ($audit_status === "3") {
             $update_info['reasons_for_rejection'] = "";
             $sys_log_content                      = $this->lang->line('adv_task_audit_pass4_sys');
-            $message_content                      = sprintf($this->lang->line('adv_task_audit_pass4_user'), $update_info['task_name']);
+            $message_content                      = sprintf($this->lang->line('adv_task_audit_pass4_user'), $info['task_name']);
         }
 
         $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
