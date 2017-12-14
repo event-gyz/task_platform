@@ -216,12 +216,17 @@ class Release_task extends ADMIN_Controller {
         $update_info['actual_media_man_number'] = $actual_media_man_number;
         $update_info['platform_price']          = $platform_price;
         $update_info['release_status']          = 1;// 设定任务发布状态为已发布
-        $sys_log_content                        = '修改任务价格为:' . $platform_price . ',并发布了任务';
+        $sys_log_content                        = sprintf($this->lang->line('admin_release_task4_sys'), "{$this->sys_user_info['user_name']}", $platform_price);
+        $message_content                        = sprintf($this->lang->line('admin_release_task4_user'), $info['task_name']);
 
         $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
 
         if ($result === 1) {
+
             $this->add_sys_log(8, $sys_log_content, $id, json_encode($info), json_encode($update_info));
+
+            $this->add_user_message($info['advertiser_user_id'], 1, 2, $message_content, $info['task_id']);
+
         }
 
         if ($this->db->trans_status() === FALSE) {
@@ -441,10 +446,12 @@ class Release_task extends ADMIN_Controller {
         }
 
         $update_info['deliver_audit_status'] = $deliver_audit_status;
-        $sys_log_content                     = "自媒体人{$task_map_info['media_man_user_name']}-{$task_map_info['media_man_user_id']}提交的任务交付,被审核通过了";
+        $sys_log_content                     = sprintf($this->lang->line('media_submit_task_audit_pass4_sys'), "{$task_map_info['media_man_user_name']}-{$task_map_info['media_man_user_id']}");
+        $message_content                     = sprintf($this->lang->line('media_submit_task_audit_pass4_user'), $info['task_name']);
 
         if ($deliver_audit_status === "2") {
-            $sys_log_content = "自媒体人{$task_map_info['media_man_user_name']}-{$task_map_info['media_man_user_id']}提交的任务交付,被审核驳回了";
+            $sys_log_content = sprintf($this->lang->line('media_submit_task_audit_reject4_sys'), "{$task_map_info['media_man_user_name']}-{$task_map_info['media_man_user_id']}");
+            $message_content = sprintf($this->lang->line('media_submit_task_audit_reject4_user'), $info['task_name']);
         }
 
         $this->db->trans_begin();
@@ -457,7 +464,11 @@ class Release_task extends ADMIN_Controller {
         $result = $this->__get_platform_task_map_model()->updateInfo($task_map_id, $update_info);
 
         if ($result === 1) {
+
             $this->add_sys_log(12, $sys_log_content, $id, json_encode($task_map_info), json_encode($update_info));
+
+            $this->add_user_message($task_map_info['media_man_user_id'], 2, 2, $message_content, $task_map_info['task_id']);
+
         }
 
         if ($this->db->trans_status() === FALSE) {

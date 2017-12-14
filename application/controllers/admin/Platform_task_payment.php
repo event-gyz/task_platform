@@ -157,13 +157,17 @@ class Platform_task_payment extends ADMIN_Controller {
             return $this->response_json(1, '查找不到对应的付款信息');
         }
 
+        $this->db->trans_begin();
+
         $update_info['finance_status']         = 1;// 设定广告主付款状态为财务已确认
         $update_info['pay_money']              = $pay_money;
         $update_info['pay_voucher']            = json_encode(array_column($fileList, 'file_path'));// 支付凭证
         $update_info['confirming_person']      = $this->sys_user_info['id'];
         $update_info['confirming_person_name'] = $this->sys_user_info['user_name'];
         $update_info['confirm_remark']         = $confirm_remark;
-        $sys_log_content                       = "{$this->sys_user_info['user_name']}确认了收款";
+        $sys_log_content                       = sprintf($this->lang->line('finance_confirm_receive_money4_sys'), "{$this->sys_user_info['user_name']}", $pay_money);
+        $message_content                       = sprintf($this->lang->line('finance_confirm_receive_money4_user'), $info['task_name'], $pay_money);
+
 
         $result = $this->__get_platform_task_payment_model()->updateInfo($payment_id, $update_info);
 
@@ -171,10 +175,18 @@ class Platform_task_payment extends ADMIN_Controller {
 
             $this->add_sys_log(14, $sys_log_content, $task_id, json_encode($info), json_encode($update_info));
 
-            return $this->response_json(0, '操作成功');
+            $this->add_user_message($info['advertiser_user_id'], 1, 2, $message_content, $info['task_id']);
+
         }
 
-        return $this->response_json(1, '非法操作');
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->response_json(1, '操作失败,请稍候再试');
+        }
+
+        $this->db->trans_commit();
+
+        return $this->response_json(0, '操作成功');
 
     }
 

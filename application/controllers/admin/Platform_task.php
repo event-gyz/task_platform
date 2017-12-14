@@ -182,13 +182,21 @@ class Platform_task extends ADMIN_Controller {
             return $this->response_json(1, '非法操作');
         }
 
+        $this->db->trans_begin();
+
         $update_info['audit_status']          = $audit_status;
         $update_info['reasons_for_rejection'] = empty($reasons_for_rejection) ? '' : $reasons_for_rejection;
-        $sys_log_content                      = '任务审核驳回,驳回的原因是:' . $update_info['reasons_for_rejection'];
+        $sys_log_content                      = sprintf($this->lang->line('adv_task_audit_reject4_sys'), $update_info['reasons_for_rejection']);
+        $message_content                      = sprintf(
+            $this->lang->line('adv_task_audit_reject4_user'),
+            $info['task_name'],
+            $update_info['reasons_for_rejection']
+        );
 
         if ($audit_status === "3") {
             $update_info['reasons_for_rejection'] = "";
-            $sys_log_content                      = '任务审核通过';
+            $sys_log_content                      = $this->lang->line('adv_task_audit_pass4_sys');
+            $message_content                      = sprintf($this->lang->line('adv_task_audit_pass4_user'), $info['task_name']);
         }
 
         $result = $this->__get_platform_task_model()->updateInfo($id, $update_info);
@@ -197,10 +205,19 @@ class Platform_task extends ADMIN_Controller {
 
             $this->add_sys_log(4, $sys_log_content, $id, json_encode($info), json_encode($update_info));
 
-            return $this->response_json(0, '操作成功');
+            $this->add_user_message($info['advertiser_user_id'], 1, 2, $message_content, $info['task_id']);
+
         }
 
-        return $this->response_json(1, '非法操作');
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->response_json(1, '操作失败,请稍候再试');
+        }
+
+        $this->db->trans_commit();
+
+        return $this->response_json(0, '操作成功');
+
     }
 
     // 手工作废任务

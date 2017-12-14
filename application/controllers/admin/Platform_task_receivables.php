@@ -102,9 +102,28 @@ class Platform_task_receivables extends ADMIN_Controller {
             return $this->response_json(1, '查找不到对应的信息');
         }
 
+        $task_map_info = $this->__get_platform_task_map_model()->selectById($info['task_map_id']);
+
+        if (empty($task_map_info)) {
+            return $this->response_json(1, '查找不到对应的自媒体人提交的任务交付信息');
+        }
+
+        $task_info = $this->__get_platform_task_model()->selectById($task_map_info['task_id']);
+
+        if (empty($task_info)) {
+            return $this->response_json(1, '查找不到对应任务的信息');
+        }
+
+        $this->db->trans_begin();
+
         $update_info['finance_status']    = 1;// 设定自媒体人结账记录为财务已确认付款
         $update_info['confirming_person'] = $this->sys_user_info['id'];
-        $sys_log_content                  = "{$this->sys_user_info['user_name']}确认了付款";
+        $sys_log_content                  = sprintf(
+            $this->lang->line('finance_confirm_pay_money4_sys'),
+            "{$this->sys_user_info['user_name']}",
+            $task_map_info['media_man_user_name']
+        );
+        $message_content                  = sprintf($this->lang->line('finance_confirm_pay_money4_user'), $task_info['task_name']);
 
         $result = $this->__get_platform_task_receivables_model()->updateInfo($receivables_id, $update_info);
 
@@ -112,10 +131,19 @@ class Platform_task_receivables extends ADMIN_Controller {
 
             $this->add_sys_log(13, $sys_log_content, $receivables_id, json_encode($info), json_encode($update_info));
 
-            return $this->response_json(0, '操作成功');
+            $this->add_user_message($task_map_info['media_man_user_id'], 2, 2, $message_content, $task_map_info['task_id']);
+
         }
 
-        return $this->response_json(1, '非法操作');
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            return $this->response_json(1, '操作失败,请稍候再试');
+        }
+
+        $this->db->trans_commit();
+
+        return $this->response_json(0, '操作成功');
+
     }
 
     public function prepare_export_receivables() {
@@ -222,6 +250,22 @@ class Platform_task_receivables extends ADMIN_Controller {
     private function __get_platform_task_receivables_model() {
         $this->load->model('Platform_task_receivables_model');
         return $this->Platform_task_receivables_model;
+    }
+
+    /**
+     * @return Platform_task_map_model
+     */
+    private function __get_platform_task_map_model() {
+        $this->load->model('Platform_task_map_model');
+        return $this->Platform_task_map_model;
+    }
+
+    /**
+     * @return Platform_task_model
+     */
+    private function __get_platform_task_model() {
+        $this->load->model('Platform_task_model');
+        return $this->Platform_task_model;
     }
 
 }
