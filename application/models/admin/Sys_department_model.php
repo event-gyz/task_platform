@@ -34,7 +34,7 @@ class Sys_department_model extends MY_Model {
             return ['total' => $total, 'list' => []];
         }
 
-        $sql .= ' ORDER BY sd.id DESC';
+        $sql .= ' ORDER BY sd.update_time DESC';
 
         $offset = isset($where['offset']) ? $where['offset'] : 0;
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
@@ -42,7 +42,7 @@ class Sys_department_model extends MY_Model {
 
         $get_id_sql = str_replace('[*]', 'sd.id', $sql);
         $final_sql  = sprintf("SELECT [*] FROM `%s` AS sd, ( %s ) AS T2 WHERE sd.id = T2.id", $this->table, $get_id_sql);
-        $final_sql  .= ' ORDER BY sd.id DESC';
+        $final_sql  .= ' ORDER BY sd.update_time DESC';
         $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);
