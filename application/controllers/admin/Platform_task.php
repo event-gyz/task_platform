@@ -153,7 +153,7 @@ class Platform_task extends ADMIN_Controller {
         }
 
         // 系统操作日志
-        $where    = ['operate_data_id' => $task_id, 'sys_log_type' => "4,8,9,11", "offset" => 0, "limit" => 500];
+        $where    = ['operate_data_id' => $task_id, 'sys_log_type' => "4,8,9,11,14", "offset" => 0, "limit" => 500];
         $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
 
         // 用户操作日志
