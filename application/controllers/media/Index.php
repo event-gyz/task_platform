@@ -693,7 +693,7 @@ class Index extends CI_Controller {
         $user_info = $this->__get_user_session();
         $data = [
             'user_id'     => $user_info['media_man_id'],
-            'user_name'   => (empty($user_info['media_man_name']))?$user_info['media_man_name']:'',
+            'user_name'   => !empty($user_info['media_man_name'])?$user_info['media_man_name']:'',
             'operate_data_id' => $operate_data_id,
             'user_type'    => 2,
             'user_log_type' => $user_log_type,
