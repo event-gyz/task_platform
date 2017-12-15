@@ -133,6 +133,9 @@ class Platform_task_model extends MY_Model {
     }
 
     private function __get_advertiser_user_name_arr($id_arr) {
+        if (empty($id_arr)) {
+            return [];
+        }
         $id_str = implode(',', array_unique($id_arr));
         $sql    = "SELECT pa.advertiser_name , pa.advertiser_id FROM `platform_advertiser` AS pa WHERE advertiser_id IN ( {$id_str} )";
         return $this->getList($sql);
@@ -231,7 +234,6 @@ class Platform_task_model extends MY_Model {
     }
 
 
-
     public function selectAllByCondition($where) {
         if (empty($where)) {
             return false;
@@ -243,7 +245,7 @@ class Platform_task_model extends MY_Model {
 
     public function getCloseData() {
         $time = time();
-        $sql = "SELECT * FROM `{$this->table}` where start_time<$time and release_status=0 and (audit_status=2 or pay_status=0) ";
+        $sql  = "SELECT * FROM `{$this->table}` where start_time<$time and release_status=0 and (audit_status=2 or pay_status=0) ";
 
         return $this->getList($sql);
 
