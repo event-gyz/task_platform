@@ -176,6 +176,7 @@ class Login extends CI_Controller {
             if($re){
                 $data['media_man_id'] = $re;
                 $this->session->set_userdata($this->_user_info,$data);
+                $this->__saveLog($re,'','',1,'注册账号','','');
                 $this->_return['errorno'] = 1;
                 $this->_return['msg'] = '注册成功';
                 $this->_return['data'] = $data;
@@ -216,11 +217,17 @@ class Login extends CI_Controller {
         }else{
             $re = $this->__get_media_man_model()->updateInfoByPhone($phone,['media_man_password'=>Wap::generate_wap_user_password($pwd)]);
             if($re){
+                $userInfo = $this->__get_media_man_model()->selectByPhone($phone);
+                $this->__saveLog($userInfo['media_man_id'],$userInfo['media_man_name'],'',2,'修改密码','','');
                 //清除掉当前的登录信息
                 $this->session->unset_userdata($this->_user_info);
                 $this->session->unset_userdata($this->_pwd_phone);
                 $this->_return['errorno'] = '1';
                 $this->_return['msg'] = '修改成功';
+                echo json_encode($this->_return);exit;
+            }else{
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '新密码与旧密码一致';
                 echo json_encode($this->_return);exit;
             }
         }
@@ -449,4 +456,30 @@ class Login extends CI_Controller {
         $this->load->model('Platform_media_man_model');
         return $this->Platform_media_man_model;
     }
+
+
+    private function __saveLog($media_man_id,$media_man_name,$operate_data_id,$user_log_type,$user_log_content,$old_data,$new_data){
+        $data = [
+            'user_id'     => $media_man_id,
+            'user_name'   => !empty($media_man_name)?$media_man_name:'',
+            'operate_data_id' => $operate_data_id,
+            'user_type'    => 2,
+            'user_log_type' => $user_log_type,
+            'user_log_content' => $user_log_content,
+            'old_data'        => json_encode($old_data),
+            'new_data'        => json_encode($new_data),
+        ];
+        $this->__get_log_model()->insert($data);
+        return true;
+    }
+
+
+    /**
+     * @return User_log_model
+     */
+    private function __get_log_model() {
+        $this->load->model('User_log_model');
+        return $this->User_log_model;
+    }
+
 }
