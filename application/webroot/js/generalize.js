@@ -61,6 +61,9 @@ var app = new Vue({
                 },
                 onChange:function(p, values, displayValues){
                     _this.taskType = values[0];
+                    if(_this.taskType == '线上传播'){
+                        _this.platform = [];
+                    }
                 }
             });
             wx.config({
@@ -210,8 +213,13 @@ var app = new Vue({
                                     },
                                     success: function(res) {
                                         if(res.errorno >= 0){
-                                            var url = '/'+res.data;
-                                            _this.taskImg.push(url);
+                                            if(_this.taskImg.length>=9){
+                                                util.tips('最多上传9张图!');
+                                                return;
+                                            }else{
+                                                var url = '/'+res.data;
+                                                _this.taskImg.push(url);
+                                            }
                                         }else{
                                             util.tips(res.msg)
                                         }
@@ -338,10 +346,6 @@ var app = new Vue({
                     util.tips('请选择任务结束时间！');
                     return;
                 }
-                if(!this.platform.length){
-                    util.tips('请选择任务发布平台！');
-                    return;
-                }
                 if(!this.number){
                     util.tips('请输入账号数量！');
                     return;
@@ -424,6 +428,11 @@ var app = new Vue({
         taskPrice: function(curVal,oldVal){
             if(this.number){
                 this.total = '￥'+parseInt(this.taskPrice*curVal);
+            }
+        },
+        taskType: function(curVal,oldVal){
+            if(this.curVal == '线上传播'){
+
             }
         }
     }

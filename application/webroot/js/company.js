@@ -124,6 +124,9 @@ var app = new Vue({
                 }
             });
         },
+        removeImg:function(name){
+            this[name] = '';
+        },
         save: function(){
             var _this = this;
             if(!this.companyName){

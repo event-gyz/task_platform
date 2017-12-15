@@ -84,6 +84,21 @@
                                     <span @click="setIndustry('5')" :class="{cur:industry=='5'}">电商/微商</span>
                                     <span @click="setIndustry('6')" :class="{cur:industry=='6'}">文娱</span>
                                     <span @click="setIndustry('7')" :class="{cur:industry=='7'}">母婴</span>
+                                    <span @click="setIndustry('8')" :class="{cur:industry=='8'}">体育</span>
+                                    <span @click="setIndustry('9')" :class="{cur:industry=='9'}">旅游/酒店</span>
+                                    <span @click="setIndustry('10')" :class="{cur:industry=='10'}">餐饮/服务</span>
+                                    <span @click="setIndustry('11')" :class="{cur:industry=='11'}">汽车</span>
+                                    <span @click="setIndustry('12')" :class="{cur:industry=='12'}">政府/企事业单位</span>
+                                    <span @click="setIndustry('13')" :class="{cur:industry=='13'}">医疗/健康</span>
+                                    <span @click="setIndustry('14')" :class="{cur:industry=='14'}">房地产</span>
+                                    <span @click="setIndustry('15')" :class="{cur:industry=='15'}">零售/商超</span>
+                                    <span @click="setIndustry('16')" :class="{cur:industry=='16'}">IT通讯</span>
+                                    <span @click="setIndustry('17')" :class="{cur:industry=='17'}">物流</span>
+                                    <span @click="setIndustry('18')" :class="{cur:industry=='18'}">游戏动漫</span>
+                                    <span @click="setIndustry('19')" :class="{cur:industry=='19'}">IT数码</span>
+                                    <span @click="setIndustry('20')" :class="{cur:industry=='20'}">司法</span>
+                                    <span @click="setIndustry('21')" :class="{cur:industry=='21'}">母婴</span>
+                                    <span @click="setIndustry('22')" :class="{cur:industry=='22'}">母婴</span>
                                 </p>
                             </td>
                         </tr>

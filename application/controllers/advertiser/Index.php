@@ -251,7 +251,10 @@ class Index extends CI_Controller {
         }
         $start_time = strtotime($_POST['startTime']);
         $end_time = strtotime($_POST['endTime']);
-        $publishing_platform = implode(',',$_POST['platform']);
+        if(isset($_POST['platform']) && !empty($_POST['platform'])){
+            $publishing_platform = implode(',',$_POST['platform']);
+            $data['publishing_platform'] = $publishing_platform;
+        }
         $completion_criteria = implode(',',$_POST['endStandard']);
         $audit_status = $_POST['audit_status'];
 
@@ -274,7 +277,7 @@ class Index extends CI_Controller {
         }
         $data['start_time'] = $start_time;
         $data['end_time'] = $end_time;
-        $data['publishing_platform'] = $publishing_platform;
+
         $data['completion_criteria'] = $completion_criteria;
         $data['audit_status'] = $audit_status; //审核状态 0、1
 

@@ -434,12 +434,20 @@ table textarea:focus {
     width: 140px;
 }
 .person_upload_img {
-    width: 100%;
-    overflow: hidden;
-    padding: 20px 0;
+    width: 80%;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    position: relative;
 }
 .person_upload_img img {
     width: 100%;
+}
+.person_upload_img i.iconfont {
+    position: absolute;
+    right: -6px;
+    top: -6px;
+    color: #FC9153;
+    background: #fff;
 }
 
 

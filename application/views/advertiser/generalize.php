@@ -150,7 +150,7 @@ $signPackage = $jssdk->GetSignPackage();
                     <th align="left" class="border_bottom">任务结束<br>时间</th>
                     <td class="border_bottom"><input id="end_time" style="text-align: right;" type="text" v-model="endTime" readonly="readonly" placeholder="请选择 >"></td>
                 </tr>
-                <tr>
+                <tr v-if="taskType=='线上传播'">
                     <th align="left" class="border_bottom">发布平台</th>
                     <td class="border_bottom">
                         <p class="index_advert_icon">
