@@ -182,13 +182,10 @@ class Platform_advertiser extends ADMIN_Controller {
             return redirect("{$this->host}/admin/platform_advertiser/personal_adv_home_index");
         }
 
-        $where    = ['operate_data_id' => $id, 'sys_log_type' => "2,5", "offset" => 0, "limit" => 200];
-        $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
-
         return $this->load->view('admin/platform_advertiser/personal_adv_detail',
             [
                 'info'               => $info,
-                'log_list'           => $log_list['list'],
+                'log_list'           => json_encode($this->__get_log_list($id)),
                 'adv_audit_status'   => $this->config->item('adv_audit_status'),
                 'adv_account_status' => $this->config->item('adv_account_status'),
             ]
@@ -210,17 +207,66 @@ class Platform_advertiser extends ADMIN_Controller {
             return redirect("{$this->host}/admin/platform_advertiser/company_adv_home_index");
         }
 
-        $where    = ['operate_data_id' => $id, 'sys_log_type' => "2,5", "offset" => 0, "limit" => 200];
-        $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
-
         return $this->load->view('admin/platform_advertiser/company_adv_detail',
             [
                 'info'               => $info,
-                'log_list'           => $log_list['list'],
+                'log_list'           => json_encode($this->__get_log_list($id)),
                 'adv_audit_status'   => $this->config->item('adv_audit_status'),
                 'adv_account_status' => $this->config->item('adv_account_status'),
             ]
         );
+    }
+
+    private function __get_log_list($advertiser_id) {
+        if (empty($advertiser_id)) {
+            return [];
+        }
+
+        // 系统操作日志
+        $where    = ['operate_data_id' => $advertiser_id, 'sys_log_type' => "2,5", "offset" => 0, "limit" => 500];
+        $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
+
+        // 用户操作日志
+        $where1    = ['operate_data_id' => $advertiser_id, 'user_type' => 1, 'user_log_type' => "1,2,3,4,5,10,11.13", "offset" => 0, "limit" => 500];
+        $log_list1 = $this->__get_user_log_model()->get_user_log_list_by_condition($where1);
+
+        // 合并日志
+        $log_list2 = array_merge($log_list['list'], $log_list1['list']);
+        uasort($log_list2, function ($value1, $value2) {
+            if (strtotime($value1['create_time']) == strtotime($value2['create_time'])) {
+                return 0;
+            }
+            return (strtotime($value1['create_time']) < strtotime($value2['create_time'])) ? 1 : -1;
+        });
+
+        $result = [];
+        foreach ($log_list2 as $value) {
+
+            $name = '';
+            if (isset($value['sys_user_name'])) {
+                $name = $value['sys_user_name'];
+            }
+            if (isset($value['user_name'])) {
+                $name = $value['user_name'];
+            }
+
+            $content = '';
+            if (isset($value['sys_log_content'])) {
+                $content = $value['sys_log_content'];
+            }
+            if (isset($value['user_log_content'])) {
+                $content = $value['user_log_content'];
+            }
+
+            $result[] = [
+                'id'          => $value['id'],
+                'name'        => $name,
+                'create_time' => $value['create_time'],
+                'content'     => $content,
+            ];
+        }
+
+        return $result;
     }
 
     // 个人广告主和公司广告主的审核
@@ -343,6 +389,14 @@ class Platform_advertiser extends ADMIN_Controller {
     private function __get_platform_advertiser_model() {
         $this->load->model('Platform_advertiser_model');
         return $this->Platform_advertiser_model;
+    }
+
+    /**
+     * @return User_log_model
+     */
+    private function __get_user_log_model() {
+        $this->load->model('User_log_model');
+        return $this->User_log_model;
     }
 
 }

@@ -110,9 +110,6 @@ class Platform_media_man extends ADMIN_Controller {
             return redirect("{$this->host}/admin/platform_media_man/home");
         }
 
-        $where    = ['operate_data_id' => $id, 'sys_log_type' => "3,6,10", "offset" => 0, "limit" => 200];
-        $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
-
         $province = $this->__get_china_model()->get_by_pid_arr([0]);// 省
         $city     = $this->__get_china_model()->get_by_pid_arr(array_column($province, 'id'));// 市
         $area     = $this->__get_china_model()->get_by_pid_arr(array_column($city, 'id'));// 区
@@ -120,7 +117,7 @@ class Platform_media_man extends ADMIN_Controller {
         return $this->load->view('admin/platform_media_man/media_man_detail',
             [
                 'info'                 => $info,
-                'log_list'             => $log_list['list'],
+                'log_list'             => json_encode($this->__get_log_list($id)),
                 'media_audit_status'   => $this->config->item('media_audit_status'),
                 'media_account_status' => $this->config->item('media_account_status'),
                 'school_type_list'     => $this->config->item('school_type'),
@@ -135,6 +132,58 @@ class Platform_media_man extends ADMIN_Controller {
                 'area'                 => $area,// 区
             ]
         );
+    }
+
+    private function __get_log_list($media_man_id) {
+        if (empty($media_man_id)) {
+            return [];
+        }
+
+        // 系统操作日志
+        $where    = ['operate_data_id' => $media_man_id, 'sys_log_type' => "3,6,10", "offset" => 0, "limit" => 500];
+        $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
+
+        // 用户操作日志
+        $where1    = ['operate_data_id' => $media_man_id, 'user_type' => 2, 'user_log_type' => "1,2,6,7,9,11,12", "offset" => 0, "limit" => 500];
+        $log_list1 = $this->__get_user_log_model()->get_user_log_list_by_condition($where1);
+
+        // 合并日志
+        $log_list2 = array_merge($log_list['list'], $log_list1['list']);
+        uasort($log_list2, function ($value1, $value2) {
+            if (strtotime($value1['create_time']) == strtotime($value2['create_time'])) {
+                return 0;
+            }
+            return (strtotime($value1['create_time']) < strtotime($value2['create_time'])) ? 1 : -1;
+        });
+
+        $result = [];
+        foreach ($log_list2 as $value) {
+
+            $name = '';
+            if (isset($value['sys_user_name'])) {
+                $name = $value['sys_user_name'];
+            }
+            if (isset($value['user_name'])) {
+                $name = $value['user_name'];
+            }
+
+            $content = '';
+            if (isset($value['sys_log_content'])) {
+                $content = $value['sys_log_content'];
+            }
+            if (isset($value['user_log_content'])) {
+                $content = $value['user_log_content'];
+            }
+
+            $result[] = [
+                'id'          => $value['id'],
+                'name'        => $name,
+                'create_time' => $value['create_time'],
+                'content'     => $content,
+            ];
+        }
+
+        return $result;
     }
 
     // 跳转到修改自媒体人页
@@ -338,6 +387,14 @@ class Platform_media_man extends ADMIN_Controller {
     private function __get_china_model() {
         $this->load->model('China_model');
         return $this->China_model;
+    }
+
+    /**
+     * @return User_log_model
+     */
+    private function __get_user_log_model() {
+        $this->load->model('User_log_model');
+        return $this->User_log_model;
     }
 
 }

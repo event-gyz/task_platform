@@ -344,7 +344,7 @@
                                 <li style="list-style: none;float:left;display:inline;width:150px;">
                                     <img data-original="<?= $pic ?>" src="<?= $pic ?>"
                                          alt="<?= $info['title'] . $key0 ?>"
-                                         class="img-thumbnail"
+                                         class="img-thumbnail" width="50px" height="50px"
                                     >
                                 </li>
                             <?php endforeach; ?>
@@ -365,34 +365,14 @@
                 <!-- Table row -->
                 <div class="row">
                     <div class="col-xs-12 table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>序号</th>
-                                <th>用户名</th>
-                                <th>操作时间</th>
-                                <th>操作事项</th>
-                            </tr>
-                            </thead>
-                            <tbody>
 
-                            <?php foreach ($log_list as $value): ?>
-                                <tr>
-                                    <td><?= $value['id'] ?></td>
-                                    <td>
-                                        <?= isset($value['sys_user_name']) ? $value['sys_user_name'] : '' ?>
-                                        <?= isset($value['user_name']) ? $value['user_name'] : '' ?>
-                                    </td>
-                                    <td><?= $value['create_time'] ?></td>
-                                    <td>
-                                        <?= isset($value['sys_log_content']) ? $value['sys_log_content'] : '' ?>
-                                        <?= isset($value['user_log_content']) ? $value['user_log_content'] : '' ?>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                        <el-table :data="table_log_list" height="280" border>
+                            <el-table-column property="id" label="序号" width="100"></el-table-column>
+                            <el-table-column property="name" label="用户名" width="200"></el-table-column>
+                            <el-table-column property="create_time" label="操作时间" width="180"></el-table-column>
+                            <el-table-column property="content" label="操作事项"></el-table-column>
+                        </el-table>
 
-                            </tbody>
-                        </table>
                     </div>
                     <!-- /.col -->
                 </div>
@@ -477,20 +457,21 @@
 
         data   : function () {
             return {
-                loading : false,// 是否显示加载
-                task_id : '<?= $info['task_id']?>',
-                ruleForm: {
+                loading       : false,// 是否显示加载
+                task_id       : '<?= $info['task_id']?>',
+                ruleForm      : {
                     audit_status         : '',
                     reasons_for_rejection: ''
                 },
-                rules   : {
+                rules         : {
                     audit_status         : [
                         {required: true, message: '请选审核结果', trigger: 'change'}
                     ],
                     reasons_for_rejection: [
                         {required: false, message: '请填写拒绝的原因', trigger: 'blur'}
                     ]
-                }
+                },
+                table_log_list: <?= $log_list ?>,
             };
         },
         methods: {

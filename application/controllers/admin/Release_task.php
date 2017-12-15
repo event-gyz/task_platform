@@ -122,7 +122,7 @@ class Release_task extends ADMIN_Controller {
         return $this->load->view('admin/release_task/task_detail',
             [
                 'info'                     => $info,
-                'log_list'                 => $this->__get_log_list($id),
+                'log_list'                 => json_encode($this->__get_log_list($id)),
                 'publishing_platform_list' => $this->config->item('publishing_platform'),
                 'task_type_list'           => $this->config->item('task_type'),
                 'task_audit_status'        => $this->config->item('task_audit_status'),
@@ -153,7 +153,34 @@ class Release_task extends ADMIN_Controller {
             return (strtotime($value1['create_time']) < strtotime($value2['create_time'])) ? 1 : -1;
         });
 
-        return $log_list2;
+        $result = [];
+        foreach ($log_list2 as $value) {
+
+            $name = '';
+            if (isset($value['sys_user_name'])) {
+                $name = $value['sys_user_name'];
+            }
+            if (isset($value['user_name'])) {
+                $name = $value['user_name'];
+            }
+
+            $content = '';
+            if (isset($value['sys_log_content'])) {
+                $content = $value['sys_log_content'];
+            }
+            if (isset($value['user_log_content'])) {
+                $content = $value['user_log_content'];
+            }
+
+            $result[] = [
+                'id'          => $value['id'],
+                'name'        => $name,
+                'create_time' => $value['create_time'],
+                'content'     => $content,
+            ];
+        }
+
+        return $result;
     }
 
     // 确认完成
