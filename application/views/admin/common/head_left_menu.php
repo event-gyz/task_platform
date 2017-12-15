@@ -49,10 +49,10 @@ $auth_id_arr = explode(',', $auth_ids);
                         <a href="javascript:;">
                             <span><?= $value0['auth_name'] ?></span>
                             <span class="pull-right-container">
-                                <?php if ($ps_menu_label = get_menu_label($value0['class'], $job_count_list)): ?>
-                                    <small class="label bg-red"><?= $ps_menu_label ?></small>
-                                <?php endif; ?>
                                 <i class="fa fa-angle-left pull-right"></i>
+                                <?php if ($ps_menu_label = get_menu_label($value0['class'], $job_count_list)): ?>
+                                    <small class="label pull-right  bg-red"><?= $ps_menu_label ?></small>
+                                <?php endif; ?>
                             </span>
                         </a>
                     <?php endif; ?>
@@ -65,11 +65,12 @@ $auth_id_arr = explode(',', $auth_ids);
                                         my_auth_id="<?= $value1['id'] ?>"
                                 >
                                     <a href="/admin/<?= $value1['class'] ?>/<?= $value1['action'] ?>?my_auth_id=<?= $value1['id'] ?>">
-                                        <?= $value1['auth_name'] ?>
 
                                         <?php if ($s_menu_label = get_menu_label($value1['class'] . '-' . $value1['action'], $job_count_list)): ?>
                                             <small class="label pull-right bg-red"><?= $s_menu_label ?></small>
                                         <?php endif; ?>
+
+                                        <?= $value1['auth_name'] ?>
 
                                     </a>
                                 </li>
