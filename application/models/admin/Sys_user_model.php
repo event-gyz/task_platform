@@ -140,18 +140,27 @@ class Sys_user_model extends MY_Model {
     }
 
     private function __get_operate_user_name_arr($id_arr) {
+        if (empty($id_arr)) {
+            return [];
+        }
         $id_str = implode(',', array_unique($id_arr));
         $sql    = "SELECT su.user_name , su.id FROM `{$this->table}` AS su WHERE id IN ( {$id_str} )";
         return $this->getList($sql);
     }
 
     private function __get_dept_name_arr($id_arr) {
+        if (empty($id_arr)) {
+            return [];
+        }
         $id_str = implode(',', array_unique($id_arr));
         $sql    = "SELECT sd.dept_name , sd.id FROM `sys_department` AS sd WHERE id IN ( {$id_str} )";
         return $this->getList($sql);
     }
 
     private function __get_role_name_arr($id_arr) {
+        if (empty($id_arr)) {
+            return [];
+        }
         $id_str = implode(',', array_unique($id_arr));
         $sql    = "SELECT sr.role_name , sr.id FROM `sys_role` AS sr WHERE id IN ( {$id_str} )";
         return $this->getList($sql);

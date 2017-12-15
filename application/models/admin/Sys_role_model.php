@@ -89,6 +89,9 @@ class Sys_role_model extends MY_Model {
     }
 
     private function __get_operate_user_name_arr($id_arr) {
+        if (empty($id_arr)) {
+            return [];
+        }
         $id_str = implode(',', array_unique($id_arr));
         $sql    = "SELECT su.user_name , su.id FROM `sys_user` AS su WHERE id IN ( {$id_str} )";
         return $this->getList($sql);

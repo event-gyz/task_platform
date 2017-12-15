@@ -31,6 +31,9 @@ class China_model extends MY_Model {
     }
 
     public function get_by_pid_arr($pid_arr) {
+        if (empty($pid_arr)) {
+            return [];
+        }
         $id_str = implode(',', array_unique($pid_arr));
         $sql    = "SELECT * FROM `{$this->table}` AS cn WHERE pid IN ( {$id_str} )";
         return $this->getList($sql);

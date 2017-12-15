@@ -62,6 +62,9 @@ class Sys_auth_model extends MY_Model {
     }
 
     public function get_auth_list_by_auth_ids($auth_ids) {
+        if (empty($auth_ids)) {
+            return [];
+        }
         $sql = "SELECT sa.* FROM `{$this->table}` AS sa WHERE id IN ( {$auth_ids} )";
         return $this->getList($sql);
     }
