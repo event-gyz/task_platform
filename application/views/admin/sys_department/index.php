@@ -60,6 +60,7 @@
                             <tr>
                                 <th>部门ID</th>
                                 <th>部门名称</th>
+                                <th>包含用户数</th>
                                 <th>创建人</th>
                                 <th>创建时间</th>
                                 <th>最后修改时间</th>
@@ -70,6 +71,7 @@
                                 <tr>
                                     <th><?= $value['id'] ?></th>
                                     <th><?= $value['dept_name'] ?></th>
+                                    <th><?= $value['user_count'] ?></th>
                                     <th><?= $value['create_by_name'] ?></th>
                                     <th><?= $value['create_time'] ?></th>
                                     <th><?= $value['update_time'] ?></th>

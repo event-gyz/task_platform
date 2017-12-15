@@ -47,8 +47,30 @@ class Sys_department_model extends MY_Model {
 
         $_list = $this->getList($_sql);
 
-        $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
+        $data = ['sql' => $_sql, 'total' => $total, 'list' => $this->__deal_list($_list)];
         return $data;
+    }
+
+    // 处理列表数据,创建人,修改人,以及部门名称
+    private function __deal_list($list) {
+
+        $result = [];
+        foreach ($list as $value) {
+
+            $value['user_count'] = $this->__get_user_count_by_dept_id($value['id']);
+
+            $result[] = $value;
+
+        }
+
+        return $result;
+    }
+
+    // 查询部门下的未删除用户数
+    private function __get_user_count_by_dept_id($dept_id) {
+        $sql   = "SELECT count(*) AS c from sys_user where `status` = 0 AND `dept_id` = {$dept_id};";
+        $query = $this->db->query($sql);
+        return $query->row_array()['c'];
     }
 
     public function update_sys_department($sys_department_id, $info) {
