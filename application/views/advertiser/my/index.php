@@ -19,7 +19,7 @@
                 <?php if(isset($userSession['advertiser_id']) && !empty($userSession['advertiser_id'])){?>
                     <li class="text">
                         <?php
-                        if($userSession['advertiser_type']==1){
+                        if(isset($userSession['advertiser_type']) && $userSession['advertiser_type']==1){
                             echo (!empty($userSession['advertiser_name'])?$userSession['advertiser_name']:'未设置');
                         }else{
                             echo (!empty($userSession['company_name'])?$userSession['company_name']:'未设置');
