@@ -227,7 +227,7 @@ class Platform_advertiser extends ADMIN_Controller {
         $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
 
         // 用户操作日志
-        $where1    = ['operate_data_id' => $advertiser_id, 'user_log_type' => "1,2,11", "offset" => 0, "limit" => 500];
+        $where1    = ['operate_data_id' => $advertiser_id, 'user_type' => 1, 'user_log_type' => "1,2,3,4,5,10,11.13", "offset" => 0, "limit" => 500];
         $log_list1 = $this->__get_user_log_model()->get_user_log_list_by_condition($where1);
 
         // 合并日志
