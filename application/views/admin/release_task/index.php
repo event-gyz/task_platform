@@ -246,12 +246,12 @@
 
                     <el-dialog title="查看自媒体人" :visible.sync="dialogTableVisible">
                         <el-table :data="fmtResTableData" height="300" border>
-                            <el-table-column property="task_map_id" label="序号" width="110"></el-table-column>
-                            <el-table-column property="media_man_user_name" label="用户名" width="150"></el-table-column>
+                            <el-table-column property="task_map_id" label="序号"></el-table-column>
+                            <el-table-column property="media_man_user_name" label="用户名"></el-table-column>
                             <el-table-column property="status" label="状态" width="150"></el-table-column>
-                            <el-table-column property="create_time" label="发送时间" width="150"></el-table-column>
-                            <el-table-column property="receive_time" label="领取/拒绝时间" width="150"></el-table-column>
-                            <el-table-column property="deliver_time" label="完成时间" width="200"></el-table-column>
+                            <el-table-column property="create_time" label="发送时间"></el-table-column>
+                            <el-table-column property="receive_time" label="领取/拒绝时间"></el-table-column>
+                            <el-table-column property="deliver_time" label="完成时间"></el-table-column>
                         </el-table>
                         <el-pagination
                                 layout="total, sizes, prev, pager, next, jumper"
