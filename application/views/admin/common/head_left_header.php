@@ -43,6 +43,9 @@ $sys_user_info = $_SESSION['sys_user_info'];
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="/admin/login/modify_pwd" class="btn btn-default btn-flat">修改密码</a>
+                            </div>
                             <div class="pull-right">
                                 <a href="/admin/login/logout" class="btn btn-default btn-flat">退出登录</a>
                             </div>
