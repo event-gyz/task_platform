@@ -15,7 +15,7 @@
                 <!--head-->
                 <div class="my_head">
                     <ul>
-                        <li class="img"><Img src="/images/timg.jpeg"></li>
+                        <li class="img"><Img src="/images/mtr.png"></li>
                         <?php if(isset($userSession['media_man_id']) && !empty($userSession['media_man_id'])){?>
                             <li class="text"><?=(!empty($userSession['media_man_name'])?$userSession['media_man_name']:'未设置')?></li>
                         <?php }else{ ?>
