@@ -96,33 +96,30 @@
                 <div class="row">
 
                     <div class="col-sm-3">
-                        <b>身份证正面：</b>
+                        <b>身份证正面：</b><br>
                         <a href="<?= $info['id_card_positive_pic'] ?>" target="_blank">
                             <img src="<?= $info['id_card_positive_pic'] ?>"
                                  alt="<?= $info['advertiser_name'] ?>"
-                                 class="img-thumbnail">
+                                 class="img-thumbnail" width="100px" height="100px">
                         </a>
-                        <br><br>
                     </div>
 
                     <div class="col-sm-3">
-                        <b>身份证反面：</b>
+                        <b>身份证反面：</b><br>
                         <a href="<?= $info['id_card_back_pic'] ?>" target="_blank">
                             <img src="<?= $info['id_card_back_pic'] ?>"
                                  alt="<?= $info['advertiser_name'] ?>"
-                                 class="img-thumbnail">
+                                 class="img-thumbnail" width="100px" height="100px">
                         </a>
-                        <br><br>
                     </div>
 
                     <div class="col-sm-3">
-                        <b>身份证手持：</b>
+                        <b>身份证手持：</b><br>
                         <a href="<?= $info['handheld_id_card_pic'] ?>" target="_blank">
                             <img src="<?= $info['handheld_id_card_pic'] ?>"
                                  alt="<?= $info['advertiser_name'] ?>"
-                                 class="img-thumbnail">
+                                 class="img-thumbnail" width="100px" height="100px">
                         </a>
-                        <br><br>
                     </div>
 
                 </div>

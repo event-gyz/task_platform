@@ -98,13 +98,12 @@
                         <br><br>
                     </div>
                     <div class="col-sm-3">
-                        <b>营业执照：</b>
+                        <b>营业执照：</b><br>
                         <a href="<?= $info['business_license_pic'] ?>" target="_blank">
                             <img src="<?= $info['business_license_pic'] ?>"
                                  alt="<?= $info['company_name'] ?>"
-                                 class="img-thumbnail">
+                                 class="img-thumbnail" width="100px" height="100px">
                         </a>
-                        <br><br>
                     </div>
                 </div>
 
