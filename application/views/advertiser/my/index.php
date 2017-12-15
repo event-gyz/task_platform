@@ -15,7 +15,7 @@
         <!--head-->
         <div class="my_head">
             <ul>
-                <li class="img"><Img src="/images/wx.png"></li>
+                <li class="img"><Img src="/images/timg.jpeg"></li>
                 <?php if(isset($userSession['advertiser_id']) && !empty($userSession['advertiser_id'])){?>
                     <li class="text">
                         <?php

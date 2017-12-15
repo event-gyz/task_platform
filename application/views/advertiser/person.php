@@ -10,6 +10,7 @@ $signPackage = $jssdk->GetSignPackage();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_xnfkadft2e7y14i.css">
 </head>
 <body>
 <div class="main" id="app">
@@ -40,21 +41,27 @@ $signPackage = $jssdk->GetSignPackage();
                 <tr>
                     <th class="border_bottom" align="left" valign="top"><br>身份证正面</th>
                     <td class="border_bottom">
-                        <p v-if="frontCard" class="person_upload_img"><img :src="frontCard"></p>
+                        <p v-if="frontCard" class="person_upload_img">
+                        <img :src="frontCard"><i class="iconfont" @click="removeImg('frontCard')">&#xe601;</i>
+                        </p>
                         <p class="person_page_img1" @click="uploadImg('frontCard')"><img src="/images/icon3.png"></p>
                     </td>
                 </tr>
                 <tr>
                     <th class="border_bottom" align="left" valign="top"><br>身份证反面</th>
                     <td class="border_bottom">
-                        <p v-if="backCard" class="person_upload_img"><img :src="backCard"></p>
+                        <p v-if="backCard" class="person_upload_img">
+                        <img :src="backCard"><i class="iconfont" @click="removeImg('backCard')">&#xe601;</i>
+                        </p>
                         <p class="person_page_img1" @click="uploadImg('backCard')"><img src="/images/icon4.png"></p>
                     </td>
                 </tr>
                 <tr>
                     <th align="left" valign="top"><br>手持身份证</th>
                     <td>
-                        <p v-if="card" class="person_upload_img"><img :src="card"></p>
+                        <p v-if="card" class="person_upload_img">
+                        <img :src="card"><i class="iconfont" @click="removeImg('card')">&#xe601;</i>
+                        </p>
                         <p class="person_page_img1" @click="uploadImg('card')"><img src="/images/icon5.png"></p>
                     </td>
                 </tr>

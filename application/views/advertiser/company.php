@@ -10,6 +10,7 @@ $signPackage = $jssdk->GetSignPackage();
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_xnfkadft2e7y14i.css">
     </head>
     <body>
         <div class="main" id="app">
@@ -44,7 +45,9 @@ $signPackage = $jssdk->GetSignPackage();
                         <tr>
                             <th class="border_bottom" align="left" valign="top">营业执照</th>
                             <td class="border_bottom">
-                                <p v-if="companyImg" class="person_upload_img"><img :src="companyImg"></p>
+                                <p v-if="companyImg" class="person_upload_img">
+                                <img :src="companyImg"><i class="iconfont" @click="removeImg('companyImg')">&#xe601;</i>
+                                </p>
                                 <p class="person_page_img1" @click="uploadImg"><img src="/images/icon6.png"></p>
                             </td>
                         </tr>
