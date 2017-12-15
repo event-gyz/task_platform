@@ -81,11 +81,20 @@ class Sys_role_model extends MY_Model {
                 }
             }
 
+            $value['user_count'] = $this->__get_user_count_by_role_id($value['id']);
+
             $result[] = $value;
 
         }
 
         return $result;
+    }
+
+    // 查询角色下的未删除用户数
+    private function __get_user_count_by_role_id($role_id) {
+        $sql   = "SELECT count(*) AS c from sys_user where `status` = 0 AND `role_id` = {$role_id};";
+        $query = $this->db->query($sql);
+        return $query->row_array()['c'];
     }
 
     private function __get_operate_user_name_arr($id_arr) {

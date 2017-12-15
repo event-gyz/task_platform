@@ -72,7 +72,7 @@
                                 <tr>
                                     <th><?= $value['id'] ?></th>
                                     <th><?= $value['role_name'] ?></th>
-                                    <th>1024</th>
+                                    <th><?= $value['user_count'] ?></th>
                                     <th><?= $value['create_by_name'] ?></th>
                                     <th><?= $value['create_time'] ?></th>
                                     <th><?= $value['modify_by_name'] ?></th>
