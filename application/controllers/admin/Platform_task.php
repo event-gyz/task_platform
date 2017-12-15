@@ -132,24 +132,10 @@ class Platform_task extends ADMIN_Controller {
             $advertiser_info = $this->__get_platform_advertiser_model()->selectById($info['advertiser_user_id']);
         }
 
-        $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,8,9,11,12", "offset" => 0, "limit" => 200];
-        $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
-
-        $where1    = ['operate_data_id' => $id, 'user_log_type' => "3,4,5,6,7,9", "offset" => 0, "limit" => 200];
-        $log_list1 = $this->__get_user_log_model()->get_user_log_list_by_condition($where1);
-
-        $log_list2 = array_merge($log_list['list'], $log_list1['list']);
-        uasort($log_list2, function ($value1, $value2) {
-            if (strtotime($value1['create_time']) == strtotime($value2['create_time'])) {
-                return 0;
-            }
-            return (strtotime($value1['create_time']) < strtotime($value2['create_time'])) ? 1 : -1;
-        });
-
         return $this->load->view('admin/platform_task/task_detail',
             [
                 'info'                     => $info,
-                'log_list'                 => $log_list2,
+                'log_list'                 => $this->__get_log_list($id),
                 'advertiser_info'          => $advertiser_info,
                 'adv_audit_status'         => $this->config->item('adv_audit_status'),
                 'adv_account_status'       => $this->config->item('adv_account_status'),
@@ -159,6 +145,31 @@ class Platform_task extends ADMIN_Controller {
                 'task_completion_criteria' => $this->config->item('task_completion_criteria'),
             ]
         );
+    }
+
+    private function __get_log_list($task_id) {
+        if (empty($task_id)) {
+            return [];
+        }
+
+        // 系统操作日志
+        $where    = ['operate_data_id' => $task_id, 'sys_log_type' => "4,8,9,11", "offset" => 0, "limit" => 500];
+        $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
+
+        // 用户操作日志
+        $where1    = ['operate_data_id' => $task_id, 'user_log_type' => "3,4,5,6,7,9,10,13", "offset" => 0, "limit" => 500];
+        $log_list1 = $this->__get_user_log_model()->get_user_log_list_by_condition($where1);
+
+        // 合并日志
+        $log_list2 = array_merge($log_list['list'], $log_list1['list']);
+        uasort($log_list2, function ($value1, $value2) {
+            if (strtotime($value1['create_time']) == strtotime($value2['create_time'])) {
+                return 0;
+            }
+            return (strtotime($value1['create_time']) < strtotime($value2['create_time'])) ? 1 : -1;
+        });
+
+        return $log_list2;
     }
 
     // 任务审核

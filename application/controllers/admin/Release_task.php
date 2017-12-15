@@ -119,12 +119,32 @@ class Release_task extends ADMIN_Controller {
             return redirect("{$this->host}/admin/release_task/home");
         }
 
-        $where    = ['operate_data_id' => $id, 'sys_log_type' => "4,8,9,11,12", "offset" => 0, "limit" => 200];
+        return $this->load->view('admin/release_task/task_detail',
+            [
+                'info'                     => $info,
+                'log_list'                 => $this->__get_log_list($id),
+                'publishing_platform_list' => $this->config->item('publishing_platform'),
+                'task_type_list'           => $this->config->item('task_type'),
+                'task_audit_status'        => $this->config->item('task_audit_status'),
+                'task_completion_criteria' => $this->config->item('task_completion_criteria'),
+            ]
+        );
+    }
+
+    private function __get_log_list($task_id) {
+        if (empty($task_id)) {
+            return [];
+        }
+
+        // 系统操作日志
+        $where    = ['operate_data_id' => $task_id, 'sys_log_type' => "4,8,9,11,12,13,14", "offset" => 0, "limit" => 500];
         $log_list = $this->Sys_log_model->get_sys_log_list_by_condition($where);
 
-        $where1    = ['operate_data_id' => $id, 'user_log_type' => "3,4,5,6,7,9", "offset" => 0, "limit" => 200];
+        // 用户操作日志
+        $where1    = ['operate_data_id' => $task_id, 'user_log_type' => "3,4,5,6,7,9,10,12,13", "offset" => 0, "limit" => 500];
         $log_list1 = $this->__get_user_log_model()->get_user_log_list_by_condition($where1);
 
+        // 合并日志
         $log_list2 = array_merge($log_list['list'], $log_list1['list']);
         uasort($log_list2, function ($value1, $value2) {
             if (strtotime($value1['create_time']) == strtotime($value2['create_time'])) {
@@ -133,16 +153,7 @@ class Release_task extends ADMIN_Controller {
             return (strtotime($value1['create_time']) < strtotime($value2['create_time'])) ? 1 : -1;
         });
 
-        return $this->load->view('admin/release_task/task_detail',
-            [
-                'info'                     => $info,
-                'log_list'                 => $log_list2,
-                'publishing_platform_list' => $this->config->item('publishing_platform'),
-                'task_type_list'           => $this->config->item('task_type'),
-                'task_audit_status'        => $this->config->item('task_audit_status'),
-                'task_completion_criteria' => $this->config->item('task_completion_criteria'),
-            ]
-        );
+        return $log_list2;
     }
 
     // 确认完成
