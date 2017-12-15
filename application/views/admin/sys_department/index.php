@@ -78,7 +78,8 @@
                                     <th>
                                         <a href="/admin/sys_department/update?id=<?= $value['id'] ?>"
                                            class="btn btn-info btn-sm">修改</a>
-                                        <button @click="del('<?= $value['id'] ?>')" class="btn btn-danger btn-sm">
+                                        <button @click="del('<?= $value['id'] ?>','<?= $value['user_count'] ?>')"
+                                                class="btn btn-danger btn-sm">
                                             删除
                                         </button>
                                     </th>
@@ -108,8 +109,15 @@
 
     var Main = {
         methods: {
-            del: function (id) {
-                var url = "/admin/sys_department/del?id=" + id;
+            del: function (id, user_count) {
+
+                if (user_count > 0) {
+                    this.$message.error('该部门下包含用户，请调整后再删除');
+                    return false;
+
+                }
+
+                const url = "/admin/sys_department/del?id=" + id;
                 this.$confirm('此操作将永久删除此部门, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText : '取消',
