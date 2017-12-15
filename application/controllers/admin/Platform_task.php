@@ -135,7 +135,7 @@ class Platform_task extends ADMIN_Controller {
         return $this->load->view('admin/platform_task/task_detail',
             [
                 'info'                     => $info,
-                'log_list'                 => $this->__get_log_list($id),
+                'log_list'                 => json_encode($this->__get_log_list($id)),
                 'advertiser_info'          => $advertiser_info,
                 'adv_audit_status'         => $this->config->item('adv_audit_status'),
                 'adv_account_status'       => $this->config->item('adv_account_status'),
@@ -169,7 +169,34 @@ class Platform_task extends ADMIN_Controller {
             return (strtotime($value1['create_time']) < strtotime($value2['create_time'])) ? 1 : -1;
         });
 
-        return $log_list2;
+        $result = [];
+        foreach ($log_list2 as $value) {
+
+            $name = '';
+            if (isset($value['sys_user_name'])) {
+                $name = $value['sys_user_name'];
+            }
+            if (isset($value['user_name'])) {
+                $name = $value['user_name'];
+            }
+
+            $content = '';
+            if (isset($value['sys_log_content'])) {
+                $content = $value['sys_log_content'];
+            }
+            if (isset($value['user_log_content'])) {
+                $content = $value['user_log_content'];
+            }
+
+            $result[] = [
+                'id'          => $value['id'],
+                'name'        => $name,
+                'create_time' => $value['create_time'],
+                'content'     => $content,
+            ];
+        }
+
+        return $result;
     }
 
     // 任务审核
