@@ -344,7 +344,7 @@
                                 <li style="list-style: none;float:left;display:inline;width:150px;">
                                     <img data-original="<?= $pic ?>" src="<?= $pic ?>"
                                          alt="<?= $info['title'] . $key0 ?>"
-                                         class="img-thumbnail"
+                                         class="img-thumbnail" width="50px" height="50px"
                                     >
                                 </li>
                             <?php endforeach; ?>
