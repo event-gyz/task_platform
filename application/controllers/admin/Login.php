@@ -104,6 +104,88 @@ class Login extends CI_Controller {
         return redirect("{$this->host}/admin/login/login");
     }
 
+    public function modify_pwd() {
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+
+        $sys_user_id = $this->input->get_post('id', true);
+
+        if (empty($sys_user_id)) {
+            return redirect("{$this->host}/admin/index/home");
+        }
+
+        $sys_user_info = $this->__get_sys_user_model()->select_by_id($sys_user_id);
+
+        if (empty($sys_user_info)) {
+            return redirect("{$this->host}/admin/index/home");
+        }
+
+        $GLOBALS['sys_user_info'] = $sys_user_info;
+
+        $config = array(
+            array(
+                'field'  => 'pwd',
+                'label'  => '原密码',
+                'rules'  => array(
+                    'required',
+                    array(
+                        'wrong_pwd',
+                        function ($val) {
+                            return $this->__get_sys_user_model()->check_admin_password($val, $GLOBALS['sys_user_info']['pwd'], $GLOBALS['sys_user_info']['salt']);
+                        },
+                    ),
+                ),
+                'errors' => array(
+                    'required'  => '请填写%s',
+                    'wrong_pwd' => '原密码错误',
+                ),
+            ),
+            array(
+                'field'  => 're_pwd',
+                'label'  => '新密码',
+                'rules'  => 'required',
+                'errors' => array(
+                    'required' => '请填写%s',
+                ),
+            ),
+            array(
+                'field'  => 're2_pwd',
+                'label'  => '确认新密码',
+                'rules'  => 'required|matches[re_pwd]',
+                'errors' => array(
+                    'required' => '请填写%s',
+                    'matches'  => '新密码必须一致',
+                ),
+            ),
+        );
+        $this->form_validation->set_rules($config);
+
+        if ($this->form_validation->run() == FALSE) {
+            return $this->load->view('admin/login/modify_pwd', ['info' => $sys_user_info]);
+        }
+
+        $req_data = $this->input->post();
+        $pwd      = $req_data['re2_pwd'];
+        $salt     = $this->__get_sys_user_model()->random_str(4);
+
+        $update_info = array(
+            'salt'                    => $salt,
+            'pwd'                     => $this->__get_sys_user_model()->generate_admin_password($pwd, $salt),
+            'last_modify_sys_user_id' => $sys_user_info['id'],
+        );
+
+        $result = $this->__get_sys_user_model()->update_sys_user($sys_user_id, $update_info);
+
+        if ($result) {
+
+            unset($GLOBALS['sys_user_info']);
+
+            return redirect("{$this->host}/admin/login/logout");
+        }
+
+        return $this->load->view('admin/login/modify_pwd', ['info' => $sys_user_info]);
+    }
+
     /**
      * @return Sys_user_model
      */
