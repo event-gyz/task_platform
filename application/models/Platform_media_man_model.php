@@ -17,6 +17,25 @@ class Platform_media_man_model extends MY_Model {
 
         // 拼接查询条件
 
+        // 根据自媒体人审核状态
+        if (isset($where['audit_status']) && $where['audit_status'] !== '') {
+            $sql .= sprintf(" AND mm.audit_status = %d", $where['audit_status']);
+        }
+
+        // 根据自媒体人账户状态
+        if (isset($where['status']) && $where['status'] !== '') {
+            $sql .= sprintf(" AND mm.status = %d", $where['status']);
+        }
+
+        if (isset($where['no_draft']) && $where['no_draft'] !== '') {
+            $sql .= sprintf(" AND mm.status != %d", $where['no_draft']);
+        }
+
+        // 根据自媒体人行吧
+        if (isset($where['sex']) && $where['sex']) {
+            $sql .= sprintf(" AND mm.sex = %d", $where['sex']);
+        }
+
         // 根据自媒体人电话
         if (isset($where['media_man_phone']) && $where['media_man_phone']) {
             $sql .= sprintf(" AND mm.media_man_phone like '%s%%'", $where['media_man_phone']);
@@ -30,25 +49,6 @@ class Platform_media_man_model extends MY_Model {
         // 根据自媒体人姓名
         if (isset($where['media_man_name']) && $where['media_man_name']) {
             $sql .= sprintf(" AND mm.media_man_name like '%s%%'", $where['media_man_name']);
-        }
-
-        // 根据自媒体人审核状态
-        if (isset($where['audit_status']) && $where['audit_status'] !== '') {
-            $sql .= sprintf(" AND mm.audit_status = %d", $where['audit_status']);
-        }
-
-        // 根据自媒体人行吧
-        if (isset($where['sex']) && $where['sex']) {
-            $sql .= sprintf(" AND mm.sex = %d", $where['sex']);
-        }
-
-        // 根据自媒体人账户状态
-        if (isset($where['status']) && $where['status'] !== '') {
-            $sql .= sprintf(" AND mm.status = %d", $where['status']);
-        }
-
-        if (isset($where['no_draft']) && $where['no_draft'] !== '') {
-            $sql .= sprintf(" AND mm.status != %d", $where['no_draft']);
         }
 
         // 根据自媒体人学校名称
