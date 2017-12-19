@@ -11,7 +11,7 @@ class Upload extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('Wap');
+        $this->load->helper(array('url', 'wap'));
     }
 
     // 返回规范
