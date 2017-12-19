@@ -35,6 +35,11 @@ class Platform_task_payment_model extends MY_Model {
 
         // 拼接查询条件
 
+        // 根据财务审核状态
+        if (isset($where['finance_status']) && $where['finance_status'] !== '') {
+            $sql .= sprintf(" AND ptp.finance_status = %d", $where['finance_status']);
+        }
+
         // 根据任务id
         if (isset($where['task_id']) && $where['task_id']) {
             $sql .= sprintf(" AND ptp.task_id = %d", $where['task_id']);
@@ -57,11 +62,6 @@ class Platform_task_payment_model extends MY_Model {
             $sql   .= sprintf(" AND (pa.advertiser_phone LIKE '%s%%' OR pa.content_phone LIKE '%s%%' ) ", $phone, $phone);
         }
 
-        // 根据财务审核状态
-        if (isset($where['finance_status']) && $where['finance_status'] !== '') {
-            $sql .= sprintf(" AND ptp.finance_status = %d", $where['finance_status']);
-        }
-
         // 总数
         $sqlCount = str_replace('[*]', 'count(ptp.payment_id) AS c', $sql);
         $total    = $this->getCount($sqlCount);
@@ -81,6 +81,7 @@ class Platform_task_payment_model extends MY_Model {
         $_list = $this->getList($_sql);
 
         $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
+
         return $data;
     }
 

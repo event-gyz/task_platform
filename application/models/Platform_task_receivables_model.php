@@ -83,6 +83,7 @@ class Platform_task_receivables_model extends MY_Model {
         $_list = $this->getList($_sql);
 
         $data = ['sql' => $_sql, 'total' => $total, 'list' => $_list];
+
         return $data;
     }
 
