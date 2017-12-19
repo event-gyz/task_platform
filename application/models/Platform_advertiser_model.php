@@ -21,6 +21,30 @@ class Platform_advertiser_model extends MY_Model {
 
         // 拼接查询条件
 
+        // 根据广告主类型
+        if (isset($where['advertiser_type']) && $where['advertiser_type']) {
+            $sql .= sprintf(" AND pa.advertiser_type = %d", $where['advertiser_type']);
+        }
+
+        // 根据广告主审核状态
+        if (isset($where['audit_status']) && $where['audit_status'] !== '') {
+            $sql .= sprintf(" AND pa.audit_status = %d", $where['audit_status']);
+        }
+
+        // 根据广告主账户状态
+        if (isset($where['status']) && $where['status'] !== '') {
+            $sql .= sprintf(" AND pa.status = %d", $where['status']);
+        }
+
+        if (isset($where['no_draft']) && $where['no_draft'] !== '') {
+            $sql .= sprintf(" AND pa.status != %d", $where['no_draft']);
+        }
+
+        // 根据用户id
+        if (isset($where['advertiser_id']) && $where['advertiser_id']) {
+            $sql .= sprintf(" AND pa.advertiser_id = %d", $where['advertiser_id']);
+        }
+
         // 根据公司名称
         if (isset($where['company_name']) && $where['company_name']) {
             $sql .= sprintf(" AND pa.company_name like '%s%%'", $where['company_name']);
@@ -34,11 +58,6 @@ class Platform_advertiser_model extends MY_Model {
         // 根据公司联系人电话
         if (isset($where['content_phone']) && $where['content_phone']) {
             $sql .= sprintf(" AND pa.content_phone like '%s%%'", $where['content_phone']);
-        }
-
-        // 根据用户id
-        if (isset($where['advertiser_id']) && $where['advertiser_id']) {
-            $sql .= sprintf(" AND pa.advertiser_id = %d", $where['advertiser_id']);
         }
 
         // 根据广告主电话
@@ -56,28 +75,9 @@ class Platform_advertiser_model extends MY_Model {
             $sql .= sprintf(" AND pa.advertiser_name like '%s%%'", $where['advertiser_name']);
         }
 
-        // 根据广告主审核状态
-        if (isset($where['audit_status']) && $where['audit_status'] !== '') {
-            $sql .= sprintf(" AND pa.audit_status = %d", $where['audit_status']);
-        }
-
-        // 根据广告主账户状态
-        if (isset($where['status']) && $where['status'] !== '') {
-            $sql .= sprintf(" AND pa.status = %d", $where['status']);
-        }
-
-        if (isset($where['no_draft']) && $where['no_draft'] !== '') {
-            $sql .= sprintf(" AND pa.status != %d", $where['no_draft']);
-        }
-
         // 根据广告主身份证号
         if (isset($where['id_card']) && $where['id_card']) {
             $sql .= sprintf(" AND pa.id_card like '%s%%'", $where['id_card']);
-        }
-
-        // 根据广告主类型
-        if (isset($where['advertiser_type']) && $where['advertiser_type']) {
-            $sql .= sprintf(" AND pa.advertiser_type = %d", $where['advertiser_type']);
         }
 
         // 根据广告主创建开始时间
@@ -98,7 +98,7 @@ class Platform_advertiser_model extends MY_Model {
             return ['total' => $total, 'list' => []];
         }
 
-        $sql .= ' ORDER BY pa.update_time DESC';
+        $sql .= ' ORDER BY pa.advertiser_id DESC';
 
         $offset = isset($where['offset']) ? $where['offset'] : 0;
         $limit  = isset($where['limit']) ? $where['limit'] : 10;
@@ -106,7 +106,7 @@ class Platform_advertiser_model extends MY_Model {
 
         $get_id_sql = str_replace('[*]', 'pa.advertiser_id', $sql);
         $final_sql  = sprintf("SELECT [*] FROM `%s` AS pa, ( %s ) AS T2 WHERE pa.advertiser_id = T2.advertiser_id", $this->table, $get_id_sql);
-        $final_sql  .= ' ORDER BY pa.update_time DESC';
+        $final_sql  .= ' ORDER BY pa.advertiser_id DESC';
         $_sql       = str_replace('[*]', $fields, $final_sql);
 
         $_list = $this->getList($_sql);
