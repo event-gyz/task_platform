@@ -32,14 +32,14 @@ class Platform_task_model extends MY_Model {
             $sql .= sprintf(" AND pt.pay_status = %d", $where['pay_status']);
         }
 
-        // 根据财务确认状态
-        if (isset($where['finance_status']) && $where['finance_status'] !== '') {
-            $sql .= sprintf(" AND ptp.finance_status = %d", $where['finance_status']);
-        }
-
         // 根据任务类型
         if (isset($where['task_type']) && $where['task_type']) {
             $sql .= sprintf(" AND pt.task_type = %d", $where['task_type']);
+        }
+
+        // 根据财务确认状态
+        if (isset($where['finance_status']) && $where['finance_status'] !== '') {
+            $sql .= sprintf(" AND ptp.finance_status = %d", $where['finance_status']);
         }
 
         // 根据发布平台
