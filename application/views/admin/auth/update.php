@@ -8,6 +8,11 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
+        <div class="pad margin no-print">
+            <div class="callout callout-danger" style="margin-bottom: 0!important;">
+                此页面是留给开发人员来配置的页面，请管理员不要对此页面的数据进行操作,否则会造成系统无法正常使用！！！
+            </div>
+        </div>
         <h1>
             修改权限
             <small>修改一个权限</small>

@@ -7,7 +7,7 @@ class JSSDK  extends CI_Controller{
         parent::__construct ();
         $this->appId = $appId;
         $this->appSecret = $appSecret;
-        $this->load->helper('Wap');
+        $this->load->helper(array('url', 'wap'));
     }
 
   public function getSignPackage() {
