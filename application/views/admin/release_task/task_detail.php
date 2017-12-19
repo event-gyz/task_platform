@@ -77,6 +77,10 @@
                             <small class="label bg-orange">
                                 待确认完成
                             </small>
+                        <?php elseif (($info['release_status'] === "2")): ?>
+                            <small class="label bg-orange">
+                                已完成
+                            </small>
                         <?php else: ?>
                             <small class="label bg-gray">
                                 未知
