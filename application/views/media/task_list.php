@@ -25,7 +25,7 @@
                             <ul>
                                 <li>任务编号：<span>RW{{item.task_id}}</span></li>
                                 <li>任务类型：<span>{{typeFn(item.task_type)}}</span></li>
-                                <li>任务总价：<span class="warn">¥{{item.platform_price}}</span></li>
+                                <li>任务价格：<span class="warn">¥{{item.platform_price}}</span></li>
                                 <li>发布平台：<span>{{platformFn(item.publishing_platform)}}</span></li>
                                 <li>任务时间：<span>{{timeFn(item.start_time,item.end_time)}}</span></li>
                             </ul>
