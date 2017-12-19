@@ -298,7 +298,7 @@ class Platform_task_map_model extends MY_Model {
         if (empty($media_man_id)) {
             return false;
         }
-        $param = "pt.*,ptm.create_time as allot_time";
+        $param = "pt.task_id,pt.task_type,pt.platform_price,pt.publishing_platform,pt.start_time,pt.end_time,ptm.create_time as allot_time";
         $sql   = "SELECT [*] FROM `{$this->table}` AS ptm LEFT JOIN platform_task as pt ON ptm.task_id=pt.task_id where 1=1 ";
 
         // 拼接查询条件
