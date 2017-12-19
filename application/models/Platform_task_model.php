@@ -17,6 +17,36 @@ class Platform_task_model extends MY_Model {
 
         // 拼接查询条件
 
+        // 根据任务审核状态
+        if (isset($where['audit_status']) && $where['audit_status'] !== '') {
+            $sql .= sprintf(" AND pt.audit_status = %d", $where['audit_status']);
+        }
+
+        // 根据任务发布状态
+        if (isset($where['release_status']) && $where['release_status'] !== '') {
+            $sql .= sprintf(" AND pt.release_status = %d", $where['release_status']);
+        }
+
+        // 广告主付费状态
+        if (isset($where['pay_status']) && $where['pay_status'] !== '') {
+            $sql .= sprintf(" AND pt.pay_status = %d", $where['pay_status']);
+        }
+
+        // 根据财务确认状态
+        if (isset($where['finance_status']) && $where['finance_status'] !== '') {
+            $sql .= sprintf(" AND ptp.finance_status = %d", $where['finance_status']);
+        }
+
+        // 根据任务类型
+        if (isset($where['task_type']) && $where['task_type']) {
+            $sql .= sprintf(" AND pt.task_type = %d", $where['task_type']);
+        }
+
+        // 根据发布平台
+        if (isset($where['publishing_platform']) && $where['publishing_platform']) {
+            $sql .= sprintf(" AND pt.publishing_platform = '%s'", $where['publishing_platform']);
+        }
+
         // 根据任务名称
         if (isset($where['task_name']) && $where['task_name']) {
             $sql .= sprintf(" AND pt.task_name like '%s%%'", $where['task_name']);
@@ -27,31 +57,6 @@ class Platform_task_model extends MY_Model {
             $sql .= sprintf(" AND pt.title like '%s%%'", $where['title']);
         }
 
-        // 根据任务类型
-        if (isset($where['task_type']) && $where['task_type']) {
-            $sql .= sprintf(" AND pt.task_type = %d", $where['task_type']);
-        }
-
-        // 根据任务发布状态
-        if (isset($where['release_status']) && $where['release_status'] !== '') {
-            $sql .= sprintf(" AND pt.release_status = %d", $where['release_status']);
-        }
-
-        // 根据任务审核状态
-        if (isset($where['audit_status']) && $where['audit_status'] !== '') {
-            $sql .= sprintf(" AND pt.audit_status = %d", $where['audit_status']);
-        }
-
-        // 广告主付费状态
-        if (isset($where['pay_status']) && $where['pay_status'] !== '') {
-            $sql .= sprintf(" AND pt.pay_status = %d", $where['pay_status']);
-        }
-
-        // 根据发布平台
-        if (isset($where['publishing_platform']) && $where['publishing_platform']) {
-            $sql .= sprintf(" AND pt.publishing_platform = '%s'", $where['publishing_platform']);
-        }
-
         // 根据任务提交开始时间
         if (isset($where['start_time']) && $where['start_time']) {
             // $sql .= sprintf(" AND pt.submit_audit_time >= '%s'", $where['start_time']);
@@ -60,11 +65,6 @@ class Platform_task_model extends MY_Model {
         // 根据任务提交结束时间
         if (isset($where['end_time']) && $where['end_time']) {
             // $sql .= sprintf(" AND pt.submit_audit_time <= '%s'", $where['end_time']);
-        }
-
-        // 根据财务确认状态
-        if (isset($where['finance_status']) && $where['finance_status'] !== '') {
-            $sql .= sprintf(" AND ptp.finance_status = %d", $where['finance_status']);
         }
 
         // 根据任务结束时间搜索
@@ -104,6 +104,7 @@ class Platform_task_model extends MY_Model {
         $_list = $this->getList($_sql);
 
         $data = ['sql' => $_sql, 'total' => $total, 'list' => $this->__deal_list($_list)];
+
         return $data;
     }
 
