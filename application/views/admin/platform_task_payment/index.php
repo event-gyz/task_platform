@@ -87,7 +87,8 @@
                                     <div class="form-group col-xs-3">
                                         <label for="sex" class="col-sm-4 control-label"></label>
                                         <div class="col-sm-7">
-                                            <button type="submit" class="btn btn-info" style="margin-right: 10px;">搜索</button>
+                                            <button type="submit" class="btn btn-info" style="margin-right: 10px;">搜索
+                                            </button>
                                             <el-button button-id="export" @click.once="prepare_export_task_payment"
                                                        type="primary" size="small">导出
                                             </el-button>
@@ -275,7 +276,7 @@
 
                     <el-carousel :interval="4000" type="card" height="200px" arrow="never">
                         <el-carousel-item v-for="item in cur_pay_voucher" :key="item">
-                            <a :href="item" target="_blank"><img :src="item"></a>
+                            <a :href="item" target="_blank"><img :src="item" class="img-thumbnail" width="275px"></a>
                         </el-carousel-item>
                     </el-carousel>
 
