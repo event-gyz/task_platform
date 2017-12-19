@@ -39,6 +39,16 @@ class Platform_task_receivables_model extends MY_Model {
 
         // 拼接查询条件
 
+        // 根据财务确认状态
+        if (isset($where['finance_status']) && $where['finance_status'] !== '') {
+            $sql .= sprintf(" AND ptr.finance_status = %d", $where['finance_status']);
+        }
+
+        // 根据自媒体人确认收款状态
+        if (isset($where['receivables_status']) && $where['receivables_status'] !== '') {
+            $sql .= sprintf(" AND ptm.receivables_status = %d", $where['receivables_status']);
+        }
+
         // 根据用户名
         if (isset($where['media_man_login_name']) && $where['media_man_login_name']) {
             $sql .= sprintf(" AND pmm.media_man_login_name like '%s%%'", $where['media_man_login_name']);
@@ -52,16 +62,6 @@ class Platform_task_receivables_model extends MY_Model {
         // 根据支付宝账号
         if (isset($where['zfb_nu']) && $where['zfb_nu']) {
             $sql .= sprintf(" AND pmm.zfb_nu like '%s%%'", $where['zfb_nu']);
-        }
-
-        // 根据财务确认状态
-        if (isset($where['finance_status']) && $where['finance_status'] !== '') {
-            $sql .= sprintf(" AND ptr.finance_status = %d", $where['finance_status']);
-        }
-
-        // 根据自媒体人确认收款状态
-        if (isset($where['receivables_status']) && $where['receivables_status'] !== '') {
-            $sql .= sprintf(" AND ptm.receivables_status = %d", $where['receivables_status']);
         }
 
         // 总数
