@@ -258,6 +258,7 @@ class Index extends CI_Controller {
         $where['media_man_user_id'] = $userInfo['media_man_id'];
         $where['receive_status'] = 0;
         $info ['receive_status'] = 1;
+        $info ['receive_time'] = date('Y-m-d H:i:s');
         //todo 领取之前判断一下任务状态
         $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
         if(!empty($result)){
