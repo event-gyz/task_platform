@@ -77,8 +77,8 @@ var app = new Vue({
         },
         //时间
         timeFn: function(s,e){
-            var s = moment(Number(s)).format('MM-DD');
-            var e = moment(Number(e)).format('MM-DD');
+            var s = moment(Number(s)*1000).format('MM-DD');
+            var e = moment(Number(e)*1000).format('MM-DD');
             return s+' ~ '+e;
         },
         //领取
