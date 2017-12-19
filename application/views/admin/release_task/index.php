@@ -147,6 +147,8 @@
                                 <th>提交人</th>
                                 <th>期望帐号数量</th>
                                 <th>系统匹配数量</th>
+                                <th>广告主单价</th>
+                                <th>平台单价</th>
                                 <th>操作</th>
                             </tr>
 
@@ -188,6 +190,8 @@
                                     <th><?= $value['advertiser_user_name'] ?></th>
                                     <th><?= $value['media_man_number'] ?></th>
                                     <th><?= $value['actual_media_man_number'] ?></th>
+                                    <th><?= $value['price'] ?></th>
+                                    <th><?= $value['platform_price'] ?></th>
                                     <th>
                                         <?php
 
