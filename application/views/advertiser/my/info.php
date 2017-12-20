@@ -65,6 +65,14 @@
                 <!--待发布-end-->
                 <?php }?>
 
+                <?php if($release_status == 1 && (time()<$start_time)){?>
+                    <!--待开始-->
+                    <div class="min-title1">查看领取进度
+                        <div class="switch" id="exec_ing_button"><p class="left"><p></div>
+                    </div>
+                    <!--待开始-end-->
+                <?php }?>
+
                 <?php if($release_status == 1){?>
                 <!--执行中-->
                 <div class="min-title1">查看领取进度
@@ -108,9 +116,8 @@
                     <!--已结束-end-->
                 <?php }?>
 
-                <?php if(($audit_status ==3) && ($release_status==1)){?>
+                <?php if(($release_status==1)){?>
                 <!--执行中-->
-<!--                todo 上面直接显示一个查看领取人数  点击后加载出这一段提示-->
                 <?php if(($media_man_number > $total_person)){?>
                 <div class="statu_box" style="display:none;" id="exec_ing_con">
                     <p class="icon-box"><img src="/images/status/dts.png"></p>
@@ -120,9 +127,20 @@
                         <a href="/advertiser/index/taskView">立即新建</a><br>
                     </p>
                 </div>
-                <?php }?>
-                <div class="min-title1">任务基础信息<span class="warn">● 执行中</span></div>
-                <!--执行中-end-->
+                <?php }
+                    if((time()>$start_time) && (time()<$end_time)){
+                        ?>
+                        <div class="min-title1">任务基础信息<span class="warn">● 执行中</span></div>
+                        <!--执行中-end-->
+                        <?php
+                    }else if(time()<$start_time){
+                        ?>
+                        <div class="min-title1">任务基础信息<span class="warn">● 待开始</span></div>
+                    <?php
+                    }
+                    ?>
+
+
                 <?php }?>
 
                 <?php if($release_status == 2){?>

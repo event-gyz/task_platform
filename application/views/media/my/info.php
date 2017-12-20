@@ -28,12 +28,12 @@
                 <!--已拒绝-end-->
 
                 <?php }else if($release_status==1 && $receive_status==1 && (time()<$start_time)){?>
-                <!--未开始-->
+                <!--待开始-->
                 <div class="task_status task_status1">
-                    <p class="status">● 未开始</p>
+                    <p class="status">● 待开始</p>
                     <p class="time">领取时间：<?= $receive_time?></p>
                 </div>
-                <!--未开始-end-->
+                <!--待开始-end-->
 
                 <?php }else if($release_status==1 && $receive_status==1 && (time()>$start_time) && (time()<$end_time) && $deliver_status!=1){?>
                 <!--执行中-->

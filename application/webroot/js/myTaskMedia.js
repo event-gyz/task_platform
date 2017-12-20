@@ -91,7 +91,7 @@ var app = new Vue({
             }else if(obj.release_status==7){
                 return '已结束';
             }else if(obj.release_status==1 && obj.receive_status==1 && (time()<obj.start_time)){
-                return '未开始';
+                return '待开始';
             }else if(obj.release_status==1 && obj.receive_status==1 && (time()>obj.start_time)&&time()<obj.end_time&&obj.deliver_status!=1){
                 return '执行中';
             }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==0){
