@@ -66,19 +66,11 @@
                 <?php }?>
 
                 <?php if($release_status == 1 && (time()<$start_time)){?>
-                    <!--待开始-->
-                    <div class="min-title1">查看领取进度
-                        <div class="switch" id="exec_ing_button"><p class="left"><p></div>
-                    </div>
-                    <!--待开始-end-->
-                <?php }?>
-
-                <?php if($release_status == 1){?>
-                <!--执行中-->
+                <!--待开始-->
                 <div class="min-title1">查看领取进度
                     <div class="switch" id="exec_ing_button"><p class="left"><p></div>
                 </div>
-                <!--执行中-end-->
+                <!--待开始-end-->
                 <?php }?>
 
                 <?php if($release_status == 7){?>
