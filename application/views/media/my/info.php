@@ -175,7 +175,7 @@
                             <th align="left" class="border_bottom">任务时间</th>
                             <td class="border_bottom" align="right"><?= !empty($start_time)?date('Y.m.d', $start_time):'暂无' ?>－<?= !empty($end_time)?date('Y.m.d', $end_time):'暂无' ?></td>
                         </tr>
-                        <?php if($task_type!=2){?>
+                        <?php if($task_type==2){?>
                         <tr>
                             <th align="left" class="border_bottom">发布平台</th>
                             <td class="border_bottom" align="right"><?= $publishing_platform ?></td>
