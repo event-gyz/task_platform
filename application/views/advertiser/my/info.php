@@ -190,10 +190,6 @@
                 <div class="min-title1">任务发布信息</div>
                 <div class="input-box" style="margin-bottom:0px">
                     <table>
-                        <tr>
-                            <th align="left" class="border_bottom" width="90px;">任务单价</th>
-                            <td class="border_bottom warn" align="right">￥<?=$price?></td>
-                        </tr>
                         <?php if($media_man_require == 1){?>
                         <tr>
                             <th align="left" class="border_bottom" >账号要求</th>
@@ -235,6 +231,10 @@
                             <td class="border_bottom" align="right"><?= $publishing_platform ?></td>
                         </tr>
                         <? } ?>
+                        <tr>
+                            <th align="left" class="border_bottom" width="90px;">任务单价</th>
+                            <td class="border_bottom warn" align="right">￥<?=$price?></td>
+                        </tr>
                         <tr>
                             <th align="left" class="border_bottom">账号数量</th>
                             <td class="border_bottom" align="right"><?=$media_man_number?>个</td>
