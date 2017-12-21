@@ -118,8 +118,7 @@
 
                                     <div class="form-group col-xs-3">
                                         <label for="advertiser_id" class="col-sm-4 control-label">用户ID</label>
-                                        <div class="col-sm-7 input-group">
-                                            <span class="input-group-addon">KPS</span>
+                                        <div class="col-sm-7">
                                             <input type="text" class="form-control"
                                                    placeholder="输入用户ID来搜索..." name="advertiser_id"
                                                    value="<?= $form_data['advertiser_id'] ?>"

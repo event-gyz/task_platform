@@ -86,6 +86,12 @@ class Platform_advertiser extends ADMIN_Controller {
         }
 
         if (!empty($advertiser_id)) {
+
+            $advertiser_id = strtoupper($advertiser_id);
+            if (strpos($advertiser_id, 'KPS') !== false) {
+                $advertiser_id = substr_replace($advertiser_id, '', 0, 3);
+            }
+
             $where['advertiser_id'] = $advertiser_id;
         }
 
@@ -104,7 +110,7 @@ class Platform_advertiser extends ADMIN_Controller {
             'audit_status'     => $audit_status,
             'create_time'      => $create_time,
             'id_card'          => $id_card,
-            'advertiser_id'    => $advertiser_id,
+            'advertiser_id'    => empty($advertiser_id) ? '' : "KPS{$advertiser_id}",
             'status'           => $status,
             'where'            => $where,
         ];
@@ -139,6 +145,12 @@ class Platform_advertiser extends ADMIN_Controller {
         }
 
         if (!empty($advertiser_id)) {
+
+            $advertiser_id = strtoupper($advertiser_id);
+            if (strpos($advertiser_id, 'KPS') !== false) {
+                $advertiser_id = substr_replace($advertiser_id, '', 0, 3);
+            }
+
             $where['advertiser_id'] = $advertiser_id;
         }
 
@@ -160,7 +172,7 @@ class Platform_advertiser extends ADMIN_Controller {
             'content_name'  => $content_name,
             'audit_status'  => $audit_status,
             'create_time'   => $create_time,
-            'advertiser_id' => $advertiser_id,
+            'advertiser_id' => empty($advertiser_id) ? '' : "KPS{$advertiser_id}",
             'content_phone' => $content_phone,
             'status'        => $status,
             'where'         => $where,
