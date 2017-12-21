@@ -120,10 +120,14 @@ class Index extends CI_Controller {
                 echo json_encode($this->_return);
                 exit;
             }else{
-                $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '请修改信息后再提交';
+                $this->_return['errorno'] = '1';
+                $this->_return['msg'] = '保存成功';
                 echo json_encode($this->_return);
                 exit;
+//                $this->_return['errorno'] = '-1';
+//                $this->_return['msg'] = '请修改信息后再提交';
+//                echo json_encode($this->_return);
+//                exit;
             }
 
         }
