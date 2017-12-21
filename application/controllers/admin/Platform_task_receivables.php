@@ -116,14 +116,15 @@ class Platform_task_receivables extends ADMIN_Controller {
 
         $this->db->trans_begin();
 
-        $update_info['finance_status']    = 1;// 设定自媒体人结账记录为财务已确认付款
-        $update_info['confirming_person'] = $this->sys_user_info['id'];
-        $sys_log_content                  = sprintf(
+        $update_info['finance_status']     = 1;// 设定自媒体人结账记录为财务已确认付款
+        $update_info['platform_pay_money'] = $task_info['platform_price'];
+        $update_info['confirming_person']  = $this->sys_user_info['id'];
+        $sys_log_content                   = sprintf(
             $this->lang->line('finance_confirm_pay_money4_sys'),
             "{$this->sys_user_info['user_name']}",
             $task_map_info['media_man_user_name']
         );
-        $message_content                  = sprintf($this->lang->line('finance_confirm_pay_money4_user'), $task_info['task_name']);
+        $message_content                   = sprintf($this->lang->line('finance_confirm_pay_money4_user'), $task_info['task_name']);
 
         $result = $this->__get_platform_task_receivables_model()->updateInfo($receivables_id, $update_info);
 
