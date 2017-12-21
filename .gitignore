@@ -38,5 +38,5 @@ application/webroot/excel
 application/webroot/upload
 application/webroot/uploads
 application/webroot/*.log
-application/controllers/access_token.js
-application/controllers/jsapi_ticket.js
+application/webroot/access_token.js
+application/webroot/jsapi_ticket.js
