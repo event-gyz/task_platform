@@ -18,10 +18,7 @@
                 <h2>抱歉，您的账号已被冻结，请联系管理员解决，电话：*****。</h2>
                 <p class="text">冻结原因：<?=!empty($userSession)?$userSession['freezing_reason']:''?></p>
                 <p class="bg_line"></p>
-                <p class="button2">
-                    <a style="border-right: 1px solid #E5E5E5;" href="/media/index/saveBaseInfo">立即修改</a>
-                    <a href="/media/index/home">返回首页</a>
-                </p>
+                <p class="button1"><a href="/media/index/home">返回首页</a></p>
             </div>
             <!--已被冻结-end-->
         </div>

@@ -27,25 +27,24 @@ class Index extends CI_Controller {
         if(empty($user_info['media_man_id'])){
             redirect(wap::get_server_address_and_port().'/media/login/login');
         }
-        if(($user_info['audit_status'] != 1) || ($user_info['status'] != 2)){
-            $userInfo = $this->__get_media_man_model()->selectById($user_info['media_man_id']);
-            $this->session->set_userdata($this->_user_info,$userInfo);
-            if($userInfo['status']==0){
-                //跳到完善基础信息页面
-                redirect(wap::get_server_address_and_port().'/media/login/accountStatus2');
-            }else if($userInfo['audit_status']==0){
-                //跳到待审核页面
-                redirect(wap::get_server_address_and_port().'/media/login/accountStatus3');
-            }else if($userInfo['audit_status']==2){
-                //跳到驳回页面
-                redirect(wap::get_server_address_and_port().'/media/login/accountStatus4');
-            }else if($userInfo['status']==9){
-                //跳到冻结页面
-                redirect(wap::get_server_address_and_port().'/media/login/accountStatus5');
-            }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
-                return true;
-            }
+        $userInfo = $this->__get_media_man_model()->selectById($user_info['media_man_id']);
+        $this->session->set_userdata($this->_user_info,$userInfo);
+        if($userInfo['status']==0){
+            //跳到完善基础信息页面
+            redirect(wap::get_server_address_and_port().'/media/login/accountStatus2');
+        }else if($userInfo['audit_status']==0){
+            //跳到待审核页面
+            redirect(wap::get_server_address_and_port().'/media/login/accountStatus3');
+        }else if($userInfo['audit_status']==2){
+            //跳到驳回页面
+            redirect(wap::get_server_address_and_port().'/media/login/accountStatus4');
+        }else if($userInfo['status']==9){
+            //跳到冻结页面
+            redirect(wap::get_server_address_and_port().'/media/login/accountStatus5');
+        }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
+            return true;
         }
+        return false;
     }
 
 
@@ -120,10 +119,14 @@ class Index extends CI_Controller {
                 echo json_encode($this->_return);
                 exit;
             }else{
-                $this->_return['errorno'] = '-1';
-                $this->_return['msg'] = '请修改信息后再提交';
+                $this->_return['errorno'] = '1';
+                $this->_return['msg'] = '保存成功';
                 echo json_encode($this->_return);
                 exit;
+//                $this->_return['errorno'] = '-1';
+//                $this->_return['msg'] = '请修改信息后再提交';
+//                echo json_encode($this->_return);
+//                exit;
             }
 
         }
@@ -345,7 +348,7 @@ class Index extends CI_Controller {
         $taskResult = $this->__get_user_message_model()->get_user_message_list_by_condition($taskWhere);
 
         $userWhere['user_id'] = $user_info['media_man_id'];
-        $userWhere['user_type'] = 1;
+        $userWhere['user_type'] = 2;
         $taskWhere['message_type'] = 1;
         $userWhere['message_status'] = '0';
         $userResult = $this->__get_user_message_model()->get_user_message_list_by_condition($userWhere);

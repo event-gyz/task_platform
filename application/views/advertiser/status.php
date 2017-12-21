@@ -14,7 +14,7 @@
                 <div class="statu_box">
                     <p class="icon-box"><img src="/images/status/dd.png"></p>
                     <h2>审核中</h2>
-                    <p class="text">您的账号还在审核中，我们将在<span class="warn">***</span>个工作日内完成审核，请请耐心等待。</p>
+                    <p class="text">您的账号还在审核中，我们将在<span class="warn">3</span>个工作日内完成审核，请请耐心等待。</p>
                     <p class="bg_line"></p>
                     <p class="button1"><a href="#">返回首页</a></p>
                 </div>
@@ -75,7 +75,7 @@
                 <div class="statu_box">
                     <p class="icon-box"><img src="/images/status/cg.png"></p>
                     <h2>注册成功</h2>
-                    <p class="text">恭喜您，注册成功，我们将在<span class="warn">***</span>个工作日内完成审核，请请耐心等待。</p>
+                    <p class="text">恭喜您，注册成功，我们将在<span class="warn">3</span>个工作日内完成审核，请请耐心等待。</p>
                     <p class="bg_line"></p>
                     <p class="button1"><a href="#">返回首页</a></p>
                 </div>
@@ -109,7 +109,7 @@
                 <div class="statu_box">
                     <p class="icon-box"><img src="/images/status/cg.png"></p>
                     <h2>任务发布成功</h2>
-                    <p class="text">任务发布成功，我们将在<span class="warn">***</span>个工作日内完成审核，请随时关注审核结果，请在审核后及时付款。</p>
+                    <p class="text">任务发布成功，我们将在<span class="warn">3</span>个工作日内完成审核，请随时关注审核结果，请在审核后及时付款。</p>
                     <p class="bg_line"></p>
                     <p class="button3">
                         <a style="border-right: 1px solid #E5E5E5;" href="#">查看任务</a>

@@ -28,12 +28,12 @@
                 <!--已拒绝-end-->
 
                 <?php }else if($release_status==1 && $receive_status==1 && (time()<$start_time)){?>
-                <!--未开始-->
+                <!--待开始-->
                 <div class="task_status task_status1">
-                    <p class="status">● 未开始</p>
+                    <p class="status">● 待开始</p>
                     <p class="time">领取时间：<?= $receive_time?></p>
                 </div>
-                <!--未开始-end-->
+                <!--待开始-end-->
 
                 <?php }else if($release_status==1 && $receive_status==1 && (time()>$start_time) && (time()<$end_time) && $deliver_status!=1){?>
                 <!--执行中-->
@@ -175,10 +175,12 @@
                             <th align="left" class="border_bottom">任务时间</th>
                             <td class="border_bottom" align="right"><?= !empty($start_time)?date('Y.m.d', $start_time):'暂无' ?>－<?= !empty($end_time)?date('Y.m.d', $end_time):'暂无' ?></td>
                         </tr>
+                        <?php if($task_type==2){?>
                         <tr>
                             <th align="left" class="border_bottom">发布平台</th>
                             <td class="border_bottom" align="right"><?= $publishing_platform ?></td>
                         </tr>
+                        <?php }?>
                         <tr>
                             <th align="left">完成标准</th>
                             <td align="right"><?=$completion_criteria?></td>

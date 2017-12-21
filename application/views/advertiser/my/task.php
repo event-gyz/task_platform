@@ -26,7 +26,7 @@
                             <li>任务单价：<span>¥{{item.price}}</span></li>
                             <li>任务总价：<span class="warn">¥{{item.total_price}}</span></li>
                             <li>任务时间：<span>{{timeFn(item.start_time,item.end_time)}}</span></li>
-                            <li>发布平台：<span>{{platformFn(item.publishing_platform)}}</span></li>
+                            <li v-if="item.task_type==2">发布平台：<span>{{platformFn(item.publishing_platform)}}</span></li>
                         </ul>
                     </div>
                     </a>

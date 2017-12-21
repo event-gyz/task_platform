@@ -77,8 +77,8 @@ var app = new Vue({
         },
         //时间
         timeFn: function(s,e){
-            var s = moment(Number(s)).format('MM-DD');
-            var e = moment(Number(e)).format('MM-DD');
+            var s = moment(Number(s)*1000).format('MM-DD');
+            var e = moment(Number(e)*1000).format('MM-DD');
             return s+' ~ '+e;
         },
         //当前状态
@@ -91,7 +91,7 @@ var app = new Vue({
             }else if(obj.release_status==7){
                 return '已结束';
             }else if(obj.release_status==1 && obj.receive_status==1 && (time()<obj.start_time)){
-                return '未开始';
+                return '待开始';
             }else if(obj.release_status==1 && obj.receive_status==1 && (time()>obj.start_time)&&time()<obj.end_time&&obj.deliver_status!=1){
                 return '执行中';
             }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==0){
