@@ -19,13 +19,13 @@
     <section class="content container-fluid">
 
         <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">
-                    <a data-toggle="collapse" href="#collapseDiv" aria-expanded="false">
+            <a data-toggle="collapse" href="#collapseDiv" aria-expanded="false">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
                         广告主基本信息
-                    </a>
-                </h3>
-            </div>
+                    </h3>
+                </div>
+            </a>
 
             <?php if (($advertiser_info['advertiser_type'] === "1")): ?>
                 <!--个人广告主基本信息-->
