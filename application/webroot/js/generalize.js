@@ -84,7 +84,15 @@ var app = new Vue({
     methods:{
         initAjax: function(){
             var _this = this;
-            var task_id = window.location.search.substr(1).split('=')[1];
+            var task_id = 0;
+            var params = window.location.search.substr(1).split('&');
+            params.forEach(function(item){
+                var name = item.split('=')[0];
+                var val = item.split('=')[1];
+                if(name == 'task_id'){
+                    task_id = val;
+                }
+            });
             if(task_id){
                 $.ajax({
                     url: "/advertiser/index/taskInfoApi",
@@ -120,11 +128,11 @@ var app = new Vue({
                             _this.platform= data.publishing_platform.split(',');//发布平台
                             _this.number= data.media_man_number;//账号数量
                             _this.endStandard= data.completion_criteria.split(',');//完成标准
-                            _this.sex= data.require_sex && data.require_sex;//性别(0=不限，1=男，2=女)（账号要求）
-                            _this.age= data.require_age && data.require_age.split(',');//年龄（账号要求）
-                            _this.liking= data.require_hobby && data.require_hobby.split(',');//兴趣爱好（账号要求）
-                            _this.industry= data.require_industry && data.require_industry.split(',');//行业（账号要求）
-                            _this.city= data.require_local.split(',');//地域
+                            _this.sex= data.require_sex?data.require_sex:0;//性别(0=不限，1=男，2=女)（账号要求）
+                            _this.age= data.require_age?data.require_age.split(','):[];//年龄（账号要求）
+                            _this.liking= data.require_hobby?data.require_hobby.split(','):[];//兴趣爱好（账号要求）
+                            _this.industry= data.require_industry?data.require_industry.split(','):[];//行业（账号要求）
+                            _this.city= data.require_local?data.require_local.split(','):[];//地域
                             _this.task_id = task_id;//id
                         }else{
                             util.tips(res.msg)

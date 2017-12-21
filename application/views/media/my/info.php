@@ -14,6 +14,25 @@
             <div class="index_advert">
                 <?php if($release_status==9 || $release_status==8 || $release_status==7){?>
                 <!--已关闭-->
+                    <?php if($release_status==9 || $release_status==8){?>
+                        <div class="statu_box">
+                            <p class="icon-box"><img src="/images/status/sb.png"></p>
+                            <h2>任务已关闭</h2>
+                            <p class="text">抱歉，此条任务已被关闭。</p>
+                            <div class="info">
+                                <ul>
+                                    <li class="tit">关闭时间：</li>
+                                    <li class="list">
+                                        <?=$close_time;?>
+                                    </li>
+                                    <li class="tit">关闭原因：</li>
+                                    <li class="list">
+                                        <?= ($release_status==8)?$cancellation_reason:$close_reason;?>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php } ?>
                 <div class="task_status task_status3">
                     <p class="status">● 已关闭</p>
                 </div>
