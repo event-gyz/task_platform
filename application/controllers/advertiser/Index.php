@@ -282,6 +282,10 @@ class Index extends CI_Controller {
         if($audit_status==1){
             $data['submit_audit_time'] = date('Y-m-d H:i:s',time());
         }
+
+        // 系统计算能匹配到的自媒体人数量
+        $data['actual_media_man_number'] = $this->__sys_calc_media_man_number($data);
+
         //新增
         if(empty($task_id)){
             $userInfo = $this->__get_user_session();
@@ -307,6 +311,52 @@ class Index extends CI_Controller {
             echo json_encode($this->_return);exit;
         }
 
+    }
+
+    // 根据当前任务的条件计算系统能匹配到的自媒体人数量
+    private function __sys_calc_media_man_number($task_info) {
+
+        // media_man_require 自媒体人帐号要求 1有 2无
+        if ($task_info['media_man_require'] === '2') {
+            // 发送给全量的自媒体帐号
+            $data0 = $this->__get_media_man_model()->get_media_man_list_by_task_require([]);
+            return $data0['total'];
+        }
+
+        // 根据自媒体人帐号要求计算符合条件的自媒体人帐号
+
+        // 根据发布任务时的账号要求捞取符合条件的自媒体人账号，只要满足账号要求中的一条即视为符合条件的账号。
+
+        $where = [];
+
+        // require_sex 性别要求
+        if (!empty($task_info['require_sex'])) {
+            $where['require_sex'] = $task_info['require_sex'];
+        }
+
+        // require_age 自媒体人年龄要求
+        if (!empty($task_info['require_age'])) {
+            $where['require_age'] = $task_info['require_age'];
+        }
+
+        // require_local 自媒体人地域要求
+        if (!empty($task_info['require_local'])) {
+            $where['require_local'] = $task_info['require_local'];
+        }
+
+        // require_industry 行业要求
+        if (!empty($task_info['require_industry'])) {
+            $where['require_industry'] = $task_info['require_industry'];
+        }
+
+        // require_hobby 自媒体人爱好要求
+        if (!empty($task_info['require_hobby'])) {
+            $where['require_hobby'] = $task_info['require_hobby'];
+        }
+
+        $data = $this->__get_media_man_model()->get_media_man_list_by_task_require($where);
+
+        return $data['total'];
     }
 
     public function data_person(){
