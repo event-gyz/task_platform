@@ -14,7 +14,7 @@
             <div class="index_advert">
                 <?php if($release_status==9 || $release_status==8 || $release_status==7){?>
                 <!--已关闭-->
-                    <?php if($release_status==9 || $release_status==8)?>
+                    <?php if($release_status==9 || $release_status==8){?>
                         <div class="statu_box">
                             <p class="icon-box"><img src="/images/status/sb.png"></p>
                             <h2>任务已关闭</h2>
