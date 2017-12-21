@@ -685,18 +685,39 @@
             return rows.length !== 0;
         },
         update_deliver_audit_status         : async function (index, rows, deliver_audit_status) {
-            try {
 
-                let info = rows[index];
+            let info = rows[index];
+
+            if (deliver_audit_status === '2') {
+
+                await this.$prompt('请输入驳回的原因', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText : '取消',
+                    inputValidator   : (value) => { return value !== null; },
+                    inputErrorMessage: '驳回原因不能为空'
+                }).then(({value}) => {
+                    this.do_update_deliver_audit_status(info.task_id, info.task_map_id, deliver_audit_status, value);
+                }).catch(() => {
+                });
+
+            } else {
+                this.do_update_deliver_audit_status(info.task_id, info.task_map_id, deliver_audit_status, '');
+            }
+
+
+        },
+        do_update_deliver_audit_status      : async function (task_id, task_map_id, deliver_audit_status, reasons_for_rejection) {
+            try {
 
                 this.loading   = true;
                 const url      = '/admin/release_task/update_deliver_audit_status';
                 const response = await axios.post(
                     url,
                     {
-                        "id"                  : info.task_id,
-                        "task_map_id"         : info.task_map_id,
-                        "deliver_audit_status": deliver_audit_status,
+                        "id"                   : task_id,
+                        "task_map_id"          : task_map_id,
+                        "deliver_audit_status" : deliver_audit_status,
+                        "reasons_for_rejection": reasons_for_rejection,
                     },
                 );
                 this.loading   = false;

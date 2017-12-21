@@ -16,7 +16,7 @@
                 <li class="task_box" v-for="(item,index) in lists">
                     <a class="a_box" :href="'/advertiser/index/taskInfo?task_id='+item.task_id">
                     <div class="top wait" :class="task_status_class(item)">
-                        <p class="name">{{item.task_name}}</p>
+                        <p class="name over_repeat" style="width:150px;">{{item.task_name}}</p>
                         <p class="status">● {{task_status(item)}}</p>
                     </div>
                     <div class="context">

@@ -464,9 +464,10 @@ class Release_task extends ADMIN_Controller {
         $req_json = file_get_contents("php://input");
         $req_data = json_decode($req_json, true);
 
-        $id                   = $req_data['id'];
-        $deliver_audit_status = $req_data['deliver_audit_status'];
-        $task_map_id          = $req_data['task_map_id'];
+        $id                    = $req_data['id'];
+        $deliver_audit_status  = $req_data['deliver_audit_status'];
+        $task_map_id           = $req_data['task_map_id'];
+        $reasons_for_rejection = $req_data['reasons_for_rejection'];
 
         if (empty($id)) {
             return $this->response_json(1, 'id不能为空');
@@ -497,8 +498,9 @@ class Release_task extends ADMIN_Controller {
         $message_content                     = sprintf($this->lang->line('media_submit_task_audit_pass4_user'), $info['task_name']);
 
         if ($deliver_audit_status === "2") {
-            $sys_log_content = sprintf($this->lang->line('media_submit_task_audit_reject4_sys'), "{$task_map_info['media_man_user_name']}-{$task_map_info['media_man_user_id']}");
-            $message_content = sprintf($this->lang->line('media_submit_task_audit_reject4_user'), $info['task_name']);
+            $update_info['reasons_for_rejection'] = $reasons_for_rejection;
+            $sys_log_content                      = sprintf($this->lang->line('media_submit_task_audit_reject4_sys'), "{$task_map_info['media_man_user_name']}-{$task_map_info['media_man_user_id']}");
+            $message_content                      = sprintf($this->lang->line('media_submit_task_audit_reject4_user'), $info['task_name'], $reasons_for_rejection);
         }
 
         $this->db->trans_begin();

@@ -18,13 +18,12 @@
                 <li class="task_box" v-for="item in lists">
                     <a class="a_box" :href="'/media/index/getMissionHallTaskDetail?task_id='+item.task_id">
                         <div class="top wait">
-                            <p class="name">待领取</p>
+                            <p class="name over_repeat" style="width:150px;">{{item.task_name}}</p>
                             <p class="time" v-html="item.allot_time"></p>
                         </div>
                         <div class="context">
                             <ul>
                                 <li>任务编号：<span>RW{{item.task_id}}</span></li>
-                                <li>任务编号：<span>RW{{item.task_name}}</span></li>
                                 <li>任务类型：<span>{{typeFn(item.task_type)}}</span></li>
                                 <li>任务价格：<span class="warn">¥{{item.platform_price}}</span></li>
                                 <li v-if="item.task_type==2">发布平台：<span>{{platformFn(item.publishing_platform)}}</span></li>
