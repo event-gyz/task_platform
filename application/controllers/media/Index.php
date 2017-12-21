@@ -349,7 +349,7 @@ class Index extends CI_Controller {
         $taskResult = $this->__get_user_message_model()->get_user_message_list_by_condition($taskWhere);
 
         $userWhere['user_id'] = $user_info['media_man_id'];
-        $userWhere['user_type'] = 1;
+        $userWhere['user_type'] = 2;
         $taskWhere['message_type'] = 1;
         $userWhere['message_status'] = '0';
         $userResult = $this->__get_user_message_model()->get_user_message_list_by_condition($userWhere);
