@@ -28,8 +28,8 @@ var app = new Vue({
                 success: function(res) {
                     if(res.errorno >= 0){
                         _this.url = res.data.deliver_link;
-                        _this.imgs = res.data.deliver_images && JSON.parse(res.data.deliver_images);
-                        _this.type = res.data.completion_criteria && res.data.completion_criteria.split(',');
+                        _this.imgs = res.data.deliver_images?JSON.parse(res.data.deliver_images):[];
+                        _this.type = res.data.completion_criteria?res.data.completion_criteria.split(','):[1,2];
                     }else{
                         util.tips(res.msg);
                     }
