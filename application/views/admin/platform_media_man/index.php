@@ -33,27 +33,27 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="media_man_name" class="col-sm-4 control-label">姓名</label>
+                                        <label for="media_man_name" class="col-sm-5 control-label">姓名</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
-                                                   placeholder="输入姓名来搜索..." name="media_man_name"
+                                                   placeholder="输入姓名" name="media_man_name"
                                                    value="<?= $form_data['media_man_name'] ?>"
                                             >
                                         </div>
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="school_name" class="col-sm-4 control-label">学校名称</label>
+                                        <label for="school_name" class="col-sm-5 control-label">学校名称</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
-                                                   placeholder="输入学校名称来搜索..." name="school_name"
+                                                   placeholder="输入学校名称" name="school_name"
                                                    value="<?= $form_data['school_name'] ?>"
                                             >
                                         </div>
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="audit_status" class="col-sm-4 control-label">审核状态</label>
+                                        <label for="audit_status" class="col-sm-5 control-label">审核状态</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="audit_status">
                                                 <option value="">全部</option>
@@ -71,7 +71,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label class="col-sm-4 control-label">注册时间</label>
+                                        <label class="col-sm-5 control-label">注册时间</label>
                                         <div class="col-sm-7 input-group">
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
@@ -89,7 +89,7 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="sex" class="col-sm-4 control-label">性别</label>
+                                        <label for="sex" class="col-sm-5 control-label">性别</label>
                                         <div class="col-sm-7">
 
                                             <select class="form-control" name="sex">
@@ -110,17 +110,17 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="media_man_phone" class="col-sm-4 control-label">电话</label>
+                                        <label for="media_man_phone" class="col-sm-5 control-label">电话</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
-                                                   placeholder="输入电话来搜索..." name="media_man_phone"
+                                                   placeholder="输入电话" name="media_man_phone"
                                                    value="<?= $form_data['media_man_phone'] ?>"
                                             >
                                         </div>
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="status" class="col-sm-4 control-label">账号状态</label>
+                                        <label for="status" class="col-sm-5 control-label">账号状态</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="status">
                                                 <option value="">全部</option>
@@ -138,10 +138,10 @@
                                     </div>
 
                                     <div class="form-group col-xs-3" style="display: none;">
-                                        <label for="tag" class="col-sm-4 control-label">标签</label>
+                                        <label for="tag" class="col-sm-5 control-label">标签</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
-                                                   placeholder="输入标签来搜索..." name="tag"
+                                                   placeholder="输入标签" name="tag"
                                                    value="<?= $form_data['tag'] ?>"
                                             >
                                         </div>
@@ -152,7 +152,7 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="sex" class="col-sm-4 control-label"></label>
+                                        <label class="col-sm-5 control-label"></label>
                                         <div class="col-sm-7">
                                             <button type="submit" class="btn btn-info">搜索</button>
                                         </div>
