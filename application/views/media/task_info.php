@@ -88,37 +88,6 @@
                             <td class="border_bottom warn" align="right">￥<?=$platform_price?></td>
                         </tr>
                         <tr>
-                            <th align="left" class="border_bottom" >账号要求</th>
-                            <td class="border_bottom" align="right">自定义要求</td>
-                        </tr>
-                        <?php if($media_man_require == 1){?>
-                        <tr>
-                            <th class="border_bottom" width="45px;" align="left">性别</th>
-                            <td class="border_bottom" align="right"><?= $this->config->item('require_sex')[$require_sex] ?></td>
-                        </tr>
-                        <tr>
-                            <th class="border_bottom" align="left">年龄</th>
-                            <td class="border_bottom" align="right"><?=$require_age?></td>
-                        </tr>
-                        <tr>
-                            <th class="border_bottom" align="left">兴趣爱好</th>
-                            <td class="border_bottom" align="right"><?=$require_hobby?></td>
-                        </tr>
-                        <tr>
-                            <th class="border_bottom" align="left">行业</th>
-                            <td class="border_bottom" align="right"><?=$require_industry?></td>
-                        </tr>
-                        <tr>
-                            <th align="left" class="border_bottom">地域</th>
-                            <td class="border_bottom" align="right"><?=$require_local?></td>
-                        </tr>
-                        <? }else{ ?>
-                            <tr>
-                                <th align="left" class="border_bottom" >账号要求</th>
-                                <td class="border_bottom" align="right">无要求</td>
-                            </tr>
-                        <? } ?>
-                        <tr>
                             <th align="left" class="border_bottom">任务时间</th>
                             <td class="border_bottom" align="right"><?= !empty($start_time)?date('Y.m.d', $start_time):'暂无' ?>－<?= !empty($end_time)?date('Y.m.d', $end_time):'暂无' ?></td>
                         </tr>
@@ -128,9 +97,6 @@
                             <td class="border_bottom" align="right"><?= $publishing_platform ?></td>
                         </tr>
                         <?php }?>
-                        <tr>
-                            <th align="left" class="border_bottom">账号数量</th>
-                            <td class="border_bottom" align="right"><?=$media_man_number?>个</td>
                         </tr>
                         <tr>
                             <th align="left">完成标准</th>
