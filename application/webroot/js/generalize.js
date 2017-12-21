@@ -114,7 +114,7 @@ var app = new Vue({
                                     task_type = '其他';
                                 }
                             });
-                            _this.audit_status = data.audit_status;
+                            _this.audit_status = data.audit_status==2?1:data.audit_status;
                             _this.taskName= data.task_name;//任务名称
                             _this.taskType= task_type;//任务类型
                             _this.taskTitle= data.title;//任务标题
