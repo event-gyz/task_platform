@@ -151,10 +151,16 @@ class Login extends CI_Controller {
                 $this->_return['msg'] = '手机号格式有误';
                 echo json_encode($this->_return);exit;
             }
-            $res = $this->__get_advertiser_model()->selectByPhone($_POST['phone']);
-            if(!empty($res)){
+            $resA = $this->__get_advertiser_model()->selectByPhone($_POST['phone']);
+            if(!empty($resA)){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '手机号已经注册过，请直接登录';
+                echo json_encode($this->_return);exit;
+            }
+            $resM = $this->__get_media_man_model()->selectByPhone($_POST['phone']);
+            if(!empty($resM)){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '手机号已经注册过自媒体人，不可以注册为广告主哟';
                 echo json_encode($this->_return);exit;
             }
             if(!isset($_POST ['verification']) || empty($_POST ['verification'])){
@@ -255,7 +261,13 @@ class Login extends CI_Controller {
             $this->_return['msg'] = '手机号不能为空';
             echo json_encode($this->_return);exit;
         }
-
+        //检查是否注册过自媒体人
+        $resM = $this->__get_media_man_model()->selectByPhone($_POST['phone']);
+        if(!empty($resM)){
+            $this->_return['errorno'] = '-1';
+            $this->_return['msg'] = '手机号已经注册过自媒体人，不可以注册为广告主哟';
+            echo json_encode($this->_return);exit;
+        }
         $res = $this->__get_advertiser_model()->selectByPhone($_POST['phone']);
         if (isset($_POST['type']) && ($_POST['type']=='pwd')) {
             $userSessionInfo = $_SESSION[$this->_user_info];
@@ -457,7 +469,13 @@ class Login extends CI_Controller {
         $this->load->model('Platform_advertiser_model');
         return $this->Platform_advertiser_model;
     }
-
+    /**
+     * @return Platform_media_man_model
+     */
+    private function __get_media_man_model() {
+        $this->load->model('Platform_media_man_model');
+        return $this->Platform_media_man_model;
+    }
 
     private function __saveLog($advertiser_id,$advertiser_name,$operate_data_id,$user_log_type,$user_log_content,$old_data,$new_data){
         $data = [
