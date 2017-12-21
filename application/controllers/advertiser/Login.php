@@ -151,7 +151,12 @@ class Login extends CI_Controller {
                 $this->_return['msg'] = '手机号格式有误';
                 echo json_encode($this->_return);exit;
             }
-
+            $res = $this->__get_advertiser_model()->selectByPhone($_POST['phone']);
+            if(!empty($res)){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '手机号已经注册过，请直接登录';
+                echo json_encode($this->_return);exit;
+            }
             if(!isset($_POST ['verification']) || empty($_POST ['verification'])){
                 $this->_return['errorno'] = '-1';
                 $this->_return['msg'] = '验证码不能为空';
