@@ -36,5 +36,7 @@ desktop.ini
 application/webroot/zip
 application/webroot/excel
 application/webroot/upload
+application/webroot/uploads
+application/webroot/*.log
 application/controllers/access_token.js
 application/controllers/jsapi_ticket.js

@@ -89,7 +89,7 @@ class Platform_task_payment extends ADMIN_Controller {
             return $this->response_json(1, '缺少必要参数,请刷新页面再试', ['file_path' => '']);
         }
 
-        $sub_upload_path = "/upload/pay_voucher/{$task_id}";
+        $sub_upload_path = "/uploads/pay_voucher/{$task_id}";
         $upload_path     = FCPATH . $sub_upload_path;
         if (!file_exists($upload_path)) {
             wap::create_folders($upload_path);
