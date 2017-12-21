@@ -30,7 +30,7 @@ class Index extends CI_Controller {
         if(!$user_info['advertiser_id']){
             redirect(wap::get_server_address_and_port().'/advertiser/login/login');
         }
-        if(($user_info['audit_status'] != 1) || ($user_info['status'] != 2)){
+//        if(($user_info['audit_status'] != 1) || ($user_info['status'] != 2)){
             $userInfo = $this->__get_advertiser_model()->selectById($user_info['advertiser_id']);
             $this->session->set_userdata($this->_user_info,$userInfo);
             if($userInfo['status']==0){
@@ -48,7 +48,7 @@ class Index extends CI_Controller {
             }else if($userInfo['audit_status']==1 && $userInfo['status']==2){
                 return true;
             }
-        }
+//        }
         return false;
     }
 
