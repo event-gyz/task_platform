@@ -13,7 +13,7 @@
             <table>
                 <tr>
                     <th align="left" class="border_bottom" width="60px;">用户名</th>
-                    <td class="border_bottom" colspan="2"><input type="text" v-model="userName" placeholder="6-20个字符，支持中文、英文大小写、数字"></td>
+                    <td class="border_bottom" colspan="2"><input type="text" v-model="userName" placeholder="6-20个字符，支持数字、中\英文大小写"></td>
                 </tr>
                 <tr>
                     <th align="left" class="border_bottom" >密码</th>
