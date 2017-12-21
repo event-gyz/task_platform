@@ -582,3 +582,8 @@ table textarea {
     -moz-appearance: none;
     -webkit-appearance: none;
 }
+.over_repeat {
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}

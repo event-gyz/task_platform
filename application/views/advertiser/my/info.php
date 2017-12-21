@@ -280,7 +280,7 @@
                 </table>
                 <!--待付款-end-->
                 <? } ?>
-                <?php if(($audit_status == 3) && ($release_status == 0) && ($pay_status == 1)  && (time()+43200)>$start_time){?>
+                <?php if(($audit_status == 3) && ($release_status == 0) && ($pay_status == 1)  && (time()+43200)<$start_time){?>
                 <!--待财务确认收款/待发布-->
                 <table class="info_table">
                     <tr>
