@@ -15,7 +15,7 @@
                 <div class="statu_box">
                     <p class="icon-box"><img src="/images/status/cg.png"></p>
                     <h2>注册成功</h2>
-                    <p class="text">恭喜您，注册成功，我们将在<span class="warn">***</span>个工作日内完成审核，请请耐心等待。</p>
+                    <p class="text">恭喜您，注册成功，我们将在<span class="warn">3</span>个工作日内完成审核，请请耐心等待。</p>
                     <p class="bg_line"></p>
                     <p class="button1"><a href="/media/index/home">返回首页</a></p>
                 </div>
