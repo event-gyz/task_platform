@@ -134,6 +134,7 @@ var app = new Vue({
                             _this.industry= data.require_industry?data.require_industry.split(','):[];//行业（账号要求）
                             _this.city= data.require_local?data.require_local.split(','):[];//地域
                             _this.task_id = task_id;//id
+                            _this.total = data.total_price;//total
                         }else{
                             util.tips(res.msg)
 
