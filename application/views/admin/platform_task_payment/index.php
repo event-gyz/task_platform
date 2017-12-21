@@ -233,13 +233,11 @@
                                 :data="upload_params"
                                 :action="uploadUrl"
                                 :multiple="true"
-                                :auto-upload="false"
                                 :on-change="handleChange"
                                 :on-remove="handleRemove"
                                 :before-upload="handleUpload"
                         >
                             <el-button slot="trigger" size="mini" type="primary">选取文件</el-button>
-                            <el-button size="mini" type="success" @click="submitUpload">上传到服务器</el-button>
                             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2M</div>
                         </el-upload>
 
