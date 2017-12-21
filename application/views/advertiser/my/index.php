@@ -44,7 +44,7 @@
                 <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
             </tr>
             <tr onclick="window.location.href='/advertiser/index/taskList'">
-                <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/rw.png"></th>
+                <th align="center">&nbsp;&nbsp;&nbsp;<img class="icon" src="/images/rw1.png"></th>
                 <td class="border_bottom">我的任务</td>
                 <td align="right" class="border_bottom" width="30px;"><i class="iconfont">&#xe610;</i></td>
             </tr>

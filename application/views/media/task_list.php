@@ -24,6 +24,7 @@
                         <div class="context">
                             <ul>
                                 <li>任务编号：<span>RW{{item.task_id}}</span></li>
+                                <li>任务编号：<span>RW{{item.task_name}}</span></li>
                                 <li>任务类型：<span>{{typeFn(item.task_type)}}</span></li>
                                 <li>任务价格：<span class="warn">¥{{item.platform_price}}</span></li>
                                 <li v-if="item.task_type==2">发布平台：<span>{{platformFn(item.publishing_platform)}}</span></li>

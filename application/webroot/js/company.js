@@ -147,9 +147,6 @@ var app = new Vue({
             }else if(!util.regexp.mobile.test(this.phone)){
                 util.tips('手机号格式错误！');
                 return;
-            }else if(this.phone == this.noPhone){
-                util.tips('联系人手机号不能和您的手机号一致！');
-                return;
             }
             if(!this.companyImg){
                 util.tips('请上传营业执照！');

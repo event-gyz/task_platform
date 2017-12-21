@@ -126,22 +126,22 @@ $signPackage = $jssdk->GetSignPackage();
                                             <span @click="setIndustry('4')" :class="{cur:industry.indexOf('4')!=-1}">金融/财经</span>
                                             <span @click="setIndustry('5')" :class="{cur:industry.indexOf('5')!=-1}">电商/微商</span>
                                             <span @click="setIndustry('6')" :class="{cur:industry.indexOf('6')!=-1}">文娱</span>
-                                            <span @click="setIndustry('7')" :class="{cur:industry.indexOf('7')!=-1}">母婴</span>
-                                            <span @click="setIndustry('8')" :class="{cur:industry.indexOf('8')!=-1}">体育</span>
-                                            <span @click="setIndustry('9')" :class="{cur:industry.indexOf('9')!=-1}">旅游/酒店</span>
-                                            <span @click="setIndustry('10')" :class="{cur:industry.indexOf('10')!=-1}">餐饮/服务</span>
-                                            <span @click="setIndustry('11')" :class="{cur:industry.indexOf('11')!=-1}">汽车</span>
-                                            <span @click="setIndustry('12')" :class="{cur:industry.indexOf('12')!=-1}">政府/企事业单位</span>
-                                            <span @click="setIndustry('13')" :class="{cur:industry.indexOf('13')!=-1}">医疗/健康</span>
-                                            <span @click="setIndustry('14')" :class="{cur:industry.indexOf('14')!=-1}">房地产</span>
-                                            <span @click="setIndustry('15')" :class="{cur:industry.indexOf('15')!=-1}">零售/商超</span>
-                                            <span @click="setIndustry('16')" :class="{cur:industry.indexOf('16')!=-1}">IT通讯</span>
-                                            <span @click="setIndustry('17')" :class="{cur:industry.indexOf('17')!=-1}">物流</span>
-                                            <span @click="setIndustry('18')" :class="{cur:industry.indexOf('18')!=-1}">游戏动漫</span>
-                                            <span @click="setIndustry('19')" :class="{cur:industry.indexOf('19')!=-1}">IT数码</span>
-                                            <span @click="setIndustry('20')" :class="{cur:industry.indexOf('20')!=-1}">司法</span>
-                                            <span @click="setIndustry('21')" :class="{cur:industry.indexOf('21')!=-1}">母婴</span>
-                                            <span @click="setIndustry('22')" :class="{cur:industry.indexOf('22')!=-1}">母婴</span>
+                                            <span @click="setIndustry('7')" :class="{cur:industry.indexOf('7')!=-1}">其他</span>
+                                            <span @click="setIndustry('8')" :class="{cur:industry.indexOf('8')!=-1}">母婴</span>
+                                            <span @click="setIndustry('9')" :class="{cur:industry.indexOf('9')!=-1}">体育</span>
+                                            <span @click="setIndustry('10')" :class="{cur:industry.indexOf('10')!=-1}">旅游/酒店</span>
+                                            <span @click="setIndustry('11')" :class="{cur:industry.indexOf('11')!=-1}">餐饮/服务</span>
+                                            <span @click="setIndustry('12')" :class="{cur:industry.indexOf('12')!=-1}">汽车</span>
+                                            <span @click="setIndustry('14')" :class="{cur:industry.indexOf('14')!=-1}">交易</span>
+                                            <span @click="setIndustry('15')" :class="{cur:industry.indexOf('15')!=-1}">医疗/健康</span>
+                                            <span @click="setIndustry('16')" :class="{cur:industry.indexOf('16')!=-1}">房地产</span>
+                                            <span @click="setIndustry('17')" :class="{cur:industry.indexOf('17')!=-1}">零售/商超</span>
+                                            <span @click="setIndustry('18')" :class="{cur:industry.indexOf('18')!=-1}">IT通讯</span>
+                                            <span @click="setIndustry('19')" :class="{cur:industry.indexOf('19')!=-1}">物流</span>
+                                            <span @click="setIndustry('20')" :class="{cur:industry.indexOf('20')!=-1}">游戏动漫</span>
+                                            <span @click="setIndustry('21')" :class="{cur:industry.indexOf('21')!=-1}">IT数码</span>
+                                            <span @click="setIndustry('22')" :class="{cur:industry.indexOf('22')!=-1}">司法</span>
+                                            <span style="width:35%;" @click="setIndustry('13')" :class="{cur:industry.indexOf('13')!=-1}">政府/企事业单位</span>
                                         </p>
                                     </td>
                                 </tr>
