@@ -54,7 +54,6 @@
                                     <span @click="setAge('1')" :class="{cur:age=='1'}">18岁以下</span>
                                     <span @click="setAge('2')" :class="{cur:age=='2'}">18-30岁</span>
                                     <span @click="setAge('3')" :class="{cur:age=='3'}">31-50岁</span>
-                                    <span @click="setAge('4')" :class="{cur:age=='4'}">50岁以上</span>
                                 </p>
                             </td>
                         </tr>
