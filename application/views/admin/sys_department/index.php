@@ -30,10 +30,10 @@
                             <form class="form-horizontal">
 
                                 <div class="form-group col-xs-3">
-                                    <label for="dept_name" class="col-sm-4 control-label">部门名称</label>
+                                    <label for="dept_name" class="col-sm-5 control-label">部门名称</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="dept_name"
-                                               placeholder="输入部门名称来搜索..." name="dept_name"
+                                               placeholder="输入部门名称" name="dept_name"
                                                value="<?= $form_data['dept_name'] ?>"
                                         >
                                     </div>

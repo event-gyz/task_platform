@@ -33,37 +33,37 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="advertiser_login_name" class="col-sm-4 control-label">用户名</label>
+                                        <label for="advertiser_login_name" class="col-sm-5 control-label">用户名</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
-                                                   placeholder="输入用户名来搜索..." name="advertiser_login_name"
+                                                   placeholder="输入用户名" name="advertiser_login_name"
                                                    value="<?= $form_data['advertiser_login_name'] ?>"
                                             >
                                         </div>
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="u_name_or_c_name" class="col-sm-4 control-label">姓名/公司名</label>
+                                        <label for="u_name_or_c_name" class="col-sm-5 control-label">姓名/公司名</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
-                                                   placeholder="输入姓名/公司名来搜索..." name="u_name_or_c_name"
+                                                   placeholder="输入姓名/公司名" name="u_name_or_c_name"
                                                    value="<?= $form_data['u_name_or_c_name'] ?>"
                                             >
                                         </div>
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="u_phone_or_c_phone" class="col-sm-4 control-label">电话</label>
+                                        <label for="u_phone_or_c_phone" class="col-sm-5 control-label">电话</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
-                                                   placeholder="输入电话来搜索..." name="u_phone_or_c_phone"
+                                                   placeholder="输入电话" name="u_phone_or_c_phone"
                                                    value="<?= $form_data['u_phone_or_c_phone'] ?>"
                                             >
                                         </div>
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="adv_finance_status" class="col-sm-4 control-label">财务状态</label>
+                                        <label for="adv_finance_status" class="col-sm-5 control-label">财务状态</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="adv_finance_status">
                                                 <option value="">全部</option>
@@ -85,7 +85,7 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="sex" class="col-sm-4 control-label"></label>
+                                        <label class="col-sm-5 control-label"></label>
                                         <div class="col-sm-7">
                                             <button type="submit" class="btn btn-info" style="margin-right: 10px;">搜索
                                             </button>

@@ -31,17 +31,17 @@
                             <form class="form-horizontal">
 
                                 <div class="form-group col-xs-3">
-                                    <label for="user_name" class="col-sm-4 control-label">用户名</label>
+                                    <label for="user_name" class="col-sm-5 control-label">用户名</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="user_name"
-                                               placeholder="输入用户名称来搜索..." name="user_name"
+                                               placeholder="输入用户名称" name="user_name"
                                                value="<?= $form_data['user_name'] ?>"
                                         >
                                     </div>
                                 </div>
 
                                 <div class="form-group col-xs-3">
-                                    <label for="dept_id" class="col-sm-4 control-label">归属部门</label>
+                                    <label for="dept_id" class="col-sm-5 control-label">归属部门</label>
                                     <div class="col-sm-7">
                                         <select class="form-control" id="select-dept_id" name="dept_id">
                                             <option value="">全部</option>
@@ -60,10 +60,10 @@
                                 </div>
 
                                 <div class="form-group col-xs-3">
-                                    <label for="mobile" class="col-sm-4 control-label">联系电话</label>
+                                    <label for="mobile" class="col-sm-5 control-label">联系电话</label>
                                     <div class="col-sm-7">
                                         <input type="text" class="form-control" id="mobile"
-                                               placeholder="输入电话来搜索..." name="mobile"
+                                               placeholder="输入电话" name="mobile"
                                                value="<?= $form_data['mobile'] ?>"
                                         >
                                     </div>

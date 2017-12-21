@@ -33,17 +33,17 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="task_name" class="col-sm-4 control-label">任务名称</label>
+                                        <label for="task_name" class="col-sm-5 control-label">任务名称</label>
                                         <div class="col-sm-7">
                                             <input type="text" class="form-control"
-                                                   placeholder="输入任务名称来搜索..." name="task_name"
+                                                   placeholder="输入任务名称" name="task_name"
                                                    value="<?= $form_data['task_name'] ?>"
                                             >
                                         </div>
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="publishing_platform" class="col-sm-4 control-label">发布平台</label>
+                                        <label for="publishing_platform" class="col-sm-5 control-label">发布平台</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="publishing_platform">
                                                 <option value="">全部</option>
@@ -61,7 +61,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="task_type" class="col-sm-4 control-label">任务类型</label>
+                                        <label for="task_type" class="col-sm-5 control-label">任务类型</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="task_type">
                                                 <option value="">全部</option>
@@ -79,7 +79,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label class="col-sm-4 control-label">提交时间</label>
+                                        <label class="col-sm-5 control-label">提交时间</label>
                                         <div class="col-sm-7 input-group">
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
@@ -97,7 +97,7 @@
                                 <div class="row">
 
                                     <div class="form-group col-xs-3">
-                                        <label for="task_status" class="col-sm-4 control-label">任务状态</label>
+                                        <label for="task_status" class="col-sm-5 control-label">任务状态</label>
                                         <div class="col-sm-7">
                                             <select class="form-control" name="task_status">
                                                 <option value="">全部</option>
@@ -115,7 +115,7 @@
                                     </div>
 
                                     <div class="form-group col-xs-3">
-                                        <label for="sex" class="col-sm-4 control-label"></label>
+                                        <label class="col-sm-5 control-label"></label>
                                         <div class="col-sm-7">
                                             <button type="submit" class="btn btn-info">搜索</button>
                                         </div>
