@@ -512,6 +512,7 @@ class Index extends CI_Controller {
         $where['media_man_user_id'] = $user_info['media_man_id'];
         $info ['deliver_status'] = 1;
         $info ['deliver_audit_status'] = 0;
+        $info ['deliver_time'] = date('Y-m-d H:i:s');
         $result = $this->__get_task_map_model()->updateMapInfo($where,$info);
         if(!$result){
             $this->_return['errorno'] = '-1';
