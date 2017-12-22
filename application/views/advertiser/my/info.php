@@ -152,7 +152,7 @@
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom" >任务编号</th>
-                            <td class="border_bottom" align="right"><?='RM'.$task_id?></td>
+                            <td class="border_bottom" align="right"><?='RW'.$task_id?></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom">任务名称</th>
@@ -297,6 +297,7 @@
         <script type="text/javascript" src="/js/third/jquery.js"></script>
         <script type="text/javascript" src="/js/third/jquery-weui.js"></script>
         <script type="text/javascript" src="/js/third/swiper.js"></script>
+        <script type="text/javascript" src="/js/third/infoAdvert.js"></script>
         <script type="text/javascript">
             var arr = [];
             $('#pb1 img').each(function(index,item){
