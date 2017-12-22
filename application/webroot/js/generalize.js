@@ -329,12 +329,11 @@ var app = new Vue({
                     util.tips('请输入任务标题！');
                     return;
                 }
-                if(!this.taskUrl){
-                    util.tips('请输入任务链接！');
-                    return;
-                }else if(!util.regexp.url.test(this.taskUrl)){
-                    util.tips('任务链接格式错误！');
-                    return;
+                if(this.taskUrl){
+                    if(!util.regexp.url.test(this.taskUrl)){
+                        util.tips('任务链接格式错误！');
+                        return;
+                    }
                 }
                 if(!this.taskImg.length){
                     util.tips('请上传任务照片！');
