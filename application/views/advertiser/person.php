@@ -51,18 +51,18 @@ $signPackage = $jssdk->GetSignPackage();
                     <th class="border_bottom" align="left" valign="top"><br>身份证反面</th>
                     <td class="border_bottom">
                         <p v-if="backCard" class="person_upload_img">
-                        <img :src="backCard"><i class="iconfont" @click="removeImg('backCard')">&#xe601;</i>
+                        <img :src="backCard" @click="uploadImg('backCard')"><i class="iconfont" @click="removeImg('backCard')">&#xe601;</i>
                         </p>
-                        <p v-show="!backCard" class="person_page_img1" @click="uploadImg('backCard')"><img src="/images/icon4.png"></p>
+                        <p v-if="!backCard" class="person_page_img1" @click="uploadImg('backCard')"><img src="/images/icon4.png"></p>
                     </td>
                 </tr>
                 <tr>
                     <th align="left" valign="top"><br>手持身份证</th>
                     <td>
                         <p v-if="card" class="person_upload_img">
-                        <img :src="card"><i class="iconfont" @click="removeImg('card')">&#xe601;</i>
+                        <img :src="card" @click="uploadImg('card')"><i class="iconfont" @click="removeImg('card')">&#xe601;</i>
                         </p>
-                        <p v-show="!card" class="person_page_img1" @click="uploadImg('card')"><img src="/images/icon5.png"></p>
+                        <p v-if="!card" class="person_page_img1" @click="uploadImg('card')"><img src="/images/icon5.png"></p>
                     </td>
                 </tr>
             </table>
