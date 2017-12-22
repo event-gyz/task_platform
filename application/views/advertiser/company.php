@@ -46,9 +46,9 @@ $signPackage = $jssdk->GetSignPackage();
                             <th class="border_bottom" align="left" valign="top">营业执照</th>
                             <td class="border_bottom">
                                 <p v-if="companyImg" class="person_upload_img">
-                                <img :src="companyImg"><i class="iconfont" @click="removeImg('companyImg')">&#xe601;</i>
+                                <img :src="companyImg" @click="uploadImg"><i class="iconfont" @click="removeImg('companyImg')">&#xe601;</i>
                                 </p>
-                                <p v-show="!companyImg" class="person_page_img1" @click="uploadImg"><img src="/images/icon6.png"></p>
+                                <p v-if="!companyImg" class="person_page_img1" @click="uploadImg"><img src="/images/icon6.png"></p>
                             </td>
                         </tr>
                     </table>
