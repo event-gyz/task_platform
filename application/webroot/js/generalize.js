@@ -364,7 +364,7 @@ var app = new Vue({
                     util.tips('请选择任务完成标准！');
                     return;
                 }
-                if(this.numAsk == 1){
+                /*if(this.numAsk == 1){
 
                     if(!this.age.length){
                         util.tips('请选择账号要求年龄！');
@@ -382,7 +382,7 @@ var app = new Vue({
                         util.tips('请选择账号要求地域！');
                         return;
                     }
-                }
+                }*/
             }
             $.ajax({
                 url: "/advertiser/index/saveTask",
