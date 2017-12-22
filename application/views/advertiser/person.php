@@ -42,9 +42,9 @@ $signPackage = $jssdk->GetSignPackage();
                     <th class="border_bottom" align="left" valign="top"><br>身份证正面</th>
                     <td class="border_bottom">
                         <p v-if="frontCard" class="person_upload_img">
-                        <img :src="frontCard"><i class="iconfont" @click="removeImg('frontCard')">&#xe601;</i>
+                        <img :src="frontCard" @click="uploadImg('frontCard')"><i class="iconfont" @click="removeImg('frontCard')">&#xe601;</i>
                         </p>
-                        <p v-show="!frontCard" class="person_page_img1" @click="uploadImg('frontCard')"><img src="/images/icon3.png"></p>
+                        <p v-if="!frontCard" class="person_page_img1" @click="uploadImg('frontCard')"><img src="/images/icon3.png"></p>
                     </td>
                 </tr>
                 <tr>
