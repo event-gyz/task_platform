@@ -6,6 +6,9 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="/css/indexMedia.css" />
+
+        <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+        <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     </head>
     <body>
         <div class="main" id="app" style="margin: 0;">
