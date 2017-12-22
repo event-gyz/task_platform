@@ -30,7 +30,7 @@
                                     </li>
                                     <li class="tit">关闭原因：</li>
                                     <li class="list">
-                                        <?= ($release_status==8)?$cancellation_reason:$close_reason;?>
+                                        <?= $close_reason;?>
                                     </li>
                                 </ul>
                             </div>

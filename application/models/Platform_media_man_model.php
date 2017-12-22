@@ -229,5 +229,15 @@ class Platform_media_man_model extends MY_Model {
         $query           = $this->db->get_where($this->getTableName(), $where);
         return $query->result_array();
     }
+
+    public function selectByWx($wx_code) {
+        $query = $this->db->get_where($this->getTableName(), array('wx_code' => $wx_code));
+        return $query->row_array();
+    }
+
+    public function selectByWeibo($weibo_nickname) {
+        $query = $this->db->get_where($this->getTableName(), array('weibo_nickname' => $weibo_nickname));
+        return $query->row_array();
+    }
 }
 

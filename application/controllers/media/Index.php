@@ -146,6 +146,23 @@ class Index extends CI_Controller {
                 echo json_encode($this->_return);exit;
             }
 
+            if(!empty($_POST ['wx_code'])){
+                $reWx = $this->__get_media_man_model()->selectByWx($_POST ['wx_code']);
+                if(!empty($reWx)){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '该微信账号已经注册过了，请修改或联系客服';
+                    echo json_encode($this->_return);exit;
+                }
+            }
+            if(!empty($_POST ['weibo_nickname'])){
+                $reWb = $this->__get_media_man_model()->selectByWeibo($_POST ['weibo_nickname']);
+                if(!empty($reWb)){
+                    $this->_return['errorno'] = '-1';
+                    $this->_return['msg'] = '该微博账号已经注册过了，请修改或联系客服';
+                    echo json_encode($this->_return);exit;
+                }
+            }
+
             $data = array (
                 'wx_code' => trim($_POST['wx_code']),
                 'wx_type' => (int)$_POST['wx_type'],
