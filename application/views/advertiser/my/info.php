@@ -297,7 +297,7 @@
         <script type="text/javascript" src="/js/third/jquery.js"></script>
         <script type="text/javascript" src="/js/third/jquery-weui.js"></script>
         <script type="text/javascript" src="/js/third/swiper.js"></script>
-        <script type="text/javascript" src="/js/third/infoAdvert.js"></script>
+        <script type="text/javascript" src="/js/infoAdvert.js"></script>
         <script type="text/javascript">
             var arr = [];
             $('#pb1 img').each(function(index,item){
