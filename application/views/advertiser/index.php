@@ -39,7 +39,7 @@
                 <!--微信微博-end-->
                 <!--平台-->
                 <div class="pt_list">
-                    <ul>
+                    <ul id="pt_box">
                         <li class="style">
                             <p class="img"><img src="/images/v1.jpg"><i class="iconfont">&#xe617;</i></p>
                             <p class="name">北京校园</p>

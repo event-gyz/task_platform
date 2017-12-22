@@ -24,7 +24,7 @@
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom" >电话</th>
-                            <td class="border_bottom"><input style="text-align: right;" type="text" v-model="phone" placeholder="请输入"></td>
+                            <td class="border_bottom" align="right" v-text="phone"><!--input readonly="readonly" style="text-align: right;" type="text" v-model="phone" placeholder="请输入"--></td>
                         </tr>
                         <tr>
                             <th align="left" class="border_bottom" width="60px;">学校名称</th>
