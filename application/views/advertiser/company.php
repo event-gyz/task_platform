@@ -48,7 +48,7 @@ $signPackage = $jssdk->GetSignPackage();
                                 <p v-if="companyImg" class="person_upload_img">
                                 <img :src="companyImg"><i class="iconfont" @click="removeImg('companyImg')">&#xe601;</i>
                                 </p>
-                                <p class="person_page_img1" @click="uploadImg"><img src="/images/icon6.png"></p>
+                                <p v-show="!companyImg" class="person_page_img1" @click="uploadImg"><img src="/images/icon6.png"></p>
                             </td>
                         </tr>
                     </table>

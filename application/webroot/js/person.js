@@ -127,7 +127,6 @@ var app = new Vue({
         },
         removeImg:function(name){
             this[name] = '';
-            alert(1);
         },
         save: function(){
             var _this = this;
