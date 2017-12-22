@@ -148,7 +148,7 @@ var app = new Vue({
         setTime: function(){
             var _this = this;
             $("#start_time").calendar({
-                minDate: moment().add(1, 'day').format('YYYY-MM-DD'),
+                minDate: moment().format('YYYY-MM-DD'),
                 value:[moment().add(1, 'day').format('YYYY-MM-DD')],
                 onOpen:function(){
                     $('input').blur();
@@ -183,7 +183,7 @@ var app = new Vue({
                 }
             });
             $("#end_time").calendar({
-                minDate: moment().add(1, 'day').format('YYYY-MM-DD'),
+                minDate: moment().format('YYYY-MM-DD'),
                 value:[moment().add(1, 'day').format('YYYY-MM-DD')],
                 onOpen:function(){
                     $('input').blur();
