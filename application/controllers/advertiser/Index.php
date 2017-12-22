@@ -241,11 +241,11 @@ class Index extends CI_Controller {
         $total_price = $_POST['taskPrice']*$_POST['number'];
         $media_man_require = $_POST['numAsk'];
         if($media_man_require == 1){
-            $require_sex = $_POST['sex'];
-            $require_age = implode(',',$_POST['age']);
-            $require_local = implode(',',$_POST['city']);
-            $require_hobby = implode(',',$_POST['liking']);
-            $require_industry = implode(',',$_POST['industry']);
+            $require_sex = !empty($_POST['sex'])?$_POST['sex']:'';
+            $require_age = !empty($_POST['age'])?(implode(',',$_POST['age'])):'';
+            $require_local = !empty($_POST['city'])?(implode(',',$_POST['city'])):'';
+            $require_hobby = !empty($_POST['liking'])?(implode(',',$_POST['liking'])):'';
+            $require_industry = !empty($_POST['industry'])?(implode(',',$_POST['industry'])):'';
         }
         $start_time = strtotime($_POST['startTime']);
         $end_time = strtotime($_POST['endTime']);
