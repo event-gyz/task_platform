@@ -25,14 +25,14 @@
                         <li><img src="/images/wx.png"></li>
                         <li>
                             <h2>微信</h2>
-                            <p>全国188个城市<br>3000+校园微博</p>
+                            <p>1000+微信<br>自媒体</p>
                         </li>
                     </ul>
                     <ul>
                         <li><img src="/images/wb.png"></li>
                         <li>
                             <h2>微博</h2>
-                            <p>1000+微信<br>自媒体</p>
+                            <p>全国188个城市<br>3000+校园微博</p>
                         </li>
                     </ul>
                 </div>

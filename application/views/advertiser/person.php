@@ -44,7 +44,7 @@ $signPackage = $jssdk->GetSignPackage();
                         <p v-if="frontCard" class="person_upload_img">
                         <img :src="frontCard"><i class="iconfont" @click="removeImg('frontCard')">&#xe601;</i>
                         </p>
-                        <p v-if="!frontCard" class="person_page_img1" @click="uploadImg('frontCard')"><img src="/images/icon3.png"></p>
+                        <p v-show="!frontCard" class="person_page_img1" @click="uploadImg('frontCard')"><img src="/images/icon3.png"></p>
                     </td>
                 </tr>
                 <tr>
@@ -53,7 +53,7 @@ $signPackage = $jssdk->GetSignPackage();
                         <p v-if="backCard" class="person_upload_img">
                         <img :src="backCard"><i class="iconfont" @click="removeImg('backCard')">&#xe601;</i>
                         </p>
-                        <p v-if="!backCard" class="person_page_img1" @click="uploadImg('backCard')"><img src="/images/icon4.png"></p>
+                        <p v-show="!backCard" class="person_page_img1" @click="uploadImg('backCard')"><img src="/images/icon4.png"></p>
                     </td>
                 </tr>
                 <tr>
@@ -62,7 +62,7 @@ $signPackage = $jssdk->GetSignPackage();
                         <p v-if="card" class="person_upload_img">
                         <img :src="card"><i class="iconfont" @click="removeImg('card')">&#xe601;</i>
                         </p>
-                        <p v-if="!card" class="person_page_img1" @click="uploadImg('card')"><img src="/images/icon5.png"></p>
+                        <p v-show="!card" class="person_page_img1" @click="uploadImg('card')"><img src="/images/icon5.png"></p>
                     </td>
                 </tr>
             </table>
