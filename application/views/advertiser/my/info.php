@@ -9,6 +9,9 @@
         <link rel="stylesheet" href="/css/indexAdvert.css" />
         <link rel="stylesheet" href="/css/login.css" />
         <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_xnfkadft2e7y14i.css">
+
+        <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+        <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     </head>
     <body>
         <div class="main" style="margin-bottom: 0">
@@ -170,7 +173,7 @@
                         <tr>
                             <th align="left" valign="top" class="border_bottom"><br>任务图片</th>
                             <td class="border_bottom">
-                                <ul class="generalize_img_box">
+                                <ul id="pb1" class="generalize_img_box">
                                     <?php if($pics){
                                         $pics = json_decode($pics,true);
                                         foreach($pics as $value){
@@ -292,8 +295,29 @@
             </div>
         </div>
         <script type="text/javascript" src="/js/third/jquery.js"></script>
-        <script type="text/javascript" src="/js/util.js"></script>
-        <script type="text/javascript" src="/js/infoAdvert.js"></script>
+        <script type="text/javascript" src="/js/third/jquery-weui.js"></script>
+        <script type="text/javascript" src="/js/third/swiper.js"></script>
+        <script type="text/javascript">
+            var arr = [];
+            $('#pb1 img').each(function(index,item){
+                arr.push($(item).attr('src'));
+            });
+            var pb1 = $.photoBrowser({
+                items: arr,
+                onSlideChange: function(index) {
+                  //console.log(this, index);
+                },
+                onOpen: function() {
+                  //console.log("onOpen", this);
+                },
+                onClose: function() {
+                  //console.log("onClose", this);
+                }
+            });
+            $("#pb1").click(function() {
+                pb1.open();
+            });
+        </script>
     </body>
     <?php
     function __handleNuToName($str,$configArr){

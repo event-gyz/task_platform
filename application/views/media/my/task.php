@@ -6,10 +6,6 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="/css/indexMedia.css" />
-
-
-        <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
-        <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     </head>
     <body>
         <div class="main" id="app" style="margin: 0;">
@@ -36,7 +32,7 @@
                             <td><a class="a_box s_color1" :href="'/media/index/giveTask?task_id='+item.task_id">交付任务</a></td>
                         </tr>
                     </table>
-                    <table v-if="task_status(item) == '结果审核驳回'" class="task_table" style="width: 100%"><!--结果审核驳回-->
+                    <table v-if="task_status(item) == '结果审核驳回'" class="task_table" style="width: 100%"><!--交付审核失败-->
                         <tr>
                             <td><a class="a_box s_color1" :href="'/media/index/giveTask?task_id='+item.task_id">重新交付</a></td>
                         </tr>

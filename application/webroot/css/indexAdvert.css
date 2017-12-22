@@ -133,6 +133,21 @@ table tr.no_bg div.bg {
 .pt_list {
     background: #fff;
     margin-bottom: 10px;
+    position: relative;
+}
+.pt_list i.right {
+    position: absolute;
+    right: 0;
+    top: 30px;
+    background: #ccc;
+    z-index: 10;
+    height: 50px;
+    width: 30px;
+    opacity: 0.8;
+    color: #666;
+    text-align: center;
+    line-height: 50px;
+    font-size: 30px;
 }
 .pt_list ul {
     width: 100%;
