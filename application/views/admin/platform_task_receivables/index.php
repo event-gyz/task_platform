@@ -87,7 +87,8 @@
                                     <div class="form-group col-xs-3">
                                         <label class="col-sm-5 control-label"></label>
                                         <div class="col-sm-7">
-                                            <button type="submit" class="btn btn-info" style="margin-right: 10px;">搜索</button>
+                                            <button type="submit" class="btn btn-info" style="margin-right: 10px;">搜索
+                                            </button>
                                             <el-button button-id="export" @click.once="prepare_export_receivables"
                                                        type="primary" size="small">导出
                                             </el-button>
@@ -172,7 +173,7 @@
                                         ?>
 
                                         <?php if ($is_show_confirm_pay_btn): ?>
-                                            <button @click="confirm_pay_money('<?= $value['receivables_id'] ?>','<?= $value['task_name'] ?>')"
+                                            <button @click="confirm_pay_money('<?= $value['receivables_id'] ?>', '<?= $value['media_man_name'] ?>')"
                                                     type="button"
                                                     class="btn btn-primary btn-sm margin-r-5">确认付款
                                             </button>
@@ -205,21 +206,21 @@
 
     const localComputed = {};
     const localMethods  = {
-        confirm_pay_money         : function (receivables_id, task_name) {
+        confirm_pay_money         : function (receivables_id, media_man_name) {
 
-            let message = `确认任务 ${task_name} 已付款了吗？`;
+            let message = `确认已经付款给 ${media_man_name} 了吗？`;
 
             this.$confirm(message, '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText : '取消',
                 type             : 'warning'
             }).then(async () => {
-                this.do_confirm_pay_money(receivables_id, task_name);
+                this.do_confirm_pay_money(receivables_id);
             }).catch(() => {
             });
 
         },
-        do_confirm_pay_money      : async function (receivables_id, task_name) {
+        do_confirm_pay_money      : async function (receivables_id) {
             try {
                 this.loading   = true;
                 const url      = '/admin/platform_task_receivables/confirm_pay_money';
