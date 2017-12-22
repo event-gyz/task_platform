@@ -93,7 +93,7 @@ var app = new Vue({
                 },
                 success: function(res) {
                     if(res.errorno > 0){
-                        location.href='/media/index/saveBaseInfo';
+                        location.href='/media/index/saveBaseInfo?phone='+_this.phone;
                     }else{
                         util.tips(res.msg)
                     }

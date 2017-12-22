@@ -21,6 +21,14 @@ var app = new Vue({
     mounted:function(){
         this.$nextTick(function(){
             var _this = this;
+            var params = window.location.search.substr(1).split('&');
+            params.forEach(function(item){
+                var name = item.split('=')[0];
+                var val = item.split('=')[1];
+                if(name == 'phone'){
+                    _this.phone = val;
+                }
+            });
             $.ajax({
                 url: "/js/third/city.json",
                 dataType: 'json',

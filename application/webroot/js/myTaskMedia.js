@@ -97,7 +97,7 @@ var app = new Vue({
             }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==0){
                 return '交付待审核';
             }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==2){
-                return '交付审核失败';
+                return '结果审核驳回';
             }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==1 && obj.finance_status!=1){
                 return '待财务确认';
             }else if(obj.release_status==1 && obj.receive_status==1 && obj.deliver_status==1 && obj.deliver_audit_status==1 && obj.finance_status==1 && obj.receivables_status!=1){
