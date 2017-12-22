@@ -197,7 +197,7 @@ $signPackage = $jssdk->GetSignPackage();
             </table>
         </div>
         <div class="index_button_box">
-            <p v-if="!audit_status"><input type="button" @click="save(0)" value="保存" class="common_button2"></p>
+            <p v-if="audit_status<1"><input type="button" @click="save(0)" value="保存" class="common_button2"></p>
             <p><input type="button" @click="save(1)" value="确认提交" class="common_button"></p>
         </div>
     </div>
