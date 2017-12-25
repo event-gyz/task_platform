@@ -647,7 +647,7 @@
 
             // 待结果确认
             if (
-                (info.release_status === "1") &&
+                (this.release_status === "1") &&
                 (info.receive_status === "1") &&
                 (info.deliver_status === "1") &&
                 (info.deliver_audit_status === "0")
@@ -664,7 +664,7 @@
 
             // 待结果确认
             if (
-                (info.release_status === "1") &&
+                (this.release_status === "1") &&
                 (info.receive_status === "1") &&
                 (info.deliver_status === "1") &&
                 (info.deliver_audit_status === "0")
@@ -1050,6 +1050,7 @@
         return {
             loading           : false,// 是否显示加载
             task_id           : '<?= $info['task_id']?>',
+            release_status    : '<?= $info['release_status']?>',// 任务发布状态
             ruleForm          : {
                 platform_price: '',
             },
