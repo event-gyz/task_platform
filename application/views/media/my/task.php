@@ -18,7 +18,7 @@
                     <a class="a_box" :href="'/media/index/taskDetail?task_id='+item.task_id">
                     <div class="top proceed" :class="task_status_class(item)">
                         <p class="name over_repeat" style="width:150px;">{{item.task_name}}</p>
-                        <p class="status">● {{task_status(item)}}</p>
+                        <p class="status">● {{task_status(item)=='已关闭-伪'?'已关闭':task_status(item)}}</p>
                     </div>
                     <div class="context">
                         <ul>
@@ -40,7 +40,7 @@
                             <td><a class="a_box s_color1" :href="'/media/index/giveTask?task_id='+item.task_id">重新交付</a></td>
                         </tr>
                     </table>
-                    <table v-if="task_status(item) == '待确认收款'" class="task_table" style="width: 100%"><!--待确认收款-->
+                    <table v-if="task_status(item) == '待确认收款'||task_status(item) =='已关闭-伪'" class="task_table" style="width: 100%"><!--待确认收款-->
                         <tr>
                             <td><a class="a_box s_color1" href="#" @click="sk(item.task_id)">确认收款</a></td>
                         </tr>
