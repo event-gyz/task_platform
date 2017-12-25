@@ -114,7 +114,7 @@ var app = new Vue({
         task_status_class: function(obj){
             function time(){return parseInt(moment().valueOf()/1000);}
             if(obj.release_status == 9 || obj.receive_status==2 || obj.receive_status==8 || obj.receive_status==7){
-                return 'close1';
+                return 'close';
             }else if(obj.release_status==1 && obj.receive_status==1 && (obj.time>obj.start_time)){
                 return 'wait';
             }else if(obj.release_status==1 && obj.receive_status==1 && (time()>obj.start_time)&&time()<obj.end_time&&obj.deliver_status!=1){
