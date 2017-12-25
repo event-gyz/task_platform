@@ -113,7 +113,7 @@ var app = new Vue({
         //状态class
         task_status_class: function(obj){
             function time(){return parseInt(moment().valueOf()/1000);}
-            if(obj.release_status == 9 || obj.receive_status==2 || obj.receive_status==8 || obj.receive_status==7){
+            if(obj.release_status == 9 || obj.receive_status==2 || obj.release_status==8 || obj.release_status==7){
                 return 'close';
             }else if(obj.release_status==1 && obj.receive_status==1 && (obj.time>obj.start_time)){
                 return 'wait';
