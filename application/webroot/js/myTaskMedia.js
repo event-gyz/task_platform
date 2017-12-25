@@ -84,7 +84,7 @@ var app = new Vue({
         //当前状态
         task_status: function(obj){
             function time(){return parseInt(moment().valueOf()/1000);}
-            if(obj.receivables_status!=1 && obj.finance_status==1 && obj.release_status == 9 || obj.release_status == 8){
+            if((obj.receivables_status!=1 && obj.finance_status==1 && obj.release_status == 9) || (obj.receivables_status!=1 && obj.finance_status==1 &&obj.release_status == 8)){
                 return '已关闭-伪';
             }else if(obj.release_status == 9 || obj.release_status == 8 ){
                 return '已关闭';
