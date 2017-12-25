@@ -168,7 +168,11 @@
                                     </th>
                                     <th><?= $value['title'] ?></th>
                                     <th>
-                                        <?php if (($value['release_status'] === "0")): ?>
+                                        <?php if (($value['release_status'] === "8")): ?>
+                                            <small class="label bg-gray">
+                                                已关闭
+                                            </small>
+                                        <?php elseif (($value['release_status'] === "0")): ?>
                                             <small class="label bg-yellow">
                                                 待发布
                                             </small>

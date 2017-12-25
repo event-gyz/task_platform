@@ -65,7 +65,11 @@
                     <div class="col-sm-3 invoice-col">
                         <b>任务状态：</b>
 
-                        <?php if (($info['release_status'] === "0")): ?>
+                        <?php if (($info['release_status'] === "8")): ?>
+                            <small class="label bg-gray">
+                                已关闭
+                            </small>
+                        <?php elseif (($info['release_status'] === "0")): ?>
                             <small class="label bg-yellow">
                                 待发布
                             </small>

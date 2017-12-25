@@ -65,6 +65,7 @@ class Release_task extends ADMIN_Controller {
             // '1' => '待发布',---> release_status = 0
             // '2' => '执行中',---> release_status = 1
             // '3' => '待确认完成',---> release_status = 1
+            // '4' => '已关闭',---> release_status = 8
 
             switch ($task_status) {
                 case 1:
@@ -81,6 +82,9 @@ class Release_task extends ADMIN_Controller {
                     $where['release_status'] = 1;
                     $where['task_status']    = 'to_be_confirm';
                     $where['cur_time_stamp'] = time();
+                    break;
+                case 4:
+                    $where['release_status'] = 8;
                     break;
                 default:
             }
