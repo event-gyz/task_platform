@@ -225,7 +225,7 @@
                     </tr>
                 </table>
                 <!--结果审核驳回-end-->
-                <?php }else if($release_status==1 && $receive_status==1 && $deliver_status==1 && $deliver_audit_status==1 && $finance_status==1 && $receivables_status!=1){?>
+                <?php }else if($finance_status==1 && $receivables_status!=1){?>
                 <!--待确认收款-->
                 <table class="info_table">
                     <tr>
