@@ -2,7 +2,7 @@
 <html>
 <?php $userSession = isset($_SESSION['user_info'])?$_SESSION['user_info']:[];?>
     <head>
-        <title><li class="img"><Img src="/images/mtr.png"></li>
+        <title>
             <?php if(isset($userSession['media_man_id']) && !empty($userSession['media_man_id'])){?>
                 <?=(!empty($userSession['media_man_name'])?$userSession['media_man_name']:'未设置')?>
             <?php }else{ ?>
