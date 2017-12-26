@@ -21,14 +21,14 @@
                 <?php } ?>
                 <?php if($taskMessage['total']>0){?>
                 <tr onclick="location.href='/advertiser/index/taskMessage'">
-                    <td align="center" class="border_bottom icon" width="50px;"><p><img src="/images/rwtz.png"><span><?=$taskMessage['total']?></span></p></td>
+                    <td align="center" class="border_bottom icon" width="50"><p><img src="/images/rwtz.png"><span><?=$taskMessage['total']?></span></p></td>
                     <td class="border_bottom msg">
                         <div>
                         <h2>任务通知</h2>
                         <p><?=$taskMessage['list'][0]['message_content']?></p>
                         </div>
                     </td>
-                    <td class="border_bottom time" valign="bottom" width="100px"><?=$taskMessage['list'][0]['create_time'];?></td>
+                    <td class="border_bottom time" width="70"><?=$taskMessage['list'][0]['create_time'];?></td>
                 </tr>
                 <?php }?>
 
@@ -43,7 +43,7 @@
                             <p><?=$value['message_content']?></p>
                         </div>
                     </td>
-                    <td class="border_bottom time" valign="bottom" width="100px"><?=$value['create_time'];?></td>
+                    <td class="border_bottom time" width="70"><?=$value['create_time'];?></td>
                 </tr>
                 <?php }
                 }?>

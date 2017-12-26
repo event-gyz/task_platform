@@ -53,7 +53,7 @@ $signPackage = $jssdk->GetSignPackage();
                 </tr>
                 <tr>
                     <th align="left" valign="top"><br>任务描述</th>
-                    <td><textarea style="height: 120px;text-align: right" v-model="taskDes" placeholder="请输入"></textarea></td>
+                    <td><textarea style="height: 120px;text-align: right" v-model="taskDes" placeholder="请填写你的推广文案"></textarea></td>
                 </tr>
             </table>
         </div>
