@@ -42,52 +42,52 @@
                     <ul id="pt_box">
                         <li>
                             <div class="style">
-                                <p class="img"><img src="/images/v1.jpg"><i class="iconfont">&#xe617;</i></p>
+                                <p class="img"><img src="/images/v1.jpg"><i class="iconfont"><img src="/images/logo/v3.png"></i></p>
                                 <p class="name">北京校园</p>
                                 <p class="number">57万+</p>
                             </div>
                             <div class="style">
-                                <p class="img"><img src="/images/v2.jpg"><i class="iconfont">&#xe617;</i></p>
+                                <p class="img"><img src="/images/v2.jpg"><i class="iconfont"><img src="/images/logo/v2.png"></i></p>
                                 <p class="name">我爱PPT</p>
                                 <p class="number">109万+</p>
                             </div>
                             <div class="style">
-                                <p class="img"><img src="/images/v3.jpg"><i class="iconfont">&#xe617;</i></p>
+                                <p class="img"><img src="/images/v3.jpg"><i class="iconfont"><img src="/images/logo/v1.png"></i></p>
                                 <p class="name">头条校园</p>
                                 <p class="number">1290万+</p>
                             </div>
                             <div class="style">
-                                <p class="img"><img src="/images/v4.jpg"><i class="iconfont">&#xe617;</i></p>
+                                <p class="img"><img src="/images/v4.jpg"><i class="iconfont"><img src="/images/logo/v3.png"></i></p>
                                 <p class="name">影视娱乐圈</p>
                                 <p class="number">62万+</p>
                             </div>
                             <div class="style">
-                                <p class="img"><img src="/images/v5.jpg"><i class="iconfont">&#xe617;</i></p>
+                                <p class="img"><img src="/images/v5.jpg"><i class="iconfont"><img src="/images/logo/v2.png"></i></p>
                                 <p class="name">校园女神录</p>
                                 <p class="number">32万+</p>
                             </div>
                             <div class="style">
-                                <p class="img"><img src="/images/v6.jpg"><i class="iconfont">&#xe617;</i></p>
+                                <p class="img"><img src="/images/v6.jpg"><i class="iconfont"><img src="/images/logo/v1.png"></i></p>
                                 <p class="name">天津校园</p>
                                 <p class="number">49万+</p>
                             </div>
                             <div class="style">
-                                <p class="img"><img src="/images/v7.jpg"><i class="iconfont">&#xe617;</i></p>
+                                <p class="img"><img src="/images/v7.jpg"><i class="iconfont"><img src="/images/logo/v1.png"></i></p>
                                 <p class="name">留学教育</p>
                                 <p class="number">47万+</p>
                             </div>
                             <div class="style">
-                                <p class="img"><img src="/images/v8.jpg"><i class="iconfont">&#xe617;</i></p>
+                                <p class="img"><img src="/images/v8.jpg"><i class="iconfont"><img src="/images/logo/v1.png"></i></p>
                                 <p class="name">微博校园</p>
                                 <p class="number">1290万+</p>
                             </div>
                             <div class="style">
-                                <p class="img"><img src="/images/v9.jpg"><i class="iconfont">&#xe617;</i></p>
+                                <p class="img"><img src="/images/v9.jpg"><i class="iconfont"><img src="/images/logo/v3.png"></i></p>
                                 <p class="name">super搞笑君</p>
                                 <p class="number">31万+</p>
                             </div>
                             <div class="style">
-                                <p class="img"><img src="/images/v10.jpg"><i class="iconfont">&#xe617;</i></p>
+                                <p class="img"><img src="/images/v10.jpg"><i class="iconfont"><img src="/images/logo/v3.png"></i></p>
                                 <p class="name">美国那些事</p>
                                 <p class="number">22万+</p>
                             </div>
@@ -118,7 +118,7 @@
                         <li><a href="/html/advertiser/case17.html"><img src="/images/logo/17.jpeg"></a></li>
                         <li><a href="/html/advertiser/case18.html"><img src="/images/logo/18.jpg"></a></li>
                         <li><a href="/html/advertiser/case19.html"><img src="/images/logo/19.jpg"></a></li>
-                        <li><a href="/html/advertiser/case20.html"><img src="/images/logo/20.jpeg"></a></li>
+                        <li><a href="/html/advertiser/case20.html"><img src="/images/logo/21.png"></a></li>
                     </ul>
                 </div>
                 <!--品牌-end-->
