@@ -262,13 +262,7 @@ class Login extends CI_Controller {
             $this->_return['msg'] = '手机号不能为空';
             echo json_encode($this->_return);exit;
         }
-        //检查是否注册过广告主
-        $resM = $this->__get_advertiser_model()->selectByPhone($_POST['phone']);
-        if(!empty($resM)){
-            $this->_return['errorno'] = '-1';
-            $this->_return['msg'] = '手机号已经注册过广告主，不可以注册为自媒体人哟';
-            echo json_encode($this->_return);exit;
-        }
+
         //验证当前手机号是否注册过
         $res = $this->__get_media_man_model()->selectByPhone($_POST['phone']);
         if (isset($_POST['type']) && ($_POST['type']=='pwd')) {
@@ -288,6 +282,13 @@ class Login extends CI_Controller {
             }
 
         }else{
+            //检查是否注册过广告主
+            $resM = $this->__get_advertiser_model()->selectByPhone($_POST['phone']);
+            if(!empty($resM)){
+                $this->_return['errorno'] = '-1';
+                $this->_return['msg'] = '手机号已经注册过广告主，不可以注册为自媒体人哟';
+                echo json_encode($this->_return);exit;
+            }
             $userInfo = $this->__get_media_man_model()->selectByLoginName($_POST['userName']);
             if(!empty($userInfo)){
                 $this->_return['errorno'] = '-1';
