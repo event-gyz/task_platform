@@ -127,7 +127,7 @@ var app = new Vue({
         //确认付款
         qrfk: function(id,index){
             var _this = this;
-            util.confirm('是否确认已付款',function(){
+            util.confirm('是否确认付款',function(){
                 $.ajax({
                     url: "/advertiser/index/payTask",
                     dataType: 'json',
