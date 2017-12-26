@@ -25,7 +25,7 @@
                         </tr>
                         <tr>
                             <th align="left">最高粉丝量</th>
-                            <td><input style="text-align: right;" type="number" v-model="wxNumber" placeholder="请输入"></td>
+                            <td><input style="text-align: right;" type="text" v-model="wxNumber" placeholder="请输入"></td>
                         </tr>
                     </table>
                 </div>
@@ -46,7 +46,7 @@
                         <tr>
                             <th class="border_bottom" align="left">最高粉丝量</th>
                             <td class="border_bottom">
-                                <input style="text-align: right;" type="number" v-model="wbNumber" placeholder="请输入">
+                                <input style="text-align: right;" type="text" v-model="wbNumber" placeholder="请输入">
                             </td>
                         </tr>
                         <tr>
