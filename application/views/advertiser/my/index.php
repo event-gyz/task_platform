@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <?php $userSession =  isset($_SESSION['ad_user_info'])?$_SESSION['ad_user_info']:[];?>
     <title><?php if(isset($userSession['advertiser_id']) && !empty($userSession['advertiser_id'])){?>
 
                 <?php
@@ -23,7 +24,6 @@
 <body>
 <div class="main">
     <div class="my">
-        <?php $userSession =  isset($_SESSION['ad_user_info'])?$_SESSION['ad_user_info']:[];?>
         <!--head-->
         <div class="my_head">
             <ul>
