@@ -6,7 +6,7 @@ var ele = $('#pt_box').html();
 var eleWid = $('#pt_box>li').width();
 $('#pt_box').append(ele);
 
-$('#pt_box').scrollLeft(40).scroll(function(){
+$('#pt_box').scrollLeft(0).scroll(function(){
     var left = $(this).scrollLeft();
     if(left==0){
         $(this).scrollLeft(eleWid);
@@ -15,7 +15,16 @@ $('#pt_box').scrollLeft(40).scroll(function(){
         $('#pt_box').scrollLeft(left-eleWid);
     }
 });
-
+$('i.left').click(function(){
+    var left = $('#pt_box').scrollLeft();
+    var w = $('#pt_box').width();
+    $('#pt_box').stop().animate({scrollLeft:left-w},300);
+});
+$('i.right').click(function(){
+    var left = $('#pt_box').scrollLeft();
+    var w = $('#pt_box').width();
+    $('#pt_box').stop().animate({scrollLeft:left+w},300);
+});
 
 
 

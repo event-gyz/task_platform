@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="/css/swiper-3.4.2.min.css" />
         <link rel="stylesheet" href="/css/indexAdvert.css" />
-        <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_s6a0urnhzjsxxbt9.css">
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_tywr2dk82g8k6gvi.css">
     </head>
     <body>
         <div class="main">
@@ -39,6 +39,7 @@
                 <!--微信微博-end-->
                 <!--平台-->
                 <div class="pt_list">
+                    <i class="iconfont left">&#xe604;</i>
                     <ul id="pt_box">
                         <li>
                             <div class="style">
@@ -93,6 +94,7 @@
                             </div>
                         </li>
                     </ul>
+                    <i class="iconfont right">&#xe682;</i>
                 </div>
                 <!--平台-end-->
                 <!--品牌-->
