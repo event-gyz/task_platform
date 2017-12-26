@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html>
+<?php $userSession = isset($_SESSION['user_info'])?$_SESSION['user_info']:[];?>
     <head>
-        <title>媒体人-我的</title>
+        <title><li class="img"><Img src="/images/mtr.png"></li>
+            <?php if(isset($userSession['media_man_id']) && !empty($userSession['media_man_id'])){?>
+                <?=(!empty($userSession['media_man_name'])?$userSession['media_man_name']:'未设置')?>
+            <?php }else{ ?>
+                未登录
+            <?}?></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <link rel="stylesheet" href="/css/common.css" />
@@ -9,7 +15,7 @@
         <link rel="stylesheet" href="//at.alicdn.com/t/font_15076_vo1nszstgavh1tt9.css">
     </head>
     <body>
-    <?php $userSession = isset($_SESSION['user_info'])?$_SESSION['user_info']:[];?>
+
         <div class="main">
             <div class="my">
                 <!--head-->
