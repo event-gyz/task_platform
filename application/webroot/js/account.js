@@ -133,13 +133,13 @@ var app = new Vue({
             }
             if(this.wxNumber){
                 if(!util.regexp.number.test(this.wxNumber)){
-                    util.tips('最高粉丝量必须是数字！');
+                    util.tips('最高粉丝量只能是数字！');
                     return;
                 }
             }
             if(this.wxNumber){
                 if(!util.regexp.number.test(this.wbNumber)){
-                    util.tips('最高粉丝量必须是数字！');
+                    util.tips('最高粉丝量只能是数字！');
                     return;
                 }
             }
