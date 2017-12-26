@@ -396,17 +396,9 @@ class Index extends CI_Controller {
         $user_info = $this->__get_user_session();
         $taskWhere['user_id'] = $user_info['advertiser_id'];
         $taskWhere['user_type'] = 1;
-        $taskWhere['message_type'] = 2;
+//        $taskWhere['message_type'] = 2;
         $taskWhere['message_status'] = '0';
-        $taskResult = $this->__get_user_message_model()->get_user_message_list_by_condition($taskWhere);
-
-        $userWhere['user_id'] = $user_info['advertiser_id'];
-        $userWhere['user_type'] = 1;
-        $userWhere['message_status'] = '0';
-        $userWhere['message_type'] = 1;
-        $userResult = $this->__get_user_message_model()->get_user_message_list_by_condition($userWhere);
-        $result['taskMessage'] = $taskResult;
-        $result['userMessage'] = $userResult['list'];
+        $result = $this->__get_user_message_model()->get_user_message_list_by_condition($taskWhere);
         $this->load->view('advertiser/my/message',$result);
     }
 

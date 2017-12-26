@@ -10,7 +10,7 @@
     <body>
         <div class="main" style="padding-top: 10px;">
             <table class="my_msg_table">
-                <?php if(($taskMessage['total']<1) && empty($userMessage)){?>
+                <?php if(($total<1) && empty($list)){?>
                     <div class="statu_box">
                         <p class="icon-box"><img src="/images/status/dts.png"></p>
                         <p class="text">还没有消息哦</p>
@@ -19,33 +19,37 @@
                         </p>
                     </div>
                 <?php } ?>
-                <?php if($taskMessage['total']>0){?>
-                <tr onclick="location.href='/advertiser/index/taskMessage'">
-                    <td align="center" class="border_bottom icon" width="50"><p><img src="/images/rwtz.png"><span><?=$taskMessage['total']?></span></p></td>
-                    <td class="border_bottom msg">
-                        <div>
-                        <h2>任务通知</h2>
-                        <p><?=$taskMessage['list'][0]['message_content']?></p>
-                        </div>
-                    </td>
-                    <td class="border_bottom time" width="70"><?=$taskMessage['list'][0]['create_time'];?></td>
-                </tr>
-                <?php }?>
 
-                <?php if(!empty($userMessage) && is_array($userMessage)){
-                    foreach($userMessage as $value){
+
+                <?php if(!empty($list) && is_array($list)){
+                    foreach($list as $value){
+                        if($value['message_type']==1){
                     ?>
-                <tr>
-                    <td align="center" class="border_bottom icon" width="50px;"><p><img src="/images/shtz.png"></p></td>
-                    <td class="border_bottom msg">
-                        <div>
-                            <h2>审核通知</h2>
-                            <p><?=$value['message_content']?></p>
-                        </div>
-                    </td>
-                    <td class="border_bottom time" width="70"><?=$value['create_time'];?></td>
-                </tr>
+                            <tr>
+                                <td align="center" class="border_bottom icon" width="50px;"><p><img src="/images/shtz.png"></p></td>
+                                <td class="border_bottom msg">
+                                    <div>
+                                        <h2>账户通知</h2>
+                                        <p><?=$value['message_content']?></p>
+                                    </div>
+                                </td>
+                                <td class="border_bottom time" width="70"><?=$value['create_time'];?></td>
+                            </tr>
+                    <?php }else{?>
+                            <tr onclick="location.href='/advertiser/index/taskInfo?task_id=<?=$value['task_id']?>'">
+                                <td align="center" class="border_bottom icon" width="50"><p><img src="/images/rwtz.png">
+<!--                                        <span>--><?//=$total?><!--</span>-->
+                                    </p></td>
+                                <td class="border_bottom msg">
+                                    <div>
+                                        <h2>任务通知</h2>
+                                        <p><?=$value['message_content']?></p>
+                                    </div>
+                                </td>
+                                <td class="border_bottom time" width="70"><?=$value['create_time'];?></td>
+                            </tr>
                 <?php }
+                    }
                 }?>
             </table>
 
