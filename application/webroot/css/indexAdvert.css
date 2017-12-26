@@ -328,8 +328,6 @@ table tr.no_bg div.bg {
 .my_msg_table td.msg p {
     font-size: 12px;
     color: #999;
-    padding: 5px 0;
-    height: 15px;
     overflow: hidden;
 }
 .my_msg_table td.time {

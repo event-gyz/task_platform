@@ -23,14 +23,14 @@
                     foreach($taskMessage as $value){
                     ?>
                 <tr onclick="location.href='/media/index/taskDetail?task_id=<?=$value['task_id']?>'">
-                    <td align="center" class="border_bottom icon" width="50px;"><p><img src="/images/shtz.png"></p></td>
+                    <td align="center" class="border_bottom icon" width="50"><p><img src="/images/shtz.png"></p></td>
                     <td class="border_bottom msg">
                         <div>
                             <h2>任务</h2>
                             <p><?=$value['message_content']?></p>
                         </div>
                     </td>
-                    <td class="border_bottom time" valign="bottom" width="100px"><?=$value['create_time'];?></td>
+                    <td class="border_bottom time" width="70"><?=$value['create_time'];?></td>
                 </tr>
                 <?php }
                 }?>
