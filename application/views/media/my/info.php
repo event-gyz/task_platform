@@ -235,18 +235,6 @@
                                     }?>
                                 </ul>
                             </td>
-                            <tr>
-                                <th align="left" class="border_bottom">任务结果图片：</th>
-                                <ul id="pb1" class="generalize_img_box">
-                                    <?php if($deliver_images){
-                                        $deliver_images = json_decode($deliver_images,true);
-                                        foreach($deliver_images as $value){
-                                            ?>
-                                            <li><img src="<?=$value?>"></li>
-                                        <? }
-                                    }?>
-                                </ul>
-                            </tr>
                         <?php }?>
                     </table>
                 </div>
