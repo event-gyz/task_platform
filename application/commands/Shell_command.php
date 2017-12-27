@@ -18,6 +18,11 @@ class Shell_command extends CI_Controller {
     public function close_task() {
 
         $result = $this->__get_task_model()->getCloseData();
+
+        if (empty($result)) {
+            return false;
+        }
+
         foreach ($result as $value) {
 
             $close_reason = '任务付款超时自动关闭。';
