@@ -217,9 +217,6 @@ class Platform_task_model extends MY_Model {
 
         $sql = "SELECT [*] FROM `{$this->table}` AS pt LEFT JOIN `platform_task_payment` AS ptp on pt.task_id=ptp.task_id where 1=1 ";
 
-//        if (empty($where['advertiser_user_id'])) {
-//            return false;
-//        }
         if (empty($where['task_id'])) {
             return false;
         }
@@ -250,10 +247,13 @@ class Platform_task_model extends MY_Model {
 
     public function getCloseData() {
         $time = time();
-        $sql  = "SELECT * FROM `{$this->table}` where start_time<$time and release_status=0 and (audit_status=2 or pay_status=0) ";
+        $sql
+              = "SELECT * FROM `{$this->table}` WHERE 
+        ( audit_status = 2 AND release_status = 0 AND start_time < {$time} ) 
+        OR 
+        ( audit_status IN (1, 3) AND release_status = 0 AND pay_status = 0 AND start_time < {$time} ) ";
 
         return $this->getList($sql);
-
     }
 
 }
