@@ -76,6 +76,7 @@ class Platform_task_map_model extends MY_Model {
 
             // 待领取：当系统将任务发送给自媒体人时，状态显示待领取，发送时间显示具体的发送时间。
             // 已领取：当自媒体人在wap端操作领取时，则状态显示为已领取，领取/拒绝时间显示操作领取的具体时间。
+            // 超时：当自媒体人超过任务领取时间时，则状态显示为超时。
             // 已拒绝：当自媒体人在wap端操作拒绝时，则状态显示为已拒绝，领取/拒绝时间显示操作拒绝的具体时间。
             // 待结果确认：当自媒体人在wap端交付了任务时，则状态变更为待结果确认。
             // 已完成：当自媒体人交付的结果审核通过时，则状态变更为已完成，完成时间显示操作通过的具体时间。
@@ -88,6 +89,10 @@ class Platform_task_map_model extends MY_Model {
             if ($info['receive_status'] === "1") {
                 $status       = '已领取';
                 $receive_time = $info['receive_time'];
+            }
+
+            if ($info['receive_status'] === "3") {
+                $status = '超时';
             }
 
             if ($info['receive_status'] === "2") {
