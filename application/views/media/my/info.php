@@ -291,8 +291,9 @@
                   //console.log("onClose", this);
                 }
             });
-            $("#pb1").click(function() {
-                pb1.open();
+            $("#pb1").click(function(e) {
+            var index = $(e.target).closest('li').index();
+                pb1.open(index);
             });
             var pb2 = $.photoBrowser({
                 items: arr2,
@@ -306,8 +307,9 @@
                   //console.log("onClose", this);
                 }
             });
-            $("#pb2").click(function() {
-                pb2.open();
+            $("#pb2").click(function(e) {
+                var index = $(e.target).closest('li').index();
+                pb2.open(index);
             });
         </script>
     </body>

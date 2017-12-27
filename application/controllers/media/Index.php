@@ -203,7 +203,7 @@ class Index extends CI_Controller {
         $media_man_id = $user_info['media_man_id'];
 
         //超时未领取的任务置为超时
-        $this->__get_task_map_model()->updateTimeOutTaskMap($media_man_id);
+        $this->__get_task_map_model()->updateTimeOutTaskMap();
         $result = $this->__get_task_map_model()->getMissionHall($media_man_id,$page);
         unset($result['sql']);
         foreach($result['list'] as $key => &$value){
@@ -240,7 +240,7 @@ class Index extends CI_Controller {
         $media_man_id = $user_info['media_man_id'];
 
         //超时未领取的任务置为超时
-        $this->__get_task_map_model()->updateTimeOutTaskMap($media_man_id);
+        $this->__get_task_map_model()->updateTimeOutTaskMap();
 
         $where['task_id'] = $task_id;
         $where['receive_status'] = 0;

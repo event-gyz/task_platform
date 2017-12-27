@@ -289,13 +289,17 @@ class Platform_task_map_model extends MY_Model {
     }
 
     //超过两个小时未领取的任务全部置为超时
-    public function updateTimeOutTaskMap($media_man_id) {
-        if (empty($media_man_id)) {
-            return false;
-        }
+    public function updateTimeOutTaskMap() {
         $new_time = date('Y-m-d H:i:s', (time() - 7200));
-        $where    = ['media_man_user_id' => $media_man_id, 'create_time<' => $new_time, 'receive_status' => '0'];
-        return $this->update(['receive_status' => 3], $where);
+        $where    = ['allocation_time<' => $new_time, 'receive_status' => '0'];
+        $query = $this->db->get_where($this->getTableName(), $where);
+        $total_num = $query->num_rows();
+        if($total_num>0){
+            return $this->update(['receive_status' => 3], $where);
+        }else{
+            return true;
+        }
+
     }
 
     //未领取的有效的任务列表
