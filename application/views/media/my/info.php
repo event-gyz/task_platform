@@ -210,7 +210,9 @@
                     </table>
                 </div>
 
+                <?php if($deliver_status==1){?>
                 <div class="min-title1">任务交付信息</div>
+                <?php }?>
                 <div class="input-box" style="margin-bottom:0px">
                     <table>
                         <?php if(!empty($deliver_link)){?>
@@ -233,6 +235,18 @@
                                     }?>
                                 </ul>
                             </td>
+                            <tr>
+                                <th align="left" class="border_bottom">任务结果图片：</th>
+                                <ul id="pb1" class="generalize_img_box">
+                                    <?php if($deliver_images){
+                                        $deliver_images = json_decode($deliver_images,true);
+                                        foreach($deliver_images as $value){
+                                            ?>
+                                            <li><img src="<?=$value?>"></li>
+                                        <? }
+                                    }?>
+                                </ul>
+                            </tr>
                         <?php }?>
                     </table>
                 </div>
