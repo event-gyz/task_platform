@@ -223,9 +223,9 @@
                         <?php }?>
 
                         <?php if(!empty($deliver_images)){?>
-                            <th align="left" valign="top" class="border_bottom"><br>任务结果图片</th>
+                            <th align="left" valign="top" class="border_bottom" width="60"><br>任务结果图片</th>
                             <td class="border_bottom">
-                                <ul id="pb1" class="generalize_img_box">
+                                <ul id="pb2" class="generalize_img_box">
                                     <?php if($deliver_images){
                                         $deliver_images = json_decode($deliver_images,true);
                                         foreach($deliver_images as $value){
@@ -272,9 +272,12 @@
         <script type="text/javascript" src="/js/util.js"></script>
         <script type="text/javascript" src="/js/indexMedia.js"></script>
         <script type="text/javascript">
-            var arr = [];
+            var arr = [],arr2=[];
             $('#pb1 img').each(function(index,item){
                 arr.push($(item).attr('src'));
+            });
+            $('#pb2 img').each(function(index,item){
+                arr2.push($(item).attr('src'));
             });
             var pb1 = $.photoBrowser({
                 items: arr,
@@ -290,6 +293,21 @@
             });
             $("#pb1").click(function() {
                 pb1.open();
+            });
+            var pb2 = $.photoBrowser({
+                items: arr2,
+                onSlideChange: function(index) {
+                  //console.log(this, index);
+                },
+                onOpen: function() {
+                  //console.log("onOpen", this);
+                },
+                onClose: function() {
+                  //console.log("onClose", this);
+                }
+            });
+            $("#pb2").click(function() {
+                pb2.open();
             });
         </script>
     </body>
