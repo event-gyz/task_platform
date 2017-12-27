@@ -209,6 +209,34 @@
                         </tr>
                     </table>
                 </div>
+
+                <div class="min-title1">任务交付信息</div>
+                <div class="input-box" style="margin-bottom:0px">
+                    <table>
+                        <?php if(!empty($deliver_link)){?>
+                        <tr>
+                            <th align="left" class="border_bottom">任务结果链接</th>
+                            <td class="border_bottom" align="right"><?= $deliver_link;?></td>
+                        </tr>
+                        <?php }?>
+
+                        <?php if(!empty($deliver_images)){?>
+                            <th align="left" valign="top" class="border_bottom"><br>任务结果图片</th>
+                            <td class="border_bottom">
+                                <ul id="pb1" class="generalize_img_box">
+                                    <?php if($deliver_images){
+                                        $deliver_images = json_decode($deliver_images,true);
+                                        foreach($deliver_images as $value){
+                                            ?>
+                                            <li><img src="<?=$value?>"></li>
+                                        <? }
+                                    }?>
+                                </ul>
+                            </td>
+                        <?php }?>
+                    </table>
+                </div>
+
                 <?php if($release_status==1 && $receive_status==1 && (time()>$start_time) && (time()<$end_time) && $deliver_status!=1){?>
                 <!--执行中-->
                 <table class="info_table">
