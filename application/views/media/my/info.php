@@ -209,6 +209,36 @@
                         </tr>
                     </table>
                 </div>
+
+                <?php if($deliver_status==1){?>
+                <div class="min-title1">任务交付信息</div>
+                <?php }?>
+                <div class="input-box" style="margin-bottom:0px">
+                    <table>
+                        <?php if(!empty($deliver_link)){?>
+                        <tr>
+                            <th align="left" class="border_bottom">任务结果链接</th>
+                            <td class="border_bottom" align="right"><?= $deliver_link;?></td>
+                        </tr>
+                        <?php }?>
+
+                        <?php if(!empty($deliver_images)){?>
+                            <th align="left" valign="top" class="border_bottom" width="60"><br>任务结果图片</th>
+                            <td class="border_bottom">
+                                <ul id="pb2" class="generalize_img_box">
+                                    <?php if($deliver_images){
+                                        $deliver_images = json_decode($deliver_images,true);
+                                        foreach($deliver_images as $value){
+                                            ?>
+                                            <li><img src="<?=$value?>"></li>
+                                        <? }
+                                    }?>
+                                </ul>
+                            </td>
+                        <?php }?>
+                    </table>
+                </div>
+
                 <?php if($release_status==1 && $receive_status==1 && (time()>$start_time) && (time()<$end_time) && $deliver_status!=1){?>
                 <!--执行中-->
                 <table class="info_table">
@@ -242,9 +272,12 @@
         <script type="text/javascript" src="/js/util.js"></script>
         <script type="text/javascript" src="/js/indexMedia.js"></script>
         <script type="text/javascript">
-            var arr = [];
+            var arr = [],arr2=[];
             $('#pb1 img').each(function(index,item){
                 arr.push($(item).attr('src'));
+            });
+            $('#pb2 img').each(function(index,item){
+                arr2.push($(item).attr('src'));
             });
             var pb1 = $.photoBrowser({
                 items: arr,
@@ -260,6 +293,21 @@
             });
             $("#pb1").click(function() {
                 pb1.open();
+            });
+            var pb2 = $.photoBrowser({
+                items: arr2,
+                onSlideChange: function(index) {
+                  //console.log(this, index);
+                },
+                onOpen: function() {
+                  //console.log("onOpen", this);
+                },
+                onClose: function() {
+                  //console.log("onClose", this);
+                }
+            });
+            $("#pb2").click(function() {
+                pb2.open();
             });
         </script>
     </body>

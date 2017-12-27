@@ -19,7 +19,7 @@
                     <p class="bg_line"></p>
                     <p class="button2">
                         <?php $userSession = $_SESSION['user_info'];?>
-                        <a style="border-right: 1px solid #E5E5E5;" href="/media/index/saveBaseInfo?phone=<?=$userSession['media_man_phone']?>">立即上传</a>
+                        <a style="border-right: 1px solid #E5E5E5;" href="/media/index/saveBaseInfo?phone=<?=$userSession['media_man_phone']?>&flag=2">立即上传</a>
                         <a href="/media/index/home">返回首页</a>
                     </p>
                 </div>

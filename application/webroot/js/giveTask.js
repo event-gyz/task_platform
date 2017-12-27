@@ -80,8 +80,13 @@ var app = new Vue({
                                     },
                                     success: function(res) {
                                         if(res.errorno >= 0){
-                                            var url = '/'+res.data;
-                                            _this.imgs.push(url);
+                                            if(_this.imgs.length>=9){
+                                                util.tips('最多上传9张图!');
+                                                return;
+                                            }else{
+                                                var url = '/'+res.data;
+                                                _this.imgs.push(url);
+                                            }
                                         }else{
                                             util.tips(res.msg)
                                         }
