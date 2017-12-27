@@ -166,7 +166,7 @@
                                     </th>
                                     <th><?= $value['title'] ?></th>
                                     <th>
-                                        <?php if (($value['release_status'] === "8")): ?>
+                                        <?php if ((in_array($value['release_status'], ["8", "9"]))): ?>
                                             <small class="label bg-gray">
                                                 已关闭
                                             </small>

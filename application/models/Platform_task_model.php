@@ -24,7 +24,15 @@ class Platform_task_model extends MY_Model {
 
         // 根据任务发布状态
         if (isset($where['release_status']) && $where['release_status'] !== '') {
-            $sql .= sprintf(" AND pt.release_status = %d", $where['release_status']);
+
+            if (is_numeric($where['release_status'])) {
+                $sql .= sprintf(" AND pt.release_status = %d", $where['release_status']);
+            }
+
+            if (is_array($where['release_status'])) {
+                $sql .= sprintf(" AND pt.release_status IN (%s)", implode(',', $where['release_status']));
+            }
+
         }
 
         // 广告主付费状态
