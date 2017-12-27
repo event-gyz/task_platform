@@ -139,8 +139,9 @@
                   //console.log("onClose", this);
                 }
             });
-            $("#pb1").click(function() {
-                pb1.open();
+            $("#pb1").click(function(e) {
+                var index = $(e.target).closest('li').index();
+                pb1.open(index);
             });
         </script>
     </body>
