@@ -195,16 +195,17 @@
                         <el-table :data="fmtResTableData" height="580" border>
                             <el-table-column property="task_map_id" label="序号" width="110"></el-table-column>
                             <el-table-column property="media_man_user_name" label="用户名" width="150"></el-table-column>
+                            <el-table-column property="media_man_name" label="姓名" width="150"></el-table-column>
                             <el-table-column property="status" label="状态" width="150"></el-table-column>
                             <el-table-column property="create_time" label="发送时间" width="150"></el-table-column>
                             <el-table-column property="receive_time" label="领取/拒绝时间" width="150"></el-table-column>
-                            <el-table-column property="deliver_time" label="完成时间" width="200"></el-table-column>
-                            <el-table-column property="deliver_link" label="链接" width="200">
+                            <el-table-column property="deliver_time" label="完成时间" width="150"></el-table-column>
+                            <el-table-column property="deliver_link" label="链接" width="150">
                                 <template slot-scope="scope">
                                     <a :href="scope.row.deliver_link" target="_blank">{{ scope.row.deliver_link }}</a>
                                 </template>
                             </el-table-column>
-                            <el-table-column property="deliver_images" label="图片" width="200">
+                            <el-table-column property="deliver_images" label="图片" width="150">
                                 <template slot-scope="scope">
                                     <el-button @click.once="prepare_images_zip_by_map_id(tableData[scope.$index])"
                                                type="primary" size="mini"

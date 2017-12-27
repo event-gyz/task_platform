@@ -260,7 +260,8 @@
                         <el-table :data="fmtResTableData" height="300" border>
                             <el-table-column property="task_map_id" label="序号"></el-table-column>
                             <el-table-column property="media_man_user_name" label="用户名"></el-table-column>
-                            <el-table-column property="status" label="状态" width="150"></el-table-column>
+                            <el-table-column property="media_man_name" label="姓名"></el-table-column>
+                            <el-table-column property="status" label="状态"></el-table-column>
                             <el-table-column property="create_time" label="发送时间"></el-table-column>
                             <el-table-column property="receive_time" label="领取/拒绝时间"></el-table-column>
                             <el-table-column property="deliver_time" label="完成时间"></el-table-column>
