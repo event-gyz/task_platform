@@ -99,34 +99,34 @@ class Sys_auth_model extends MY_Model {
     public function get_job_count() {
 
         // 公司广告主审核列表--广告主待审核数量
-        $sql1              = "SELECT COUNT(*) AS c FROM `platform_advertiser` AS pa WHERE pa.status != 0 AND pa.audit_status = 0 AND pa.advertiser_type = 2";
+        $sql1              = "SELECT COUNT(*) AS c FROM `platform_advertiser` AS pa WHERE pa.advertiser_type = 2 AND pa.audit_status = 0 AND pa.status != 0";
         $c_adv_audit_count = $this->db->query($sql1);
 
         // 个人广告主审核列表--个人广告主待审核数量
-        $sql2              = "SELECT COUNT(*) AS c FROM `platform_advertiser` AS pa WHERE pa.status != 0 AND pa.audit_status = 0 AND pa.advertiser_type = 1";
+        $sql2              = "SELECT COUNT(*) AS c FROM `platform_advertiser` AS pa WHERE pa.advertiser_type = 1 AND pa.audit_status = 0 AND pa.status != 0";
         $p_adv_audit_count = $this->db->query($sql2);
 
         // 自媒体人审核列表--自媒体人待审核数量
-        $sql3              = "SELECT COUNT(*) AS c FROM `platform_media_man` AS pm WHERE pm.status != 0 AND pm.audit_status = 0";
+        $sql3              = "SELECT COUNT(*) AS c FROM `platform_media_man` AS pm WHERE pm.audit_status = 0 AND pm.status != 0  ";
         $media_audit_count = $this->db->query($sql3);
 
         // 任务管理---任务待审核数量
-        $sql4             = "SELECT COUNT(*) AS c FROM `platform_task` pt WHERE pt.release_status = 0 AND pt.audit_status = 1";
+        $sql4             = "SELECT COUNT(*) AS c FROM `platform_task` pt WHERE pt.audit_status = 1 AND pt.release_status = 0";
         $task_audit_count = $this->db->query($sql4);
 
         // 发布管理---待发布任务数量
         $sql5
                                   = "SELECT COUNT(*) AS c FROM `platform_task` AS pt 
-            LEFT JOIN `platform_task_payment` AS ptp on pt.task_id = ptp.task_id 
-            WHERE pt.release_status = 0 AND pt.audit_status = 3 AND pt.pay_status = 1  AND ptp.finance_status = 1";
+                                  LEFT JOIN `platform_task_payment` AS ptp ON pt.task_id = ptp.task_id 
+                                  WHERE pt.audit_status = 3 AND pt.release_status = 0 AND  pt.pay_status = 1  AND ptp.finance_status = 1";
         $task_to_be_release_count = $this->db->query($sql5);
 
         // 发布管理---待确认完成
         $cur_time_stamp                  = time();
         $sql6
                                          = "SELECT COUNT(*) AS c FROM `platform_task` AS pt 
-            LEFT JOIN `platform_task_payment` AS ptp on pt.task_id = ptp.task_id 
-            WHERE pt.release_status = 1 AND pt.audit_status = 3 AND pt.pay_status = 1 AND ptp.finance_status = 1 AND pt.end_time <= {$cur_time_stamp}";
+                                         LEFT JOIN `platform_task_payment` AS ptp on pt.task_id = ptp.task_id 
+                                         WHERE pt.audit_status = 3 AND pt.release_status = 1 AND pt.pay_status = 1 AND ptp.finance_status = 1 AND pt.end_time <= {$cur_time_stamp}";
         $task_to_be_confirm_finish_count = $this->db->query($sql6);
 
         // 自媒体人结账列表---待付款
@@ -137,8 +137,7 @@ class Sys_auth_model extends MY_Model {
         $sql8                            = "SELECT COUNT(*) AS c FROM `platform_task_payment` AS ptp WHERE ptp.finance_status = 0";
         $adv_to_be_finance_confirm_count = $this->db->query($sql8);
 
-        // key 的命名规则是根据 控制器-方法 来命名的,所以看起来有些奇怪,不要在意这些细节...
-
+        // key 的命名规则是根据 控制器-方法 来命名的,为了方便在对应位置显示角标的,所以看起来有些奇怪,不要在意这些细节...
 
         return [
 
