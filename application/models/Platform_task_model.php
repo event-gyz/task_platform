@@ -259,7 +259,7 @@ class Platform_task_model extends MY_Model {
               = "SELECT * FROM `{$this->table}` WHERE 
         ( audit_status = 2 AND release_status = 0 AND start_time < {$time} ) 
         OR 
-        ( audit_status IN (1, 3) AND release_status = 0 AND pay_status = 0 AND start_time < {$time} ) ";
+        ( audit_status IN (0, 1, 3) AND release_status = 0 AND pay_status = 0 AND start_time < {$time} ) ";
 
         return $this->getList($sql);
     }
