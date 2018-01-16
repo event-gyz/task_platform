@@ -1,6 +1,14 @@
 /**
  * Created by Zhang on 17/7/17.
  */
+function isIphoneX(){
+    return /iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)
+}
+if(isIphoneX()){
+    $('.nav').height(65);
+}
+
+
 var css = '#tips{z-index:9999;background: rgba(0,0,0,0.1);width:100%;height:100%;position:fixed;display:none;left:0;top:0;text-align:center;}#tips span{background:#fff;border-radius: 2px;padding:8px 10px;display: inline-block;line-height:20px;color:#333;margin-top:150px;}#global-confirm,#global-alert{background: rgba(0,0,0,0.1);width:100%;height:100%;position:fixed;display:none;left:0;top:0;text-align:center;z-index:9999;}#global-confirm .box,#global-alert .box{background:#fff;border-radius: 2px;padding:5px;display: inline-block;color:#333;margin-top:150px;width:70%;}#global-confirm .title,#global-alert .title{border-bottom: 1px solid #eee;padding: 20px 20px;line-height: 25px;text-align: center;}.global-confirm-button{position:relative;height:45px;overflow:hidden;width:100%;}.confirm-cancel{float:right;width:50%;height:45px;text-align:center;font-size:20px;line-height:45px;}.confirm-submit{float:left;width:49.5%;height:45px;line-height:45px;text-align:center;font-size:20px;color: #40CE7D;border-right:1px solid #eee;}.global-alert-button{position:relative;height:45px;overflow:hidden;width:100%;line-height:45px;text-align:center;font-size:20px;color: #40CE7D;}';
 
 $('head').append('<style type="text/css">'+css+'</style>');

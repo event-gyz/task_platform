@@ -6,7 +6,7 @@ var ele = $('#pt_box').html();
 var eleWid = $('#pt_box>li').width();
 $('#pt_box').append(ele);
 
-$('#pt_box').scrollLeft(0).scroll(function(){
+$('#pt_box').scrollLeft(75).scroll(function(){
     var left = $(this).scrollLeft();
     if(left==0){
         $(this).scrollLeft(eleWid);

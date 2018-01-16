@@ -330,7 +330,7 @@ var app = new Vue({
                     return;
                 }
                 if(this.taskUrl){
-                    if(!util.regexp.url.test(this.taskUrl)){
+                    if(!util.regexp.url.test('http://'+this.taskUrl)){
                         util.tips('任务链接格式错误！');
                         return;
                     }
@@ -393,7 +393,7 @@ var app = new Vue({
                     taskName:this.taskName,//任务名称
                     taskType:this.strByNum(this.taskType),//任务类型
                     taskTitle:this.taskTitle,//任务标题
-                    taskUrl:this.taskUrl,//任务链接
+                    taskUrl:'http://'+this.taskUrl,//任务链接
                     taskImg:this.taskImg,//任务图片
                     taskDes:this.taskDes,//任务描述
                     taskPrice:this.taskPrice,//任务单价

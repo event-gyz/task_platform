@@ -37,7 +37,9 @@ $signPackage = $jssdk->GetSignPackage();
                 </tr>
                 <tr>
                     <th align="left" class="border_bottom">任务链接</th>
-                    <td class="border_bottom"><input style="text-align: right;" type="text" v-model="taskUrl" placeholder=" 请输入，以http://或http://开头"></td>
+                    <td class="border_bottom" align="right">
+                    <input style="text-align: right;" type="text" v-model="taskUrl" placeholder="请输入链接，无需输入WWW.">
+                    </td>
                 </tr>
                 <tr>
                     <th align="left" valign="top" class="border_bottom"><br>任务图片</th>
